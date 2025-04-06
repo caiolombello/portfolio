@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { Loader2, Upload, X } from "lucide-react"
 import Image from "next/image"
 import { put } from "@vercel/blob"
+import sharp from "sharp"
 
 interface ImageUploadProps {
   currentImageUrl: string
@@ -75,23 +76,51 @@ export default function ImageUpload({
       // Se a opção de gerar favicon estiver ativada, também fazer upload de uma versão como favicon
       if (generateFavicon) {
         try {
-          // Fazer upload da mesma imagem como favicon
-          // Não precisamos processar a imagem aqui, pois o navegador redimensionará automaticamente
-          await put(`portfolio-images/profile-favicon.png`, file, {
+          // Ler o arquivo como buffer
+          const imageBuffer = await file.arrayBuffer()
+          
+          // Gerar favicons em diferentes tamanhos
+          const sizes = [16, 32, 48, 64, 96, 128, 192, 256, 384, 512]
+          
+          for (const size of sizes) {
+            // Processar a imagem com sharp
+            const processedImage = await sharp(Buffer.from(imageBuffer))
+              .resize(size, size)
+              .toFormat("png")
+              .toBuffer()
+            
+            // Upload para o Blob Storage
+            await put(`portfolio-images/favicon-${size}x${size}.png`, processedImage, {
+              access: "public",
+              contentType: "image/png",
+            })
+          }
+
+          // Gerar favicon.ico (usando tamanho 32x32)
+          const icoImage = await sharp(Buffer.from(imageBuffer))
+            .resize(32, 32)
+            .toFormat("png")
+            .toBuffer()
+          
+          await put(`portfolio-images/favicon.ico`, icoImage, {
+            access: "public",
+            contentType: "image/x-icon",
+          })
+
+          // Gerar apple-touch-icon (usando tamanho 180x180)
+          const appleIcon = await sharp(Buffer.from(imageBuffer))
+            .resize(180, 180)
+            .toFormat("png")
+            .toBuffer()
+          
+          await put(`portfolio-images/apple-touch-icon.png`, appleIcon, {
             access: "public",
             contentType: "image/png",
           })
 
-          // Fazer upload da mesma imagem como apple-touch-icon
-          await put(`portfolio-images/profile-apple-icon.png`, file, {
-            access: "public",
-            contentType: "image/png",
-          })
-
-          console.log("Favicon e apple-touch-icon gerados com sucesso")
+          console.log("Favicons e ícones gerados com sucesso")
 
           // Limpar o cache do navegador para os favicons
-          // Isso não é perfeito, mas pode ajudar em alguns casos
           if (typeof window !== "undefined") {
             const faviconLinks = document.querySelectorAll('link[rel*="icon"]')
             faviconLinks.forEach((link) => {

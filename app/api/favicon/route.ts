@@ -65,14 +65,37 @@ export async function GET(request: Request) {
     let processedImage: Buffer
     let contentType: string
 
+    // Configurações comuns para todos os formatos
+    const sharpInstance = sharp(imageBuffer)
+      .resize(size, size, {
+        fit: "cover",
+        position: "center",
+      })
+      .composite([
+        {
+          input: Buffer.from([0, 0, 0, 0]),
+          raw: {
+            width: 1,
+            height: 1,
+            channels: 4,
+          },
+          tile: true,
+          blend: "dest-in",
+        },
+      ])
+
     if (format === "ico") {
       // Para formato ICO, primeiro convertemos para PNG e depois para ICO
-      processedImage = await sharp(imageBuffer).resize(size, size).toFormat("png").toBuffer()
+      processedImage = await sharpInstance
+        .toFormat("png")
+        .toBuffer()
 
       contentType = "image/x-icon"
     } else {
       // Para outros formatos (png por padrão)
-      processedImage = await sharp(imageBuffer).resize(size, size).toFormat("png").toBuffer()
+      processedImage = await sharpInstance
+        .toFormat("png")
+        .toBuffer()
 
       contentType = "image/png"
     }

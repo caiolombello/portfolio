@@ -144,9 +144,18 @@ export default function RootLayout({
       <head>
         <meta name="msapplication-TileColor" content={metadata.themeColor} />
         <meta name="theme-color" content={metadata.themeColor} />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href="/api/favicon?format=ico" type="image/x-icon" />
+        <link rel="icon" href="/api/favicon?size=16" type="image/png" sizes="16x16" />
+        <link rel="icon" href="/api/favicon?size=32" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/api/favicon?size=48" type="image/png" sizes="48x48" />
+        <link rel="icon" href="/api/favicon?size=64" type="image/png" sizes="64x64" />
+        <link rel="icon" href="/api/favicon?size=96" type="image/png" sizes="96x96" />
+        <link rel="icon" href="/api/favicon?size=128" type="image/png" sizes="128x128" />
+        <link rel="icon" href="/api/favicon?size=192" type="image/png" sizes="192x192" />
+        <link rel="icon" href="/api/favicon?size=256" type="image/png" sizes="256x256" />
+        <link rel="icon" href="/api/favicon?size=384" type="image/png" sizes="384x384" />
+        <link rel="icon" href="/api/favicon?size=512" type="image/png" sizes="512x512" />
+        <link rel="apple-touch-icon" href="/api/favicon?size=180" type="image/png" sizes="180x180" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
