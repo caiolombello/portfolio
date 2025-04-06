@@ -1,0 +1,41 @@
+# Caio Lombello - Portfólio Profissional
+
+> Site de portfólio profissional de Caio Lombello Vendramini Barbieri, um Engenheiro DevOps Pleno especializado em Cloud Native, Kubernetes, e Inteligência Artificial para DevOps. O site apresenta informações sobre experiência profissional, projetos, artigos técnicos e formas de contato.
+
+Este site é construído com Next.js e Tailwind CSS, com tema escuro predominante e detalhes em amarelo/dourado. O site é totalmente responsivo e disponível em português e inglês.
+
+## Perfil Profissional
+
+- [Sobre Mim](https://caiolombelllo.com/index.html.md): Informações pessoais, habilidades principais e resumo profissional
+- [Currículo](https://caiolombelllo.com/resume/index.html.md): Experiência profissional detalhada, formação acadêmica e certificações técnicas
+- [Contato](https://caiolombelllo.com/contact/index.html.md): Informações de contato e formulário para mensagens
+
+## Projetos
+
+- [Portfólio de Projetos](https://caiolombelllo.com/portfolio/index.html.md): Visão geral de todos os projetos desenvolvidos
+- [AWS Cost Optimization](https://caiolombelllo.com/portfolio/aws-cost-optimization.html.md): Ferramenta para otimização de custos na AWS, reduzindo despesas em até 40%
+- [DevOps Self Service Platform](https://caiolombelllo.com/portfolio/devops-self-service.html.md): Plataforma self-service para equipes de desenvolvimento gerenciarem seus recursos de infraestrutura
+- [Load Stress Tester Tool](https://caiolombelllo.com/portfolio/load-stress-tester.html.md): Ferramenta para testes de carga e estresse em aplicações web e APIs
+- [Real Estate CRM](https://caiolombelllo.com/portfolio/real-estate-crm.html.md): Sistema CRM completo para gerenciamento de imóveis e clientes
+- [Easy Static Website Deployment](https://caiolombelllo.com/portfolio/static-website-deployment.html.md): Pipeline para implantação automatizada de sites estáticos com um clique
+- [Applications CI/CD Pipeline](https://caiolombelllo.com/portfolio/cicd-pipeline.html.md): Pipeline de CI/CD completo para aplicações web modernas
+
+## Blog
+
+- [Blog](https://caiolombelllo.com/blog/index.html.md): Artigos técnicos sobre DevOps, Cloud, Kubernetes e desenvolvimento de software
+- [Kubernetes HPA: Custom Metrics for Autoscaling](https://caiolombelllo.com/blog/kubernetes-hpa-custom-metrics.html.md): Artigo sobre como escalar aplicações baseadas em métricas específicas no Kubernetes
+- [Acelerando A Transformação Digital com DevOps](https://caiolombelllo.com/blog/acelerando-transformacao-digital.html.md): Abordagem prática para implementar a cultura DevOps e acelerar a transformação digital
+- [Terraform Best Practices for Production](https://caiolombelllo.com/blog/terraform-best-practices.html.md): Melhores práticas para usar Terraform em ambientes de produção
+- [Effective Monitoring with Prometheus and Grafana](https://caiolombelllo.com/blog/monitoring-with-prometheus.html.md): Como configurar monitoramento com Prometheus e Grafana
+- [AWS Cost Optimization Strategies for 2023](https://caiolombelllo.com/blog/aws-cost-optimization-strategies.html.md): Estratégias práticas para otimizar custos na AWS
+
+## Tecnologias
+
+- [Habilidades Técnicas](https://caiolombelllo.com/resume/index.html.md#skills): Lista detalhada de habilidades técnicas e nível de proficiência
+- [Certificações](https://caiolombelllo.com/resume/index.html.md#certifications): Certificações técnicas obtidas
+
+## Optional
+
+- [Política de Privacidade](https://caiolombelllo.com/privacy-policy.html.md): Informações sobre como os dados dos usuários são tratados no site
+- [Termos de Uso](https://caiolombelllo.com/terms-of-use.html.md): Termos e condições para uso do site
+

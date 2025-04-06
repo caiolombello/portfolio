@@ -1,0 +1,99 @@
+[
+  {
+    "id": "aws-cost-optimization",
+    "title": "AWS Cost Optimization",
+    "category": "Cloud Management",
+    "imageUrl": "/placeholder.svg?height=300&width=500",
+    "shortDescription": "Ferramenta para otimização de custos na AWS, reduzindo despesas em até 40%.",
+    "technologies": ["AWS", "Python", "Terraform", "CloudWatch"],
+    "fullDescription": "Aqui entra a descrição completa do projeto AWS Cost Optimization, detalhando os desafios, a solução implementada com as tecnologias AWS, Python, Terraform, CloudWatch, e os resultados alcançados. Incluiria também diagramas ou mais imagens relevantes.",
+    "demoUrl": "#",
+    "repoUrl": "#",
+    "screenshots": [
+      "/placeholder.svg?height=300&width=600&text=Screenshot 1",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 2",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 3"
+    ]
+  },
+  {
+    "id": "devops-self-service",
+    "title": "DevOps Self Service Platform",
+    "category": "Infrastructure Automation",
+    "imageUrl": "/placeholder.svg?height=300&width=500",
+    "shortDescription": "Plataforma self-service para equipes de desenvolvimento gerenciarem seus recursos de infraestrutura.",
+    "technologies": ["Kubernetes", "Docker", "React", "Node.js", "Go"],
+    "fullDescription": "Aqui entra a descrição completa do projeto DevOps Self Service Platform, detalhando os desafios, a solução implementada com as tecnologias Kubernetes, Docker, React, Node.js, Go, e os resultados alcançados. Incluiria também diagramas ou mais imagens relevantes.",
+    "demoUrl": "#",
+    "repoUrl": "#",
+    "screenshots": [
+      "/placeholder.svg?height=300&width=600&text=Screenshot 1",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 2",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 3"
+    ]
+  },
+  {
+    "id": "load-stress-tester",
+    "title": "Load Stress Tester Tool",
+    "category": "Application Development",
+    "imageUrl": "/placeholder.svg?height=300&width=500",
+    "shortDescription": "Ferramenta para testes de carga e estresse em aplicações web e APIs.",
+    "technologies": ["Python", "JavaScript", "Docker", "Redis"],
+    "fullDescription": "Aqui entra a descrição completa do projeto Load Stress Tester Tool, detalhando os desafios, a solução implementada com as tecnologias Python, JavaScript, Docker, Redis, e os resultados alcançados. Incluiria também diagramas ou mais imagens relevantes.",
+    "demoUrl": "#",
+    "repoUrl": "#",
+    "screenshots": [
+      "/placeholder.svg?height=300&width=600&text=Screenshot 1",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 2",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 3"
+    ]
+  },
+  {
+    "id": "real-estate-crm",
+    "title": "Real Estate CRM",
+    "category": "Application Development",
+    "imageUrl": "/placeholder.svg?height=300&width=500",
+    "shortDescription": "Sistema CRM completo para gerenciamento de imóveis e clientes.",
+    "technologies": ["React", "Node.js", "MongoDB", "Express"],
+    "fullDescription": "Aqui entra a descrição completa do projeto Real Estate CRM, detalhando os desafios, a solução implementada com as tecnologias React, Node.js, MongoDB, Express, e os resultados alcançados. Incluiria também diagramas ou mais imagens relevantes.",
+    "demoUrl": "#",
+    "repoUrl": "#",
+    "screenshots": [
+      "/placeholder.svg?height=300&width=600&text=Screenshot 1",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 2",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 3"
+    ]
+  },
+  {
+    "id": "static-website-deployment",
+    "title": "Easy Static Website Deployment",
+    "category": "CI/CD Pipeline Development",
+    "imageUrl": "/placeholder.svg?height=300&width=500",
+    "shortDescription": "Pipeline para implantação automatizada de sites estáticos com um clique.",
+    "technologies": ["AWS S3", "CloudFront", "GitHub Actions", "Terraform"],
+    "fullDescription": "Aqui entra a descrição completa do projeto Easy Static Website Deployment, detalhando os desafios, a solução implementada com as tecnologias AWS S3, CloudFront, GitHub Actions, Terraform, e os resultados alcançados. Incluiria também diagramas ou mais imagens relevantes.",
+    "demoUrl": "#",
+    "repoUrl": "#",
+    "screenshots": [
+      "/placeholder.svg?height=300&width=600&text=Screenshot 1",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 2",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 3"
+    ]
+  },
+  {
+    "id": "cicd-pipeline",
+    "title": "Applications CI/CD Pipeline",
+    "category": "CI/CD Pipeline Development",
+    "imageUrl": "/placeholder.svg?height=300&width=500",
+    "shortDescription": "Pipeline de CI/CD completo para aplicações web modernas.",
+    "technologies": ["Jenkins", "Docker", "Kubernetes", "GitLab CI", "Ansible"],
+    "fullDescription": "Aqui entra a descrição completa do projeto Applications CI/CD Pipeline, detalhando os desafios, a solução implementada com as tecnologias Jenkins, Docker, Kubernetes, GitLab CI, Ansible, e os resultados alcançados. Incluiria também diagramas ou mais imagens relevantes.",
+    "demoUrl": "#",
+    "repoUrl": "#",
+    "screenshots": [
+      "/placeholder.svg?height=300&width=600&text=Screenshot 1",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 2",
+      "/placeholder.svg?height=300&width=600&text=Screenshot 3"
+    ]
+  }
+]
+
