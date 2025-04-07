@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/navbar"
@@ -17,12 +17,12 @@ async function getSiteSettings() {
     const settings = await getBlob("settings.json")
     if (!settings) {
       return {
-        siteName: "Caio Lombello",
+        siteName: "Caio Barbieri",
         baseUrl: "https://caio.lombello.com",
         contactEmail: "caio@lombello.com",
         socialLinks: {
           github: "https://github.com/caiolombello",
-          linkedin: "https://linkedin.com/in/caiolombello",
+          linkedin: "https://linkedin.com/in/caiolvbarbieri",
           twitter: "https://x.com/caiolombello",
         },
       }
@@ -31,7 +31,7 @@ async function getSiteSettings() {
   } catch (error) {
     console.error("Erro ao carregar configurações:", error)
     return {
-      siteName: "Caio Lombello",
+      siteName: "Caio Barbieri",
       baseUrl: "https://caio.lombello.com",
       contactEmail: "caio@lombello.com",
       socialLinks: {
@@ -43,6 +43,11 @@ async function getSiteSettings() {
   }
 }
 
+export const viewport: Viewport = {
+  themeColor: "#121212",
+  colorScheme: "dark",
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings()
   const seoSettings = await getBlob("seo.json")
@@ -52,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
       default: settings.siteName,
       template: `%s | ${settings.siteName}`,
     },
-    description: "Portfólio de Caio Lombello, DevOps & Cloud Engineer",
+    description: "Portfólio de Caio Barbieri, DevOps & Cloud Engineer",
     keywords: [
       "DevOps",
       "Cloud",
@@ -114,8 +119,6 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     category: "technology",
-    themeColor: "#121212",
-    colorScheme: "dark",
     generator: "Next.js",
   }
 

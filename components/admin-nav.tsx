@@ -35,7 +35,7 @@ export function AdminNav() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center space-x-4">
-            <Link href="/admin" className="text-lg font-bold">
+            <Link href="/admin/dashboard" className="text-lg font-bold">
               Admin
             </Link>
             <div className="hidden md:flex md:space-x-4">
