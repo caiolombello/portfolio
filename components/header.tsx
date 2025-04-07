@@ -17,8 +17,9 @@ interface ProfileData {
 
 export default function Header() {
   const { t, language } = useLanguage()
-  const pathname = usePathname() // Obter a rota atual
-  const isHomePage = pathname === "/" // Verificar se está na página inicial
+  const pathname = usePathname()
+  // Esconder a imagem na navbar quando estiver na home ou na página de contato
+  const hideNavbarImage = pathname === "/" || pathname === "/contact"
 
   const [profile, setProfile] = useState<ProfileData>({
     name: "Caio Barbieri",
@@ -34,11 +35,9 @@ export default function Header() {
         if (response.ok) {
           const data = await response.json()
           if (data) {
-            // Extrair apenas o nome principal e o cargo principal para o header
             const fullName = data[language]?.name || "Caio Barbieri"
-            const shortName = fullName.split(" ").slice(0, 2).join(" ") // Pega os dois primeiros nomes
+            const shortName = fullName.split(" ").slice(0, 2).join(" ")
 
-            // Extrair apenas o cargo principal (antes do primeiro |)
             const fullTitle = data[language]?.title || "Engenheiro DevOps"
             const mainTitle = fullTitle.split("|")[0].trim()
 
@@ -62,8 +61,8 @@ export default function Header() {
       <div className="container flex h-14 items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            {/* Mostrar a imagem apenas se NÃO estiver na página inicial */}
-            {!isHomePage && (
+            {/* Mostrar a imagem na navbar apenas quando NÃO estiver na home ou na página de contato */}
+            {!hideNavbarImage && (
               <div className="relative h-8 w-8 overflow-hidden rounded-full">
                 <Image src={profile.imageUrl || "/placeholder.svg"} alt={profile.name} fill className="object-cover" />
               </div>
@@ -93,7 +92,7 @@ export default function Header() {
           name={profile.name}
           title={profile.title}
           imageUrl={profile.imageUrl}
-          showImage={!isHomePage} // Passar a informação para o MobileMenu
+          showImage={!hideNavbarImage} // Esconder a imagem no menu mobile também
         />
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
