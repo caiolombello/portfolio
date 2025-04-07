@@ -1,23 +1,53 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import PostCard from "./post-card"
+import { useEffect, useState } from "react"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ChevronLeftIcon, ChevronRightIcon, ArrowPathIcon } from "@heroicons/react/24/outline"
+import Link from "next/link"
+import Image from "next/image"
+import { generateSlug } from "@/lib/utils"
+
+interface BlogPost {
+  id: string
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  coverImage?: string
+  date: string
+  author: {
+    name: string
+    avatar?: string
+  }
+  tags: string[]
+  published: boolean
+  createdAt: string
+  updatedAt: string
+}
 
 export default function Blog() {
+  const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
-  const [posts, setPosts] = useState<any[]>([])
-  const POSTS_PER_PAGE = 3
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    async function fetchPosts() {
       try {
-        const response = await fetch("/api/public/posts")
+        const response = await fetch("/api/medium/posts")
+        if (!response.ok) {
+          throw new Error("Failed to fetch posts")
+        }
         const data = await response.json()
-        setPosts(data)
-      } catch (error) {
-        console.error("Erro ao carregar posts:", error)
+        
+        // Gerar slugs para cada post
+        const postsWithSlugs = data.map((post: any) => ({
+          ...post,
+          slug: generateSlug(post.title),
+        }))
+
+        setPosts(postsWithSlugs)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred")
       } finally {
         setLoading(false)
       }
@@ -26,110 +56,51 @@ export default function Blog() {
     fetchPosts()
   }, [])
 
-  // Ordenar posts por data (mais recentes primeiro)
-  const sortedPosts = [...posts].sort(
-    (a, b) => new Date(b.publicationDate).getTime() - new Date(a.publicationDate).getTime(),
-  )
-
-  const [currentPage, setCurrentPage] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
-  const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE)
-
-  // Obter posts para a página atual
-  const currentPosts = sortedPosts.slice((currentPage - 1) * POSTS_PER_PAGE, currentPage * POSTS_PER_PAGE)
-
-  const handlePageChange = (page: number) => {
-    setIsLoading(true)
-    setCurrentPage(page)
-
-    // Rolar para o topo da lista de posts
-    window.scrollTo({
-      top: document.getElementById("blog-posts")?.offsetTop || 0,
-      behavior: "smooth",
-    })
-
-    // Simular carregamento
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 300)
-  }
-
   if (loading) {
-    return (
-      <div className="container py-12">
-        <h1 className="mb-12 text-center text-4xl font-bold text-gold">Blog</h1>
-        <div className="flex justify-center items-center py-20">
-          <div className="animate-spin h-8 w-8 border-4 border-gold rounded-full border-t-transparent"></div>
-        </div>
-      </div>
-    )
+    return <div>Loading...</div>
   }
 
-  if (posts.length === 0) {
-    return (
-      <div className="container py-12">
-        <h1 className="mb-12 text-center text-4xl font-bold text-gold">Blog</h1>
-        <div className="text-center text-muted-foreground">
-          <p>Nenhum post encontrado.</p>
-        </div>
-      </div>
-    )
+  if (error) {
+    return <div>Error: {error}</div>
   }
 
   return (
     <div className="container py-12">
       <h1 className="mb-12 text-center text-4xl font-bold text-gold">Blog</h1>
-
-      <div id="blog-posts" className="space-y-8 mb-12">
-        {isLoading ? (
-          <div className="flex justify-center items-center py-20">
-            <ArrowPathIcon className="h-8 w-8 animate-spin text-gold" />
-          </div>
-        ) : (
-          currentPosts.map((post) => <PostCard key={post.id} post={post} />)
-        )}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <Card key={post.id} className="flex flex-col">
+            <CardHeader>
+              <CardTitle>{post.title}</CardTitle>
+              <CardDescription>{post.excerpt}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow">
+              {post.coverImage && (
+                <div className="relative aspect-video mb-4">
+                  <Image
+                    src={post.coverImage}
+                    alt={post.title}
+                    fill
+                    className="object-cover rounded-md"
+                  />
+                </div>
+              )}
+              <p className="text-sm text-muted-foreground">
+                {new Date(post.date).toLocaleDateString("pt-BR", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+            </CardContent>
+            <CardFooter>
+              <Button asChild variant="outline" className="w-full">
+                <Link href={`/blog/${post.slug}`}>Ler mais</Link>
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
       </div>
-
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 flex-wrap">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1 || isLoading}
-            aria-label="Página anterior"
-            className="transition-transform hover:scale-105 duration-200"
-          >
-            <ChevronLeftIcon className="h-4 w-4" />
-          </Button>
-
-          {Array.from({ length: totalPages }).map((_, index) => (
-            <Button
-              key={index}
-              variant={currentPage === index + 1 ? "default" : "outline"}
-              size="sm"
-              onClick={() => handlePageChange(index + 1)}
-              disabled={isLoading}
-              aria-label={`Página ${index + 1}`}
-              aria-current={currentPage === index + 1 ? "page" : undefined}
-              className="transition-transform hover:scale-105 duration-200"
-            >
-              {index + 1}
-            </Button>
-          ))}
-
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages || isLoading}
-            aria-label="Próxima página"
-            className="transition-transform hover:scale-105 duration-200"
-          >
-            <ChevronRightIcon className="h-4 w-4" />
-          </Button>
-        </div>
-      )}
     </div>
   )
 }
