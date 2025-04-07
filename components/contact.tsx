@@ -5,22 +5,67 @@ import Link from "next/link"
 import { EnvelopeIcon, PhoneIcon, CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline"
 import ContactForm from "./contact-form"
 import { useLanguage } from "@/contexts/language-context"
+import { useEffect, useState } from "react"
+
+interface ProfileData {
+  name: string
+  title: string
+  imageUrl?: string
+}
 
 export default function Contact() {
   const { t, language } = useLanguage()
+  const [profile, setProfile] = useState<ProfileData>({
+    name: "Caio Barbieri",
+    title: language === "pt" ? "Engenheiro DevOps Pleno" : "Senior DevOps Engineer",
+    imageUrl: "/images/profile-ios.png",
+  })
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const response = await fetch("/api/public/profile")
+
+        if (response.ok) {
+          const data = await response.json()
+          if (data) {
+            const fullName = data[language]?.name || "Caio Barbieri"
+            const fullTitle = data[language]?.title || "Engenheiro DevOps"
+            const mainTitle = fullTitle.split("|")[0].trim()
+
+            setProfile({
+              name: fullName,
+              title: mainTitle,
+              imageUrl: data.imageUrl || "/images/profile-ios.png",
+            })
+          }
+        }
+      } catch (error) {
+        console.error("Erro ao buscar dados do perfil:", error)
+      }
+    }
+
+    fetchProfile()
+  }, [language])
 
   return (
     <div className="container py-12">
-      <h1 className="mb-12 text-center text-4xl font-bold text-gold">{t("contact")}</h1>
+      <div className="mb-12 flex flex-col items-center text-center">
+        <div className="relative mb-6 h-32 w-32 overflow-hidden rounded-full">
+          <Image
+            src={profile.imageUrl || "/placeholder.svg"}
+            alt={profile.name}
+            fill
+            className="object-cover"
+          />
+        </div>
+        <h1 className="mb-2 text-4xl font-bold text-gold">{profile.name}</h1>
+        <p className="text-xl text-muted-foreground">{profile.title}</p>
+      </div>
 
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
         {/* Coluna Esquerda - Informações de Contato */}
         <div className="flex flex-col items-center text-center md:items-start md:text-left">
-          <h2 className="mb-2 text-2xl font-bold text-gold">{t("name")}</h2>
-          <p className="mb-6 text-xl text-muted-foreground">
-            {language === "pt" ? "DevOps Engineer Pleno" : "Senior DevOps Engineer"}
-          </p>
-
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-gold shadow-sm transition-transform duration-200 hover:scale-110">
