@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 const navItems = [
   {
     title: "Dashboard",
-    href: "/admin",
+    href: "/admin/dashboard",
   },
   {
     title: "Posts",
