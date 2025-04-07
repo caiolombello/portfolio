@@ -1,6 +1,18 @@
 // Definição de tipos para o dicionário
-export type Dictionary = {
-  [key: string]: string | Dictionary
+type NestedDictionary = {
+  [key: string]: string | NestedDictionary;
+}
+
+export type Dictionary = NestedDictionary & {
+  resume: {
+    title: string;
+    description: string;
+  };
+  posts: {
+    edit: {
+      description: string;
+    };
+  };
 }
 
 // Dicionário em português
@@ -11,7 +23,15 @@ const pt: Dictionary = {
   projects: "Projetos",
   blog: "Blog",
   contact: "Contato",
-  resume: "Currículo",
+  resume: {
+    title: "Currículo | Caio Lombello",
+    description: "Currículo profissional de Caio Lombello, desenvolvedor Full Stack com experiência em DevOps e Cloud Computing."
+  },
+  posts: {
+    edit: {
+      description: "Editar post"
+    }
+  },
 
   // Cabeçalho
   greeting: "Olá, eu sou",
@@ -73,7 +93,15 @@ const en: Dictionary = {
   projects: "Projects",
   blog: "Blog",
   contact: "Contact",
-  resume: "Resume",
+  resume: {
+    title: "Resume | Caio Lombello",
+    description: "Professional resume of Caio Lombello, Full Stack developer with experience in DevOps and Cloud Computing."
+  },
+  posts: {
+    edit: {
+      description: "Edit post"
+    }
+  },
 
   // Header
   greeting: "Hello, I'm",

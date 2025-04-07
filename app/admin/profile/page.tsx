@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/components/ui/use-toast"
-import { Loader2 } from "lucide-react"
+import { ArrowPathIcon } from "@heroicons/react/24/outline"
 import { useAuth } from "@/contexts/auth-context"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import ImageUpload from "@/components/admin/image-upload"
@@ -190,7 +190,7 @@ export default function AdminProfile() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
-        <Loader2 className="h-8 w-8 animate-spin text-gold" />
+        <ArrowPathIcon className="h-8 w-8 animate-spin text-gold" />
       </div>
     )
   }
@@ -521,7 +521,7 @@ export default function AdminProfile() {
           <Button type="submit" disabled={saving}>
             {saving ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
                 Salvando...
               </>
             ) : (

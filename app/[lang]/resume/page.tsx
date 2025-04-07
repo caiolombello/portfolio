@@ -1,24 +1,29 @@
-import { getDictionary } from "@/app/i18n/dictionaries"
-import type { Metadata } from "next"
-import ResumeContent from "@/components/resume/resume-content"
+import { Metadata } from 'next'
+import { getDictionary } from '@/app/i18n/dictionaries'
+import ResumeContent from '@/components/resume/resume-content'
 
-export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
-  const dict = await getDictionary(params.lang)
+type PageProps = {
+  params: Promise<{ lang: string }>
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { lang } = await params
+  const dict = await getDictionary(lang)
 
   return {
-    title: `${dict.resume.title} | Portfolio`,
-    description: `${dict.resume.title} - Professional experience, education, and skills`,
+    title: dict.resume.title,
+    description: dict.resume.description,
   }
 }
 
-export default async function ResumePage({ params }: { params: { lang: string } }) {
-  const dict = await getDictionary(params.lang)
+export default async function ResumePage({ params }: PageProps) {
+  const { lang } = await params
+  const dict = await getDictionary(lang)
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8">{dict.resume.title}</h1>
-      <ResumeContent lang={params.lang} />
-    </main>
+    <div className="container mx-auto py-8">
+      <ResumeContent lang={lang} />
+    </div>
   )
 }
 

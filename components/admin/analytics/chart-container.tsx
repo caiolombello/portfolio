@@ -1,6 +1,6 @@
 import type React from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Loader2 } from "lucide-react"
+import { ArrowPathIcon } from "@heroicons/react/24/outline"
 
 interface ChartContainerProps {
   title: string
@@ -26,7 +26,7 @@ export default function ChartContainer({
       <CardContent>
         {loading ? (
           <div className="flex h-64 items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            <ArrowPathIcon className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : (
           children

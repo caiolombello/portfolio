@@ -1,4 +1,4 @@
-import { put, list, get } from "@vercel/blob"
+import { put, list } from '@vercel/blob'
 import fs from "fs/promises"
 import path from "path"
 
@@ -13,6 +13,12 @@ const DATA_DIR = path.join(process.cwd(), "public", "data")
 
 // Verificar se estamos em ambiente de produção (Vercel)
 const isProduction = process.env.NODE_ENV === "production"
+
+// Add type for blob object
+interface BlobObject {
+  pathname: string
+  url: string
+}
 
 /**
  * Salva dados no Vercel Blob Storage ou no sistema de arquivos local
@@ -124,11 +130,11 @@ export async function loadFromBlob<T>(key: string, defaultData: T): Promise<T> {
         const { blobs } = await list({ prefix: BLOB_PREFIX })
         console.log(
           `Blobs disponíveis com prefixo ${BLOB_PREFIX}:`,
-          blobs.map((b) => b.pathname),
+          blobs.map((b: BlobObject) => b.pathname),
         )
 
         // Procurar o blob específico na lista
-        const targetBlob = blobs.find((b) => b.pathname === blobKey)
+        const targetBlob = blobs.find((b: BlobObject) => b.pathname === blobKey)
 
         if (targetBlob) {
           console.log(`Blob encontrado na lista: ${targetBlob.pathname}, URL: ${targetBlob.url}`)
@@ -237,7 +243,7 @@ export async function blobExists(key: string): Promise<boolean> {
 
         // Listar blobs para verificar se o blob existe
         const { blobs } = await list({ prefix: BLOB_PREFIX })
-        const exists = blobs.some((b) => b.pathname === blobKey)
+        const exists = blobs.some((b: BlobObject) => b.pathname === blobKey)
 
         if (exists) {
           console.log(`Blob ${blobKey} encontrado`)
@@ -282,7 +288,7 @@ export async function listBlobs(): Promise<string[]> {
         const { blobs } = await list({ prefix: BLOB_PREFIX })
         console.log(`Encontrados ${blobs.length} blobs no Blob Storage`)
 
-        blobs.forEach((blob) => {
+        blobs.forEach((blob: { pathname: string }) => {
           const key = blob.pathname.replace(BLOB_PREFIX, "").replace(".json", "")
           results.add(key)
           console.log(`Blob encontrado: ${blob.pathname} -> ${key}`)
@@ -298,7 +304,7 @@ export async function listBlobs(): Promise<string[]> {
       const files = await fs.readdir(DATA_DIR)
       console.log(`Encontrados ${files.length} arquivos locais`)
 
-      files.forEach((file) => {
+      files.forEach((file: string) => {
         if (file.endsWith(".json")) {
           const key = file.replace(".json", "")
           results.add(key)
@@ -325,11 +331,44 @@ export async function listBlobs(): Promise<string[]> {
 export async function getBlob(filename: string) {
   try {
     const blobKey = `${BLOB_PREFIX}${filename}`
-    const blob = await get(blobKey)
-    return blob
+    
+    // List blobs with the specific prefix
+    const { blobs } = await list({ prefix: blobKey })
+    const blob = blobs[0] // Get the first blob that matches
+    
+    if (!blob) return null
+    
+    // Fetch the actual content of the blob
+    const response = await fetch(blob.url)
+    if (!response.ok) return null
+    
+    return await response.text()
   } catch (error) {
     console.error(`Error getting blob ${filename}:`, error)
     return null
   }
+}
+
+export async function uploadFile(file: File, path: string) {
+  // Convert File to ArrayBuffer
+  const arrayBuffer = await file.arrayBuffer()
+  const buffer = Buffer.from(arrayBuffer)
+
+  const blob = await put(path, buffer, {
+    access: 'public',
+    addRandomSuffix: true,
+  })
+
+  return blob.url
+}
+
+export async function listFiles(prefix: string) {
+  const { blobs } = await list({ prefix })
+  return blobs
+}
+
+export async function getFile(path: string) {
+  const response = await fetch(path)
+  return response
 }
 

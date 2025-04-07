@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { Mail, Phone, Calendar, MapPin } from "lucide-react"
+import { EnvelopeIcon, PhoneIcon, CalendarIcon, MapPinIcon } from "@heroicons/react/24/outline"
 import ContactForm from "./contact-form"
 import { useLanguage } from "@/contexts/language-context"
 
@@ -24,7 +24,7 @@ export default function Contact() {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-gold shadow-sm transition-transform duration-200 hover:scale-110">
-                <Mail size={20} />
+                <EnvelopeIcon className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Email</p>
@@ -39,7 +39,7 @@ export default function Contact() {
 
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-gold shadow-sm transition-transform duration-200 hover:scale-110">
-                <Phone size={20} />
+                <PhoneIcon className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">{t("phone")}</p>
@@ -64,7 +64,7 @@ export default function Contact() {
 
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-gold shadow-sm transition-transform duration-200 hover:scale-110">
-                <Calendar size={20} />
+                <CalendarIcon className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">{t("birthDate")}</p>
@@ -74,7 +74,7 @@ export default function Contact() {
 
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-gold shadow-sm transition-transform duration-200 hover:scale-110">
-                <MapPin size={20} />
+                <MapPinIcon className="h-5 w-5" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">{t("location")}</p>

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Download, FileText, Loader2 } from "lucide-react"
+import { ArrowDownTrayIcon, DocumentTextIcon, ArrowPathIcon } from "@heroicons/react/24/outline"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { jsPDF } from "jspdf"
 import { useLanguage } from "@/contexts/language-context"
@@ -37,7 +37,7 @@ interface ResumeData {
 }
 
 export default function ResumeDownload({ resumeData }: { resumeData: ResumeData }) {
-  const { language = "pt", dictionary } = useLanguage() || {}
+  const { language = "pt", t } = useLanguage() || {}
   const [isGenerating, setIsGenerating] = useState(false)
 
   // Função para gerar o conteúdo Markdown
@@ -46,14 +46,14 @@ export default function ResumeDownload({ resumeData }: { resumeData: ResumeData 
 
     let markdown = `# ${personalInfo.name}\n\n`
     markdown += `**${personalInfo.title}**\n\n`
-    markdown += `Email: ${personalInfo.email} | ${dictionary && dictionary[language] ? dictionary[language].phone || "Phone" : "Phone"}: ${personalInfo.phone} | ${dictionary && dictionary[language] ? dictionary[language].location || "Location" : "Location"}: ${personalInfo.location}\n\n`
+    markdown += `Email: ${personalInfo.email} | ${t("phone")}: ${personalInfo.phone} | ${t("location")}: ${personalInfo.location}\n\n`
 
     // Resumo profissional
-    markdown += `## ${dictionary && dictionary[language] ? dictionary[language].about || "About" : "About"}\n\n`
+    markdown += `## ${t("about")}\n\n`
     markdown += `${summary}\n\n`
 
     // Experiência
-    markdown += `## ${dictionary && dictionary[language] ? dictionary[language].experience || "Experience" : "Experience"}\n\n`
+    markdown += `## ${t("experience")}\n\n`
     experiences.forEach((exp) => {
       markdown += `### ${exp.title}\n`
       markdown += `**${exp.company}** | ${exp.period}\n\n`
@@ -64,7 +64,7 @@ export default function ResumeDownload({ resumeData }: { resumeData: ResumeData 
     })
 
     // Educação
-    markdown += `## ${dictionary && dictionary[language] ? dictionary[language].education || "Education" : "Education"}\n\n`
+    markdown += `## ${t("education")}\n\n`
     education.forEach((edu) => {
       markdown += `### ${edu.degree}\n`
       markdown += `**${edu.institution}** | ${edu.period}\n\n`
@@ -72,14 +72,14 @@ export default function ResumeDownload({ resumeData }: { resumeData: ResumeData 
     })
 
     // Certificações
-    markdown += `## ${dictionary && dictionary[language] ? dictionary[language].certifications || "Certifications" : "Certifications"}\n\n`
+    markdown += `## ${t("certifications")}\n\n`
     certifications.forEach((cert) => {
       markdown += `- ${cert}\n`
     })
     markdown += "\n"
 
     // Habilidades
-    markdown += `## ${dictionary && dictionary[language] ? dictionary[language].skills || "Skills" : "Skills"}\n\n`
+    markdown += `## ${t("skills")}\n\n`
     skills.forEach((skill) => {
       markdown += `- ${skill.name}: ${skill.percentage}%\n`
     })
@@ -246,33 +246,40 @@ export default function ResumeDownload({ resumeData }: { resumeData: ResumeData 
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button className="gap-2">
-          {isGenerating ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              {language === "pt" ? "Gerando..." : "Generating..."}
-            </>
-          ) : (
-            <>
-              <Download className="h-4 w-4" />
-              {language === "pt" ? "Baixar Currículo" : "Download Resume"}
-            </>
-          )}
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => generatePDF("pt")} className="cursor-pointer">
-          <FileText className="mr-2 h-4 w-4" />
-          {language === "pt" ? "Português" : "Portuguese"}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => generatePDF("en")} className="cursor-pointer">
-          <FileText className="mr-2 h-4 w-4" />
-          {language === "pt" ? "Inglês" : "English"}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex gap-2">
+      <Button
+        variant="outline"
+        onClick={downloadMarkdown}
+        disabled={isGenerating}
+        className="flex items-center gap-2"
+      >
+        <DocumentTextIcon className="h-4 w-4" />
+        Markdown
+      </Button>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" disabled={isGenerating} className="flex items-center gap-2">
+            {isGenerating ? (
+              <>
+                <ArrowPathIcon className="h-4 w-4 animate-spin" />
+                Gerando...
+              </>
+            ) : (
+              <>
+                <ArrowDownTrayIcon className="h-4 w-4" />
+                PDF
+              </>
+            )}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem onClick={() => downloadPDF()}>
+            {t("download")}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   )
 }
 

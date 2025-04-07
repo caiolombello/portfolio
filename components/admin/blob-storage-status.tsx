@@ -4,7 +4,13 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Loader2, Database, CheckCircle, XCircle, HardDrive, Lock } from "lucide-react"
+import {
+  ArrowPathIcon,
+  CircleStackIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  LockClosedIcon
+} from "@heroicons/react/24/outline"
 
 export default function BlobStorageStatus() {
   const [checking, setChecking] = useState(true)
@@ -40,7 +46,7 @@ export default function BlobStorageStatus() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Database className="h-5 w-5" />
+          <CircleStackIcon className="h-5 w-5" />
           Status do Armazenamento de Dados
         </CardTitle>
         <CardDescription>Verifica como os dados do site estão sendo armazenados</CardDescription>
@@ -48,14 +54,14 @@ export default function BlobStorageStatus() {
       <CardContent>
         {checking ? (
           <div className="flex items-center gap-2">
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <ArrowPathIcon className="h-4 w-4 animate-spin" />
             <span>Verificando configuração...</span>
           </div>
         ) : status ? (
           <>
             {status.blobStorage.working ? (
               <Alert className="bg-green-50 border-green-200">
-                <CheckCircle className="h-4 w-4 text-green-600" />
+                <CheckCircleIcon className="h-4 w-4 text-green-600" />
                 <AlertTitle className="text-green-800">Blob Storage Configurado</AlertTitle>
                 <AlertDescription className="text-green-700">
                   {status.message ||
@@ -64,7 +70,7 @@ export default function BlobStorageStatus() {
               </Alert>
             ) : status.localStorage.working && status.localStorage.readOnly ? (
               <Alert className="bg-amber-50 border-amber-200">
-                <Lock className="h-4 w-4 text-amber-600" />
+                <LockClosedIcon className="h-4 w-4 text-amber-600" />
                 <AlertTitle className="text-amber-800">Armazenamento Somente Leitura</AlertTitle>
                 <AlertDescription className="text-amber-700">
                   {status.message ||
@@ -79,7 +85,7 @@ export default function BlobStorageStatus() {
               </Alert>
             ) : status.localStorage.working && !status.localStorage.readOnly ? (
               <Alert className="bg-amber-50 border-amber-200">
-                <HardDrive className="h-4 w-4 text-amber-600" />
+                <CircleStackIcon className="h-4 w-4 text-amber-600" />
                 <AlertTitle className="text-amber-800">Usando Armazenamento Local</AlertTitle>
                 <AlertDescription className="text-amber-700">
                   {status.message || "Os dados estão sendo armazenados localmente no sistema de arquivos."}
@@ -93,7 +99,7 @@ export default function BlobStorageStatus() {
               </Alert>
             ) : (
               <Alert variant="destructive">
-                <XCircle className="h-4 w-4" />
+                <XCircleIcon className="h-4 w-4" />
                 <AlertTitle>Armazenamento Não Configurado</AlertTitle>
                 <AlertDescription>
                   {status.message ||
@@ -139,20 +145,13 @@ export default function BlobStorageStatus() {
               </details>
             </div>
           </>
-        ) : (
+        ) : error ? (
           <Alert variant="destructive">
-            <XCircle className="h-4 w-4" />
+            <XCircleIcon className="h-4 w-4" />
             <AlertTitle>Erro ao Verificar Status</AlertTitle>
-            <AlertDescription>
-              {error || "Ocorreu um erro ao verificar o status do armazenamento."}
-              <div className="mt-2">
-                <Button variant="default" size="sm" onClick={checkBlobStatus}>
-                  Tentar Novamente
-                </Button>
-              </div>
-            </AlertDescription>
+            <AlertDescription>{error}</AlertDescription>
           </Alert>
-        )}
+        ) : null}
       </CardContent>
     </Card>
   )

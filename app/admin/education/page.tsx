@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
-import { Loader2, Plus, Trash2 } from "lucide-react"
+import { ArrowPathIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAuth } from "@/contexts/auth-context"
 
@@ -139,7 +139,7 @@ export default function AdminEducation() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
-        <Loader2 className="h-8 w-8 animate-spin text-gold" />
+        <ArrowPathIcon className="h-8 w-8 animate-spin text-gold" />
       </div>
     )
   }
@@ -179,7 +179,7 @@ export default function AdminEducation() {
                       onClick={() => handleRemoveEducation("pt", index)}
                       className="text-destructive hover:text-destructive/90 hover:bg-destructive/10"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <TrashIcon className="h-4 w-4" />
                     </Button>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -236,7 +236,7 @@ export default function AdminEducation() {
               ))}
 
               <Button type="button" onClick={() => handleAddEducation("pt")} className="w-full">
-                <Plus className="h-4 w-4 mr-2" />
+                <PlusIcon className="h-4 w-4 mr-2" />
                 Adicionar Nova Formação
               </Button>
             </div>
@@ -255,7 +255,7 @@ export default function AdminEducation() {
                       onClick={() => handleRemoveEducation("en", index)}
                       className="text-destructive hover:text-destructive/90 hover:bg-destructive/10"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <TrashIcon className="h-4 w-4" />
                     </Button>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -312,7 +312,7 @@ export default function AdminEducation() {
               ))}
 
               <Button type="button" onClick={() => handleAddEducation("en")} className="w-full">
-                <Plus className="h-4 w-4 mr-2" />
+                <PlusIcon className="h-4 w-4 mr-2" />
                 Add New Education
               </Button>
             </div>
@@ -323,7 +323,7 @@ export default function AdminEducation() {
           <Button type="submit" disabled={saving}>
             {saving ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
                 Salvando...
               </>
             ) : (

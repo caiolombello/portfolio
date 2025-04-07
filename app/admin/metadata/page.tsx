@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -11,12 +12,50 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/components/ui/use-toast"
-import { Loader2, Plus, Trash2, RefreshCw, Eye, Download, Upload } from "lucide-react"
+import {
+  ArrowPathIcon,
+  PlusIcon,
+  TrashIcon,
+  EyeIcon,
+  ArrowDownTrayIcon,
+  ArrowUpTrayIcon
+} from "@heroicons/react/24/outline"
 import { useAuth } from "@/contexts/auth-context"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { defaultMetadata, type SiteMetadata } from "@/types/metadata"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { cn } from "@/lib/utils"
+
+interface RobotsMetadata {
+  index: boolean
+  follow: boolean
+  noarchive: boolean
+  nosnippet: boolean
+  noimageindex: boolean
+  notranslate: boolean
+  googleBot: {
+    index: boolean
+    follow: boolean
+    noarchive: boolean
+    nosnippet: boolean
+    noimageindex: boolean
+    notranslate: boolean
+    maxSnippet: number
+    maxImagePreview: string
+    maxVideoPreview: number
+  }
+}
+
+interface Metadata {
+  robots: RobotsMetadata
+  verification: {
+    google: string
+    bing: string
+    yandex: string
+    other: Record<string, string>
+  }
+}
 
 export default function AdminMetadata() {
   const [metadata, setMetadata] = useState<SiteMetadata>(defaultMetadata)
@@ -97,18 +136,21 @@ export default function AdminMetadata() {
   }
 
   const handleNestedChange = (parent: string, field: string, value: any) => {
-    setMetadata({
-      ...metadata,
-      [parent]: {
-        ...metadata[parent as keyof SiteMetadata],
-        [field]: value,
-      },
-    })
+    const parentField = metadata[parent as keyof SiteMetadata];
+    if (typeof parentField === 'object' && parentField !== null) {
+      setMetadata({
+        ...metadata,
+        [parent]: {
+          ...parentField,
+          [field]: value,
+        },
+      });
+    }
 
-    setSaveSuccess(false)
-    setSaveError(null)
-    setValidationErrors({})
-  }
+    setSaveSuccess(false);
+    setSaveError(null);
+    setValidationErrors({});
+  };
 
   const handleKeywordsChange = (value: string) => {
     const keywords = value
@@ -138,33 +180,27 @@ export default function AdminMetadata() {
     setSaveError(null)
   }
 
-  const handleRobotsChange = (field: string, value: boolean) => {
+  const handleRobotsChange = (key: keyof RobotsMetadata, checked: boolean) => {
     setMetadata({
       ...metadata,
       robots: {
         ...metadata.robots,
-        [field]: value,
+        [key]: checked,
       },
     })
-
-    setSaveSuccess(false)
-    setSaveError(null)
   }
 
-  const handleGoogleBotChange = (field: string, value: any) => {
+  const handleGoogleBotChange = (key: keyof RobotsMetadata["googleBot"], checked: boolean | number | string) => {
     setMetadata({
       ...metadata,
       robots: {
         ...metadata.robots,
         googleBot: {
           ...metadata.robots.googleBot,
-          [field]: value,
+          [key]: checked,
         },
       },
     })
-
-    setSaveSuccess(false)
-    setSaveError(null)
   }
 
   const handleVerificationChange = (field: string, value: string) => {
@@ -329,7 +365,7 @@ export default function AdminMetadata() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
-        <Loader2 className="h-8 w-8 animate-spin text-gold" />
+        <ArrowPathIcon className="h-8 w-8 animate-spin text-gold" />
       </div>
     )
   }
@@ -339,60 +375,41 @@ export default function AdminMetadata() {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gold">Configurações de SEO</h1>
         <div className="flex gap-2">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline">
-                <Eye className="mr-2 h-4 w-4" />
-                Preview
-              </Button>
+          <Button
+            className={cn(
+              "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+            )}
+            asChild
+          >
+            <DialogTrigger>
+              <EyeIcon className="mr-2 h-4 w-4" />
+              Preview
             </DialogTrigger>
-            <DialogContent className="max-w-2xl">
-              <DialogHeader>
-                <DialogTitle>Preview de Metadados</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-6">
-                <div className="space-y-2">
-                  <h3 className="font-medium">Google Search</h3>
-                  <div className="border rounded-lg p-4 bg-white">
-                    <div className="text-blue-600 text-lg">{metadata.title.default}</div>
-                    <div className="text-green-700">{metadata.openGraph.siteName}</div>
-                    <div className="text-gray-600 text-sm">{metadata.description}</div>
-                  </div>
-                </div>
+          </Button>
 
-                <div className="space-y-2">
-                  <h3 className="font-medium">Facebook</h3>
-                  <div className="border rounded-lg p-4 bg-white">
-                    <div className="font-bold">{metadata.openGraph.title}</div>
-                    <div className="text-sm text-gray-600">{metadata.openGraph.description}</div>
-                    <div className="text-xs text-gray-500">{metadata.openGraph.siteName}</div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <h3 className="font-medium">Twitter</h3>
-                  <div className="border rounded-lg p-4 bg-white">
-                    <div className="font-bold">{metadata.twitter.description}</div>
-                    <div className="text-sm text-gray-600">@{metadata.twitter.creator}</div>
-                  </div>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-
-          <Button variant="outline" onClick={handleExport}>
-            <Download className="mr-2 h-4 w-4" />
+          <Button
+            className={cn(
+              "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+            )}
+            onClick={handleExport}
+          >
+            <ArrowDownTrayIcon className="mr-2 h-4 w-4" />
             Exportar
           </Button>
 
           <label className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 cursor-pointer">
-            <Upload className="mr-2 h-4 w-4" />
+            <ArrowUpTrayIcon className="mr-2 h-4 w-4" />
             Importar
             <input type="file" accept=".json" onChange={handleImport} className="hidden" />
           </label>
 
-          <Button variant="outline" onClick={handleResetToDefaults}>
-            <RefreshCw className="mr-2 h-4 w-4" />
+          <Button
+            className={cn(
+              "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+            )}
+            onClick={handleResetToDefaults}
+          >
+            <ArrowPathIcon className="mr-2 h-4 w-4" />
             Restaurar Padrões
           </Button>
         </div>
@@ -416,20 +433,18 @@ export default function AdminMetadata() {
       )}
 
       <form onSubmit={handleSubmit}>
-        <Tabs defaultValue="basic">
+        <Tabs defaultValue="general">
           <TabsList className="mb-6">
-            <TabsTrigger value="basic">Básico</TabsTrigger>
-            <TabsTrigger value="social">Redes Sociais</TabsTrigger>
-            <TabsTrigger value="links">Links</TabsTrigger>
+            <TabsTrigger value="general">Geral</TabsTrigger>
             <TabsTrigger value="robots">Robots</TabsTrigger>
             <TabsTrigger value="verification">Verificação</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="basic">
-            <Card className="mb-6">
+          <TabsContent value="general">
+            <Card>
               <CardHeader>
-                <CardTitle>Informações Básicas</CardTitle>
-                <CardDescription>Configure as informações básicas do seu site</CardDescription>
+                <CardTitle>Informações Gerais</CardTitle>
+                <CardDescription>Configurações básicas de SEO e metadados</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -542,330 +557,13 @@ export default function AdminMetadata() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="social">
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle>Open Graph</CardTitle>
-                <CardDescription>Configurações para compartilhamento em redes sociais como Facebook</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="og-title">Título</Label>
-                  <Input
-                    id="og-title"
-                    value={metadata.openGraph.title}
-                    onChange={(e) => handleNestedChange("openGraph", "title", e.target.value)}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="og-description">Descrição</Label>
-                    <span className="text-xs text-muted-foreground">
-                      {metadata.openGraph.description.length}/200 caracteres
-                    </span>
-                  </div>
-                  <Textarea
-                    id="og-description"
-                    value={metadata.openGraph.description}
-                    onChange={(e) => handleNestedChange("openGraph", "description", e.target.value)}
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="og-siteName">Nome do Site</Label>
-                    <Input
-                      id="og-siteName"
-                      value={metadata.openGraph.siteName}
-                      onChange={(e) => handleNestedChange("openGraph", "siteName", e.target.value)}
-                      required
-                      className={validationErrors["openGraph.siteName"] ? "border-red-500" : ""}
-                    />
-                    {validationErrors["openGraph.siteName"] && (
-                      <p className="text-xs text-red-500">{validationErrors["openGraph.siteName"]}</p>
-                    )}
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="og-locale">Localidade</Label>
-                    <Input
-                      id="og-locale"
-                      value={metadata.openGraph.locale}
-                      onChange={(e) => handleNestedChange("openGraph", "locale", e.target.value)}
-                    />
-                    <p className="text-xs text-muted-foreground">Ex: pt_BR, en_US</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Twitter</CardTitle>
-                <CardDescription>Configurações para compartilhamento no Twitter</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="twitter-card">Tipo de Card</Label>
-                  <select
-                    id="twitter-card"
-                    value={metadata.twitter.card}
-                    onChange={(e) => handleNestedChange("twitter", "card", e.target.value)}
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                  >
-                    <option value="summary">Summary</option>
-                    <option value="summary_large_image">Summary Large Image</option>
-                    <option value="app">App</option>
-                    <option value="player">Player</option>
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="twitter-creator">Criador</Label>
-                  <Input
-                    id="twitter-creator"
-                    value={metadata.twitter.creator}
-                    onChange={(e) => handleNestedChange("twitter", "creator", e.target.value)}
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    Seu nome de usuário no Twitter, incluindo o @. Ex: @caiolombelllo
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="twitter-description">Descrição</Label>
-                    <span className="text-xs text-muted-foreground">
-                      {metadata.twitter.description.length}/200 caracteres
-                    </span>
-                  </div>
-                  <Textarea
-                    id="twitter-description"
-                    value={metadata.twitter.description}
-                    onChange={(e) => handleNestedChange("twitter", "description", e.target.value)}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="links">
-            <Card>
-              <CardHeader>
-                <CardTitle>Links e Contatos</CardTitle>
-                <CardDescription>Configure seus links sociais e informações de contato</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="website">Website</Label>
-                    <Input
-                      id="website"
-                      value={metadata.links.website}
-                      onChange={(e) => handleNestedChange("links", "website", e.target.value)}
-                      placeholder="https://caio.lombello.com"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={metadata.links.email}
-                      onChange={(e) => handleNestedChange("links", "email", e.target.value)}
-                      placeholder="caio@lombello.com"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="github">GitHub</Label>
-                    <Input
-                      id="github"
-                      value={metadata.links.github}
-                      onChange={(e) => handleNestedChange("links", "github", e.target.value)}
-                      placeholder="https://github.com/caiolombello"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="gitlab">GitLab</Label>
-                    <Input
-                      id="gitlab"
-                      value={metadata.links.gitlab}
-                      onChange={(e) => handleNestedChange("links", "gitlab", e.target.value)}
-                      placeholder="https://gitlab.com/caiolombello"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="linkedin">LinkedIn</Label>
-                    <Input
-                      id="linkedin"
-                      value={metadata.links.linkedin}
-                      onChange={(e) => handleNestedChange("links", "linkedin", e.target.value)}
-                      placeholder="https://linkedin.com/in/caiolvbarbieri"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="twitter">Twitter/X</Label>
-                    <Input
-                      id="twitter"
-                      value={metadata.links.twitter}
-                      onChange={(e) => handleNestedChange("links", "twitter", e.target.value)}
-                      placeholder="https://x.com/caiolombello"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="stackoverflow">Stack Overflow</Label>
-                    <Input
-                      id="stackoverflow"
-                      value={metadata.links.stackoverflow || ""}
-                      onChange={(e) => handleNestedChange("links", "stackoverflow", e.target.value)}
-                      placeholder="https://stackoverflow.com/users/..."
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="devto">Dev.to</Label>
-                    <Input
-                      id="devto"
-                      value={metadata.links.devto || ""}
-                      onChange={(e) => handleNestedChange("links", "devto", e.target.value)}
-                      placeholder="https://dev.to/caiolombello"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="medium">Medium</Label>
-                    <Input
-                      id="medium"
-                      value={metadata.links.medium || ""}
-                      onChange={(e) => handleNestedChange("links", "medium", e.target.value)}
-                      placeholder="https://medium.com/@caiolombello"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="hashnode">Hashnode</Label>
-                    <Input
-                      id="hashnode"
-                      value={metadata.links.hashnode || ""}
-                      onChange={(e) => handleNestedChange("links", "hashnode", e.target.value)}
-                      placeholder="https://hashnode.com/@caiolombello"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="behance">Behance</Label>
-                    <Input
-                      id="behance"
-                      value={metadata.links.behance || ""}
-                      onChange={(e) => handleNestedChange("links", "behance", e.target.value)}
-                      placeholder="https://behance.net/caiolombello"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="dribbble">Dribbble</Label>
-                    <Input
-                      id="dribbble"
-                      value={metadata.links.dribbble || ""}
-                      onChange={(e) => handleNestedChange("links", "dribbble", e.target.value)}
-                      placeholder="https://dribbble.com/caiolombello"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="figma">Figma</Label>
-                    <Input
-                      id="figma"
-                      value={metadata.links.figma || ""}
-                      onChange={(e) => handleNestedChange("links", "figma", e.target.value)}
-                      placeholder="https://figma.com/@caiolombello"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="credly">Credly</Label>
-                    <Input
-                      id="credly"
-                      value={metadata.links.credly || ""}
-                      onChange={(e) => handleNestedChange("links", "credly", e.target.value)}
-                      placeholder="https://credly.com/users/caiolombello"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="microsoftLearn">Microsoft Learn</Label>
-                    <Input
-                      id="microsoftLearn"
-                      value={metadata.links.microsoftLearn || ""}
-                      onChange={(e) => handleNestedChange("links", "microsoftLearn", e.target.value)}
-                      placeholder="https://learn.microsoft.com/pt-br/users/caiolombello"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="awsTraining">AWS Training</Label>
-                    <Input
-                      id="awsTraining"
-                      value={metadata.links.awsTraining || ""}
-                      onChange={(e) => handleNestedChange("links", "awsTraining", e.target.value)}
-                      placeholder="https://aws.amazon.com/training/..."
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="whatsapp">WhatsApp</Label>
-                    <Input
-                      id="whatsapp"
-                      value={metadata.links.whatsapp || ""}
-                      onChange={(e) => handleNestedChange("links", "whatsapp", e.target.value)}
-                      placeholder="https://wa.me/..."
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="telegram">Telegram</Label>
-                    <Input
-                      id="telegram"
-                      value={metadata.links.telegram || ""}
-                      onChange={(e) => handleNestedChange("links", "telegram", e.target.value)}
-                      placeholder="https://t.me/caiolombello"
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
           <TabsContent value="robots">
             <Card>
               <CardHeader>
                 <CardTitle>Configurações de Robots</CardTitle>
                 <CardDescription>Controle como os motores de busca indexam seu site</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
@@ -877,7 +575,7 @@ export default function AdminMetadata() {
                     <Switch
                       id="robots-index"
                       checked={metadata.robots.index}
-                      onCheckedChange={(checked) => handleRobotsChange("index", checked)}
+                      onCheckedChange={(checked: boolean) => handleRobotsChange("index", checked)}
                     />
                   </div>
 
@@ -893,7 +591,7 @@ export default function AdminMetadata() {
                     <Switch
                       id="robots-follow"
                       checked={metadata.robots.follow}
-                      onCheckedChange={(checked) => handleRobotsChange("follow", checked)}
+                      onCheckedChange={(checked: boolean) => handleRobotsChange("follow", checked)}
                     />
                   </div>
                 </div>
@@ -912,7 +610,7 @@ export default function AdminMetadata() {
                       <Switch
                         id="googlebot-index"
                         checked={metadata.robots.googleBot.index}
-                        onCheckedChange={(checked) => handleGoogleBotChange("index", checked)}
+                        onCheckedChange={(checked: boolean) => handleGoogleBotChange("index", checked)}
                       />
                     </div>
 
@@ -926,7 +624,7 @@ export default function AdminMetadata() {
                       <Switch
                         id="googlebot-follow"
                         checked={metadata.robots.googleBot.follow}
-                        onCheckedChange={(checked) => handleGoogleBotChange("follow", checked)}
+                        onCheckedChange={(checked: boolean) => handleGoogleBotChange("follow", checked)}
                       />
                     </div>
 
@@ -1015,8 +713,13 @@ export default function AdminMetadata() {
                 <div className="border-t pt-4 mt-4">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-lg font-medium">Outras Verificações</h3>
-                    <Button type="button" variant="outline" size="sm" onClick={handleAddVerification}>
-                      <Plus className="h-4 w-4 mr-2" />
+                    <Button
+                      className={cn(
+                        "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                      )}
+                      onClick={handleAddVerification}
+                    >
+                      <PlusIcon className="h-4 w-4 mr-2" />
                       Adicionar
                     </Button>
                   </div>
@@ -1045,13 +748,12 @@ export default function AdminMetadata() {
                             />
                           </div>
                           <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon"
+                            className={cn(
+                              "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10 text-destructive hover:text-destructive/90 hover:bg-destructive/10"
+                            )}
                             onClick={() => handleRemoveVerification(name)}
-                            className="text-destructive hover:text-destructive/90 hover:bg-destructive/10"
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <TrashIcon className="h-4 w-4" />
                           </Button>
                         </div>
                       ))}
@@ -1067,7 +769,7 @@ export default function AdminMetadata() {
           <Button type="submit" disabled={saving}>
             {saving ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
                 Salvando...
               </>
             ) : (

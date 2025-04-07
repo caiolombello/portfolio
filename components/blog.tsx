@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import PostCard from "./post-card"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
+import { ChevronLeftIcon, ChevronRightIcon, ArrowPathIcon } from "@heroicons/react/24/outline"
 
 export default function Blog() {
   const [loading, setLoading] = useState(true)
@@ -83,7 +83,7 @@ export default function Blog() {
       <div id="blog-posts" className="space-y-8 mb-12">
         {isLoading ? (
           <div className="flex justify-center items-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-gold" />
+            <ArrowPathIcon className="h-8 w-8 animate-spin text-gold" />
           </div>
         ) : (
           currentPosts.map((post) => <PostCard key={post.id} post={post} />)
@@ -100,7 +100,7 @@ export default function Blog() {
             aria-label="Página anterior"
             className="transition-transform hover:scale-105 duration-200"
           >
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronLeftIcon className="h-4 w-4" />
           </Button>
 
           {Array.from({ length: totalPages }).map((_, index) => (
@@ -126,7 +126,7 @@ export default function Blog() {
             aria-label="Próxima página"
             className="transition-transform hover:scale-105 duration-200"
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRightIcon className="h-4 w-4" />
           </Button>
         </div>
       )}

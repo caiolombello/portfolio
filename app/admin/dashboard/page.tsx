@@ -1,6 +1,16 @@
 "use client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BarChart2, Briefcase, FileText, FolderKanban, GraduationCap, User, Award, LineChart, Search } from "lucide-react"
+import {
+  ChartBarIcon,
+  BriefcaseIcon,
+  DocumentTextIcon,
+  FolderIcon,
+  AcademicCapIcon,
+  UserIcon,
+  TrophyIcon,
+  ChartPieIcon,
+  MagnifyingGlassIcon
+} from "@heroicons/react/24/outline"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import BlobStorageStatus from "@/components/admin/blob-storage-status"
@@ -26,55 +36,55 @@ export default function AdminDashboard() {
     {
       title: "Perfil",
       description: "Editar informações pessoais",
-      icon: <User className="h-8 w-8 text-gold" />,
+      icon: <UserIcon className="h-8 w-8 text-gold" />,
       href: "/admin/profile",
     },
     {
       title: "Habilidades",
       description: "Gerenciar habilidades técnicas",
-      icon: <BarChart2 className="h-8 w-8 text-gold" />,
+      icon: <ChartBarIcon className="h-8 w-8 text-gold" />,
       href: "/admin/skills",
     },
     {
       title: "Experiências",
       description: "Adicionar ou editar experiências profissionais",
-      icon: <Briefcase className="h-8 w-8 text-gold" />,
+      icon: <BriefcaseIcon className="h-8 w-8 text-gold" />,
       href: "/admin/experiences",
     },
     {
       title: "Educação",
       description: "Gerenciar formação acadêmica",
-      icon: <GraduationCap className="h-8 w-8 text-gold" />,
+      icon: <AcademicCapIcon className="h-8 w-8 text-gold" />,
       href: "/admin/education",
     },
     {
       title: "Certificações",
       description: "Gerenciar certificações profissionais",
-      icon: <Award className="h-8 w-8 text-gold" />,
+      icon: <TrophyIcon className="h-8 w-8 text-gold" />,
       href: "/admin/certifications",
     },
     {
       title: "Projetos",
       description: "Adicionar ou editar projetos do portfólio",
-      icon: <FolderKanban className="h-8 w-8 text-gold" />,
+      icon: <FolderIcon className="h-8 w-8 text-gold" />,
       href: "/admin/projects",
     },
     {
       title: "Blog",
       description: "Gerenciar artigos do blog",
-      icon: <FileText className="h-8 w-8 text-gold" />,
+      icon: <DocumentTextIcon className="h-8 w-8 text-gold" />,
       href: "/admin/posts",
     },
     {
       title: "Analytics",
       description: "Visualizar estatísticas do site",
-      icon: <LineChart className="h-8 w-8 text-gold" />,
+      icon: <ChartPieIcon className="h-8 w-8 text-gold" />,
       href: "/admin/analytics",
     },
     {
       title: "SEO",
       description: "Gerenciar metadados e SEO",
-      icon: <Search className="h-8 w-8 text-gold" />,
+      icon: <MagnifyingGlassIcon className="h-8 w-8 text-gold" />,
       href: "/admin/metadata",
     },
   ]

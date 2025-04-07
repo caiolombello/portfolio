@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server"
-import { getBlob } from "@/lib/blob-storage"
+import { getBlob, saveToBlob } from "@/lib/blob-storage"
 
 export async function GET() {
   try {
     const sitemapBlob = await getBlob("sitemap.xml")
     if (sitemapBlob) {
-      const sitemapContent = await sitemapBlob.text()
-      return new NextResponse(sitemapContent, {
+      return new NextResponse(sitemapBlob, {
         headers: {
           "Content-Type": "application/xml",
           "Cache-Control": "public, max-age=3600, s-maxage=3600",
@@ -14,49 +13,47 @@ export async function GET() {
       })
     }
 
-    // Se não encontrar o sitemap, gerar um novo
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caiolombelllo.com"
+    // Se não encontrar o sitemap.xml, gerar um novo
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com"
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-                http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>${baseUrl}</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>${baseUrl}/resume</loc>
+    <loc>${baseUrl}/about</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>${baseUrl}/portfolio</loc>
+    <loc>${baseUrl}/projects</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>${baseUrl}/blog</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>${baseUrl}/contact</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 </urlset>`
 
     // Salvar o sitemap no Blob Storage
-    await put("sitemap.xml", sitemap, {
-      access: "public",
-    })
+    const result = await saveToBlob("sitemap.xml", sitemap)
+    if (!result.success) {
+      throw new Error(result.error)
+    }
 
     return new NextResponse(sitemap, {
       headers: {
@@ -65,7 +62,7 @@ export async function GET() {
       },
     })
   } catch (error) {
-    console.error("Erro ao gerar sitemap:", error)
-    return new NextResponse("Erro ao gerar sitemap", { status: 500 })
+    console.error("Erro ao gerar sitemap.xml:", error)
+    return new NextResponse("Erro ao gerar sitemap.xml", { status: 500 })
   }
 } 

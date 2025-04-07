@@ -38,7 +38,7 @@ Você pode agendar uma reunião através do link: https://fantastical.app/caiolv
 
 ### Enviar Mensagem
 
-Para enviar uma mensagem, por favor visite a [página de contato](https://caiolombelllo.com/contact) e preencha o formulário.
+Para enviar uma mensagem, por favor visite a [página de contato](https://caio.lombello.com/contact) e preencha o formulário.
 `
 
     return new NextResponse(content, {

@@ -18,12 +18,12 @@ async function getSiteSettings() {
     if (!settings) {
       return {
         siteName: "Caio Lombello",
-        baseUrl: "https://caiolombelllo.com",
-        contactEmail: "contato@caiolombelllo.com",
+        baseUrl: "https://caio.lombello.com",
+        contactEmail: "caio@lombello.com",
         socialLinks: {
           github: "https://github.com/caiolombello",
           linkedin: "https://linkedin.com/in/caiolombello",
-          twitter: "https://twitter.com/caiolombello",
+          twitter: "https://x.com/caiolombello",
         },
       }
     }
@@ -32,12 +32,12 @@ async function getSiteSettings() {
     console.error("Erro ao carregar configurações:", error)
     return {
       siteName: "Caio Lombello",
-      baseUrl: "https://caiolombelllo.com",
-      contactEmail: "contato@caiolombelllo.com",
+      baseUrl: "https://caio.lombello.com",
+      contactEmail: "caio@lombello.com",
       socialLinks: {
         github: "https://github.com/caiolombello",
         linkedin: "https://linkedin.com/in/caiolombello",
-        twitter: "https://twitter.com/caiolombello",
+        twitter: "https://x.com/caiolombello",
       },
     }
   }
@@ -64,9 +64,9 @@ export async function generateMetadata(): Promise<Metadata> {
       "Software",
       "Engenharia",
     ],
-    authors: [{ name: "Caio Lombello" }],
-    creator: "Caio Lombello",
-    publisher: "Caio Lombello",
+    authors: [{ name: "Caio Barbieri" }],
+    creator: "Caio Barbieri",
+    publisher: "Caio Barbieri",
     robots: {
       index: true,
       follow: true,
@@ -83,7 +83,7 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "pt_BR",
       url: settings.baseUrl,
       title: settings.siteName,
-      description: "Portfólio de Caio Lombello, DevOps & Cloud Engineer",
+      description: "Portfólio de Caio Barbieri, DevOps & Cloud Engineer",
       siteName: settings.siteName,
       images: [
         {
@@ -97,7 +97,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: settings.siteName,
-      description: "Portfólio de Caio Lombello, DevOps & Cloud Engineer",
+      description: "Portfólio de Caio Barbieri, DevOps & Cloud Engineer",
       images: [`${settings.baseUrl}/og-image.jpg`],
       creator: "@caiolombello",
     },
@@ -142,8 +142,8 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
-        <meta name="msapplication-TileColor" content={metadata.themeColor} />
-        <meta name="theme-color" content={metadata.themeColor} />
+        <meta name="msapplication-TileColor" content="#121212" />
+        <meta name="theme-color" content="#121212" />
         <link rel="icon" href="/api/favicon?format=ico" type="image/x-icon" />
         <link rel="icon" href="/api/favicon?size=16" type="image/png" sizes="16x16" />
         <link rel="icon" href="/api/favicon?size=32" type="image/png" sizes="32x32" />
@@ -161,21 +161,21 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content={metadata.title.default} />
+        <meta name="apple-mobile-web-app-title" content="Caio Lombello" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="canonical" href="https://caiolombelllo.com" />
+        <link rel="canonical" href="https://caio.lombello.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "Caio Lombello",
-              url: "https://caiolombelllo.com",
+              name: "Caio Barbieri",
+              url: "https://caio.lombello.com",
               sameAs: [
                 "https://github.com/caiolombello",
                 "https://linkedin.com/in/caiolombello",
-                "https://twitter.com/caiolombello",
+                "https://x.com/caiolombello",
               ],
               jobTitle: "DevOps & Cloud Engineer",
               worksFor: {

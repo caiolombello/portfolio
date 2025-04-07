@@ -2,16 +2,21 @@ import { NextResponse } from "next/server"
 import fs from "fs/promises"
 import path from "path"
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+type RouteParams = Promise<{ id: string }>;
+
+export async function GET(
+  request: Request,
+  props: { params: RouteParams }
+) {
   try {
-    const postId = params.id
+    const { id } = await props.params;
 
     // Carregar dados dos posts
     const postsPath = path.join(process.cwd(), "public", "data", "posts.json")
     const postsData = JSON.parse(await fs.readFile(postsPath, "utf-8"))
 
     // Encontrar o post específico
-    const post = postsData.find((p: any) => p.id === postId)
+    const post = postsData.find((p: any) => p.id === id)
 
     if (!post) {
       return new NextResponse("# Post não encontrado\n\nO artigo solicitado não existe ou foi removido.", {

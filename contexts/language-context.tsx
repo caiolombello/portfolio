@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 
-type Language = "pt" | "en"
+type Language = "pt" | "en" | "es"
 
 interface LanguageContextType {
   language: Language
@@ -76,6 +76,38 @@ const defaultTranslations = {
       copyright: "Caio Lombello Vendramini Barbieri. All rights reserved.",
     },
   },
+  es: {
+    about: "Sobre Mí",
+    resume: "Currículo",
+    portfolio: "Portafolio",
+    blog: "Blog",
+    contact: "Contacto",
+    mainSkills: "Habilidades Principales",
+    scheduleAMeeting: "Programar una Reunión",
+    sendMessage: "Enviar Mensaje",
+    name: "Nombre",
+    email: "Correo Electrónico",
+    message: "Mensaje",
+    send: "Enviar",
+    phone: "Teléfono",
+    birthDate: "Fecha de Nacimiento",
+    location: "Ubicación",
+    socialNetworks: "Redes Sociales",
+    allRightsReserved: "Todos los derechos reservados.",
+    buyMeACoffee: "Cómprame un Café",
+    support: "Apoya mi Trabajo",
+    supportMessage: "Si mi trabajo te ha sido útil, ¡considere comprarme un café!",
+    nav: {
+      about: "Sobre Mí",
+      resume: "Currículo",
+      portfolio: "Portafolio",
+      blog: "Blog",
+      contact: "Contacto",
+    },
+    footer: {
+      copyright: "Caio Lombello Vendramini Barbieri. Todos los derechos reservados.",
+    },
+  },
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
@@ -87,7 +119,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Carregar idioma do localStorage
     const savedLanguage = localStorage.getItem("language") as Language
-    if (savedLanguage && (savedLanguage === "pt" || savedLanguage === "en")) {
+    if (savedLanguage && (savedLanguage === "pt" || savedLanguage === "en" || savedLanguage === "es")) {
       setLanguage(savedLanguage)
     }
 
@@ -112,7 +144,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       } else {
         console.warn(`Tradução não encontrada para a chave: ${key}`)
         // Tentar encontrar no outro idioma como fallback
-        const fallbackLang = language === "pt" ? "en" : "pt"
+        const fallbackLang = language === "pt" ? "en" : language === "en" ? "pt" : "es"
         let fallback: any = translations[fallbackLang]
 
         for (const fk of keys) {

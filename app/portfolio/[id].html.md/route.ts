@@ -2,16 +2,21 @@ import { NextResponse } from "next/server"
 import fs from "fs/promises"
 import path from "path"
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+type RouteParams = Promise<{ id: string }>;
+
+export async function GET(
+  request: Request,
+  props: { params: RouteParams }
+) {
   try {
-    const projectId = params.id
+    const { id } = await props.params;
 
     // Carregar dados dos projetos
     const projectsPath = path.join(process.cwd(), "public", "data", "projects.json")
     const projectsData = JSON.parse(await fs.readFile(projectsPath, "utf-8"))
 
     // Encontrar o projeto específico
-    const project = projectsData.find((p: any) => p.id === projectId)
+    const project = projectsData.find((p: any) => p.id === id)
 
     if (!project) {
       return new NextResponse("# Projeto não encontrado\n\nO projeto solicitado não existe ou foi removido.", {

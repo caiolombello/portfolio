@@ -2,6 +2,11 @@ import { NextResponse } from "next/server"
 import fs from "fs/promises"
 import path from "path"
 
+interface Skill {
+  name: string;
+  percentage: number;
+}
+
 export async function GET() {
   try {
     // Carregar dados do perfil
@@ -9,7 +14,7 @@ export async function GET() {
     const skillsPath = path.join(process.cwd(), "public", "data", "skills.json")
 
     const profileData = JSON.parse(await fs.readFile(profilePath, "utf-8"))
-    const skillsData = JSON.parse(await fs.readFile(skillsPath, "utf-8"))
+    const skillsData = JSON.parse(await fs.readFile(skillsPath, "utf-8")) as Skill[]
 
     // Gerar markdown para a página inicial
     const content = `# ${profileData.pt.name}
@@ -26,7 +31,7 @@ ${profileData.pt.about}
 
 ### Habilidades Principais
 
-${skillsData.map((skill) => `- ${skill.name}: ${skill.percentage}%`).join("\n")}
+${skillsData.map((skill: Skill) => `- ${skill.name}: ${skill.percentage}%`).join("\n")}
 `
 
     return new NextResponse(content, {

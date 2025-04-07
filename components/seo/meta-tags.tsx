@@ -23,7 +23,7 @@ export default function MetaTags({
   children,
 }: MetaTagsProps) {
   const pathname = usePathname()
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caiolombelllo.com"
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com"
   const url = `${baseUrl}${pathname}`
 
   // Garantir que a imagem tenha URL completa

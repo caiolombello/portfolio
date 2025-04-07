@@ -8,6 +8,7 @@ import { CalendarIcon } from "lucide-react"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { cn } from "@/lib/utils"
+import type { DateRange } from "react-day-picker"
 
 interface DateRangePickerProps {
   startDate: Date
@@ -18,15 +19,13 @@ interface DateRangePickerProps {
 
 export default function DateRangePicker({ startDate, endDate, onRangeChange, className }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedRange, setSelectedRange] = useState<{
-    from: Date
-    to: Date | undefined
-  }>({
+  const [selectedRange, setSelectedRange] = useState<DateRange>({
     from: startDate,
     to: endDate,
   })
 
-  const handleSelect = (range: { from: Date; to: Date | undefined }) => {
+  const handleSelect = (range: DateRange | undefined) => {
+    if (!range) return
     setSelectedRange(range)
     if (range.from && range.to) {
       onRangeChange(range.from, range.to)

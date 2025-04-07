@@ -31,7 +31,7 @@ async function loadFromFile(filename: string) {
 const defaultProfileData = {
   name: "Caio Lombello",
   title: "DevOps Engineer",
-  email: "contato@caiolombelllo.com",
+  email: "contato@caio.lombello.com",
   location: "São Paulo, Brasil",
   bio: "DevOps Engineer com experiência em Cloud Native, Kubernetes e automação de infraestrutura.",
   avatar: "/placeholder.svg?height=300&width=300",

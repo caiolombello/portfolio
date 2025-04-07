@@ -3,25 +3,26 @@
 import { useState, useEffect } from "react"
 import ProjectCard from "./project-card"
 import CategoryFilter from "./category-filter"
+import type { Project } from "@/data/projects"
 
 export default function Portfolio() {
   const [loading, setLoading] = useState(true)
-  const [projects, setProjects] = useState<any[]>([])
+  const [projects, setProjects] = useState<Project[]>([])
   const [categories, setCategories] = useState<string[]>(["All"])
   const [activeCategory, setActiveCategory] = useState("All")
-  const [filteredProjects, setFilteredProjects] = useState(projects)
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([])
   const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const response = await fetch("/api/public/projects")
-        const data = await response.json()
+        const data = (await response.json()) as Project[]
 
         setProjects(data)
 
         // Extrair categorias únicas
-        const uniqueCategories = ["All", ...new Set(data.map((project: any) => project.category))]
+        const uniqueCategories = ["All", ...new Set(data.map((project) => project.category))]
         setCategories(uniqueCategories)
       } catch (error) {
         console.error("Erro ao carregar projetos:", error)

@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
-import { Loader2, Plus, Trash2, X } from "lucide-react"
+import { ArrowPathIcon, PlusIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline"
 import { useAuth } from "@/contexts/auth-context"
 
 interface Project {
@@ -179,7 +179,7 @@ export default function AdminProjects() {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
-        <Loader2 className="h-8 w-8 animate-spin text-gold" />
+        <ArrowPathIcon className="h-8 w-8 animate-spin text-gold" />
       </div>
     )
   }
@@ -201,7 +201,7 @@ export default function AdminProjects() {
                   onClick={() => handleRemoveProject(index)}
                   className="text-destructive hover:text-destructive/90 hover:bg-destructive/10"
                 >
-                  <Trash2 className="h-4 w-4" />
+                  <TrashIcon className="h-4 w-4" />
                 </Button>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -271,7 +271,7 @@ export default function AdminProjects() {
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium">Tecnologias</label>
                     <Button type="button" variant="outline" size="sm" onClick={() => handleAddTechnology(index)}>
-                      <Plus className="h-3 w-3 mr-1" />
+                      <PlusIcon className="h-4 w-4 mr-2" />
                       Adicionar
                     </Button>
                   </div>
@@ -293,7 +293,7 @@ export default function AdminProjects() {
                           disabled={project.technologies.length <= 1}
                           className="text-destructive hover:text-destructive/90 hover:bg-destructive/10"
                         >
-                          <X className="h-4 w-4" />
+                          <XMarkIcon className="h-4 w-4" />
                         </Button>
                       </div>
                     ))}
@@ -343,7 +343,7 @@ export default function AdminProjects() {
                   <div className="flex items-center justify-between">
                     <label className="text-sm font-medium">Screenshots</label>
                     <Button type="button" variant="outline" size="sm" onClick={() => handleAddScreenshot(index)}>
-                      <Plus className="h-3 w-3 mr-1" />
+                      <PlusIcon className="h-4 w-4 mr-2" />
                       Adicionar
                     </Button>
                   </div>
@@ -365,7 +365,7 @@ export default function AdminProjects() {
                           disabled={project.screenshots.length <= 1}
                           className="text-destructive hover:text-destructive/90 hover:bg-destructive/10"
                         >
-                          <X className="h-4 w-4" />
+                          <XMarkIcon className="h-4 w-4" />
                         </Button>
                       </div>
                     ))}
@@ -376,7 +376,7 @@ export default function AdminProjects() {
           ))}
 
           <Button type="button" onClick={handleAddProject} className="w-full">
-            <Plus className="h-4 w-4 mr-2" />
+            <PlusIcon className="h-4 w-4 mr-2" />
             Adicionar Novo Projeto
           </Button>
         </div>
@@ -385,7 +385,7 @@ export default function AdminProjects() {
           <Button type="submit" disabled={saving}>
             {saving ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
                 Salvando...
               </>
             ) : (

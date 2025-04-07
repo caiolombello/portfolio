@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://caiolombelllo.com/sitemap.xml
+Sitemap: https://caio.lombello.com/sitemap.xml
 

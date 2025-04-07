@@ -8,7 +8,7 @@ import EducationItem from "./education-item"
 import ResumeDownload from "./resume-download"
 import { useLanguage } from "@/contexts/language-context"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Loader2 } from "lucide-react"
+import { ArrowPathIcon } from "@heroicons/react/24/outline"
 
 export default function Resume() {
   const { t, language } = useLanguage()
@@ -145,7 +145,7 @@ export default function Resume() {
   if (loading) {
     return (
       <div className="container py-12 flex justify-center items-center min-h-[50vh]">
-        <Loader2 className="h-8 w-8 animate-spin text-gold" />
+        <ArrowPathIcon className="h-8 w-8 animate-spin text-gold" />
       </div>
     )
   }

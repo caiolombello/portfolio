@@ -4,8 +4,8 @@ import { getBlob } from "@/lib/blob-storage"
 
 const defaultSettings = {
   siteName: "Caio Lombello",
-  baseUrl: "https://caiolombelllo.com",
-  contactEmail: "contato@caiolombelllo.com",
+  baseUrl: "https://caio.lombello.com",
+  contactEmail: "contato@caio.lombello.com",
   socialLinks: {
     github: "https://github.com/caiolombello",
     linkedin: "https://linkedin.com/in/caiolombello",

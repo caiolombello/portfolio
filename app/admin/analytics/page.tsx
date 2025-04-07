@@ -15,7 +15,7 @@ import ChartContainer from "@/components/admin/analytics/chart-container"
 import DateRangePicker from "@/components/admin/analytics/date-range-picker"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Users, Eye, Clock, AlertTriangle } from "lucide-react"
+import { UserGroupIcon, EyeIcon, ClockIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline"
 import {
   LineChart,
   Line,
@@ -159,7 +159,7 @@ export default function AdminAnalytics() {
 
       {error && (
         <Alert variant="destructive">
-          <AlertTriangle className="h-4 w-4" />
+          <ExclamationTriangleIcon className="h-4 w-4" />
           <AlertTitle>Erro</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
@@ -169,7 +169,7 @@ export default function AdminAnalytics() {
         <StatsCard
           title="Visitantes Ativos"
           value={activeVisitors}
-          icon={<Users className="h-4 w-4" />}
+          icon={<UserGroupIcon className="h-4 w-4" />}
           description="Nos últimos 5 minutos"
           loading={loading}
         />
@@ -177,21 +177,21 @@ export default function AdminAnalytics() {
           title="Visitantes Únicos"
           value={stats?.visitors.value || 0}
           prevValue={stats?.visitors.prev}
-          icon={<Users className="h-4 w-4" />}
+          icon={<UserGroupIcon className="h-4 w-4" />}
           loading={loading}
         />
         <StatsCard
           title="Visualizações de Página"
           value={stats?.pageviews.value || 0}
           prevValue={stats?.pageviews.prev}
-          icon={<Eye className="h-4 w-4" />}
+          icon={<EyeIcon className="h-4 w-4" />}
           loading={loading}
         />
         <StatsCard
           title="Tempo Médio"
           value={stats ? stats.totaltime.value / (stats.visits.value || 1) : 0}
           prevValue={stats ? stats.totaltime.prev / (stats.visits.prev || 1) : undefined}
-          icon={<Clock className="h-4 w-4" />}
+          icon={<ClockIcon className="h-4 w-4" />}
           formatValue={(val) => formatTime(val)}
           loading={loading}
         />

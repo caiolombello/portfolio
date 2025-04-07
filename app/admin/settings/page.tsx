@@ -21,8 +21,8 @@ interface SiteSettings {
 export default function SettingsPage() {
   const [settings, setSettings] = useState<SiteSettings>({
     siteName: "Caio Lombello",
-    baseUrl: "https://caiolombelllo.com",
-    contactEmail: "contato@caiolombelllo.com",
+    baseUrl: "https://caio.lombello.com",
+    contactEmail: "contato@caio.lombello.com",
     socialLinks: {
       github: "https://github.com/caiolombello",
       linkedin: "https://linkedin.com/in/caiolombello",

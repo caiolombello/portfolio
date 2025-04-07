@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Mail, Phone, ExternalLink, MessageSquare } from "lucide-react"
+import { EnvelopeIcon, PhoneIcon, ChatBubbleLeftRightIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
 import SkillBar from "./skill-bar"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/contexts/language-context"
@@ -22,7 +22,7 @@ interface ProfileData {
 interface ProfileState {
   pt: ProfileData
   en: ProfileData
-  imageUrl?: string // Campo para a URL da imagem
+  imageUrl?: string
 }
 
 interface Skill {
@@ -105,9 +105,9 @@ export default function About() {
   ]
 
   // Usar dados padrão se houver erro ou estiver carregando
-  const currentProfile = profile
+  const currentProfile: ProfileData = (profile
     ? profile[language as keyof ProfileState]
-    : defaultProfile[language as keyof ProfileState]
+    : defaultProfile[language as keyof ProfileState]) as ProfileData
   const currentSkills = skills.length > 0 ? skills : defaultSkills
 
   // Obter a URL da imagem do perfil
@@ -123,6 +123,17 @@ export default function About() {
             <div className="h-3 bg-secondary rounded w-32 mt-4"></div>
           </div>
         </div>
+      </section>
+    )
+  }
+
+  if (!currentProfile) {
+    return (
+      <section className="container py-12 md:py-16">
+        <Alert variant="destructive">
+          <AlertTitle>Erro ao carregar dados</AlertTitle>
+          <AlertDescription>Não foi possível carregar o perfil.</AlertDescription>
+        </Alert>
       </section>
     )
   }
@@ -155,7 +166,7 @@ export default function About() {
 
           <div className="mb-8 flex flex-col gap-3">
             <div className="flex items-center gap-2">
-              <Mail size={18} className="text-gold" />
+              <EnvelopeIcon className="h-4 w-4 text-gold" />
               <Link
                 href={`mailto:${currentProfile.email}`}
                 className="text-foreground hover:text-gold transition-colors"
@@ -165,7 +176,7 @@ export default function About() {
             </div>
 
             <div className="flex items-center gap-2">
-              <Phone size={18} className="text-gold" />
+              <PhoneIcon className="h-4 w-4 text-gold" />
               <Link href={`tel:${currentProfile.phone}`} className="text-foreground hover:text-gold transition-colors">
                 {currentProfile.phone}
               </Link>
@@ -175,14 +186,14 @@ export default function About() {
           <div className="flex flex-wrap gap-4 justify-center md:justify-start">
             <Button asChild className="gap-2">
               <Link href="https://wa.me/5519997536692" target="_blank" rel="noopener noreferrer">
-                <MessageSquare className="h-4 w-4" />
+                <ChatBubbleLeftRightIcon className="h-4 w-4" />
                 WhatsApp
               </Link>
             </Button>
 
-            <Button variant="outline" asChild>
+            <Button asChild>
               <Link href="https://fantastical.app/caiolvbarbieri" target="_blank" rel="noopener noreferrer">
-                <ExternalLink size={16} className="mr-2" />
+                <ArrowTopRightOnSquareIcon className="h-4 w-4 mr-2" />
                 {t("scheduleAMeeting")}
               </Link>
             </Button>

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Lock, AlertTriangle, Info } from "lucide-react"
+import { LockClosedIcon, ExclamationTriangleIcon, InformationCircleIcon } from "@heroicons/react/24/outline"
 import { useAuth } from "@/contexts/auth-context"
 
 export default function AdminLogin() {
@@ -64,7 +64,7 @@ export default function AdminLogin() {
           <CardContent className="space-y-4">
             {isDevPassword && (
               <Alert variant="warning" className="bg-amber-900/20 text-amber-400 border-amber-400/20">
-                <Info className="h-4 w-4" />
+                <InformationCircleIcon className="h-4 w-4" />
                 <AlertTitle>Ambiente de desenvolvimento</AlertTitle>
                 <AlertDescription>
                   Você está usando a senha padrão de desenvolvimento. Para maior segurança, defina a variável de
@@ -75,7 +75,7 @@ export default function AdminLogin() {
 
             {error && (
               <Alert variant="destructive">
-                <AlertTriangle className="h-4 w-4" />
+                <ExclamationTriangleIcon className="h-4 w-4" />
                 <AlertTitle>Erro</AlertTitle>
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
@@ -91,7 +91,7 @@ export default function AdminLogin() {
                   className="pr-10"
                   required
                 />
-                <Lock className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <LockClosedIcon className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               </div>
             </div>
           </CardContent>

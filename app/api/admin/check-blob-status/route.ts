@@ -53,7 +53,7 @@ export async function GET() {
       console.log(`Blob de teste criado: ${blob.url}`)
 
       // Listar blobs para verificar se o blob de teste foi criado
-      const { blobs } = await list()
+      const { blobs } = await list({ prefix: BLOB_PREFIX })
       const testBlob = blobs.find((b) => b.pathname === testKey)
 
       if (testBlob) {

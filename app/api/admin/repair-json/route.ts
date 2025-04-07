@@ -72,38 +72,34 @@ function repairJsonString(str: string): string {
 
 export async function GET() {
   try {
-    // Verificar se o arquivo existe e tentar ler
+    // Tentar carregar o arquivo atual
     const currentBlob = await getBlob("posts.json")
     if (!currentBlob) {
       return NextResponse.json(
-        {
-          success: false,
-          error: "Arquivo não encontrado",
-        },
-        { status: 404 },
+        { success: false, error: "Arquivo não encontrado" },
+        { status: 404 }
       )
     }
 
-    const fileContent = await currentBlob.text()
-
     // Tentar fazer parse do JSON original
     try {
-      JSON.parse(fileContent)
+      const parsedContent = JSON.parse(currentBlob)
       return NextResponse.json({
         success: true,
         message: "O arquivo JSON já está válido, nenhuma correção necessária",
       })
     } catch (parseError) {
+      console.error("Erro ao fazer parse do JSON original:", parseError)
       // O JSON está inválido, tentar corrigir
 
       // Fazer backup do arquivo original
       const backupName = `posts.json.backup-${Date.now()}`
-      await put(backupName, fileContent, {
+      await put(backupName, currentBlob, {
         access: "public",
       })
 
       // Tentar reparar o JSON
-      const repairedJson = repairJsonString(fileContent)
+      const repairedJson = repairJsonString(currentBlob)
 
       try {
         // Verificar se o JSON reparado é válido

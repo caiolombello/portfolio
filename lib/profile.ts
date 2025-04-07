@@ -14,6 +14,14 @@ export interface Profile {
     instagram?: string
     website?: string
   }
+  pt?: {
+    name: string
+    about: string
+  }
+  en?: {
+    name: string
+    about: string
+  }
 }
 
 export async function getProfile(): Promise<Profile | null> {
@@ -30,6 +38,14 @@ export async function getProfile(): Promise<Profile | null> {
         linkedin: "https://linkedin.com",
         github: "https://github.com",
         twitter: "https://twitter.com",
+      },
+      pt: {
+        name: "Caio Lombello",
+        about: "Desenvolvedor web apaixonado por criar experiências digitais incríveis.",
+      },
+      en: {
+        name: "Caio Lombello",
+        about: "Web developer passionate about creating amazing digital experiences.",
       },
     }
 

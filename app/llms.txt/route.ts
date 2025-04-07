@@ -2,6 +2,22 @@ import { NextResponse } from "next/server"
 import fs from "fs/promises"
 import path from "path"
 
+interface Project {
+  id: string;
+  title: string;
+  shortDescription: string;
+}
+
+interface Post {
+  id: string;
+  title: string;
+  summary: string;
+}
+
+interface Skill {
+  name: string;
+}
+
 // Função para gerar o conteúdo do llms.txt dinamicamente
 async function generateLlmsTxt() {
   try {
@@ -14,13 +30,13 @@ async function generateLlmsTxt() {
 
     // Ler os arquivos
     const profileData = JSON.parse(await fs.readFile(profilePath, "utf-8"))
-    const projectsData = JSON.parse(await fs.readFile(projectsPath, "utf-8"))
-    const postsData = JSON.parse(await fs.readFile(postsPath, "utf-8"))
-    const skillsData = JSON.parse(await fs.readFile(skillsPath, "utf-8"))
+    const projectsData = JSON.parse(await fs.readFile(projectsPath, "utf-8")) as Project[]
+    const postsData = JSON.parse(await fs.readFile(postsPath, "utf-8")) as Post[]
+    const skillsData = JSON.parse(await fs.readFile(skillsPath, "utf-8")) as Skill[]
     const certificationsData = JSON.parse(await fs.readFile(certificationsPath, "utf-8"))
 
     // Obter o domínio base do site (para produção, você deve configurar isso)
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caiolombelllo.com"
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com"
 
     // Gerar o conteúdo do llms.txt
     const content = `# Caio Lombello - Portfólio Profissional
@@ -38,16 +54,16 @@ Este site é construído com Next.js e Tailwind CSS, com tema escuro predominant
 ## Projetos
 
 - [Portfólio de Projetos](${baseUrl}/portfolio/index.html.md): Visão geral de todos os projetos desenvolvidos
-${projectsData.map((project) => `- [${project.title}](${baseUrl}/portfolio/${project.id}.html.md): ${project.shortDescription}`).join("\n")}
+${projectsData.map((project: Project) => `- [${project.title}](${baseUrl}/portfolio/${project.id}.html.md): ${project.shortDescription}`).join("\n")}
 
 ## Blog
 
 - [Blog](${baseUrl}/blog/index.html.md): Artigos técnicos sobre DevOps, Cloud, Kubernetes e desenvolvimento de software
-${postsData.map((post) => `- [${post.title}](${baseUrl}/blog/${post.id}.html.md): ${post.summary}`).join("\n")}
+${postsData.map((post: Post) => `- [${post.title}](${baseUrl}/blog/${post.id}.html.md): ${post.summary}`).join("\n")}
 
 ## Tecnologias
 
-- [Habilidades Técnicas](${baseUrl}/resume/index.html.md#skills): ${skillsData.map((skill) => skill.name).join(", ")}
+- [Habilidades Técnicas](${baseUrl}/resume/index.html.md#skills): ${skillsData.map((skill: Skill) => skill.name).join(", ")}
 - [Certificações](${baseUrl}/resume/index.html.md#certifications): ${certificationsData.join(", ")}
 
 ## Optional

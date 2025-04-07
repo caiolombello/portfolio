@@ -1,21 +1,19 @@
 import { NextResponse } from "next/server"
-import { getBlob } from "@/lib/blob-storage"
+import { getBlob, saveToBlob } from "@/lib/blob-storage"
 
 export async function GET() {
   try {
     const robotsBlob = await getBlob("robots.txt")
     if (robotsBlob) {
-      const robotsContent = await robotsBlob.text()
-      return new NextResponse(robotsContent, {
+      return new NextResponse(robotsBlob, {
         headers: {
           "Content-Type": "text/plain",
-          "Cache-Control": "public, max-age=3600, s-maxage=3600",
         },
       })
     }
 
     // Se não encontrar o robots.txt, gerar um novo
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caiolombelllo.com"
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com"
     const robots = `# Allow all crawlers
 User-agent: *
 Allow: /
@@ -91,9 +89,10 @@ User-agent: YouBot
 Allow: /`
 
     // Salvar o robots.txt no Blob Storage
-    await put("robots.txt", robots, {
-      access: "public",
-    })
+    const result = await saveToBlob("robots.txt", robots)
+    if (!result.success) {
+      throw new Error(result.error)
+    }
 
     return new NextResponse(robots, {
       headers: {

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { put } from "@vercel/blob"
 import { getBlob } from "@/lib/blob-storage"
+import { getMediumPosts } from '@/lib/medium'
 
 const defaultPosts = [
   {
@@ -45,20 +46,12 @@ Obrigado por visitar!`,
 
 export async function GET() {
   try {
-    const posts = await getBlob("posts.json")
-    if (!posts) {
-      // Create default posts if they don't exist
-      await put("posts.json", JSON.stringify(defaultPosts), {
-        access: "public",
-      })
-      return NextResponse.json(defaultPosts)
-    }
-
-    return NextResponse.json(JSON.parse(posts))
+    const posts = await getMediumPosts()
+    return NextResponse.json(posts)
   } catch (error) {
-    console.error("Erro ao carregar posts:", error)
+    console.error("Error fetching Medium posts:", error)
     return NextResponse.json(
-      { error: "Erro ao carregar posts" },
+      { error: "Failed to fetch posts from Medium" },
       { status: 500 }
     )
   }

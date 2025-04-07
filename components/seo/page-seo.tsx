@@ -23,7 +23,7 @@ export function generatePageMetadata({
   authors = ["Caio Lombello"],
   tags = [],
 }: PageSEOProps): Metadata {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caiolombelllo.com"
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com"
   const imageUrl = ogImage ? `${baseUrl}${ogImage}` : `${baseUrl}/api/og?title=${encodeURIComponent(title)}`
 
   const metadata: Metadata = {

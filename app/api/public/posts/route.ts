@@ -6,13 +6,14 @@ export async function GET() {
     // Verificar se o arquivo existe
     const currentBlob = await getBlob("posts.json")
     if (!currentBlob) {
-      // Se o arquivo não existir, retornar array vazio
-      return NextResponse.json([])
+      return NextResponse.json(
+        { success: false, error: "Arquivo não encontrado" },
+        { status: 404 }
+      )
     }
 
     // Tentar ler o arquivo
-    const fileContent = await currentBlob.text()
-    const postsData = JSON.parse(fileContent)
+    const postsData = JSON.parse(currentBlob)
 
     // Verificar se postsData é um array
     if (!Array.isArray(postsData)) {

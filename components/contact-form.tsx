@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
+import { ArrowPathIcon } from "@heroicons/react/24/outline"
 import { useLanguage } from "@/contexts/language-context"
 
 interface FormData {
@@ -169,7 +169,7 @@ export default function ContactForm() {
       <Button type="submit" className="w-full" disabled={submitStatus === "submitting"}>
         {submitStatus === "submitting" ? (
           <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <ArrowPathIcon className="mr-2 h-4 w-4 animate-spin" />
             {t("sending")}
           </>
         ) : (

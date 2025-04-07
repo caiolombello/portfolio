@@ -2,6 +2,46 @@ import { NextResponse } from "next/server"
 import fs from "fs/promises"
 import path from "path"
 
+interface Experience {
+  title: string;
+  company: string;
+  period: string;
+  responsibilities: string[];
+}
+
+interface Education {
+  degree: string;
+  institution: string;
+  period: string;
+  description: string;
+}
+
+interface Skill {
+  name: string;
+  percentage: number;
+}
+
+interface Profile {
+  name: string;
+  title: string;
+  email: string;
+  phone: string;
+  location: string;
+  about: string;
+}
+
+interface ProfileData {
+  pt: Profile;
+}
+
+interface ExperienceData {
+  pt: Experience[];
+}
+
+interface EducationData {
+  pt: Education[];
+}
+
 // Função para gerar o markdown do currículo (similar à função no componente ResumeDownload)
 async function generateResumeMarkdown() {
   try {
@@ -12,11 +52,11 @@ async function generateResumeMarkdown() {
     const certificationsPath = path.join(process.cwd(), "public", "data", "certifications.json")
     const skillsPath = path.join(process.cwd(), "public", "data", "skills.json")
 
-    const profileData = JSON.parse(await fs.readFile(profilePath, "utf-8"))
-    const experiencesData = JSON.parse(await fs.readFile(experiencesPath, "utf-8"))
-    const educationData = JSON.parse(await fs.readFile(educationPath, "utf-8"))
-    const certificationsData = JSON.parse(await fs.readFile(certificationsPath, "utf-8"))
-    const skillsData = JSON.parse(await fs.readFile(skillsPath, "utf-8"))
+    const profileData = JSON.parse(await fs.readFile(profilePath, "utf-8")) as ProfileData
+    const experiencesData = JSON.parse(await fs.readFile(experiencesPath, "utf-8")) as ExperienceData
+    const educationData = JSON.parse(await fs.readFile(educationPath, "utf-8")) as EducationData
+    const certificationsData = JSON.parse(await fs.readFile(certificationsPath, "utf-8")) as string[]
+    const skillsData = JSON.parse(await fs.readFile(skillsPath, "utf-8")) as Skill[]
 
     // Usar os dados em português por padrão
     const profile = profileData.pt
@@ -38,12 +78,12 @@ ${profile.about}
 
 `
 
-    experiences.forEach((exp) => {
+    experiences.forEach((exp: Experience) => {
       markdown += `### ${exp.title}
 **${exp.company}** | ${exp.period}
 
 `
-      exp.responsibilities.forEach((resp) => {
+      exp.responsibilities.forEach((resp: string) => {
         markdown += `- ${resp}
 `
       })
@@ -54,7 +94,7 @@ ${profile.about}
 
 `
 
-    education.forEach((edu) => {
+    education.forEach((edu: Education) => {
       markdown += `### ${edu.degree}
 **${edu.institution}** | ${edu.period}
 
@@ -67,7 +107,7 @@ ${edu.description}
 
 `
 
-    certificationsData.forEach((cert) => {
+    certificationsData.forEach((cert: string) => {
       markdown += `- ${cert}
 `
     })
@@ -77,7 +117,7 @@ ${edu.description}
 
 `
 
-    skillsData.forEach((skill) => {
+    skillsData.forEach((skill: Skill) => {
       markdown += `- ${skill.name}: ${skill.percentage}%
 `
     })
