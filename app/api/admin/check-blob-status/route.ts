@@ -43,7 +43,7 @@ export async function GET() {
 
       // Criar um blob de teste
       const testContent = "Este é um arquivo de teste para verificar o Blob Storage."
-      const testKey = `test-${Date.now()}-${Math.random().toString(36).substring(2, 15)}.txt`
+      const testKey = `${BLOB_PREFIX}test-${Date.now()}-${Math.random().toString(36).substring(2, 15)}.txt`
 
       const blob = await put(testKey, testContent, {
         contentType: "text/plain",
