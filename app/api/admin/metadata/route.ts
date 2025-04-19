@@ -1,13 +1,19 @@
 import { NextResponse } from "next/server"
-import { saveToBlob, loadFromBlob } from "@/lib/blob-storage"
+import fs from "fs/promises"
+import path from "path"
 import { defaultMetadata, type SiteMetadata } from "@/types/metadata"
+
+const metadataPath = path.join(process.cwd(), "public", "data", "metadata.json")
 
 // Modificar a função GET para lidar melhor com erros
 
 export async function GET() {
   try {
-    // Carregar do sistema de armazenamento (Blob Storage ou arquivo local)
-    const metadataData = await loadFromBlob<SiteMetadata>("metadata", defaultMetadata)
+    let metadataData = defaultMetadata
+    try {
+      const file = await fs.readFile(metadataPath, "utf-8")
+      metadataData = JSON.parse(file)
+    } catch {}
     return NextResponse.json(metadataData)
   } catch (error) {
     console.error("Erro ao carregar metadados:", error)
@@ -26,16 +32,7 @@ export async function POST(request: Request) {
     }
 
     // Salvar no sistema de armazenamento (Blob Storage ou arquivo local)
-    const result = await saveToBlob("metadata", metadataData)
-
-    if (!result.success) {
-      return NextResponse.json(
-        {
-          error: result.error || "Erro ao salvar os metadados",
-        },
-        { status: 500 },
-      )
-    }
+    await fs.writeFile(metadataPath, JSON.stringify(metadataData, null, 2), "utf-8")
 
     return NextResponse.json({ success: true })
   } catch (error) {

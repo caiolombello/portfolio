@@ -1,0 +1,16 @@
+{
+  "id": "load-stress-tester",
+  "title": "Load Stress Tester Tool",
+  "category": "Application Development",
+  "imageUrl": "/placeholder.svg?height=300&width=500",
+  "shortDescription": "Ferramenta para testes de carga e estresse em aplicações web e APIs.",
+  "technologies": ["Python", "JavaScript", "Docker", "Redis"],
+  "fullDescription": "Aqui entra a descrição completa do projeto Load Stress Tester Tool, detalhando os desafios, a solução implementada com as tecnologias Python, JavaScript, Docker, Redis, e os resultados alcançados. Incluiria também diagramas ou mais imagens relevantes.",
+  "demoUrl": "#",
+  "repoUrl": "#",
+  "screenshots": [
+    "/placeholder.svg?height=300&width=600&text=Screenshot 1",
+    "/placeholder.svg?height=300&width=600&text=Screenshot 2",
+    "/placeholder.svg?height=300&width=600&text=Screenshot 3"
+  ]
+} 

@@ -1,0 +1,16 @@
+{
+  "id": "devops-self-service",
+  "title": "DevOps Self Service Platform",
+  "category": "Infrastructure Automation",
+  "imageUrl": "/placeholder.svg?height=300&width=500",
+  "shortDescription": "Plataforma self-service para equipes de desenvolvimento gerenciarem seus recursos de infraestrutura.",
+  "technologies": ["Kubernetes", "Docker", "React", "Node.js", "Go"],
+  "fullDescription": "Aqui entra a descrição completa do projeto DevOps Self Service Platform, detalhando os desafios, a solução implementada com as tecnologias Kubernetes, Docker, React, Node.js, Go, e os resultados alcançados. Incluiria também diagramas ou mais imagens relevantes.",
+  "demoUrl": "#",
+  "repoUrl": "#",
+  "screenshots": [
+    "/placeholder.svg?height=300&width=600&text=Screenshot 1",
+    "/placeholder.svg?height=300&width=600&text=Screenshot 2",
+    "/placeholder.svg?height=300&width=600&text=Screenshot 3"
+  ]
+} 

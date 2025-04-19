@@ -11,14 +11,26 @@ interface ProfileData {
   name: string
   title: string
   imageUrl?: string
+  socialLinks: {
+    github: string
+    linkedin: string
+    twitter: string
+    website: string
+  }
 }
 
 export default function Contact() {
   const { t, language } = useLanguage()
   const [profile, setProfile] = useState<ProfileData>({
-    name: "Caio Barbieri",
-    title: language === "pt" ? "Engenheiro DevOps Pleno" : "Senior DevOps Engineer",
+    name: "Caio Lombello Vendramini Barbieri",
+    title: language === "pt" ? "Engenheiro DevOps" : "DevOps Engineer",
     imageUrl: "/images/profile-ios.png",
+    socialLinks: {
+      github: "https://github.com/caiolombello",
+      linkedin: "https://linkedin.com/in/caiolvbarbieri",
+      twitter: "https://twitter.com/caiolombello",
+      website: "https://caio.lombello.com",
+    },
   })
 
   useEffect(() => {
@@ -29,7 +41,7 @@ export default function Contact() {
         if (response.ok) {
           const data = await response.json()
           if (data) {
-            const fullName = data[language]?.name || "Caio Barbieri"
+            const fullName = data[language]?.name || "Caio Lombello Vendramini Barbieri"
             const fullTitle = data[language]?.title || "Engenheiro DevOps"
             const mainTitle = fullTitle.split("|")[0].trim()
 
@@ -37,6 +49,12 @@ export default function Contact() {
               name: fullName,
               title: mainTitle,
               imageUrl: data.imageUrl || "/images/profile-ios.png",
+              socialLinks: {
+                github: data.socialLinks?.github || "https://github.com/caiolombello",
+                linkedin: data.socialLinks?.linkedin || "https://linkedin.com/in/caiolvbarbieri",
+                twitter: data.socialLinks?.twitter || "https://twitter.com/caiolombello",
+                website: data.socialLinks?.website || "https://caio.lombello.com",
+              },
             })
           }
         }

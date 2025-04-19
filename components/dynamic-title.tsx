@@ -6,8 +6,8 @@ import { useLanguage } from "@/contexts/language-context"
 export default function DynamicTitle() {
   const { language } = useLanguage()
   const [profile, setProfile] = useState({
-    name: "Caio Barbieri",
-    title: language === "pt" ? "Engenheiro DevOps Pleno" : "Senior DevOps Engineer",
+    name: "Caio Lombello Vendramini Barbieri",
+    title: language === "pt" ? "Engenheiro DevOps" : "DevOps Engineer",
   })
 
   useEffect(() => {

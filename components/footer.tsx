@@ -42,26 +42,40 @@ export default function Footer() {
   useEffect(() => {
     async function fetchProfile() {
       try {
-        const timestamp = new Date().getTime()
-        const response = await fetch(`/api/public/profile?t=${timestamp}`)
+        const response = await fetch("/api/public/profile")
         if (response.ok) {
-          const data: ProfileData = await response.json()
-
-          // Extrair o nome com base no idioma atual
-          const fullName = data[language === "es" ? "en" : language]?.name || "Portfolio"
-          const shortName = fullName.split(" ").slice(0, 2).join(" ")
-          setProfileName(shortName)
-
-          // Extrair links de redes sociais
-          if (data.socialLinks) {
-            setSocialLinks(data.socialLinks)
+          const data = await response.json()
+          if (data) {
+            const fullName = data[language]?.name || "Caio Lombello Vendramini Barbieri"
+            const nameParts = fullName.split(" ")
+            const shortName = nameParts.length > 1 ? `${nameParts[0]} ${nameParts[nameParts.length - 1]}` : fullName
+            setProfileName(shortName)
+            setSocialLinks({
+              github: data.socialLinks?.github || "https://github.com/caiolombello",
+              linkedin: data.socialLinks?.linkedin || "https://linkedin.com/in/caiolvbarbieri",
+              twitter: data.socialLinks?.twitter || "https://twitter.com/caiolombello",
+              instagram: data.socialLinks?.instagram || "https://instagram.com/caiolombello",
+              website: data.socialLinks?.website || "https://caio.lombello.com",
+              whatsapp: data.socialLinks?.whatsapp || "https://wa.me/5519997536692",
+            })
           }
         }
       } catch (error) {
-        console.error("Erro ao buscar dados do perfil:", error)
+        // fallback para nome e links fixos
+        const fullName = "Caio Lombello Vendramini Barbieri"
+        const nameParts = fullName.split(" ")
+        const shortName = nameParts.length > 1 ? `${nameParts[0]} ${nameParts[nameParts.length - 1]}` : fullName
+        setProfileName(shortName)
+        setSocialLinks({
+          github: "https://github.com/caiolombello",
+          linkedin: "https://linkedin.com/in/caiolvbarbieri",
+          twitter: "https://twitter.com/caiolombello",
+          instagram: "https://instagram.com/caiolombello",
+          website: "https://caio.lombello.com",
+          whatsapp: "https://wa.me/5519997536692",
+        })
       }
     }
-
     fetchProfile()
   }, [language])
 

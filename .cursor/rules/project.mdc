@@ -1,0 +1,120 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Portfolio Website Architecture Documentation
+
+## Overview
+This document describes the architecture and guidelines for Caio Lombello Vendramini Barbieri's professional portfolio website.
+
+## Core Technologies
+- Next.js 14+ with App Router
+- React 19+
+- TypeScript
+- Tailwind CSS
+- shadcn/ui components
+- Vercel Blob Storage
+- i18n (English, Portuguese, Spanish)
+
+## Project Structure
+
+### Components (`/components`)
+- Server Components are default
+- Client Components must use 'use client' directive
+- UI components follow these patterns:
+  - Base components in `/components`
+  - Reusable primitives in `/components/ui` (shadcn/ui based)
+  - Must use Tailwind CSS for styling
+  - Must be properly typed with TypeScript
+  - Should be responsive and accessible
+
+### Data Management
+#### Primary Data Source (`/public/data/`)
+- JSON files store core content:
+  - Profile information
+  - Professional experience
+  - Education details
+  - Skills and certifications
+  - Projects
+  - Blog posts
+- Each data type has corresponding TypeScript types in `/types/`
+- Changes to data structure must be reflected in both JSON and TypeScript types
+
+#### Blob Storage Integration (`/lib/blob-storage.ts`)
+- Primary storage for admin functions
+- Fallback system for local JSON files
+- Core operations:
+  - save: Store new content
+  - load: Retrieve content
+  - list: Enumerate stored items
+  - exists: Verify content existence
+- Implementation follows Blob-first, local-fallback pattern
+
+### API Structure (`/app/api/`)
+#### Public Routes (`/api/public/*`)
+- Serve content from `/public/data/` or Blob Storage
+- Read-only operations
+- Must implement proper error handling
+- Should include appropriate caching strategies
+
+#### Admin Routes (`/api/admin/*`)
+- Protected endpoints for content management
+- Interact with Blob Storage for persistence
+- Require authentication
+- Must implement proper validation
+
+#### Special Routes
+- `/api/medium/posts`: Fetches blog posts from Medium RSS
+- Dynamic markdown generation: `/app/[page].html.md/route.ts`
+
+### Internationalization (`/app/i18n/`)
+- Dictionaries in `/app/i18n/dictionaries/`
+  - `en.json`: English translations
+  - `pt.json`: Portuguese translations
+  - `es.json`: Spanish translations
+- Configuration in `settings.ts`
+- Helper functions in `index.ts`
+- Use `getDictionary` function for translations
+
+### Styling
+- Primary: Tailwind CSS utility classes
+- Global styles: `app/globals.css`
+- Configuration: `tailwind.config.ts`
+- Custom theme colors defined in config
+- Animations: `tailwindcss-animate` plugin
+- Must maintain consistent design system
+
+### Utility Functions (`/lib/`)
+- `profile.ts`: Core profile data loading
+- `data.ts`: General data management
+- `site-metadata.ts`: Dynamic metadata generation
+- `medium.ts`: Blog post fetching
+- `utils.ts`: Common utilities (class merging, slug generation)
+
+### Configuration Files
+- `next.config.mjs`: Next.js configuration
+- `tsconfig.json`: TypeScript settings
+- `postcss.config.mjs`: PostCSS configuration
+- `components.json`: shadcn/ui settings
+
+### Assets and Resources
+- Dynamic favicon generation in `/app`
+- Icons served through API routes
+- Media assets managed through Blob Storage
+
+## Best Practices
+1. Always use TypeScript for type safety
+2. Prefer Server Components unless client-side interactivity is needed
+3. Follow shadcn/ui patterns for component development
+4. Implement responsive design using Tailwind breakpoints
+5. Maintain i18n translations for all user-facing text
+6. Use Blob Storage for dynamic content
+7. Implement proper error handling and loading states
+8. Follow Next.js App Router conventions
+9. Keep components small and focused
+10. Document complex logic and important decisions
+
+## Deprecated
+- Root `/data/*.ts` files are deprecated
+- Use `/public/data/*.json` and corresponding API routes instead

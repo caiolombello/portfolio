@@ -1,0 +1,14 @@
+[
+  { "name": "Python", "category": "Linguagens", "level": "Avançado" },
+  { "name": "Golang", "category": "Linguagens", "level": "Proficiente" },
+  { "name": "Kubernetes", "category": "Cloud/Infra", "level": "Experiente" },
+  { "name": "AWS", "category": "Cloud/Infra", "level": "Experiente" },
+  { "name": "Terraform", "category": "Cloud/Infra", "level": "Proficiente" },
+  { "name": "GitLab CI", "category": "CI/CD", "level": "Experiente" },
+  { "name": "Prometheus", "category": "Observabilidade", "level": "Proficiente" },
+  { "name": "Grafana", "category": "Observabilidade", "level": "Proficiente" },
+  { "name": "Ansible", "category": "Cloud/Infra", "level": "Familiarizado" },
+  { "name": "Docker", "category": "Cloud/Infra", "level": "Experiente" },
+  { "name": "Bash", "category": "Linguagens", "level": "Experiente" }
+]
+

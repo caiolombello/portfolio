@@ -8,38 +8,24 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { LanguageProvider } from "@/contexts/language-context"
 import { AuthProvider } from "@/contexts/auth-context"
 import DynamicTitle from "@/components/dynamic-title"
-import { getBlob } from "@/lib/blob-storage"
 
 const inter = Inter({ subsets: ["latin"] })
 
+// Função para obter configurações do site apenas de dados locais ou valores padrão
 async function getSiteSettings() {
-  try {
-    const settings = await getBlob("settings.json")
-    if (!settings) {
-      return {
-        siteName: "Caio Barbieri",
-        baseUrl: "https://caio.lombello.com",
-        contactEmail: "caio@lombello.com",
-        socialLinks: {
-          github: "https://github.com/caiolombello",
-          linkedin: "https://linkedin.com/in/caiolvbarbieri",
-          twitter: "https://x.com/caiolombello",
-        },
-      }
-    }
-    return JSON.parse(settings)
-  } catch (error) {
-    console.error("Erro ao carregar configurações:", error)
-    return {
-      siteName: "Caio Barbieri",
-      baseUrl: "https://caio.lombello.com",
-      contactEmail: "caio@lombello.com",
-      socialLinks: {
-        github: "https://github.com/caiolombello",
-        linkedin: "https://linkedin.com/in/caiolombello",
-        twitter: "https://x.com/caiolombello",
-      },
-    }
+  // Aqui você pode ler de um arquivo local se quiser, por exemplo:
+  // const settingsPath = path.join(process.cwd(), "public/data/settings.json")
+  // if (fs.existsSync(settingsPath)) { ... }
+  // Por enquanto, retorna valores padrão:
+  return {
+    siteName: "Caio Lombello Vendramini Barbieri",
+    baseUrl: "https://caio.lombello.com",
+    contactEmail: "caio@lombello.com",
+    socialLinks: {
+      github: "https://github.com/caiolombello",
+      linkedin: "https://linkedin.com/in/caiolvbarbieri",
+      twitter: "https://twitter.com/caiolombello",
+    },
   }
 }
 
@@ -50,14 +36,14 @@ export const viewport: Viewport = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings()
-  const seoSettings = await getBlob("seo.json")
+  // Removido: const seoSettings = await getBlob("seo.json")
 
   let metadata: Metadata = {
     title: {
       default: settings.siteName,
       template: `%s | ${settings.siteName}`,
     },
-    description: "Portfólio de Caio Barbieri, DevOps & Cloud Engineer",
+    description: "Portfólio de Caio Lombello Vendramini Barbieri, DevOps & Cloud Engineer",
     keywords: [
       "DevOps",
       "Cloud",
@@ -69,9 +55,9 @@ export async function generateMetadata(): Promise<Metadata> {
       "Software",
       "Engenharia",
     ],
-    authors: [{ name: "Caio Barbieri" }],
-    creator: "Caio Barbieri",
-    publisher: "Caio Barbieri",
+    authors: [{ name: "Caio Lombello Vendramini Barbieri" }],
+    creator: "Caio Lombello Vendramini Barbieri",
+    publisher: "Caio Lombello Vendramini Barbieri",
     robots: {
       index: true,
       follow: true,
@@ -88,7 +74,7 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: "pt_BR",
       url: settings.baseUrl,
       title: settings.siteName,
-      description: "Portfólio de Caio Barbieri, DevOps & Cloud Engineer",
+      description: "Portfólio de Caio Lombello Vendramini Barbieri, DevOps & Cloud Engineer",
       siteName: settings.siteName,
       images: [
         {
@@ -102,7 +88,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: settings.siteName,
-      description: "Portfólio de Caio Barbieri, DevOps & Cloud Engineer",
+      description: "Portfólio de Caio Lombello Vendramini Barbieri, DevOps & Cloud Engineer",
       images: [`${settings.baseUrl}/og-image.jpg`],
       creator: "@caiolombello",
     },
@@ -122,17 +108,7 @@ export async function generateMetadata(): Promise<Metadata> {
     generator: "Next.js",
   }
 
-  if (seoSettings) {
-    try {
-      const seo = JSON.parse(seoSettings)
-      metadata = {
-        ...metadata,
-        ...seo,
-      }
-    } catch (error) {
-      console.error("Erro ao carregar configurações de SEO:", error)
-    }
-  }
+  // Removido: uso de seoSettings
 
   return metadata
 }
@@ -173,12 +149,12 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "Caio Barbieri",
+              name: "Caio Lombello Vendramini Barbieri",
               url: "https://caio.lombello.com",
               sameAs: [
                 "https://github.com/caiolombello",
-                "https://linkedin.com/in/caiolombello",
-                "https://x.com/caiolombello",
+                "https://linkedin.com/in/caiolvbarbieri",
+                "https://twitter.com/caiolombello",
               ],
               jobTitle: "DevOps & Cloud Engineer",
               worksFor: {

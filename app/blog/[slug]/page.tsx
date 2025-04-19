@@ -5,24 +5,8 @@ import { ArrowLeft } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { generatePageMetadata } from "@/components/seo/page-seo"
 import type { Metadata } from "next"
-
-interface BlogPost {
-  id: string
-  title: string
-  slug: string
-  excerpt: string
-  content: string
-  coverImage?: string
-  date: string
-  author: {
-    name: string
-    avatar?: string
-  }
-  tags: string[]
-  published: boolean
-  createdAt: string
-  updatedAt: string
-}
+import { getPostBySlug, BlogPost } from "@/lib/data"
+import { marked } from "marked"
 
 type PageProps = {
   params: Promise<{
@@ -33,27 +17,9 @@ type PageProps = {
   }>
 }
 
-async function getPost(slug: string): Promise<BlogPost | null> {
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/medium/posts`, {
-      next: { revalidate: 3600 }, // Revalidar a cada hora
-    })
-    
-    if (!response.ok) {
-      return null
-    }
-    
-    const posts = await response.json()
-    return posts.find((post: any) => post.slug === slug) || null
-  } catch (error) {
-    console.error("Error fetching post:", error)
-    return null
-  }
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const post = await getPost(slug)
+  const post = getPostBySlug(slug)
   
   if (!post) {
     return {
@@ -64,18 +30,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   
   return generatePageMetadata({
     title: post.title,
-    description: post.excerpt,
+    description: post.summary,
     path: `/blog/${post.slug}`,
-    ogImage: post.coverImage,
+    ogImage: post.imageUrl,
     type: "article",
-    publishedTime: post.date,
-    tags: [...post.tags, "blog", "artigo"],
+    publishedTime: post.publicationDate,
+    tags: [post.category, "blog", "artigo"],
   })
 }
 
-export default async function BlogPost({ params }: PageProps) {
+export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params
-  const post = await getPost(slug)
+  const post = getPostBySlug(slug)
   
   if (!post) {
     notFound()
@@ -101,21 +67,21 @@ export default async function BlogPost({ params }: PageProps) {
       <article className="mx-auto max-w-3xl">
         <div className="mb-6">
           <div className="mb-4 flex items-center gap-3">
-            {post.tags.map((tag) => (
-              <span key={tag} className="rounded-full bg-secondary px-3 py-1 text-sm text-muted-foreground">
-                {tag}
+            {post.category && (
+              <span className="rounded-full bg-secondary px-3 py-1 text-sm text-muted-foreground">
+                {post.category}
               </span>
-            ))}
-            <time className="text-sm text-muted-foreground">{formatDate(post.date)}</time>
+            )}
+            <time className="text-sm text-muted-foreground">{formatDate(post.publicationDate)}</time>
           </div>
 
           <h1 className="mb-6 text-3xl font-bold text-gold md:text-4xl">{post.title}</h1>
         </div>
 
-        {post.coverImage && (
+        {post.imageUrl && (
           <div className="relative mb-8 aspect-video w-full overflow-hidden rounded-lg">
             <Image
-              src={post.coverImage}
+              src={post.imageUrl}
               alt={post.title}
               fill
               className="object-cover"
@@ -128,7 +94,7 @@ export default async function BlogPost({ params }: PageProps) {
           <CardContent className="pt-6">
             <div 
               className="prose prose-invert max-w-none prose-headings:text-gold prose-a:text-gold"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: marked.parse(post.content) }}
             />
           </CardContent>
         </Card>

@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { getBlob } from "@/lib/blob-storage"
 import { Project } from "@/types/project"
 import { PortfolioGrid } from "@/components/portfolio-grid"
+import { getAllProjects } from "@/lib/data"
 
 type PageProps = {
   params: Promise<{
@@ -25,12 +25,7 @@ export default async function PortfolioPage({ params }: PageProps) {
     notFound()
   }
 
-  const projectsData = await getBlob("projects.json")
-  if (!projectsData) {
-    return <div>Nenhum projeto encontrado</div>
-  }
-
-  const projects: Project[] = JSON.parse(projectsData)
+  const projects: Project[] = getAllProjects()
   const itemsPerPage = 9
   const startIndex = (pageNum - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage

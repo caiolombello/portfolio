@@ -27,10 +27,11 @@ ${profile.title}
 
 ### Redes Sociais
 
-- LinkedIn: https://linkedin.com
-- GitHub: https://github.com
-- Twitter: https://twitter.com
-- Instagram: https://instagram.com
+- LinkedIn: https://linkedin.com/in/caiolvbarbieri
+- GitHub: https://github.com/caiolombello
+- Twitter: https://twitter.com/caiolombello
+- Instagram: https://instagram.com/caiolombello
+- Website: https://caio.lombello.com
 
 ### Agendar Reunião
 

@@ -1,12 +1,14 @@
 {
   "name": "Caio Lombello Vendramini Barbieri",
-  "title": "Senior DevOps Engineer | Cloud Native | Kubernetes | AI for DevOps",
+  "title": "DevOps Engineer | Cloud Native | Kubernetes | AI for DevOps",
   "about": "About Me",
   "resume": "Resume",
+  "resume.title": "Resume",
+  "resume.aboutDescription": "DevOps Engineer with expertise in Cloud Native, Observability, infrastructure automation, and CI/CD. Solid experience in creating GitOps and DevSecOps pipelines, as well as integrating Artificial Intelligence into operations. Advanced skills in Python, Golang, and Kubernetes, delivering secure, scalable, and high-performance solutions. Focused on innovation and operational efficiency.",
+  "resume.download": "Download",
   "portfolio": "Portfolio",
   "blog": "Blog",
   "contact": "Contact",
-  "aboutDescription": "Senior DevOps Engineer with expertise in Cloud Native, Observability, infrastructure automation, and CI/CD. Solid experience in creating GitOps and DevSecOps pipelines, as well as integrating Artificial Intelligence into operations. Advanced skills in Python, Golang, and Kubernetes, delivering secure, scalable, and high-performance solutions. Focused on innovation and operational efficiency.",
   "mainSkills": "Main Skills",
   "education": "Education",
   "experience": "Experience",
@@ -55,7 +57,6 @@
   "downloadAs": "Download as",
   "pdfFormat": "PDF",
   "markdownFormat": "Markdown",
-  "generating": "Generating...",
-  "download": "Download"
+  "generating": "Generating..."
 }
 

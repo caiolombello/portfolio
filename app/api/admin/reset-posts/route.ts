@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
-import { put } from "@vercel/blob"
-import { getBlob } from "@/lib/blob-storage"
+import fs from "fs/promises"
+import path from "path"
+
+const postsPath = path.join(process.cwd(), "public", "data", "posts.json")
 
 // Dados padrão para usar em caso de erro na leitura do arquivo
 const defaultPosts = [
@@ -26,40 +28,26 @@ const defaultPosts = [
 
 export async function GET() {
   try {
-    // Tentar fazer backup do arquivo atual, mas não falhar se não conseguir
+    let posts = defaultPosts
     try {
-      const currentBlob = await getBlob("posts.json")
-      if (currentBlob) {
-        const backupName = `posts.json.backup-${Date.now()}`
-        await put(backupName, currentBlob, {
-          access: "public",
-        })
-        console.log(`Backup do arquivo atual salvo como ${backupName}`)
-      }
-    } catch (error) {
-      console.error("Erro ao fazer backup:", error)
-    }
-
-    // Criar um novo arquivo com dados padrão
-    const jsonString = JSON.stringify(defaultPosts, null, 2)
-    await put("posts.json", jsonString, {
-      access: "public",
-    })
-
-    console.log("Arquivo de posts resetado com dados padrão")
-
-    return NextResponse.json({
-      success: true,
-      message: "Arquivo de posts resetado com sucesso",
-    })
+      const file = await fs.readFile(postsPath, "utf-8")
+      posts = JSON.parse(file)
+    } catch {}
+    return NextResponse.json(posts)
   } catch (error) {
-    console.error("Erro ao resetar arquivo de posts:", error)
-    return NextResponse.json(
-      {
-        error: "Erro ao resetar arquivo de posts",
-      },
-      { status: 500 },
-    )
+    console.error("Erro ao carregar posts:", error)
+    return NextResponse.json(defaultPosts)
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const postsData = await request.json()
+    await fs.writeFile(postsPath, JSON.stringify(postsData, null, 2), "utf-8")
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error("Erro ao salvar posts:", error)
+    return NextResponse.json({ error: "Erro ao salvar posts" }, { status: 500 })
   }
 }
 

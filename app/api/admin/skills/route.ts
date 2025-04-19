@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server"
-import { saveToBlob, loadFromBlob } from "@/lib/blob-storage"
 
 // Dados padrão para habilidades
 const defaultSkills = [
@@ -14,9 +13,7 @@ const defaultSkills = [
 
 export async function GET() {
   try {
-    // Carregar do sistema de armazenamento (Blob Storage ou arquivo local)
-    const skillsData = await loadFromBlob("skills", defaultSkills)
-    return NextResponse.json(skillsData)
+    return NextResponse.json(defaultSkills)
   } catch (error) {
     console.error("Erro ao carregar habilidades:", error)
     return NextResponse.json(defaultSkills)

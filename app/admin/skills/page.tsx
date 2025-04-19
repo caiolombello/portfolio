@@ -12,8 +12,25 @@ import { useAuth } from "@/contexts/auth-context"
 
 interface Skill {
   name: string
-  percentage: number
+  category: string
+  level: "Avançado" | "Experiente" | "Proficiente" | "Familiarizado"
 }
+
+const CATEGORY_OPTIONS = [
+  "Linguagens",
+  "Cloud/Infra",
+  "CI/CD",
+  "Observabilidade",
+  "Ferramentas",
+  "Metodologias"
+]
+
+const LEVEL_OPTIONS = [
+  "Avançado",
+  "Experiente",
+  "Proficiente",
+  "Familiarizado"
+]
 
 export default function AdminSkills() {
   const [skills, setSkills] = useState<Skill[]>([])
@@ -54,7 +71,10 @@ export default function AdminSkills() {
   }, [toast, isAuthenticated])
 
   const handleAddSkill = () => {
-    setSkills([...skills, { name: "", percentage: 50 }])
+    setSkills([
+      ...skills,
+      { name: "", category: CATEGORY_OPTIONS[0], level: LEVEL_OPTIONS[2] as "Avançado" | "Proficiente" | "Experiente" | "Familiarizado" }
+    ])
   }
 
   const handleRemoveSkill = (index: number) => {
@@ -63,11 +83,11 @@ export default function AdminSkills() {
     setSkills(newSkills)
   }
 
-  const handleSkillChange = (index: number, field: keyof Skill, value: string | number) => {
+  const handleSkillChange = (index: number, field: keyof Skill, value: string) => {
     const newSkills = [...skills]
     newSkills[index] = {
       ...newSkills[index],
-      [field]: field === "percentage" ? Math.min(100, Math.max(0, Number(value))) : value,
+      [field]: value,
     }
     setSkills(newSkills)
   }
@@ -147,15 +167,27 @@ export default function AdminSkills() {
                         required
                       />
                     </div>
-                    <div className="w-20">
-                      <Input
-                        type="number"
-                        min="0"
-                        max="100"
-                        value={skill.percentage}
-                        onChange={(e) => handleSkillChange(index, "percentage", e.target.value)}
-                        required
-                      />
+                    <div className="w-40">
+                      <select
+                        className="w-full rounded border px-2 py-1 text-sm"
+                        value={skill.category}
+                        onChange={(e) => handleSkillChange(index, "category", e.target.value)}
+                      >
+                        {CATEGORY_OPTIONS.map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="w-40">
+                      <select
+                        className="w-full rounded border px-2 py-1 text-sm"
+                        value={skill.level}
+                        onChange={(e) => handleSkillChange(index, "level", e.target.value)}
+                      >
+                        {LEVEL_OPTIONS.map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                      </select>
                     </div>
                     <Button
                       type="button"

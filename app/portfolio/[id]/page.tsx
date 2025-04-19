@@ -1,10 +1,11 @@
-import { projects } from "@/data/projects"
 import { notFound } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { generatePageMetadata } from "@/components/seo/page-seo"
 import type { Metadata } from "next"
+import { Project } from "@/types/project"
+import { getProjectById } from "@/lib/data"
 
 interface ProjectPageProps {
   params: Promise<{
@@ -14,7 +15,7 @@ interface ProjectPageProps {
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
   const { id } = await params;
-  const project = projects.find((p) => p.id === id)
+  const project = getProjectById(id)
 
   if (!project) {
     return {
@@ -24,10 +25,10 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   }
 
   return generatePageMetadata({
-    title: `${project.title} | Portfólio`,
-    description: project.shortDescription,
+    title: `${project.title ?? ""} | Portfólio`,
+    description: project.shortDescription ?? "",
     path: `/portfolio/${project.id}`,
-    ogImage: project.imageUrl,
+    ogImage: project.imageUrl ?? "",
     type: "article",
     tags: [project.category, "portfolio", "projeto"],
   })
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params;
-  const project = projects.find((p) => p.id === id)
+  const project = getProjectById(id)
 
   if (!project) {
     notFound()
@@ -51,8 +52,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <div className="relative aspect-video overflow-hidden rounded-lg border border-border/40">
           <Image
-            src={project.imageUrl || "/placeholder.svg"}
-            alt={project.title}
+            src={project.imageUrl ?? "/placeholder.svg"}
+            alt={project.title ?? ""}
             fill
             className="object-cover"
             priority
@@ -72,14 +73,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <h2 className="mb-4 text-xl font-semibold text-foreground">Detalhes do Projeto</h2>
 
             <p className="mb-4 text-muted-foreground">
-              Este é um placeholder para a descrição detalhada do projeto. Em um site real, aqui seriam incluídas
-              informações como objetivos, tecnologias utilizadas, desafios enfrentados e resultados obtidos.
+              {project.description}
             </p>
 
             <h3 className="mb-2 text-lg font-medium text-foreground">Tecnologias Utilizadas:</h3>
 
             <div className="mb-4 flex flex-wrap gap-2">
-              {["AWS", "Terraform", "Docker", "Kubernetes", "Python"].map((tech) => (
+              {project.technologies.map((tech) => (
                 <span key={tech} className="rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground">
                   {tech}
                 </span>
@@ -87,13 +87,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </div>
 
             <div className="flex gap-4">
-              <Link href="#" className="inline-flex items-center text-gold hover:underline">
-                Ver Demonstração
-              </Link>
-
-              <Link href="#" className="inline-flex items-center text-gold hover:underline">
-                Repositório GitHub
-              </Link>
+              {project.liveUrl && (
+                <Link href={project.liveUrl} className="inline-flex items-center text-gold hover:underline">
+                  Ver Demonstração
+                </Link>
+              )}
+              {project.githubUrl && (
+                <Link href={project.githubUrl} className="inline-flex items-center text-gold hover:underline">
+                  Repositório GitHub
+                </Link>
+              )}
             </div>
           </div>
         </div>

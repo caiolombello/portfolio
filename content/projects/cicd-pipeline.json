@@ -1,0 +1,16 @@
+{
+  "id": "cicd-pipeline",
+  "title": "Applications CI/CD Pipeline",
+  "category": "CI/CD Pipeline Development",
+  "imageUrl": "/placeholder.svg?height=300&width=500",
+  "shortDescription": "Pipeline de CI/CD completo para aplicações web modernas.",
+  "technologies": ["Jenkins", "Docker", "Kubernetes", "GitLab CI", "Ansible"],
+  "fullDescription": "Aqui entra a descrição completa do projeto Applications CI/CD Pipeline, detalhando os desafios, a solução implementada com as tecnologias Jenkins, Docker, Kubernetes, GitLab CI, Ansible, e os resultados alcançados. Incluiria também diagramas ou mais imagens relevantes.",
+  "demoUrl": "#",
+  "repoUrl": "#",
+  "screenshots": [
+    "/placeholder.svg?height=300&width=600&text=Screenshot 1",
+    "/placeholder.svg?height=300&width=600&text=Screenshot 2",
+    "/placeholder.svg?height=300&width=600&text=Screenshot 3"
+  ]
+} 

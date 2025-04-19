@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next"
-import { getBlob } from "@/lib/blob-storage"
+import fs from "fs"
+import path from "path"
+import matter from "gray-matter"
 
 type ChangeFrequency = "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never"
 
@@ -48,28 +50,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Adicionar páginas de projetos
   let projectPages: { url: string; lastModified: Date }[] = []
-  const projectsBlob = await getBlob("projects.json")
-  if (projectsBlob) {
-    const projectsData = JSON.parse(projectsBlob)
-    projectPages = projectsData.map((project: any) => ({
-      url: `${baseUrl}/portfolio/${project.id}`,
-      lastModified: new Date(project.updatedAt || project.createdAt || new Date()),
-    }))
+  try {
+    const projectsDir = path.join(process.cwd(), "content/projects")
+    const projectFiles = fs.readdirSync(projectsDir).filter(f => f.endsWith(".json"))
+    projectPages = projectFiles.map((file) => {
+      const filePath = path.join(projectsDir, file)
+      const data = JSON.parse(fs.readFileSync(filePath, "utf-8"))
+      return {
+        url: `${baseUrl}/portfolio/${data.id}`,
+        lastModified: new Date(),
+      }
+    })
+  } catch (error) {
+    console.error("Erro ao carregar projetos para sitemap:", error)
   }
 
   // Carregar posts do blog dinâmicos
   let blogPages: MetadataRoute.Sitemap = []
   try {
-    const postsBlob = await getBlob("posts.json")
-    if (postsBlob) {
-      const postsData = JSON.parse(postsBlob)
-      blogPages = postsData.map((post: any) => ({
-        url: `${baseUrl}/blog/${post.id}`,
-        lastModified: new Date(post.publicationDate),
+    const postsDir = path.join(process.cwd(), "content/posts")
+    const postFiles = fs.readdirSync(postsDir).filter(f => f.endsWith(".md"))
+    blogPages = postFiles.map((file) => {
+      const filePath = path.join(postsDir, file)
+      const raw = fs.readFileSync(filePath, "utf-8")
+      const { data } = matter(raw)
+      return {
+        url: `${baseUrl}/blog/${file.replace(/\.md$/, "")}`,
+        lastModified: new Date(data.publicationDate),
         changeFrequency: "monthly" as ChangeFrequency,
         priority: 0.7,
-      }))
-    }
+      }
+    })
   } catch (error) {
     console.error("Erro ao carregar posts para sitemap:", error)
   }

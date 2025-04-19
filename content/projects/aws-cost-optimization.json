@@ -1,0 +1,16 @@
+{
+  "id": "aws-cost-optimization",
+  "title": "AWS Cost Optimization",
+  "category": "Cloud Management",
+  "imageUrl": "/placeholder.svg?height=300&width=500",
+  "shortDescription": "Ferramenta para otimização de custos na AWS, reduzindo despesas em até 40%.",
+  "technologies": ["AWS", "Python", "Terraform", "CloudWatch"],
+  "fullDescription": "Aqui entra a descrição completa do projeto AWS Cost Optimization, detalhando os desafios, a solução implementada com as tecnologias AWS, Python, Terraform, CloudWatch, e os resultados alcançados. Incluiria também diagramas ou mais imagens relevantes.",
+  "demoUrl": "#",
+  "repoUrl": "#",
+  "screenshots": [
+    "/placeholder.svg?height=300&width=600&text=Screenshot 1",
+    "/placeholder.svg?height=300&width=600&text=Screenshot 2",
+    "/placeholder.svg?height=300&width=600&text=Screenshot 3"
+  ]
+} 

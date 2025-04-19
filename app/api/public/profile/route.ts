@@ -10,23 +10,23 @@ const BLOB_PREFIX = "portfolio-data/"
 const defaultProfile = {
   pt: {
     name: "Caio Lombello Vendramini Barbieri",
-    title: "Engenheiro DevOps Pleno | Cloud Native | Kubernetes | IA para DevOps",
+    title: "Engenheiro DevOps | Cloud Native | Kubernetes | IA para DevOps",
     email: "caio@lombello.com",
     phone: "+55 (19) 99753-6692",
     location: "Campinas, São Paulo, Brasil",
     birthDate: "16 de dezembro de 2002",
     about:
-      "Engenheiro DevOps Pleno com expertise em Cloud Native, Observabilidade, automação de infraestrutura e CI/CD. Experiência sólida na criação de pipelines GitOps e DevSecOps, além da integração de Inteligência Artificial em operações. Habilidade avançada em Python, Golang e Kubernetes, entregando soluções seguras, escaláveis e de alta performance. Focado em inovação e eficiência operacional.",
+      "Engenheiro DevOps com expertise em Cloud Native, Observabilidade, automação de infraestrutura e CI/CD. Experiência sólida na criação de pipelines GitOps e DevSecOps, além da integração de Inteligência Artificial em operações. Habilidade avançada em Python, Golang e Kubernetes, entregando soluções seguras, escaláveis e de alta performance. Focado em inovação e eficiência operacional.",
   },
   en: {
     name: "Caio Lombello Vendramini Barbieri",
-    title: "Senior DevOps Engineer | Cloud Native | Kubernetes | AI for DevOps",
+    title: "DevOps Engineer | Cloud Native | Kubernetes | AI for DevOps",
     email: "caio@lombello.com",
     phone: "+55 (19) 99753-6692",
     location: "Campinas, São Paulo, Brazil",
     birthDate: "December 16, 2002",
     about:
-      "Senior DevOps Engineer with expertise in Cloud Native, Observability, infrastructure automation, and CI/CD. Solid experience in creating GitOps and DevSecOps pipelines, as well as integrating Artificial Intelligence into operations. Advanced skills in Python, Golang, and Kubernetes, delivering secure, scalable, and high-performance solutions. Focused on innovation and operational efficiency.",
+      "DevOps Engineer with expertise in Cloud Native, Observability, infrastructure automation, and CI/CD. Solid experience in creating GitOps and DevSecOps pipelines, as well as integrating Artificial Intelligence into operations. Advanced skills in Python, Golang, and Kubernetes, delivering secure, scalable, and high-performance solutions. Focused on innovation and operational efficiency.",
   },
   imageUrl: "/images/profile-ios.png", // Imagem padrão
   socialLinks: {

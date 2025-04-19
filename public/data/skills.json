@@ -1,10 +1,95 @@
-[
-  { "name": "Python & Golang", "percentage": 90 },
-  { "name": "Kubernetes & Container Orchestration", "percentage": 85 },
-  { "name": "CI/CD Pipeline Automation", "percentage": 90 },
-  { "name": "Infrastructure as Code (IaC)", "percentage": 85 },
-  { "name": "Cloud Native & AWS", "percentage": 90 },
-  { "name": "Monitoring & Observability", "percentage": 80 },
-  { "name": "Artificial Intelligence (AI)", "percentage": 75 }
-]
-
+{
+  "pt": [
+    {
+      "id": "1",
+      "category": "Linguagens",
+      "skills": [
+        { "name": "Python", "level": "Avançado" },
+        { "name": "JavaScript", "level": "Experiente" },
+        { "name": "TypeScript", "level": "Experiente" },
+        { "name": "Golang", "level": "Proficiente" }
+      ]
+    },
+    {
+      "id": "2",
+      "category": "Cloud/Infra",
+      "skills": [
+        { "name": "AWS", "level": "Avançado" },
+        { "name": "Kubernetes", "level": "Avançado" },
+        { "name": "Terraform", "level": "Experiente" },
+        { "name": "Docker", "level": "Experiente" }
+      ]
+    },
+    {
+      "id": "3",
+      "category": "CI/CD",
+      "skills": [
+        { "name": "GitHub Actions", "level": "Avançado" },
+        { "name": "Jenkins", "level": "Experiente" },
+        { "name": "Argo CD", "level": "Proficiente" }
+      ]
+    }
+  ],
+  "en": [
+    {
+      "id": "1",
+      "category": "Languages",
+      "skills": [
+        { "name": "Python", "level": "Advanced" },
+        { "name": "JavaScript", "level": "Experienced" },
+        { "name": "TypeScript", "level": "Experienced" },
+        { "name": "Golang", "level": "Proficient" }
+      ]
+    },
+    {
+      "id": "2",
+      "category": "Cloud/Infra",
+      "skills": [
+        { "name": "AWS", "level": "Advanced" },
+        { "name": "Kubernetes", "level": "Advanced" },
+        { "name": "Terraform", "level": "Experienced" },
+        { "name": "Docker", "level": "Experienced" }
+      ]
+    },
+    {
+      "id": "3",
+      "category": "CI/CD",
+      "skills": [
+        { "name": "GitHub Actions", "level": "Advanced" },
+        { "name": "Jenkins", "level": "Experienced" },
+        { "name": "Argo CD", "level": "Proficient" }
+      ]
+    }
+  ],
+  "es": [
+    {
+      "id": "1",
+      "category": "Lenguajes",
+      "skills": [
+        { "name": "Python", "level": "Avanzado" },
+        { "name": "JavaScript", "level": "Experimentado" },
+        { "name": "TypeScript", "level": "Experimentado" },
+        { "name": "Golang", "level": "Competente" }
+      ]
+    },
+    {
+      "id": "2",
+      "category": "Cloud/Infra",
+      "skills": [
+        { "name": "AWS", "level": "Avanzado" },
+        { "name": "Kubernetes", "level": "Avanzado" },
+        { "name": "Terraform", "level": "Experimentado" },
+        { "name": "Docker", "level": "Experimentado" }
+      ]
+    },
+    {
+      "id": "3",
+      "category": "CI/CD",
+      "skills": [
+        { "name": "GitHub Actions", "level": "Avanzado" },
+        { "name": "Jenkins", "level": "Experimentado" },
+        { "name": "Argo CD", "level": "Competente" }
+      ]
+    }
+  ]
+} 

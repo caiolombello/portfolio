@@ -9,6 +9,8 @@ import ResumeDownload from "./resume-download"
 import { useLanguage } from "@/contexts/language-context"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ArrowPathIcon } from "@heroicons/react/24/outline"
+import SkillsList from "./skill-bar"
+import CredlyCertifications from "./credly-certifications"
 
 export default function Resume() {
   const { t, language } = useLanguage()
@@ -126,17 +128,35 @@ export default function Resume() {
     fetchData()
   }, [language, error])
 
+  // Sanitize experiences to avoid rendering objects with {summary, entities}
+  const normalizedExperiences = (experiences.length > 0 ? experiences : defaultExperiences).map(exp => {
+    if (exp && typeof exp === "object" && "summary" in exp && "entities" in exp) {
+      return {
+        title: exp.summary,
+        company: "",
+        period: "",
+        responsibilities: Array.isArray(exp.entities) ? exp.entities : [],
+      }
+    }
+    return exp
+  })
+
   // Dados do currículo para o componente de download
   const resumeData = {
     personalInfo: {
       name: t("name"),
-      title: t("title"),
+      title: t("resume.title"),
       email: "caio@lombello.com",
       phone: "+55 (19) 99753-6692",
       location: language === "pt" ? "Campinas, São Paulo, Brasil" : "Campinas, São Paulo, Brazil",
     },
-    summary: t("aboutDescription"),
-    experiences: experiences.length > 0 ? experiences : defaultExperiences,
+    summary: t("resume.aboutDescription"),
+    experiences: normalizedExperiences.map(exp => ({
+      title: exp.title,
+      company: exp.company,
+      period: exp.period,
+      responsibilities: exp.responsibilities
+    })),
     education: educations.length > 0 ? educations : defaultEducations,
     certifications: certifications.length > 0 ? certifications : defaultCertifications,
     skills: skills.length > 0 ? skills : defaultSkills,
@@ -188,7 +208,7 @@ export default function Resume() {
         <SectionHeading title={language === "pt" ? "Experiência" : "Experience"} />
 
         <div className="space-y-6">
-          {(experiences.length > 0 ? experiences : defaultExperiences).map((experience, index) => (
+          {normalizedExperiences.map((experience, index) => (
             <ExperienceItem
               key={index}
               title={experience.title}
@@ -203,29 +223,16 @@ export default function Resume() {
       {/* Seção de Certificações */}
       <section className="mb-16">
         <SectionHeading title={language === "pt" ? "Certificações" : "Certifications"} />
-
         <div className="rounded-lg border border-border/40 bg-card p-6">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {(certifications.length > 0 ? certifications : defaultCertifications).map((certification, index) => (
-              <div key={index} className="flex items-start">
-                <span className="mr-2 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold"></span>
-                <span className="text-muted-foreground">{certification}</span>
-              </div>
-            ))}
-          </div>
+          <CredlyCertifications />
         </div>
       </section>
 
       {/* Seção de Habilidades */}
       <section>
         <SectionHeading title={language === "pt" ? "Habilidades" : "Skills"} />
-
         <div className="rounded-lg border border-border/40 bg-card p-6">
-          <div className="grid grid-cols-1 gap-x-8 md:grid-cols-2">
-            {(skills.length > 0 ? skills : defaultSkills).map((skill) => (
-              <SkillBar key={skill.name} skillName={skill.name} percentage={skill.percentage} />
-            ))}
-          </div>
+          <SkillsList />
         </div>
       </section>
     </div>

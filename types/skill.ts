@@ -1,7 +1,7 @@
 export interface Skill {
-  id: string
+  id?: string
   name: string
-  level: number
   category: string
+  level: "Avançado" | "Experiente" | "Proficiente" | "Familiarizado"
 }
 

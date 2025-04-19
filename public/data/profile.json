@@ -1,21 +1,38 @@
 {
   "pt": {
     "name": "Caio Lombello Vendramini Barbieri",
-    "title": "Engenheiro DevOps Pleno | Cloud Native | Kubernetes | IA para DevOps",
-    "email": "caio@lombello.com",
-    "phone": "+55 (19) 99753-6692",
-    "location": "Campinas, São Paulo, Brasil",
-    "birthDate": "16 de dezembro de 2002",
-    "about": "Engenheiro DevOps Pleno com expertise em Cloud Native, Observabilidade, automação de infraestrutura e CI/CD. Experiência sólida na criação de pipelines GitOps e DevSecOps, além da integração de Inteligência Artificial em operações. Habilidade avançada em Python, Golang e Kubernetes, entregando soluções seguras, escaláveis e de alta performance. Focado em inovação e eficiência operacional."
+    "title": "Engenheiro DevOps | Cloud Native | Kubernetes | AI for DevOps",
+    "about": "Sobre mim",
+    "resume": "Currículo",
+    "resume.title": "Currículo",
+    "resume.aboutDescription": "Engenheiro DevOps com expertise em Cloud Native, Observabilidade, automação de infraestrutura e CI/CD. Experiência sólida na criação de pipelines GitOps e DevSecOps, além da integração de Inteligência Artificial em operações. Habilidades avançadas em Python, Golang e Kubernetes, entregando soluções seguras, escaláveis e de alto desempenho. Focado em inovação e eficiência operacional.",
+    "resume.download": "Baixar CV"
   },
   "en": {
     "name": "Caio Lombello Vendramini Barbieri",
-    "title": "Senior DevOps Engineer | Cloud Native | Kubernetes | AI for DevOps",
-    "email": "caio@lombello.com",
-    "phone": "+55 (19) 99753-6692",
-    "location": "Campinas, São Paulo, Brazil",
-    "birthDate": "December 16, 2002",
-    "about": "Senior DevOps Engineer with expertise in Cloud Native, Observability, infrastructure automation, and CI/CD. Solid experience in creating GitOps and DevSecOps pipelines, as well as integrating Artificial Intelligence into operations. Advanced skills in Python, Golang, and Kubernetes, delivering secure, scalable, and high-performance solutions. Focused on innovation and operational efficiency."
+    "title": "DevOps Engineer | Cloud Native | Kubernetes | AI for DevOps",
+    "about": "About Me",
+    "resume": "Resume",
+    "resume.title": "Resume",
+    "resume.aboutDescription": "DevOps Engineer with expertise in Cloud Native, Observability, infrastructure automation, and CI/CD. Solid experience in creating GitOps and DevSecOps pipelines, as well as integrating Artificial Intelligence into operations. Advanced skills in Python, Golang, and Kubernetes, delivering secure, scalable, and high-performance solutions. Focused on innovation and operational efficiency.",
+    "resume.download": "Download CV"
+  },
+  "es": {
+    "name": "Caio Lombello Vendramini Barbieri",
+    "title": "Ingeniero DevOps | Cloud Native | Kubernetes | AI for DevOps",
+    "about": "Sobre mí",
+    "resume": "Currículum",
+    "resume.title": "Currículum",
+    "resume.aboutDescription": "Ingeniero DevOps con experiencia en Cloud Native, Observabilidad, automatización de infraestructura y CI/CD. Experiencia sólida en la creación de pipelines GitOps y DevSecOps, así como en la integración de Inteligencia Artificial en operaciones. Habilidades avanzadas en Python, Golang y Kubernetes, entregando soluciones seguras, escalables y de alto rendimiento. Enfocado en la innovación y la eficiencia operativa.",
+    "resume.download": "Descargar CV"
+  },
+  "imageUrl": "/images/profile-ios.png",
+  "socialLinks": {
+    "github": "https://github.com/caiolombello",
+    "linkedin": "https://linkedin.com/in/caiolvbarbieri",
+    "twitter": "https://twitter.com/caiolombello",
+    "instagram": "https://instagram.com/caiolombello",
+    "website": "https://caio.lombello.com",
+    "whatsapp": "https://wa.me/5519997536692"
   }
-}
-
+} 

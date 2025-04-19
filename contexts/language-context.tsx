@@ -1,6 +1,11 @@
 "use client"
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
+import pt from "@/translations/pt.json";
+import en from "@/translations/en.json";
+import es from "@/translations/es.json";
+// Se existir, importe o espanhol
+// import es from "@/translations/es.json";
 
 type Language = "pt" | "en" | "es"
 
@@ -10,105 +15,8 @@ interface LanguageContextType {
   t: (key: string) => string
 }
 
-// Traduções padrão
-const defaultTranslations = {
-  pt: {
-    about: "Sobre Mim",
-    resume: "Currículo",
-    portfolio: "Portfólio",
-    blog: "Blog",
-    contact: "Contato",
-    mainSkills: "Habilidades Principais",
-    scheduleAMeeting: "Agende uma Reunião",
-    sendMessage: "Enviar Mensagem",
-    name: "Nome",
-    email: "Email",
-    message: "Mensagem",
-    send: "Enviar",
-    phone: "Telefone",
-    birthDate: "Data de Nascimento",
-    location: "Localização",
-    socialNetworks: "Redes Sociais",
-    allRightsReserved: "Todos os direitos reservados.",
-    buyMeACoffee: "Me Pague um Café",
-    support: "Apoie meu Trabalho",
-    supportMessage: "Se meu trabalho foi útil para você, considere me pagar um café!",
-    nav: {
-      about: "Sobre Mim",
-      resume: "Currículo",
-      portfolio: "Portfólio",
-      blog: "Blog",
-      contact: "Contato",
-    },
-    footer: {
-      copyright: "Caio Lombello Vendramini Barbieri. Todos os direitos reservados.",
-    },
-  },
-  en: {
-    about: "About Me",
-    resume: "Resume",
-    portfolio: "Portfolio",
-    blog: "Blog",
-    contact: "Contact",
-    mainSkills: "Main Skills",
-    scheduleAMeeting: "Schedule a Meeting",
-    sendMessage: "Send Message",
-    name: "Name",
-    email: "Email",
-    message: "Message",
-    send: "Send",
-    phone: "Phone",
-    birthDate: "Birth Date",
-    location: "Location",
-    socialNetworks: "Social Networks",
-    allRightsReserved: "All rights reserved.",
-    buyMeACoffee: "Buy Me a Coffee",
-    support: "Support My Work",
-    supportMessage: "If my work has been helpful to you, consider buying me a coffee!",
-    nav: {
-      about: "About Me",
-      resume: "Resume",
-      portfolio: "Portfolio",
-      blog: "Blog",
-      contact: "Contact",
-    },
-    footer: {
-      copyright: "Caio Lombello Vendramini Barbieri. All rights reserved.",
-    },
-  },
-  es: {
-    about: "Sobre Mí",
-    resume: "Currículo",
-    portfolio: "Portafolio",
-    blog: "Blog",
-    contact: "Contacto",
-    mainSkills: "Habilidades Principales",
-    scheduleAMeeting: "Programar una Reunión",
-    sendMessage: "Enviar Mensaje",
-    name: "Nombre",
-    email: "Correo Electrónico",
-    message: "Mensaje",
-    send: "Enviar",
-    phone: "Teléfono",
-    birthDate: "Fecha de Nacimiento",
-    location: "Ubicación",
-    socialNetworks: "Redes Sociales",
-    allRightsReserved: "Todos los derechos reservados.",
-    buyMeACoffee: "Cómprame un Café",
-    support: "Apoya mi Trabajo",
-    supportMessage: "Si mi trabajo te ha sido útil, ¡considere comprarme un café!",
-    nav: {
-      about: "Sobre Mí",
-      resume: "Currículo",
-      portfolio: "Portafolio",
-      blog: "Blog",
-      contact: "Contacto",
-    },
-    footer: {
-      copyright: "Caio Lombello Vendramini Barbieri. Todos los derechos reservados.",
-    },
-  },
-}
+type TranslationObject = typeof pt
+const defaultTranslations: Record<Language, TranslationObject> = { pt, en, es };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
@@ -119,7 +27,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Carregar idioma do localStorage
     const savedLanguage = localStorage.getItem("language") as Language
-    if (savedLanguage && (savedLanguage === "pt" || savedLanguage === "en" || savedLanguage === "es")) {
+    if (savedLanguage && (savedLanguage === "pt" || savedLanguage === "en")) {
       setLanguage(savedLanguage)
     }
 
@@ -144,7 +52,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       } else {
         console.warn(`Tradução não encontrada para a chave: ${key}`)
         // Tentar encontrar no outro idioma como fallback
-        const fallbackLang = language === "pt" ? "en" : language === "en" ? "pt" : "es"
+        const fallbackLang: Language = language === "pt" ? "en" : "pt"
         let fallback: any = translations[fallbackLang]
 
         for (const fk of keys) {

@@ -22,8 +22,8 @@ export default function Header() {
   const hideNavbarImage = pathname === "/" || pathname === "/contact"
 
   const [profile, setProfile] = useState<ProfileData>({
-    name: "Caio Barbieri",
-    title: language === "pt" ? "Engenheiro DevOps Pleno" : "Senior DevOps Engineer",
+    name: "Caio Lombello Vendramini Barbieri",
+    title: language === "pt" ? "Engenheiro DevOps" : "DevOps Engineer",
     imageUrl: "/images/profile-ios.png",
   })
 
@@ -35,8 +35,10 @@ export default function Header() {
         if (response.ok) {
           const data = await response.json()
           if (data) {
-            const fullName = data[language]?.name || "Caio Barbieri"
-            const shortName = fullName.split(" ").slice(0, 2).join(" ")
+            const fullName = data[language]?.name || "Caio Lombello Vendramini Barbieri"
+            // Exibir apenas primeiro nome + último sobrenome
+            const nameParts = fullName.split(" ")
+            const shortName = nameParts.length > 1 ? `${nameParts[0]} ${nameParts[nameParts.length - 1]}` : fullName
 
             const fullTitle = data[language]?.title || "Engenheiro DevOps"
             const mainTitle = fullTitle.split("|")[0].trim()
@@ -64,7 +66,13 @@ export default function Header() {
             {/* Mostrar a imagem na navbar apenas quando NÃO estiver na home ou na página de contato */}
             {!hideNavbarImage && (
               <div className="relative h-8 w-8 overflow-hidden rounded-full">
-                <Image src={profile.imageUrl || "/placeholder.svg"} alt={profile.name} fill className="object-cover" />
+                <Image 
+                  src={profile.imageUrl || "/placeholder.svg"} 
+                  alt={profile.name} 
+                  fill 
+                  className="object-cover"
+                  sizes="32px"
+                />
               </div>
             )}
             <span className="font-bold">{profile.name}</span>

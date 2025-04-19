@@ -7,6 +7,40 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { jsPDF } from "jspdf"
 import { useLanguage } from "@/contexts/language-context"
 
+const CATEGORY_LABELS = {
+  pt: {
+    "Linguagens": "Linguagens",
+    "Cloud/Infra": "Cloud/Infra",
+    "CI/CD": "CI/CD",
+    "Observabilidade": "Observabilidade",
+    "Ferramentas": "Ferramentas",
+    "Metodologias": "Metodologias"
+  },
+  en: {
+    "Linguagens": "Languages",
+    "Cloud/Infra": "Cloud/Infra",
+    "CI/CD": "CI/CD",
+    "Observabilidade": "Observability",
+    "Ferramentas": "Tools",
+    "Metodologias": "Methodologies"
+  }
+};
+
+const LEVEL_LABELS = {
+  pt: {
+    "Avançado": "Avançado",
+    "Experiente": "Experiente",
+    "Proficiente": "Proficiente",
+    "Familiarizado": "Familiarizado"
+  },
+  en: {
+    "Avançado": "Advanced",
+    "Experiente": "Experienced",
+    "Proficiente": "Proficient",
+    "Familiarizado": "Familiar"
+  }
+};
+
 // Tipo para os dados do currículo
 interface ResumeData {
   personalInfo: {
@@ -32,7 +66,8 @@ interface ResumeData {
   certifications: string[]
   skills: {
     name: string
-    percentage: number
+    category: string
+    level: string
   }[]
 }
 
@@ -43,15 +78,13 @@ export default function ResumeDownload({ resumeData }: { resumeData: ResumeData 
   // Função para gerar o conteúdo Markdown
   const generateMarkdownContent = (): string => {
     const { personalInfo, summary, experiences, education, certifications, skills } = resumeData
-
+    const safeLang = (language === "pt" || language === "en" ? language : "en") as "pt" | "en"
     let markdown = `# ${personalInfo.name}\n\n`
     markdown += `**${personalInfo.title}**\n\n`
-    markdown += `Email: ${personalInfo.email} | ${t("phone")}: ${personalInfo.phone} | ${t("location")}: ${personalInfo.location}\n\n`
-
+    markdown += `${t("email")}: ${personalInfo.email} | ${t("phone")}: ${personalInfo.phone} | ${t("location")}: ${personalInfo.location}\n\n`
     // Resumo profissional
     markdown += `## ${t("about")}\n\n`
     markdown += `${summary}\n\n`
-
     // Experiência
     markdown += `## ${t("experience")}\n\n`
     experiences.forEach((exp) => {
@@ -62,7 +95,6 @@ export default function ResumeDownload({ resumeData }: { resumeData: ResumeData 
       })
       markdown += "\n"
     })
-
     // Educação
     markdown += `## ${t("education")}\n\n`
     education.forEach((edu) => {
@@ -70,20 +102,29 @@ export default function ResumeDownload({ resumeData }: { resumeData: ResumeData 
       markdown += `**${edu.institution}** | ${edu.period}\n\n`
       markdown += `${edu.description}\n\n`
     })
-
     // Certificações
     markdown += `## ${t("certifications")}\n\n`
     certifications.forEach((cert) => {
       markdown += `- ${cert}\n`
     })
     markdown += "\n"
-
-    // Habilidades
+    // Habilidades agrupadas por categoria
     markdown += `## ${t("skills")}\n\n`
-    skills.forEach((skill) => {
-      markdown += `- ${skill.name}: ${skill.percentage}%\n`
+    const grouped: Record<string, { name: string; level: string }[]> = {}
+    skills.forEach((skill: any) => {
+      if (!skill.category) return;
+      if (!grouped[skill.category]) grouped[skill.category] = []
+      grouped[skill.category].push({ name: skill.name, level: skill.level })
     })
-
+    Object.entries(grouped).forEach(([category, skills]) => {
+      const catLabel = (CATEGORY_LABELS[safeLang] as Record<string, string>)[category] || category
+      markdown += `### ${catLabel}\n`
+      skills.forEach(skill => {
+        const levelLabel = (LEVEL_LABELS[safeLang] as Record<string, string>)[skill.level] || skill.level
+        markdown += `- ${skill.name} (${levelLabel})\n`
+      })
+      markdown += "\n"
+    })
     return markdown
   }
 

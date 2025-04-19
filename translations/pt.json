@@ -1,12 +1,14 @@
 {
   "name": "Caio Lombello Vendramini Barbieri",
-  "title": "Engenheiro DevOps Pleno | Cloud Native | Kubernetes | IA para DevOps",
-  "about": "Sobre Mim",
+  "title": "Desenvolvedor Full Stack",
+  "about": "Sobre mim",
   "resume": "Currículo",
+  "resume.title": "Currículo",
+  "resume.aboutDescription": "Sou um desenvolvedor full stack com experiência em desenvolvimento web e DevOps.",
+  "resume.download": "Baixar CV",
   "portfolio": "Portfólio",
   "blog": "Blog",
   "contact": "Contato",
-  "aboutDescription": "Engenheiro DevOps Pleno com expertise em Cloud Native, Observabilidade, automação de infraestrutura e CI/CD. Experiência sólida na criação de pipelines GitOps e DevSecOps, além da integração de Inteligência Artificial em operações. Habilidade avançada em Python, Golang e Kubernetes, entregando soluções seguras, escaláveis e de alta performance. Focado em inovação e eficiência operacional.",
   "mainSkills": "Habilidades Principais",
   "education": "Educação",
   "experience": "Experiência",
@@ -55,7 +57,6 @@
   "downloadAs": "Baixar como",
   "pdfFormat": "PDF",
   "markdownFormat": "Markdown",
-  "generating": "Gerando...",
-  "download": "Download"
+  "generating": "Gerando..."
 }
 

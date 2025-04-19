@@ -1,12 +1,56 @@
-[
-  "AWS Certified Cloud Practitioner",
-  "HashiCorp Certified: Vault Associate",
-  "Vault: Certified HashiCorp Implementation Partner (CHIP)",
-  "AWS Knowledge: Amazon EKS",
-  "Neo4j Fundamentals",
-  "Graph Data Modeling Fundamentals",
-  "Cypher Fundamentals",
-  "Importing CSV data into Neo4j",
-  "Introduction to Cybersecurity (Cisco)"
-]
-
+{
+  "pt": [
+    {
+      "id": "1",
+      "name": "Certificação AWS Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "date": "2023",
+      "credentialId": "AWS-123456",
+      "credentialUrl": "https://www.credly.com/badges/123456"
+    },
+    {
+      "id": "2",
+      "name": "Certificação Kubernetes Administrator",
+      "issuer": "Cloud Native Computing Foundation",
+      "date": "2022",
+      "credentialId": "CKA-789012",
+      "credentialUrl": "https://www.credly.com/badges/789012"
+    }
+  ],
+  "en": [
+    {
+      "id": "1",
+      "name": "AWS Solutions Architect Certification",
+      "issuer": "Amazon Web Services",
+      "date": "2023",
+      "credentialId": "AWS-123456",
+      "credentialUrl": "https://www.credly.com/badges/123456"
+    },
+    {
+      "id": "2",
+      "name": "Kubernetes Administrator Certification",
+      "issuer": "Cloud Native Computing Foundation",
+      "date": "2022",
+      "credentialId": "CKA-789012",
+      "credentialUrl": "https://www.credly.com/badges/789012"
+    }
+  ],
+  "es": [
+    {
+      "id": "1",
+      "name": "Certificación AWS Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "date": "2023",
+      "credentialId": "AWS-123456",
+      "credentialUrl": "https://www.credly.com/badges/123456"
+    },
+    {
+      "id": "2",
+      "name": "Certificación Kubernetes Administrator",
+      "issuer": "Cloud Native Computing Foundation",
+      "date": "2022",
+      "credentialId": "CKA-789012",
+      "credentialUrl": "https://www.credly.com/badges/789012"
+    }
+  ]
+} 

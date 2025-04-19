@@ -13,7 +13,6 @@ import {
 } from "@heroicons/react/24/outline"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
-import BlobStorageStatus from "@/components/admin/blob-storage-status"
 
 export default function AdminDashboard() {
   const { isAuthenticated, loading } = useAuth()
@@ -92,11 +91,6 @@ export default function AdminDashboard() {
   return (
     <div>
       <h1 className="text-3xl font-bold text-gold mb-8">Dashboard</h1>
-
-      {/* Status do Blob Storage */}
-      <div className="mb-8">
-        <BlobStorageStatus />
-      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cards.map((card, index) => (

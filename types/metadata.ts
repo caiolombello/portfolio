@@ -77,11 +77,11 @@ export interface SiteMetadata {
 
 export const defaultMetadata: SiteMetadata = {
   title: {
-    default: "Caio Lombello - DevOps & Cloud Engineer",
-    template: "%s | Caio Lombello",
+    default: "Caio Lombello Vendramini Barbieri - DevOps & Cloud Engineer",
+    template: "%s | Caio Lombello Vendramini Barbieri",
   },
   description:
-    "Portfólio profissional de Caio Lombello, especialista em DevOps, Cloud Computing e Engenharia de Software. Experiência em automação, infraestrutura como código e desenvolvimento de software.",
+    "Portfólio profissional de Caio Lombello Vendramini Barbieri, especialista em DevOps, Cloud Computing e Engenharia de Software. Experiência em automação, infraestrutura como código e desenvolvimento de software.",
   keywords: [
     "devops",
     "cloud",
@@ -94,10 +94,11 @@ export const defaultMetadata: SiteMetadata = {
     "portfolio",
     "caio",
     "lombello",
+    "barbieri",
   ],
-  authors: ["Caio Lombello"],
-  creator: "Caio Lombello",
-  publisher: "Caio Lombello",
+  authors: ["Caio Lombello Vendramini Barbieri"],
+  creator: "Caio Lombello Vendramini Barbieri",
+  publisher: "Caio Lombello Vendramini Barbieri",
   robots: {
     index: true,
     follow: true,
@@ -110,10 +111,10 @@ export const defaultMetadata: SiteMetadata = {
     },
   },
   openGraph: {
-    title: "Caio Lombello - DevOps & Cloud Engineer",
+    title: "Caio Lombello Vendramini Barbieri - DevOps & Cloud Engineer",
     description:
-      "Portfólio profissional de Caio Lombello, especialista em DevOps, Cloud Computing e Engenharia de Software.",
-    siteName: "Caio Lombello",
+      "Portfólio profissional de Caio Lombello Vendramini Barbieri, especialista em DevOps, Cloud Computing e Engenharia de Software.",
+    siteName: "Caio Lombello Vendramini Barbieri",
     locale: "pt_BR",
     type: "website",
     url: "https://caio.lombello.com",
@@ -122,7 +123,7 @@ export const defaultMetadata: SiteMetadata = {
         url: "https://caio.lombello.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Caio Lombello - DevOps & Cloud Engineer",
+        alt: "Caio Lombello Vendramini Barbieri - DevOps & Cloud Engineer",
       },
     ],
   },
@@ -130,13 +131,13 @@ export const defaultMetadata: SiteMetadata = {
     card: "summary_large_image",
     creator: "@caiolombello",
     description:
-      "Portfólio profissional de Caio Lombello, especialista em DevOps, Cloud Computing e Engenharia de Software.",
+      "Portfólio profissional de Caio Lombello Vendramini Barbieri, especialista em DevOps, Cloud Computing e Engenharia de Software.",
     images: [
       {
         url: "https://caio.lombello.com/twitter-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Caio Lombello - DevOps & Cloud Engineer",
+        alt: "Caio Lombello Vendramini Barbieri - DevOps & Cloud Engineer",
       },
     ],
   },
@@ -155,7 +156,7 @@ export const defaultMetadata: SiteMetadata = {
     github: "https://github.com/caiolombello",
     gitlab: "https://gitlab.com/caiolombello",
     linkedin: "https://linkedin.com/in/caiolvbarbieri",
-    twitter: "https://x.com/caiolombello",
+    twitter: "https://twitter.com/caiolombello",
   },
 }
 

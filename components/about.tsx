@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { EnvelopeIcon, PhoneIcon, ChatBubbleLeftRightIcon, ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline"
-import SkillBar from "./skill-bar"
+import SkillsList from "./skill-bar"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/contexts/language-context"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -23,6 +23,12 @@ interface ProfileState {
   pt: ProfileData
   en: ProfileData
   imageUrl?: string
+  socialLinks?: {
+    github: string
+    linkedin: string
+    twitter: string
+    website: string
+  }
 }
 
 interface Skill {
@@ -77,25 +83,31 @@ export default function About() {
   const defaultProfile: ProfileState = {
     pt: {
       name: "Caio Lombello Vendramini Barbieri",
-      title: "Engenheiro DevOps Pleno | Cloud Native | Kubernetes | IA para DevOps",
+      title: "Engenheiro DevOps | Cloud Native | Kubernetes | IA para DevOps",
       email: "caio@lombello.com",
       phone: "+55 (19) 99753-6692",
       location: "Campinas, São Paulo, Brasil",
       birthDate: "16 de dezembro de 2002",
       about:
-        "Engenheiro DevOps Pleno com expertise em Cloud Native, Observabilidade, automação de infraestrutura e CI/CD.",
+        "Engenheiro DevOps com expertise em Cloud Native, Observabilidade, automação de infraestrutura e CI/CD.",
     },
     en: {
       name: "Caio Lombello Vendramini Barbieri",
-      title: "Senior DevOps Engineer | Cloud Native | Kubernetes | AI for DevOps",
+      title: "DevOps Engineer | Cloud Native | Kubernetes | AI for DevOps",
       email: "caio@lombello.com",
       phone: "+55 (19) 99753-6692",
       location: "Campinas, São Paulo, Brazil",
       birthDate: "December 16, 2002",
       about:
-        "Senior DevOps Engineer with expertise in Cloud Native, Observability, infrastructure automation, and CI/CD.",
+        "DevOps Engineer with expertise in Cloud Native, Observability, infrastructure automation, and CI/CD.",
     },
     imageUrl: "/images/profile-ios.png", // Imagem padrão
+    socialLinks: {
+      github: "https://github.com/caiolombello",
+      linkedin: "https://linkedin.com/in/caiolvbarbieri",
+      twitter: "https://twitter.com/caiolombello",
+      website: "https://caio.lombello.com",
+    },
   }
 
   const defaultSkills: Skill[] = [
@@ -155,6 +167,7 @@ export default function About() {
               src={profileImageUrl || "/placeholder.svg"}
               alt={currentProfile.name}
               fill
+              sizes="(max-width: 768px) 100vw, 400px"
               className="object-cover"
               priority
             />
@@ -208,11 +221,7 @@ export default function About() {
 
           <h2 className="mb-6 text-2xl font-bold text-gold">{t("mainSkills")}</h2>
 
-          <div className="space-y-4">
-            {currentSkills.map((skill) => (
-              <SkillBar key={skill.name} skillName={skill.name} percentage={skill.percentage} />
-            ))}
-          </div>
+          <SkillsList />
         </div>
       </div>
     </section>
