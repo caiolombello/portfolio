@@ -1,0 +1,36 @@
+name: Notify Discord
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, closed, reopened]
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Discord Webhook Action
+        uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          content: ""
+          embed-title: "${{ github.event_name == 'push' && '🚀 New Push' || '🔄 Pull Request' }}"
+          embed-description: |
+            **Repository:** ${{ github.repository }}
+            **Branch:** ${{ github.ref_name }}
+            **Event:** ${{ github.event_name }}
+            ${{ github.event.pull_request && format('**PR Title:** {0}', github.event.pull_request.title) || '' }}
+            ${{ github.event.pull_request && format('**PR State:** {0}', github.event.pull_request.state) || '' }}
+            
+            **Author:** ${{ github.actor }}
+            **Commit Message:** ${{ github.event.head_commit.message || github.event.pull_request.title }}
+            
+            [View Changes](${{ github.event.pull_request.html_url || github.event.head_commit.url }})
+          embed-color: ${{ github.event_name == 'push' && '5865F2' || (github.event.pull_request.merged && '9C84EF' || (github.event.pull_request.state == 'closed' && 'ED4245' || '57F287')) }}

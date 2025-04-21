@@ -5,11 +5,11 @@ backend:
   base_url: https://caio.lombello.com
   auth_endpoint: api/auth/callback
   commit_messages:
-    create: "Create {{collection}} "{{slug}}""
-    update: "Update {{collection}} "{{slug}}""
-    delete: "Delete {{collection}} "{{slug}}""
-    uploadMedia: "Upload "{{path}}""
-    deleteMedia: "Delete "{{path}}""
+    create: 'Create {{collection}} "{{slug}}"'
+    update: 'Update {{collection}} "{{slug}}"'
+    delete: 'Delete {{collection}} "{{slug}}"'
+    uploadMedia: 'Upload "{{path}}"'
+    deleteMedia: 'Delete "{{path}}"'
 
 local_backend: true
 publish_mode: editorial_workflow
