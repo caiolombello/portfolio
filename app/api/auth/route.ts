@@ -9,17 +9,17 @@ const USER_URL = "https://api.github.com/user";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_URL || 'http://localhost:3000';
 
 export async function GET(request: Request) {
-  if (!CLIENT_ID) {
+  if (!CLIENT_ID || !CLIENT_SECRET) {
     console.error('GitHub OAuth environment variables not set.');
     return NextResponse.json({ error: 'Configuration error' }, { status: 500 });
   }
 
-  const callbackUrl = new URL('/api/callback', APP_URL).toString();
-  const scopes = ['repo', 'user'];
+  // Ensure we request all necessary scopes for repo access
+  const scopes = ['repo', 'user', 'read:org'];
 
   const authUrl = new URL('https://github.com/login/oauth/authorize');
   authUrl.searchParams.set('client_id', CLIENT_ID);
-  authUrl.searchParams.set('redirect_uri', callbackUrl);
+  authUrl.searchParams.set('redirect_uri', `${APP_URL}/api/callback`);
   authUrl.searchParams.set('scope', scopes.join(' '));
   authUrl.searchParams.set('state', 'github-oauth-state');
 
