@@ -12,15 +12,25 @@ on:
 jobs:
   notify:
     runs-on: ubuntu-latest
+    environment: Production
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Validate Webhook URL
+        run: |
+          if [[ ! "${{ secrets.DISCORD_WEBHOOK_URL }}" =~ ^https://discord\.com/api/webhooks/ ]]; then
+            echo "Error: Invalid Discord webhook URL format"
+            exit 1
+          fi
 
       - name: Discord Webhook Action
         uses: tsickert/discord-webhook@v5.3.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           content: ""
+          username: "Portfolio Bot"
+          avatar-url: "https://github.com/caiolombello.png"
           embed-title: "${{ github.event_name == 'push' && '🚀 New Push' || '🔄 Pull Request' }}"
           embed-description: |
             **Repository:** ${{ github.repository }}

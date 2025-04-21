@@ -1,9 +1,11 @@
 backend:
   name: github
-  repo: caiolombello/portfolio
+  repo: caiolombello/portifolio
   branch: main
   base_url: https://caio.lombello.com
   auth_endpoint: api/auth/callback
+  site_domain: caio.lombello.com
+  auth_scope: repo
   commit_messages:
     create: 'Create {{collection}} "{{slug}}"'
     update: 'Update {{collection}} "{{slug}}"'

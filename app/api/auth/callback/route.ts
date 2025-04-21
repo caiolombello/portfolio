@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
-  const state = searchParams.get("state");
+  const provider = searchParams.get("provider");
 
-  if (!code || state !== "decap") {
+  if (!code || provider !== "github") {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
@@ -30,9 +30,10 @@ export async function GET(request: Request) {
     }
 
     // Redirect back to the CMS with the token
-    return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_APP_URL}/admin/#/callback?provider=github&token=${data.access_token}`
-    );
+    const redirectUrl = new URL("/admin/", process.env.NEXT_PUBLIC_APP_URL);
+    redirectUrl.hash = `#/callback?provider=github&token=${data.access_token}`;
+    
+    return NextResponse.redirect(redirectUrl.toString());
   } catch (error) {
     console.error("Auth error:", error);
     return NextResponse.json(
