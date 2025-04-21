@@ -6,41 +6,14 @@
     <title>Decap CMS</title>
     <link
       rel="stylesheet"
-      href="https://unpkg.com/decap-cms@latest/dist/decap-cms.css"
+      href="https://unpkg.com/@staticcms/core@3.4.5/dist/main.css"
     />
-    <link rel="stylesheet" href="/admin/custom-cms.css" />
     <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
   </head>
   <body>
-    <script src="https://unpkg.com/decap-cms@latest/dist/decap-cms.js"></script>
+    <script src="https://unpkg.com/@staticcms/core@3.4.5/dist/static-cms-core.js"></script>
     <script>
-      // Check if we're in a popup window
-      if (window.opener) {
-        // If we have a token in the URL, pass it to the parent window
-        const hash = window.location.hash;
-        if (hash && hash.includes('token=')) {
-          window.opener.postMessage(
-            {
-              type: 'authorization',
-              payload: window.location.hash.substring(1)
-            },
-            window.location.origin
-          );
-          window.close();
-        }
-      }
-
-      // Initialize the CMS
       window.CMS.init();
-
-      // Listen for the token from the popup
-      window.addEventListener('message', (event) => {
-        if (event.origin === window.location.origin && event.data.type === 'authorization') {
-          // Force CMS to reload with the new token
-          window.location.hash = event.data.payload;
-          window.location.reload();
-        }
-      });
     </script>
   </body>
 </html>

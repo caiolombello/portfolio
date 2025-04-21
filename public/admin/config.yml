@@ -4,17 +4,7 @@ backend:
   branch: main
   base_url: https://caio.lombello.com
   auth_endpoint: oauth
-  site_domain: caio.lombello.com
-  auth_scope: repo
-  open_authoring: false
-  commit_messages:
-    create: 'Create {{collection}} "{{slug}}"'
-    update: 'Update {{collection}} "{{slug}}"'
-    delete: 'Delete {{collection}} "{{slug}}"'
-    uploadMedia: 'Upload "{{path}}"'
-    deleteMedia: 'Delete "{{path}}"'
 
-local_backend: false
 publish_mode: editorial_workflow
 media_folder: public/images
 public_folder: /images
