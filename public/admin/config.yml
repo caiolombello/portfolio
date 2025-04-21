@@ -5,7 +5,8 @@ backend:
   base_url: https://caio.lombello.com
   auth_endpoint: oauth
   site_domain: caio.lombello.com
-  auth_scope: public_repo,read:user
+  auth_scope: repo
+  open_authoring: false
   app_id: ${NEXT_PUBLIC_GITHUB_OAUTH_CLIENT_ID}
   commit_messages:
     create: 'Create {{collection}} "{{slug}}"'
