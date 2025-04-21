@@ -1,32 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Decap CMS</title>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/decap-cms@3.1.3/dist/decap-cms.css"
-    />
-    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+    <title>Content Manager</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
-    <script src="https://unpkg.com/decap-cms@3.1.3/dist/decap-cms.js"></script>
-    <script>
-      console.log('Initializing CMS...');
-      
-      // Add error handling
-      window.onerror = function(msg, url, lineNo, columnNo, error) {
-        console.error('Error: ' + msg + '\nURL: ' + url + '\nLine: ' + lineNo + '\nColumn: ' + columnNo + '\nError object: ' + JSON.stringify(error));
-        return false;
-      };
-
-      try {
-        window.CMS.init();
-        console.log('CMS initialized successfully');
-      } catch (error) {
-        console.error('Failed to initialize CMS:', error);
-      }
-    </script>
+    <!-- Include the script that builds the page and powers Decap CMS -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </body>
 </html>

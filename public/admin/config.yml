@@ -5,7 +5,6 @@ backend:
   base_url: https://caio.lombello.com
   auth_endpoint: oauth
   site_domain: caio.lombello.com
-  auth_scope: repo
 
 publish_mode: editorial_workflow
 media_folder: public/images
@@ -241,133 +240,38 @@ collections:
     folder: "content/projects"
     create: true
     i18n: true
-    slug: "{{id}}"
+    slug: "{{slug}}"
     fields:
-      - {
-          label: "ID",
-          name: "id",
-          widget: string,
-          pattern:
-            [
-              "^[a-z0-9]+(?:-[a-z0-9]+)*$",
-              "Use apenas letras minúsculas, números e hífens",
-            ],
-        }
-      - { label: "Título", name: "title", widget: string, i18n: true }
-      - {
-          label: "Descrição Curta",
-          name: "shortDescription",
-          widget: text,
-          i18n: true,
-        }
-      - {
-          label: "Descrição Completa",
-          name: "description",
-          widget: markdown,
-          i18n: true,
-        }
-      - {
-          label: "Imagem Principal",
-          name: "imageUrl",
-          widget: "image-input",
-          required: false,
-        }
-      - {
-          label: "Categoria",
-          name: "category",
-          widget: string,
-          required: false,
-        }
-      - label: "Tecnologias"
-        name: "technologies"
-        widget: technology-picker
-      - {
-          label: "GitHub URL",
-          name: "githubUrl",
-          widget: string,
-          required: false,
-          pattern: ["^https?://", "Deve ser uma URL válida"],
-        }
-      - {
-          label: "Demo URL",
-          name: "liveUrl",
-          widget: string,
-          required: false,
-          pattern: ["^https?://", "Deve ser uma URL válida"],
-        }
-      - {
-          label: "Destaque?",
-          name: "featured",
-          widget: boolean,
-          default: false,
-          required: false,
-        }
-      - {
-          label: "Data de Criação",
-          name: "createdAt",
-          widget: datetime,
-          format: "YYYY-MM-DD",
-          date_format: "DD/MM/YYYY",
-          time_format: false,
-          required: false,
-        }
-      - {
-          label: "Última Atualização",
-          name: "updatedAt",
-          widget: datetime,
-          format: "YYYY-MM-DD",
-          date_format: "DD/MM/YYYY",
-          time_format: false,
-          required: false,
-        }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Technologies", name: "technologies", widget: "list" }
+      - { label: "GitHub URL", name: "github", widget: "string", required: false }
+      - { label: "Live URL", name: "url", widget: "string", required: false }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown" }
 
   # 7. Coleção para Blog Posts
   - label: "📰 Blog Posts"
-    name: "posts"
+    name: "blog"
     folder: "content/posts"
     create: true
     i18n: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "Título", name: "title", widget: string, i18n: true }
-      - { label: "Resumo", name: "summary", widget: text, i18n: true }
-      - {
-          label: "Data de Publicação",
-          name: "publicationDate",
-          widget: datetime,
-          format: "YYYY-MM-DD",
-          date_format: "DD/MM/YYYY",
-          time_format: false,
-        }
-      - {
-          label: "Imagem de Capa",
-          name: "imageUrl",
-          widget: "image-input",
-          required: false,
-        }
-      - {
-          label: "Categoria",
-          name: "category",
-          widget: string,
-          required: false,
-        }
-      - { label: "Tags", name: "tags", widget: list, required: false }
-      - label: "Autor"
-        name: "author"
-        widget: object
-        required: false
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  # 8. Coleção para Páginas
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Home"
+        name: "home"
+        file: "content/home.md"
         fields:
-          - { label: "Nome", name: "name", widget: string }
-          - {
-              label: "Avatar",
-              name: "avatar",
-              widget: "image-input",
-              required: false,
-            }
-      - {
-          label: "Publicado?",
-          name: "published",
-          widget: boolean,
-          default: true,
-        }
-      - { label: "Conteúdo", name: "body", widget: markdown, i18n: true }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Publish Date", name: "date", widget: "datetime" }
+          - { label: "Body", name: "body", widget: "markdown" }
