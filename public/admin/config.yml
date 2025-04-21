@@ -7,7 +7,6 @@ backend:
   site_domain: caio.lombello.com
   auth_scope: repo
   open_authoring: false
-  app_id: ${NEXT_PUBLIC_GITHUB_OAUTH_CLIENT_ID}
   commit_messages:
     create: 'Create {{collection}} "{{slug}}"'
     update: 'Update {{collection}} "{{slug}}"'

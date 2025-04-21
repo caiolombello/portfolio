@@ -33,9 +33,14 @@ export async function GET(request: Request) {
 
     // Redirect to the admin page with the token
     const redirectUrl = new URL("/admin/", process.env.NEXT_PUBLIC_APP_URL);
-    redirectUrl.hash = `#/callback?provider=github&token=${data.access_token}`;
+    redirectUrl.hash = `#/callback?provider=github&token=${data.access_token}&expires_in=3600`;
 
-    return NextResponse.redirect(redirectUrl.toString());
+    return NextResponse.redirect(redirectUrl.toString(), {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        'Pragma': 'no-cache'
+      }
+    });
   } catch (error) {
     console.error("OAuth error:", error);
     return NextResponse.json(
