@@ -33,12 +33,15 @@ export async function GET(request: Request) {
 
     // Redirect to the admin page with the token
     const token = data.access_token;
-    const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/admin/#/callback?provider=github&token=${token}`;
+    const baseUrl = `${process.env.NEXT_PUBLIC_APP_URL}/admin`;
+    const hash = `callback?provider=github&token=${token}`;
+    const redirectUrl = `${baseUrl}#/${hash}`;
 
     return NextResponse.redirect(redirectUrl, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate',
-        'Pragma': 'no-cache'
+        'Pragma': 'no-cache',
+        'Location': redirectUrl
       }
     });
   } catch (error) {
