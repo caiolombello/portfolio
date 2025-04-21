@@ -1,6 +1,8 @@
+import React from "react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { DevToolbar } from "@/components/dev/toolbar";
+import { screen, fireEvent } from "@testing-library/react";
+import { DevToolbar } from "../../../components/dev/toolbar";
+import { render } from "../../test-utils";
 
 // Mock the environment to be development
 vi.mock("process", () => ({
@@ -8,20 +10,58 @@ vi.mock("process", () => ({
 }));
 
 // Mock the child components
-vi.mock("@/components/performance-monitor", () => ({
+vi.mock("../../../components/performance-monitor", () => ({
   PerformanceMonitor: () => (
     <div data-testid="performance-monitor">Performance Monitor</div>
   ),
 }));
 
-vi.mock("@/components/a11y-checker", () => ({
+vi.mock("../../../components/a11y-checker", () => ({
   A11yChecker: () => <div data-testid="a11y-checker">A11y Checker</div>,
 }));
 
+interface StorageMock {
+  store: Record<string, string>;
+  clear: () => void;
+  getItem: (key: string) => string | null;
+  setItem: (key: string, value: string) => void;
+  removeItem: (key: string) => void;
+}
+
+// Mock localStorage
+const localStorageMock: StorageMock = {
+  store: {},
+  clear() {
+    this.store = {};
+  },
+  getItem(key) {
+    return this.store[key] || null;
+  },
+  setItem(key, value) {
+    this.store[key] = String(value);
+  },
+  removeItem(key) {
+    delete this.store[key];
+  },
+};
+
+Object.defineProperty(window, "localStorage", {
+  value: localStorageMock,
+});
+
+// Mock window.location.reload
+const reloadMock = vi.fn();
+Object.defineProperty(window, "location", {
+  value: { reload: reloadMock },
+  writable: true,
+});
+
 describe("DevToolbar", () => {
   beforeEach(() => {
-    // Clear localStorage before each test
-    window.localStorage.clear();
+    // Clear all mocks and localStorage before each test
+    vi.clearAllMocks();
+    localStorageMock.clear();
+    vi.stubEnv("NODE_ENV", "development");
   });
 
   it("renders correctly in development mode", () => {
@@ -37,13 +77,19 @@ describe("DevToolbar", () => {
       name: /toggle toolbar/i,
     });
 
-    fireEvent.click(toggleButton);
-    expect(screen.getByTestId("performance-monitor")).toBeVisible();
-    expect(screen.getByTestId("a11y-checker")).toBeVisible();
+    // Initially collapsed
+    expect(screen.queryByTestId("performance-monitor")).toBeNull();
+    expect(screen.queryByTestId("a11y-checker")).toBeNull();
 
+    // Click to expand
     fireEvent.click(toggleButton);
-    expect(screen.queryByTestId("performance-monitor")).not.toBeVisible();
-    expect(screen.queryByTestId("a11y-checker")).not.toBeVisible();
+    expect(screen.getByTestId("performance-monitor")).toBeInTheDocument();
+    expect(screen.getByTestId("a11y-checker")).toBeInTheDocument();
+
+    // Click to collapse
+    fireEvent.click(toggleButton);
+    expect(screen.queryByTestId("performance-monitor")).toBeNull();
+    expect(screen.queryByTestId("a11y-checker")).toBeNull();
   });
 
   it("clears localStorage when clear button is clicked", () => {
@@ -62,6 +108,19 @@ describe("DevToolbar", () => {
     expect(localStorage.getItem("test-key")).toBeNull();
   });
 
+  it("reloads the page when reload button is clicked", () => {
+    render(<DevToolbar />);
+    const toggleButton = screen.getByRole("button", {
+      name: /toggle toolbar/i,
+    });
+    fireEvent.click(toggleButton);
+
+    const reloadButton = screen.getByRole("button", { name: /reload page/i });
+    fireEvent.click(reloadButton);
+
+    expect(reloadMock).toHaveBeenCalledTimes(1);
+  });
+
   it("contains link to CMS", () => {
     render(<DevToolbar />);
     const toggleButton = screen.getByRole("button", {
@@ -74,10 +133,14 @@ describe("DevToolbar", () => {
   });
 
   it("accepts and applies custom className", () => {
-    const customClass = "custom-toolbar";
-    render(<DevToolbar className={customClass} />);
-
+    render(<DevToolbar className="custom-toolbar" />);
     const toolbar = screen.getByRole("complementary");
-    expect(toolbar).toHaveClass(customClass);
+    expect(toolbar).toHaveClass("custom-toolbar");
+  });
+
+  it("does not render in production mode", () => {
+    vi.stubEnv("NODE_ENV", "production");
+    const { container } = render(<DevToolbar />);
+    expect(container).toBeEmptyDOMElement();
   });
 });

@@ -7,8 +7,8 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { getDictionary } from "@/app/i18n";
-import { locales, type Locale } from "@/app/i18n/settings";
+import { getDictionary } from "../app/i18n";
+import { locales, type Locale } from "../app/i18n/settings";
 
 // Tipos
 export type Language = "pt" | "en" | "es";

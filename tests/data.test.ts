@@ -222,8 +222,11 @@ describe("Content Validation", () => {
       files.forEach((file) => {
         const content = fs.readFileSync(path.join(dirPath, file), "utf-8");
         const [, frontmatter, ...bodyParts] = content.split("---");
+        const slug = file.replace(/\.md$/, "");
         const data = {
           ...JSON.parse(frontmatter),
+          slug_pt: slug,
+          slug_en: slug,
           body_pt: bodyParts[0]?.trim() || "",
           body_en: bodyParts[1]?.trim() || "",
         };

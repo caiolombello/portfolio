@@ -1,54 +1,83 @@
 import React from "react";
-import { render as baseRender } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { render, RenderOptions, cleanup } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/contexts/language-context";
-import { vi, beforeAll } from "vitest";
+import { vi, beforeAll, afterEach } from "vitest";
+import { JSDOM } from "jsdom";
 
-// Add any providers that components need during testing
-function Providers({ children }: { children: React.ReactNode }) {
-  return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <LanguageProvider>{children}</LanguageProvider>
-    </ThemeProvider>
-  );
-}
-
-// Custom render function that includes providers
-function render(ui: React.ReactElement, options = {}) {
-  return {
-    ...baseRender(ui, { wrapper: Providers, ...options }),
-    user: userEvent.setup(),
-  };
-}
-
-// Mock matchMedia
-beforeAll(() => {
-  Object.defineProperty(window, "matchMedia", {
-    writable: true,
-    value: vi.fn().mockImplementation((query) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    })),
-  });
+// Clean up after each test
+afterEach(() => {
+  cleanup();
+  vi.clearAllMocks();
 });
 
-// Re-export everything
-export * from "@testing-library/react";
+// Mock getDictionary
+vi.mock("@/app/i18n", () => ({
+  getDictionary: vi.fn().mockResolvedValue({
+    common: {
+      loading: "Loading...",
+    },
+    nav: {
+      home: "Home",
+      about: "About",
+      projects: "Projects",
+      blog: "Blog",
+      contact: "Contact",
+    },
+  }),
+  locales: ["en", "pt", "es"],
+}));
 
-// Override render method
-export { render };
+// Mock ThemeProvider to avoid script injection in tests
+vi.mock("@/components/theme-provider", () => ({
+  ThemeProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
+
+// Mock LanguageProvider to avoid loading state in tests
+vi.mock("@/contexts/language-context", () => ({
+  LanguageProvider: ({ children }: { children: React.ReactNode }) => {
+    if (!children) return null;
+    return children;
+  },
+  useLanguage: () => ({
+    language: "en",
+    changeLanguage: vi.fn(),
+    t: (key: string) => key,
+    loading: false,
+  }),
+}));
+
+// Create a DOM environment if it doesn't exist
+if (!globalThis.document) {
+  const dom = new JSDOM("<!doctype html><html><body></body></html>");
+  globalThis.document = dom.window.document;
+  globalThis.window = dom.window as unknown as Window & typeof globalThis;
+}
+
+interface AllTheProvidersProps {
+  children: React.ReactNode;
+}
+
+const AllTheProviders = ({ children }: AllTheProvidersProps) => {
+  if (!children) return null;
+  return (
+    <LanguageProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        {children}
+      </ThemeProvider>
+    </LanguageProvider>
+  );
+};
+
+const customRender = (
+  ui: React.ReactElement,
+  options?: Omit<RenderOptions, "wrapper">
+) => render(ui, { wrapper: AllTheProviders, ...options });
+
+// re-export everything
+export * from "@testing-library/react";
+export { customRender as render };
 
 // Common test utilities
 export const mockMatchMedia = () => {

@@ -1,6 +1,26 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import React from "react";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen } from "../test-utils";
-import { ProjectPreview } from "@/components/cms/project-preview";
+import { ProjectPreview } from "../../components/cms/project-preview";
+
+// Mock PreviewWrapper component
+vi.mock("../../components/cms/preview-wrapper", () => ({
+  PreviewWrapper: ({ children, locale }: any) => (
+    <div data-locale={locale}>{children}</div>
+  ),
+}));
+
+// Mock next/image
+vi.mock("next/image", () => ({
+  default: ({ src, alt, className, ...props }: any) => (
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      {...props}
+    />
+  ),
+}));
 
 describe("ProjectPreview", () => {
   const mockEntry = {

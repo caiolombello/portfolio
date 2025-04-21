@@ -2,9 +2,9 @@
 
 import { useMemo } from "react";
 import { PreviewWrapper } from "./preview-wrapper";
-import { OptimizedImage } from "@/components/ui/optimized-image";
-import { Badge } from "@/components/ui/badge";
-import { CmsEntry } from "@/types/cms";
+import { OptimizedImage } from "../ui/optimized-image";
+import { Badge } from "../ui/badge";
+import { CmsEntry } from "../../types/cms";
 
 interface ProjectPreviewProps {
   entry: CmsEntry<{
