@@ -3,9 +3,10 @@ backend:
   repo: caiolombello/portifolio
   branch: main
   base_url: https://caio.lombello.com
-  auth_endpoint: api/auth/callback
+  auth_endpoint: oauth
   site_domain: caio.lombello.com
-  auth_scope: repo
+  auth_scope: public_repo,read:user
+  app_id: ${NEXT_PUBLIC_GITHUB_OAUTH_CLIENT_ID}
   commit_messages:
     create: 'Create {{collection}} "{{slug}}"'
     update: 'Update {{collection}} "{{slug}}"'
@@ -17,6 +18,9 @@ local_backend: true
 publish_mode: editorial_workflow
 media_folder: public/images
 public_folder: /images
+
+site_url: https://caio.lombello.com
+display_url: https://caio.lombello.com
 
 i18n:
   structure: multiple_folders

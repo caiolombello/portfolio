@@ -17,30 +17,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Validate Webhook URL
+      - name: Discord Notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          if [[ ! "${{ secrets.DISCORD_WEBHOOK_URL }}" =~ ^https://discord\.com/api/webhooks/ ]]; then
-            echo "Error: Invalid Discord webhook URL format"
-            exit 1
-          fi
-
-      - name: Discord Webhook Action
-        uses: tsickert/discord-webhook@v5.3.0
-        with:
-          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          content: ""
-          username: "Portfolio Bot"
-          avatar-url: "https://github.com/caiolombello.png"
-          embed-title: "${{ github.event_name == 'push' && '🚀 New Push' || '🔄 Pull Request' }}"
-          embed-description: |
-            **Repository:** ${{ github.repository }}
-            **Branch:** ${{ github.ref_name }}
-            **Event:** ${{ github.event_name }}
-            ${{ github.event.pull_request && format('**PR Title:** {0}', github.event.pull_request.title) || '' }}
-            ${{ github.event.pull_request && format('**PR State:** {0}', github.event.pull_request.state) || '' }}
-            
-            **Author:** ${{ github.actor }}
-            **Commit Message:** ${{ github.event.head_commit.message || github.event.pull_request.title }}
-            
-            [View Changes](${{ github.event.pull_request.html_url || github.event.head_commit.url }})
-          embed-color: ${{ github.event_name == 'push' && '5865F2' || (github.event.pull_request.merged && '9C84EF' || (github.event.pull_request.state == 'closed' && 'ED4245' || '57F287')) }}
+          curl -H "Content-Type: application/json" \
+          -d '{
+            "username": "Portfolio Bot",
+            "avatar_url": "https://github.com/caiolombello.png",
+            "embeds": [{
+              "title": "${{ github.event_name == 'push' && '🚀 New Push' || '🔄 Pull Request' }}",
+              "description": "**Repository:** ${{ github.repository }}\n**Branch:** ${{ github.ref_name }}\n**Event:** ${{ github.event_name }}\n${{ github.event.pull_request && format('**PR Title:** {0}\n**PR State:** {1}\n', github.event.pull_request.title, github.event.pull_request.state) || '' }}\n**Author:** ${{ github.actor }}\n**Commit Message:** ${{ github.event.head_commit.message || github.event.pull_request.title }}\n\n[View Changes](${{ github.event.pull_request.html_url || github.event.head_commit.url }})",
+              "color": ${{ github.event_name == 'push' && '5865F2' || (github.event.pull_request.merged && '9C84EF' || (github.event.pull_request.state == 'closed' && 'ED4245' || '57F287')) }}
+            }]
+          }' $DISCORD_WEBHOOK
