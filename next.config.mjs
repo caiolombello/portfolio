@@ -146,6 +146,23 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: "/admin/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*",
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET",
+          },
+          {
+            key: "Content-Type",
+            value: "application/x-yaml",
+          }
+        ],
+      },
     ];
   },
 
@@ -175,6 +192,10 @@ const nextConfig = {
       {
         source: "/robots.txt",
         destination: "/api/robots",
+      },
+      {
+        source: "/admin",
+        destination: "/admin/index.html",
       }
     ];
   },
