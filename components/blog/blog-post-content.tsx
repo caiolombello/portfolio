@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { marked } from "marked";
 import { useLanguage } from "@/contexts/language-context";
 import type { Post } from "@/types";
+import { useEffect, useState } from "react";
 
 interface BlogPostContentProps {
   post: Post;
@@ -14,10 +15,19 @@ interface BlogPostContentProps {
 
 export function BlogPostContent({ post }: BlogPostContentProps) {
   const { language } = useLanguage();
+  const [parsedContent, setParsedContent] = useState("");
 
   const title = language === "pt" ? post.title_pt : post.title_en;
   const summary = language === "pt" ? post.summary_pt : post.summary_en;
   const content = language === "pt" ? post.body_pt : post.body_en;
+
+  useEffect(() => {
+    const parseContent = async () => {
+      const result = await Promise.resolve(marked.parse(content ?? ""));
+      setParsedContent(result);
+    };
+    parseContent();
+  }, [content]);
 
   return (
     <article className="container mx-auto px-4 py-8">
@@ -76,7 +86,7 @@ export function BlogPostContent({ post }: BlogPostContentProps) {
 
           <div
             className="prose prose-neutral dark:prose-invert max-w-none"
-            dangerouslySetInnerHTML={{ __html: marked(content) }}
+            dangerouslySetInnerHTML={{ __html: parsedContent }}
           />
         </CardContent>
       </Card>

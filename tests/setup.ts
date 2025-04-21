@@ -70,15 +70,32 @@ if (typeof window !== 'undefined') {
 
   // Mock IntersectionObserver
   global.IntersectionObserver = class IntersectionObserver {
+    constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+      this.callback = callback;
+      this.options = options || {};
+    }
+
+    readonly root: Element | null = null;
+    readonly rootMargin: string = "0px";
+    readonly thresholds: ReadonlyArray<number> = [0];
+    
+    callback: IntersectionObserverCallback;
+    options: IntersectionObserverInit;
+    
     observe = vi.fn();
     unobserve = vi.fn();
     disconnect = vi.fn();
+    takeRecords = vi.fn().mockReturnValue([]);
   };
 }
 
 // Add TextEncoder/TextDecoder
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder;
+if (typeof global.TextEncoder === 'undefined') {
+  global.TextEncoder = TextEncoder as any;
+}
+if (typeof global.TextDecoder === 'undefined') {
+  global.TextDecoder = TextDecoder as any;
+}
 
 // Mock localStorage
 const localStorageMock = {
