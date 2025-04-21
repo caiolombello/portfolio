@@ -1,14 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="robots" content="noindex" />
     <title>Content Manager</title>
-    <link href="config.yml" type="text/yaml" rel="cms-config-url">
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </head>
   <body>
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      // Function to load config.yml
+      async function loadConfig() {
+        try {
+          const response = await fetch('config.yml');
+          if (!response.ok) throw new Error('Failed to load config.yml');
+          const config = await response.text();
+          return config;
+        } catch (error) {
+          console.error('Error loading config:', error);
+          document.body.innerHTML = '<div style="padding: 20px;">Error loading CMS configuration. Please check the console for details.</div>';
+          throw error;
+        }
+      }
+
+      // Initialize CMS
+      if (window.CMS) {
+        loadConfig().then(() => {
+          CMS.init();
+        }).catch(error => {
+          console.error('CMS initialization failed:', error);
+        });
+      } else {
+        console.error('Decap CMS failed to load');
+        document.body.innerHTML = '<div style="padding: 20px;">Error: CMS failed to load. Please check your internet connection and try again.</div>';
+      }
+    </script>
   </body>
 </html>
