@@ -151,15 +151,16 @@ const nextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: "*",
-          },
-          {
-            key: "Access-Control-Allow-Methods",
-            value: "GET",
-          },
+            value: "*"
+          }
+        ],
+      },
+      {
+        source: "/admin/config.yml",
+        headers: [
           {
             key: "Content-Type",
-            value: "application/x-yaml",
+            value: "text/yaml"
           }
         ],
       },
@@ -192,10 +193,6 @@ const nextConfig = {
       {
         source: "/robots.txt",
         destination: "/api/robots",
-      },
-      {
-        source: "/admin",
-        destination: "/admin/index.html",
       }
     ];
   },
