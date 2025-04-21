@@ -66,6 +66,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const title = lang === "en" ? post.title_en : post.title_pt;
   const summary = lang === "en" ? post.summary_en : post.summary_pt;
   const dateFromSlug = slug.split("-").slice(0, 3).join("-");
+  const parsedContent = await marked.parse(content ?? "");
 
   return (
     <div className="container py-12">
@@ -140,7 +141,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div
               className="prose prose-invert max-w-none prose-headings:text-gold prose-a:text-gold prose-pre:bg-secondary"
               dangerouslySetInnerHTML={{
-                __html: marked.parse(content ?? ""),
+                __html: parsedContent,
               }}
             />
           </CardContent>
