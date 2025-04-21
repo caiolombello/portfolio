@@ -32,7 +32,7 @@ export async function GET(request: Request) {
     }
 
     // Redirect to the admin page with the token
-    const redirectUrl = new URL("/admin/", process.env.NEXT_PUBLIC_APP_URL);
+    const redirectUrl = new URL("/admin/index.html", process.env.NEXT_PUBLIC_APP_URL);
     redirectUrl.hash = `#/callback?provider=github&token=${data.access_token}&expires_in=3600`;
 
     return NextResponse.redirect(redirectUrl.toString(), {

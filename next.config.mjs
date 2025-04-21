@@ -179,11 +179,25 @@ const nextConfig = {
       {
         source: "/admin",
         destination: "/admin/index.html",
+        has: [
+          {
+            type: 'query',
+            key: 'provider',
+            value: undefined
+          }
+        ]
       },
       {
         source: "/admin/",
         destination: "/admin/index.html",
-      },
+        has: [
+          {
+            type: 'query',
+            key: 'provider',
+            value: undefined
+          }
+        ]
+      }
     ];
   },
 };
