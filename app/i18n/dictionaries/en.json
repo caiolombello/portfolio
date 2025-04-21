@@ -24,7 +24,13 @@
     "title": "Projects",
     "description": "Here are some of the projects I've worked on.",
     "viewProject": "View Project",
-    "viewAll": "View All Projects"
+    "viewAll": "View All Projects",
+    "backToPortfolio": "Back to Portfolio",
+    "projectDetails": "Project Details",
+    "technologiesUsed": "Technologies Used",
+    "viewDemo": "View Demo",
+    "githubRepo": "GitHub Repository",
+    "project": "project"
   },
   "blog": {
     "title": "Blog",
@@ -41,7 +47,10 @@
     "message": "Message",
     "send": "Send Message",
     "success": "Your message has been sent successfully!",
-    "error": "There was an error sending your message. Please try again."
+    "error": "There was an error sending your message. Please try again.",
+    "info": "Contact Information",
+    "successMessage": "Your message has been sent successfully!",
+    "errorMessage": "An error occurred. Please try again."
   },
   "resume": {
     "title": "Resume",
@@ -99,4 +108,3 @@
     "es": "Spanish"
   }
 }
-

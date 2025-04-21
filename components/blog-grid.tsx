@@ -1,48 +1,99 @@
-import { BlogPost } from "@/types/blog"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import Image from "next/image"
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import type { Post } from "@/types";
+import { useLanguage } from "@/contexts/language-context";
 
 interface BlogGridProps {
-  posts: BlogPost[]
+  posts: Post[];
 }
 
 export function BlogGrid({ posts }: BlogGridProps) {
+  const { language } = useLanguage();
+
+  if (posts.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-xl font-medium text-muted-foreground">
+          {language === "en"
+            ? "No posts published yet."
+            : "Nenhum artigo publicado ainda."}
+        </h2>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {posts.map((post) => (
-        <Card key={post.id} className="flex flex-col">
-          <CardHeader>
-            <CardTitle>{post.title}</CardTitle>
-            <CardDescription>{post.excerpt}</CardDescription>
-          </CardHeader>
-          <CardContent className="flex-grow">
-            {post.coverImage && (
-              <div className="relative aspect-video mb-4">
-                <Image
-                  src={post.coverImage}
-                  alt={post.title}
-                  fill
-                  className="object-cover rounded-md"
-                />
+      {posts.map((post) => {
+        const slug = language === "pt" ? post.slug_pt : post.slug_en;
+        const title = language === "pt" ? post.title_pt : post.title_en;
+        const summary = language === "pt" ? post.summary_pt : post.summary_en;
+
+        return (
+          <Card key={slug} className="flex flex-col">
+            <CardHeader>
+              <CardTitle className="line-clamp-2">{title}</CardTitle>
+              <CardDescription className="line-clamp-3">
+                {summary}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex-grow space-y-4">
+              {post.coverImage && (
+                <div className="relative aspect-video">
+                  <Image
+                    src={post.coverImage}
+                    alt={title}
+                    fill
+                    className="object-cover rounded-md"
+                  />
+                </div>
+              )}
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <time dateTime={post.publicationDate}>
+                  {new Date(post.publicationDate).toLocaleDateString(
+                    language === "en" ? "en-US" : "pt-BR",
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    },
+                  )}
+                </time>
               </div>
-            )}
-            <p className="text-sm text-muted-foreground">
-              {new Date(post.date).toLocaleDateString("pt-BR", {
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-              })}
-            </p>
-          </CardContent>
-          <CardFooter>
-            <Button asChild variant="outline" className="w-full">
-              <Link href={`/blog/${post.slug}`}>Ler mais</Link>
-            </Button>
-          </CardFooter>
-        </Card>
-      ))}
+              {post.tags && post.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-1 text-xs rounded-full bg-secondary text-secondary-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+            <CardFooter>
+              <Button asChild variant="outline" className="w-full">
+                <Link href={`/blog/${slug}`}>
+                  {language === "en" ? "Read more" : "Ler mais"}
+                </Link>
+              </Button>
+            </CardFooter>
+          </Card>
+        );
+      })}
     </div>
-  )
-} 
+  );
+}

@@ -1,11 +1,11 @@
-import Portfolio from "@/components/portfolio"
+import { redirect } from "next/navigation";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "Portfólio | Caio Lombello",
-  description: "Projetos desenvolvidos por Caio Lombello em DevOps, Cloud e Desenvolvimento de Aplicações",
-}
+export const metadata: Metadata = {
+  title: "Portfolio | Caio Barbieri",
+  description: "Projects and Portfolio",
+};
 
 export default function PortfolioPage() {
-  return <Portfolio />
+  redirect("/portfolio/page/1");
 }
-

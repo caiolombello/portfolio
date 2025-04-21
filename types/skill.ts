@@ -1,7 +1,28 @@
+export type SkillCategory =
+  | "Linguagens"
+  | "Cloud/Infra"
+  | "CI/CD"
+  | "Observabilidade"
+  | "Frontend"
+  | "Backend"
+  | "Banco de Dados"
+  | "Ferramentas"
+  | "Outros";
+
+export type SkillLevel =
+  | "Avançado"
+  | "Experiente"
+  | "Proficiente"
+  | "Familiarizado"
+  | "Iniciante";
+
 export interface Skill {
-  id?: string
-  name: string
-  category: string
-  level: "Avançado" | "Experiente" | "Proficiente" | "Familiarizado"
+  id?: string;
+  name: string;
+  category: SkillCategory;
+  level: SkillLevel;
 }
 
+export interface SkillsData {
+  skills_list: Skill[];
+}

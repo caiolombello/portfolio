@@ -1,13 +1,19 @@
-import type React from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowPathIcon } from "@heroicons/react/24/outline"
+import type React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 
 interface ChartContainerProps {
-  title: string
-  description?: string
-  children: React.ReactNode
-  loading?: boolean
-  className?: string
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+  loading?: boolean;
+  className?: string;
 }
 
 export default function ChartContainer({
@@ -33,6 +39,5 @@ export default function ChartContainer({
         )}
       </CardContent>
     </Card>
-  )
+  );
 }
-

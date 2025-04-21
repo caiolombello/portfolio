@@ -1,33 +1,34 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import Head from "next/head"
-import { usePathname } from "next/navigation"
+import Head from "next/head";
+import { usePathname } from "next/navigation";
 
 interface MetaTagsProps {
-  title?: string
-  description?: string
-  image?: string
-  type?: "website" | "article"
-  twitterCard?: "summary" | "summary_large_image"
-  children?: React.ReactNode
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+  twitterCard?: "summary" | "summary_large_image";
+  children?: React.ReactNode;
 }
 
 export default function MetaTags({
-  title = "Caio Lombello - DevOps Engineer",
-  description = "Portfólio de Caio Lombello, DevOps Engineer com foco em Cloud Native, Kubernetes e automação de infraestrutura.",
+  title = "Caio Barbieri - DevOps Engineer",
+  description = "Portfólio de Caio Barbieri, DevOps Engineer com foco em Cloud Native, Kubernetes e automação de infraestrutura.",
   image = "/images/og-image.jpg",
   type = "website",
   twitterCard = "summary_large_image",
   children,
 }: MetaTagsProps) {
-  const pathname = usePathname()
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com"
-  const url = `${baseUrl}${pathname}`
+  const pathname = usePathname();
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com";
+  const url = `${baseUrl}${pathname}`;
 
   // Garantir que a imagem tenha URL completa
-  const imageUrl = image.startsWith("http") ? image : `${baseUrl}${image}`
+  const imageUrl = image.startsWith("http") ? image : `${baseUrl}${image}`;
 
   return (
     <Head>
@@ -51,6 +52,5 @@ export default function MetaTags({
       {/* Conteúdo adicional */}
       {children}
     </Head>
-  )
+  );
 }
-

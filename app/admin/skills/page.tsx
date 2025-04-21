@@ -1,19 +1,23 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { useToast } from "@/components/ui/use-toast"
-import { ArrowPathIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
-import { useAuth } from "@/contexts/auth-context"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  ArrowPathIcon,
+  PlusIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
+import { useAuth } from "@/contexts/auth-context";
 
 interface Skill {
-  name: string
-  category: string
-  level: "Avançado" | "Experiente" | "Proficiente" | "Familiarizado"
+  name: string;
+  category: string;
+  level: "Avançado" | "Experiente" | "Proficiente" | "Familiarizado";
 }
 
 const CATEGORY_OPTIONS = [
@@ -22,79 +26,91 @@ const CATEGORY_OPTIONS = [
   "CI/CD",
   "Observabilidade",
   "Ferramentas",
-  "Metodologias"
-]
+  "Metodologias",
+];
 
 const LEVEL_OPTIONS = [
   "Avançado",
   "Experiente",
   "Proficiente",
-  "Familiarizado"
-]
+  "Familiarizado",
+];
 
 export default function AdminSkills() {
-  const [skills, setSkills] = useState<Skill[]>([])
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
-  const { toast } = useToast()
-  const { isAuthenticated } = useAuth()
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const { toast } = useToast();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const response = await fetch("/api/admin/skills")
+        const response = await fetch("/api/admin/skills");
         if (response.ok) {
-          const data = await response.json()
-          setSkills(data)
+          const data = await response.json();
+          setSkills(data);
         } else {
           toast({
             title: "Erro",
             description: "Não foi possível carregar as habilidades",
             variant: "destructive",
-          })
+          });
         }
       } catch (error) {
-        console.error("Erro ao carregar habilidades:", error)
+        console.error("Erro ao carregar habilidades:", error);
         toast({
           title: "Erro",
           description: "Não foi possível carregar as habilidades",
           variant: "destructive",
-        })
+        });
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
     if (isAuthenticated) {
-      fetchSkills()
+      fetchSkills();
     }
-  }, [toast, isAuthenticated])
+  }, [toast, isAuthenticated]);
 
   const handleAddSkill = () => {
     setSkills([
       ...skills,
-      { name: "", category: CATEGORY_OPTIONS[0], level: LEVEL_OPTIONS[2] as "Avançado" | "Proficiente" | "Experiente" | "Familiarizado" }
-    ])
-  }
+      {
+        name: "",
+        category: CATEGORY_OPTIONS[0],
+        level: LEVEL_OPTIONS[2] as
+          | "Avançado"
+          | "Proficiente"
+          | "Experiente"
+          | "Familiarizado",
+      },
+    ]);
+  };
 
   const handleRemoveSkill = (index: number) => {
-    const newSkills = [...skills]
-    newSkills.splice(index, 1)
-    setSkills(newSkills)
-  }
+    const newSkills = [...skills];
+    newSkills.splice(index, 1);
+    setSkills(newSkills);
+  };
 
-  const handleSkillChange = (index: number, field: keyof Skill, value: string) => {
-    const newSkills = [...skills]
+  const handleSkillChange = (
+    index: number,
+    field: keyof Skill,
+    value: string,
+  ) => {
+    const newSkills = [...skills];
     newSkills[index] = {
       ...newSkills[index],
       [field]: value,
-    }
-    setSkills(newSkills)
-  }
+    };
+    setSkills(newSkills);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setSaving(true)
+    e.preventDefault();
+    setSaving(true);
 
     try {
       const response = await fetch("/api/admin/skills", {
@@ -103,49 +119,56 @@ export default function AdminSkills() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(skills),
-      })
+      });
 
       if (response.ok) {
         toast({
           title: "Sucesso",
           description: "Habilidades atualizadas com sucesso",
-        })
+        });
       } else {
         toast({
           title: "Erro",
           description: "Não foi possível atualizar as habilidades",
           variant: "destructive",
-        })
+        });
       }
     } catch (error) {
-      console.error("Erro ao salvar habilidades:", error)
+      console.error("Erro ao salvar habilidades:", error);
       toast({
         title: "Erro",
         description: "Não foi possível atualizar as habilidades",
         variant: "destructive",
-      })
+      });
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
         <ArrowPathIcon className="h-8 w-8 animate-spin text-gold" />
       </div>
-    )
+    );
   }
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-gold mb-8">Gerenciar Habilidades</h1>
+      <h1 className="text-3xl font-bold text-gold mb-8">
+        Gerenciar Habilidades
+      </h1>
 
       <form onSubmit={handleSubmit}>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Habilidades Técnicas</CardTitle>
-            <Button type="button" variant="outline" size="sm" onClick={handleAddSkill}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleAddSkill}
+            >
               <PlusIcon className="h-4 w-4 mr-2" />
               Adicionar Habilidade
             </Button>
@@ -153,7 +176,8 @@ export default function AdminSkills() {
           <CardContent>
             {skills.length === 0 ? (
               <p className="text-center text-muted-foreground py-4">
-                Nenhuma habilidade cadastrada. Clique em "Adicionar Habilidade" para começar.
+                Nenhuma habilidade cadastrada. Clique em "Adicionar Habilidade"
+                para começar.
               </p>
             ) : (
               <div className="space-y-4">
@@ -163,7 +187,9 @@ export default function AdminSkills() {
                       <Input
                         placeholder="Nome da habilidade"
                         value={skill.name}
-                        onChange={(e) => handleSkillChange(index, "name", e.target.value)}
+                        onChange={(e) =>
+                          handleSkillChange(index, "name", e.target.value)
+                        }
                         required
                       />
                     </div>
@@ -171,10 +197,14 @@ export default function AdminSkills() {
                       <select
                         className="w-full rounded border px-2 py-1 text-sm"
                         value={skill.category}
-                        onChange={(e) => handleSkillChange(index, "category", e.target.value)}
+                        onChange={(e) =>
+                          handleSkillChange(index, "category", e.target.value)
+                        }
                       >
-                        {CATEGORY_OPTIONS.map(option => (
-                          <option key={option} value={option}>{option}</option>
+                        {CATEGORY_OPTIONS.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
                         ))}
                       </select>
                     </div>
@@ -182,10 +212,14 @@ export default function AdminSkills() {
                       <select
                         className="w-full rounded border px-2 py-1 text-sm"
                         value={skill.level}
-                        onChange={(e) => handleSkillChange(index, "level", e.target.value)}
+                        onChange={(e) =>
+                          handleSkillChange(index, "level", e.target.value)
+                        }
                       >
-                        {LEVEL_OPTIONS.map(option => (
-                          <option key={option} value={option}>{option}</option>
+                        {LEVEL_OPTIONS.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
                         ))}
                       </select>
                     </div>
@@ -219,6 +253,5 @@ export default function AdminSkills() {
         </div>
       </form>
     </div>
-  )
+  );
 }
-

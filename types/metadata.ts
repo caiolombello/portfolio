@@ -1,102 +1,80 @@
 export interface SiteMetadata {
   title: {
-    default: string
-    template: string
-  }
-  description: string
-  keywords: string[]
-  authors: string[]
-  creator: string
-  publisher: string
+    default: string;
+    template: string;
+  };
+  description: string;
+  keywords: string[];
+  authors: { name: string }[];
+  creator: string;
+  publisher: string;
   robots: {
-    index: boolean
-    follow: boolean
-    googleBot: {
-      index: boolean
-      follow: boolean
-      maxVideoPreview: number
-      maxImagePreview: "none" | "standard" | "large"
-      maxSnippet: number
-    }
-  }
+    index: boolean;
+    follow: boolean;
+    noarchive?: boolean;
+    nosnippet?: boolean;
+    noimageindex?: boolean;
+    notranslate?: boolean;
+    googleBot?: {
+      index: boolean;
+      follow: boolean;
+      maxSnippet: number;
+      maxImagePreview: "none" | "standard" | "large";
+      maxVideoPreview: number;
+    };
+  };
   openGraph: {
-    title: string
-    description: string
-    siteName: string
-    locale: string
-    type: string
-    url: string
-    images: {
-      url: string
-      width: number
-      height: number
-      alt: string
-    }[]
-  }
+    type: string;
+    locale: string;
+    url: string;
+    title: string;
+    description: string;
+    siteName: string;
+    images: Array<{
+      url: string;
+      width: number;
+      height: number;
+      alt: string;
+    }>;
+  };
   twitter: {
-    card: "summary" | "summary_large_image" | "app" | "player"
-    creator: string
-    description: string
-    images: {
-      url: string
-      width: number
-      height: number
-      alt: string
-    }[]
-  }
+    card: "summary" | "summary_large_image" | "app" | "player";
+    title: string;
+    description: string;
+    images: string[];
+    creator: string;
+  };
   verification: {
-    google: string
-    yandex: string
-    yahoo: string
-    other: Record<string, string>
-  }
-  themeColor: string
-  colorScheme: "light" | "dark" | "system"
-  generator: string
-  links: {
-    website: string
-    email: string
-    github: string
-    gitlab: string
-    linkedin: string
-    twitter: string
-    stackoverflow?: string
-    devto?: string
-    medium?: string
-    hashnode?: string
-    behance?: string
-    dribbble?: string
-    figma?: string
-    credly?: string
-    microsoftLearn?: string
-    awsTraining?: string
-    whatsapp?: string
-    telegram?: string
-  }
+    google?: string;
+    yandex?: string;
+    yahoo?: string;
+    other: Record<string, string>;
+  };
+  alternates: {
+    canonical: string;
+    languages: Record<string, string>;
+  };
+  category: string;
 }
 
 export const defaultMetadata: SiteMetadata = {
   title: {
-    default: "Caio Lombello Vendramini Barbieri - DevOps & Cloud Engineer",
-    template: "%s | Caio Lombello Vendramini Barbieri",
+    default: "Caio Barbieri",
+    template: "%s | Caio Barbieri",
   },
-  description:
-    "Portfólio profissional de Caio Lombello Vendramini Barbieri, especialista em DevOps, Cloud Computing e Engenharia de Software. Experiência em automação, infraestrutura como código e desenvolvimento de software.",
+  description: "Portfolio pessoal de Caio Barbieri",
   keywords: [
-    "devops",
-    "cloud",
-    "software",
-    "engineering",
-    "automation",
-    "infrastructure",
-    "code",
-    "development",
-    "portfolio",
-    "caio",
-    "lombello",
-    "barbieri",
+    "DevOps",
+    "Cloud",
+    "Kubernetes",
+    "Docker",
+    "AWS",
+    "CI/CD",
+    "Infraestrutura",
+    "Software",
+    "Engenharia",
   ],
-  authors: ["Caio Lombello Vendramini Barbieri"],
+  authors: [{ name: "Caio Lombello Vendramini Barbieri" }],
   creator: "Caio Lombello Vendramini Barbieri",
   publisher: "Caio Lombello Vendramini Barbieri",
   robots: {
@@ -105,41 +83,33 @@ export const defaultMetadata: SiteMetadata = {
     googleBot: {
       index: true,
       follow: true,
-      maxVideoPreview: -1,
-      maxImagePreview: "large",
       maxSnippet: -1,
+      maxImagePreview: "large",
+      maxVideoPreview: -1,
     },
   },
   openGraph: {
-    title: "Caio Lombello Vendramini Barbieri - DevOps & Cloud Engineer",
-    description:
-      "Portfólio profissional de Caio Lombello Vendramini Barbieri, especialista em DevOps, Cloud Computing e Engenharia de Software.",
-    siteName: "Caio Lombello Vendramini Barbieri",
-    locale: "pt_BR",
     type: "website",
+    locale: "pt_BR",
     url: "https://caio.lombello.com",
+    title: "Caio Barbieri",
+    description: "Portfolio pessoal de Caio Barbieri",
+    siteName: "Caio Barbieri",
     images: [
       {
         url: "https://caio.lombello.com/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Caio Lombello Vendramini Barbieri - DevOps & Cloud Engineer",
+        alt: "Caio Barbieri",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
+    title: "Caio Barbieri",
+    description: "Portfolio pessoal de Caio Barbieri",
+    images: ["https://caio.lombello.com/og-image.jpg"],
     creator: "@caiolombello",
-    description:
-      "Portfólio profissional de Caio Lombello Vendramini Barbieri, especialista em DevOps, Cloud Computing e Engenharia de Software.",
-    images: [
-      {
-        url: "https://caio.lombello.com/twitter-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Caio Lombello Vendramini Barbieri - DevOps & Cloud Engineer",
-      },
-    ],
   },
   verification: {
     google: "",
@@ -147,16 +117,12 @@ export const defaultMetadata: SiteMetadata = {
     yahoo: "",
     other: {},
   },
-  themeColor: "#121212",
-  colorScheme: "dark",
-  generator: "Next.js",
-  links: {
-    website: "https://caio.lombello.com",
-    email: "caio@lombello.com",
-    github: "https://github.com/caiolombello",
-    gitlab: "https://gitlab.com/caiolombello",
-    linkedin: "https://linkedin.com/in/caiolvbarbieri",
-    twitter: "https://twitter.com/caiolombello",
+  alternates: {
+    canonical: "https://caio.lombello.com",
+    languages: {
+      "pt-BR": "https://caio.lombello.com",
+      "en-US": "https://caio.lombello.com/en",
+    },
   },
-}
-
+  category: "technology",
+};

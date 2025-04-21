@@ -1,19 +1,36 @@
 // Definição de tipos para o dicionário
 type NestedDictionary = {
   [key: string]: string | NestedDictionary;
-}
+};
 
 export type Dictionary = NestedDictionary & {
   resume: {
     title: string;
     description: string;
   };
+  blog: {
+    title: string;
+    description: string;
+    back: string;
+    readMore: string;
+    publishedOn: string;
+    tags: string;
+    notFound: {
+      title: string;
+      description: string;
+    };
+    pagination: {
+      previous: string;
+      next: string;
+      page: string;
+    };
+  };
   posts: {
     edit: {
       description: string;
     };
   };
-}
+};
 
 // Dicionário em português
 const pt: Dictionary = {
@@ -21,16 +38,33 @@ const pt: Dictionary = {
   home: "Início",
   about: "Sobre",
   projects: "Projetos",
-  blog: "Blog",
+  blog: {
+    title: "Blog | Caio Barbieri",
+    description: "Artigos sobre desenvolvimento, DevOps e tecnologia",
+    back: "Voltar para o blog",
+    readMore: "Ler mais",
+    publishedOn: "Publicado em",
+    tags: "Tags",
+    notFound: {
+      title: "Post não encontrado",
+      description: "O artigo que você procura não foi encontrado",
+    },
+    pagination: {
+      previous: "Anterior",
+      next: "Próximo",
+      page: "Página",
+    },
+  },
   contact: "Contato",
   resume: {
-    title: "Currículo | Caio Lombello",
-    description: "Currículo profissional de Caio Lombello, desenvolvedor Full Stack com experiência em DevOps e Cloud Computing."
+    title: "Currículo",
+    description:
+      "Currículo profissional de Caio Barbieri, desenvolvedor Full Stack com experiência em DevOps e Cloud Computing.",
   },
   posts: {
     edit: {
-      description: "Editar post"
-    }
+      description: "Editar post",
+    },
   },
 
   // Cabeçalho
@@ -83,7 +117,7 @@ const pt: Dictionary = {
   instagram: "Instagram",
   website: "Website",
   whatsapp: "WhatsApp",
-}
+};
 
 // Dicionário em inglês
 const en: Dictionary = {
@@ -91,16 +125,33 @@ const en: Dictionary = {
   home: "Home",
   about: "About",
   projects: "Projects",
-  blog: "Blog",
+  blog: {
+    title: "Blog | Caio Barbieri",
+    description: "Articles about development, DevOps and technology",
+    back: "Back to blog",
+    readMore: "Read more",
+    publishedOn: "Published on",
+    tags: "Tags",
+    notFound: {
+      title: "Post not found",
+      description: "The article you're looking for was not found",
+    },
+    pagination: {
+      previous: "Previous",
+      next: "Next",
+      page: "Page",
+    },
+  },
   contact: "Contact",
   resume: {
-    title: "Resume | Caio Lombello",
-    description: "Professional resume of Caio Lombello, Full Stack developer with experience in DevOps and Cloud Computing."
+    title: "Resume | Caio Barbieri",
+    description:
+      "Professional resume of Caio Barbieri, Full Stack developer with experience in DevOps and Cloud Computing.",
   },
   posts: {
     edit: {
-      description: "Edit post"
-    }
+      description: "Edit post",
+    },
   },
 
   // Header
@@ -153,16 +204,103 @@ const en: Dictionary = {
   instagram: "Instagram",
   website: "Website",
   whatsapp: "WhatsApp",
-}
+};
+
+// Dicionário em espanhol
+const es: Dictionary = {
+  // Navigation
+  home: "Inicio",
+  about: "Sobre",
+  projects: "Proyectos",
+  blog: {
+    title: "Blog | Caio Barbieri",
+    description: "Artículos sobre desarrollo, DevOps y tecnología",
+    back: "Volver al blog",
+    readMore: "Leer más",
+    publishedOn: "Publicado el",
+    tags: "Etiquetas",
+    notFound: {
+      title: "Post no encontrado",
+      description: "El artículo que buscas no fue encontrado",
+    },
+    pagination: {
+      previous: "Anterior",
+      next: "Siguiente",
+      page: "Página",
+    },
+  },
+  contact: "Contacto",
+  resume: {
+    title: "Currículo",
+    description:
+      "Currículo profissional de Caio Barbieri, desenvolvedor Full Stack com experiência em DevOps e Cloud Computing.",
+  },
+  posts: {
+    edit: {
+      description: "Editar post",
+    },
+  },
+
+  // Header
+  greeting: "Hola, soy",
+  role: "Desarrollador Full Stack",
+
+  // Buttons
+  download_resume: "Descargar Currículo",
+  generating: "Generando...",
+  portuguese: "Portugués",
+  english: "Inglés",
+
+  // Sections
+  about_me: "Sobre Mí",
+  my_projects: "Mis Proyectos",
+  latest_posts: "Últimos Posts",
+  get_in_touch: "Ponerse en Contacto",
+
+  // Contact form
+  name: "Nombre",
+  email: "Correo electrónico",
+  message: "Mensaje",
+  send: "Enviar",
+  sending: "Enviando...",
+
+  // Messages
+  success_message: "Mensaje enviado con éxito!",
+  error_message: "Ocurrió un error. Por favor, inténtelo de nuevo.",
+
+  // Footer
+  rights_reserved: "Todos los derechos reservados",
+
+  // Admin
+  admin_panel: "Panel de Administración",
+  edit_profile: "Editar Perfil",
+  edit_projects: "Editar Proyectos",
+  edit_posts: "Editar Posts",
+  logout: "Cerrar Sesión",
+
+  // Outros
+  view_project: "Ver Proyecto",
+  read_more: "Leer Más",
+  back_to_home: "Volver al Inicio",
+  loading: "Cargando...",
+
+  // Redes sociales
+  github: "GitHub",
+  linkedin: "LinkedIn",
+  twitter: "Twitter",
+  instagram: "Instagram",
+  website: "Website",
+  whatsapp: "WhatsApp",
+};
 
 // Dicionários disponíveis
 const dictionaries = {
   pt,
   en,
-}
+  es,
+};
 
 // Função para obter o dicionário com base no idioma
 export const getDictionary = (locale: string): Dictionary => {
-  return dictionaries[locale as keyof typeof dictionaries] || dictionaries.pt
-}
-
+  return dictionaries[locale as keyof typeof dictionaries] || dictionaries.pt;
+};

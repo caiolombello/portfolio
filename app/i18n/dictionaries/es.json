@@ -41,7 +41,10 @@
     "message": "Mensaje",
     "send": "Enviar Mensaje",
     "success": "¡Tu mensaje ha sido enviado con éxito!",
-    "error": "Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo."
+    "error": "Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo.",
+    "info": "Información de Contacto",
+    "successMessage": "¡Tu mensaje ha sido enviado con éxito!",
+    "errorMessage": "Ocurrió un error. Por favor, inténtalo de nuevo."
   },
   "resume": {
     "title": "Currículum",
@@ -99,4 +102,3 @@
     "es": "Español"
   }
 }
-

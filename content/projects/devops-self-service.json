@@ -1,16 +1,21 @@
 {
   "id": "devops-self-service",
-  "title": "DevOps Self Service Platform",
-  "category": "Infrastructure Automation",
+  "title_pt": "Plataforma Self-Service DevOps",
+  "title_en": "DevOps Self-Service Platform",
+  "shortDescription_pt": "Plataforma self-service para equipes de desenvolvimento gerenciarem seus recursos de infraestrutura.",
+  "shortDescription_en": "Self-service platform for development teams to manage their infrastructure resources.",
+  "description_pt": "Plataforma desenvolvida para permitir que equipes de desenvolvimento gerenciem seus próprios recursos de infraestrutura de forma autônoma e segura. A solução automatiza a provisão de ambientes, deploy de aplicações e gerenciamento de recursos cloud, reduzindo a dependência da equipe de DevOps e acelerando o ciclo de desenvolvimento.",
+  "description_en": "Platform developed to enable development teams to manage their own infrastructure resources autonomously and securely. The solution automates environment provisioning, application deployment, and cloud resource management, reducing dependency on the DevOps team and accelerating the development cycle.",
   "imageUrl": "/placeholder.svg?height=300&width=500",
-  "shortDescription": "Plataforma self-service para equipes de desenvolvimento gerenciarem seus recursos de infraestrutura.",
-  "technologies": ["Kubernetes", "Docker", "React", "Node.js", "Go"],
-  "fullDescription": "Aqui entra a descrição completa do projeto DevOps Self Service Platform, detalhando os desafios, a solução implementada com as tecnologias Kubernetes, Docker, React, Node.js, Go, e os resultados alcançados. Incluiria também diagramas ou mais imagens relevantes.",
-  "demoUrl": "#",
-  "repoUrl": "#",
-  "screenshots": [
-    "/placeholder.svg?height=300&width=600&text=Screenshot 1",
-    "/placeholder.svg?height=300&width=600&text=Screenshot 2",
-    "/placeholder.svg?height=300&width=600&text=Screenshot 3"
-  ]
-} 
+  "category": "Infrastructure",
+  "technologies": [
+    { "tech": "Kubernetes" },
+    { "tech": "Docker" },
+    { "tech": "React" },
+    { "tech": "Node.js" },
+    { "tech": "Go" }
+  ],
+  "featured": true,
+  "createdAt": "2024-01-15",
+  "updatedAt": "2024-01-15"
+}

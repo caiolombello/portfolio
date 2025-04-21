@@ -1,15 +1,23 @@
-import type { Metadata, Viewport } from "next"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
-import ScrollToTop from "@/components/scroll-to-top"
-import { ThemeProvider } from "@/components/theme-provider"
-import { LanguageProvider } from "@/contexts/language-context"
-import { AuthProvider } from "@/contexts/auth-context"
-import DynamicTitle from "@/components/dynamic-title"
+import { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+import ScrollToTop from "@/components/scroll-to-top";
+import { ThemeProvider } from "@/components/theme-provider";
+import { LanguageProvider } from "@/contexts/language-context";
+import { AuthProvider } from "@/contexts/auth-context";
+import DynamicTitle from "@/components/dynamic-title";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
 
 // Função para obter configurações do site apenas de dados locais ou valores padrão
 async function getSiteSettings() {
@@ -26,121 +34,173 @@ async function getSiteSettings() {
       linkedin: "https://linkedin.com/in/caiolvbarbieri",
       twitter: "https://twitter.com/caiolombello",
     },
-  }
+  };
 }
 
-export const viewport: Viewport = {
+export const viewport = {
   themeColor: "#121212",
   colorScheme: "dark",
-}
+};
 
-export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSiteSettings()
-  // Removido: const seoSettings = await getBlob("seo.json")
-
-  let metadata: Metadata = {
-    title: {
-      default: settings.siteName,
-      template: `%s | ${settings.siteName}`,
-    },
-    description: "Portfólio de Caio Lombello Vendramini Barbieri, DevOps & Cloud Engineer",
-    keywords: [
-      "DevOps",
-      "Cloud",
-      "Kubernetes",
-      "Docker",
-      "AWS",
-      "CI/CD",
-      "Infraestrutura",
-      "Software",
-      "Engenharia",
-    ],
-    authors: [{ name: "Caio Lombello Vendramini Barbieri" }],
-    creator: "Caio Lombello Vendramini Barbieri",
-    publisher: "Caio Lombello Vendramini Barbieri",
-    robots: {
+export const metadata: Metadata = {
+  metadataBase: new URL("https://caio.lombello.com"),
+  title: {
+    default: "Caio Barbieri",
+    template: "%s | Caio Barbieri",
+  },
+  description: "Portfolio pessoal de Caio Barbieri",
+  keywords: [
+    "DevOps",
+    "Cloud",
+    "Kubernetes",
+    "Docker",
+    "AWS",
+    "CI/CD",
+    "Infraestrutura",
+    "Software",
+    "Engenharia",
+  ],
+  authors: [{ name: "Caio Lombello Vendramini Barbieri" }],
+  creator: "Caio Lombello Vendramini Barbieri",
+  publisher: "Caio Lombello Vendramini Barbieri",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
       index: true,
       follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: "https://caio.lombello.com",
+    title: "Caio Barbieri",
+    description: "Portfolio pessoal de Caio Barbieri",
+    siteName: "Caio Barbieri",
+    images: [
+      {
+        url: "https://caio.lombello.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Caio Barbieri",
       },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Caio Barbieri",
+    description: "Portfolio pessoal de Caio Barbieri",
+    images: ["https://caio.lombello.com/og-image.jpg"],
+    creator: "@caiolombello",
+  },
+  verification: {
+    google: "google-site-verification-code",
+    yandex: "yandex-verification-code",
+    yahoo: "yahoo-verification-code",
+  },
+  alternates: {
+    canonical: "https://caio.lombello.com",
+    languages: {
+      "pt-BR": "https://caio.lombello.com",
+      "en-US": "https://caio.lombello.com",
     },
-    openGraph: {
-      type: "website",
-      locale: "pt_BR",
-      url: settings.baseUrl,
-      title: settings.siteName,
-      description: "Portfólio de Caio Lombello Vendramini Barbieri, DevOps & Cloud Engineer",
-      siteName: settings.siteName,
-      images: [
-        {
-          url: `${settings.baseUrl}/og-image.jpg`,
-          width: 1200,
-          height: 630,
-          alt: settings.siteName,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: settings.siteName,
-      description: "Portfólio de Caio Lombello Vendramini Barbieri, DevOps & Cloud Engineer",
-      images: [`${settings.baseUrl}/og-image.jpg`],
-      creator: "@caiolombello",
-    },
-    verification: {
-      google: "google-site-verification-code",
-      yandex: "yandex-verification-code",
-      yahoo: "yahoo-verification-code",
-    },
-    alternates: {
-      canonical: settings.baseUrl,
-      languages: {
-        "pt-BR": settings.baseUrl,
-        "en-US": `${settings.baseUrl}/en`,
-      },
-    },
-    category: "technology",
-    generator: "Next.js",
-  }
+  },
+  category: "technology",
+};
 
-  // Removido: uso de seoSettings
-
-  return metadata
+interface RootLayoutProps {
+  children: React.ReactNode;
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
         <meta name="msapplication-TileColor" content="#121212" />
         <meta name="theme-color" content="#121212" />
         <link rel="icon" href="/api/favicon?format=ico" type="image/x-icon" />
-        <link rel="icon" href="/api/favicon?size=16" type="image/png" sizes="16x16" />
-        <link rel="icon" href="/api/favicon?size=32" type="image/png" sizes="32x32" />
-        <link rel="icon" href="/api/favicon?size=48" type="image/png" sizes="48x48" />
-        <link rel="icon" href="/api/favicon?size=64" type="image/png" sizes="64x64" />
-        <link rel="icon" href="/api/favicon?size=96" type="image/png" sizes="96x96" />
-        <link rel="icon" href="/api/favicon?size=128" type="image/png" sizes="128x128" />
-        <link rel="icon" href="/api/favicon?size=192" type="image/png" sizes="192x192" />
-        <link rel="icon" href="/api/favicon?size=256" type="image/png" sizes="256x256" />
-        <link rel="icon" href="/api/favicon?size=384" type="image/png" sizes="384x384" />
-        <link rel="icon" href="/api/favicon?size=512" type="image/png" sizes="512x512" />
-        <link rel="apple-touch-icon" href="/api/favicon?size=180" type="image/png" sizes="180x180" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link
+          rel="icon"
+          href="/api/favicon?size=16"
+          type="image/png"
+          sizes="16x16"
+        />
+        <link
+          rel="icon"
+          href="/api/favicon?size=32"
+          type="image/png"
+          sizes="32x32"
+        />
+        <link
+          rel="icon"
+          href="/api/favicon?size=48"
+          type="image/png"
+          sizes="48x48"
+        />
+        <link
+          rel="icon"
+          href="/api/favicon?size=64"
+          type="image/png"
+          sizes="64x64"
+        />
+        <link
+          rel="icon"
+          href="/api/favicon?size=96"
+          type="image/png"
+          sizes="96x96"
+        />
+        <link
+          rel="icon"
+          href="/api/favicon?size=128"
+          type="image/png"
+          sizes="128x128"
+        />
+        <link
+          rel="icon"
+          href="/api/favicon?size=192"
+          type="image/png"
+          sizes="192x192"
+        />
+        <link
+          rel="icon"
+          href="/api/favicon?size=256"
+          type="image/png"
+          sizes="256x256"
+        />
+        <link
+          rel="icon"
+          href="/api/favicon?size=384"
+          type="image/png"
+          sizes="384x384"
+        />
+        <link
+          rel="icon"
+          href="/api/favicon?size=512"
+          type="image/png"
+          sizes="512x512"
+        />
+        <link
+          rel="apple-touch-icon"
+          href="/api/favicon?size=180"
+          type="image/png"
+          sizes="180x180"
+        />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="Caio Lombello" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+        <meta name="apple-mobile-web-app-title" content="Caio Barbieri" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="canonical" href="https://caio.lombello.com" />
         <script
@@ -164,11 +224,18 @@ export default function RootLayout({
             }),
           }}
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       </head>
-      <body className={inter.className}>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          inter.className,
+        )}
+      >
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
+          defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
@@ -181,12 +248,15 @@ export default function RootLayout({
                 <Footer />
                 <ScrollToTop />
               </div>
+              <Toaster />
             </AuthProvider>
           </LanguageProvider>
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
-  )
+  );
 }
 
-import './globals.css'
+import "./globals.css";

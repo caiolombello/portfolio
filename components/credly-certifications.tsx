@@ -1,5 +1,8 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { fetchCredlyBadges } from "@/lib/credly";
+import Image from "next/image";
 
 interface BadgeTemplate {
   id: string;
@@ -35,7 +38,7 @@ export default function CredlyCertifications() {
         if (Array.isArray(data)) {
           // Remove duplicates and sort by date (most recent first)
           const uniqueBadges = Array.from(
-            new Map(data.map(b => [b.badge_template.id, b])).values()
+            new Map(data.map((b) => [b.badge_template.id, b])).values(),
           ).sort((a, b) => {
             const dateA = new Date(a.issued_at).getTime();
             const dateB = new Date(b.issued_at).getTime();
@@ -54,7 +57,24 @@ export default function CredlyCertifications() {
       .finally(() => setLoading(false));
   }, [username]);
 
-  if (loading) return <p>Carregando certificações do Credly...</p>;
+  if (loading)
+    return (
+      <div className="bg-card p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="flex flex-col items-center p-4 border rounded-lg bg-background animate-pulse"
+            >
+              <div className="w-24 h-24 mb-4 bg-muted rounded-full" />
+              <div className="h-4 w-32 bg-muted rounded mb-2" />
+              <div className="h-3 w-16 bg-muted rounded mb-2" />
+              <div className="h-3 w-20 bg-muted rounded" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   if (error) return <p className="text-red-500">{error}</p>;
   if (!badges.length) return <p>Nenhuma certificação encontrada no Credly.</p>;
 
@@ -66,16 +86,18 @@ export default function CredlyCertifications() {
             const { name, image_url } = badge.badge_template;
             const issuedAt = badge.issued_at;
             const verificationUrl = `https://www.credly.com/badges/${badge.id}`;
-            
+
             return (
-              <div 
-                key={badge.id} 
+              <div
+                key={badge.id}
                 className="flex flex-col items-center p-4 border rounded-lg bg-background hover:border-gold transition-colors duration-200"
               >
                 <div className="w-24 h-24 mb-4">
-                  <img 
-                    src={image_url} 
-                    alt={name} 
+                  <Image
+                    src={image_url}
+                    alt={name}
+                    width={100}
+                    height={100}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -100,4 +122,4 @@ export default function CredlyCertifications() {
       </div>
     </div>
   );
-} 
+}

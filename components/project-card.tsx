@@ -1,12 +1,22 @@
-import Image from "next/image"
-import Link from "next/link"
-import type { Project } from "@/data/projects"
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import type { Project } from "@/types";
+import { useLanguage } from "@/contexts/language-context";
 
 interface ProjectCardProps {
-  project: Project
+  project: Project;
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
+  const { language } = useLanguage();
+  const title = language === "pt" ? project.title_pt : project.title_en;
+  const shortDescription =
+    language === "pt"
+      ? project.shortDescription_pt
+      : project.shortDescription_en;
+
   return (
     <Link
       href={`/portfolio/${project.id}`}
@@ -15,7 +25,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       <div className="relative h-48 w-full overflow-hidden">
         <Image
           src={project.imageUrl || "/placeholder.svg"}
-          alt={project.title}
+          alt={title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
@@ -27,12 +37,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </span>
 
         <h3 className="mb-2 text-xl font-semibold text-foreground group-hover:text-gold transition-colors duration-300">
-          {project.title}
+          {title}
         </h3>
 
-        <p className="text-sm text-muted-foreground">{project.shortDescription}</p>
+        <p className="text-sm text-muted-foreground">{shortDescription}</p>
       </div>
     </Link>
-  )
+  );
 }
-

@@ -1,19 +1,23 @@
-declare module '@vercel/blob' {
+declare module "@vercel/blob" {
   interface BlobObject {
-    pathname: string
-    url: string
+    pathname: string;
+    url: string;
   }
 
   interface ListResponse {
-    blobs: BlobObject[]
+    blobs: BlobObject[];
   }
 
   interface PutOptions {
-    contentType?: string
-    access?: 'public' | 'private'
-    addRandomSuffix?: boolean
+    contentType?: string;
+    access?: "public" | "private";
+    addRandomSuffix?: boolean;
   }
 
-  export function put(key: string, data: string | Buffer, options?: PutOptions): Promise<BlobObject>
-  export function list(options: { prefix: string }): Promise<ListResponse>
-} 
+  export function put(
+    key: string,
+    data: string | Buffer,
+    options?: PutOptions,
+  ): Promise<BlobObject>;
+  export function list(options: { prefix: string }): Promise<ListResponse>;
+}

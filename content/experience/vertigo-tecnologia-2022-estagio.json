@@ -1,0 +1,35 @@
+{
+  "company": "Vertigo Tecnologia",
+  "title_pt": "Estagiário DevOps",
+  "title_en": "DevOps Intern",
+  "period": "Mar 2022 - Set 2022",
+  "responsibilities_pt": [
+    {
+      "item": "Desenvolvimento de scripts de automação em Python"
+    },
+    {
+      "item": "Configuração e manutenção de pipelines CI/CD"
+    },
+    {
+      "item": "Suporte à infraestrutura AWS e monitoramento"
+    },
+    {
+      "item": "Aprendizado e aplicação de práticas DevOps"
+    }
+  ],
+  "responsibilities_en": [
+    {
+      "item": "Development of automation scripts in Python"
+    },
+    {
+      "item": "Configuration and maintenance of CI/CD pipelines"
+    },
+    {
+      "item": "AWS infrastructure support and monitoring"
+    },
+    {
+      "item": "Learning and applying DevOps practices"
+    }
+  ],
+  "startDate": "2022-03-01"
+}

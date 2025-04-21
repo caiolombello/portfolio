@@ -1,6 +1,6 @@
 {
-  "name": "Caio Lombello - DevOps Engineer",
-  "short_name": "Caio Lombello",
+  "name": "Caio Barbieri - DevOps Engineer",
+  "short_name": "Caio Barbieri",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -18,4 +18,3 @@
   "display": "standalone",
   "start_url": "/"
 }
-

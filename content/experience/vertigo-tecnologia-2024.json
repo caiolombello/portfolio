@@ -1,0 +1,25 @@
+{
+  "company": "Vertigo Tecnologia",
+  "title_pt": "Engenheiro DevOps",
+  "title_en": "DevOps Engineer",
+  "period": "Jan 2024 - Presente",
+  "responsibilities_pt": [
+    {
+      "item": "Implementação e manutenção de pipelines CI/CD usando GitLab e GitHub Actions"
+    },
+    { "item": "Gerenciamento de clusters Kubernetes em ambiente multi-cloud" },
+    {
+      "item": "Desenvolvimento de ferramentas de automação em Python e Golang"
+    },
+    { "item": "Implementação de práticas GitOps e IaC com Terraform" }
+  ],
+  "responsibilities_en": [
+    {
+      "item": "Implementation and maintenance of CI/CD pipelines using GitLab and GitHub Actions"
+    },
+    { "item": "Management of Kubernetes clusters in multi-cloud environment" },
+    { "item": "Development of automation tools using Python and Golang" },
+    { "item": "Implementation of GitOps practices and IaC with Terraform" }
+  ],
+  "startDate": "2024-01-01"
+}

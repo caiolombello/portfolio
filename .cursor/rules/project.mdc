@@ -3,10 +3,15 @@ description:
 globs: 
 alwaysApply: true
 ---
+---
+description: Portfolio Website Architecture Documentation
+globs: ["**/*"]
+alwaysApply: true
+---
 # Portfolio Website Architecture Documentation
 
 ## Overview
-This document describes the architecture and guidelines for Caio Lombello Vendramini Barbieri's professional portfolio website.
+This document describes the architecture and guidelines for Caio Lombello Vendramini Barbieri's professional portfolio website. The project is designed to be fully dynamic and easily editable through Decap CMS (formerly Netlify CMS), allowing for real-time content updates without requiring code changes.
 
 ## Core Technologies
 - Next.js 14+ with App Router
@@ -14,8 +19,10 @@ This document describes the architecture and guidelines for Caio Lombello Vendra
 - TypeScript
 - Tailwind CSS
 - shadcn/ui components
-- Vercel Blob Storage
 - i18n (English, Portuguese, Spanish)
+- pnpm for package management
+- Decap CMS for content management
+- Hosting in Vercel
 
 ## Project Structure
 
@@ -28,10 +35,13 @@ This document describes the architecture and guidelines for Caio Lombello Vendra
   - Must use Tailwind CSS for styling
   - Must be properly typed with TypeScript
   - Should be responsive and accessible
+  - Follow atomic design principles
+  - Must support dynamic content injection
+  - Must be compatible with Decap CMS preview
 
 ### Data Management
 #### Primary Data Source (`/public/data/`)
-- JSON files store core content:
+- JSON files store core content (fallback only):
   - Profile information
   - Professional experience
   - Education details
@@ -40,33 +50,46 @@ This document describes the architecture and guidelines for Caio Lombello Vendra
   - Blog posts
 - Each data type has corresponding TypeScript types in `/types/`
 - Changes to data structure must be reflected in both JSON and TypeScript types
+- Data validation using Zod schemas
 
-#### Blob Storage Integration (`/lib/blob-storage.ts`)
-- Primary storage for admin functions
-- Fallback system for local JSON files
-- Core operations:
-  - save: Store new content
-  - load: Retrieve content
-  - list: Enumerate stored items
-  - exists: Verify content existence
-- Implementation follows Blob-first, local-fallback pattern
+#### CMS Integration (`/lib/cms/`)
+- Decap CMS as primary content management system
+- Configuration in `/public/admin/config.yml`
+- Content collections defined in `/public/admin/collections/`
+- Real-time content updates
+- Content versioning and history
+- Media asset management
+- Multi-language support
+- Content preview functionality
+- Webhook integration for automatic deployments
+- Git-based content storage
+- Custom preview templates in `/public/admin/previews/`
 
 ### API Structure (`/app/api/`)
 #### Public Routes (`/api/public/*`)
-- Serve content from `/public/data/` or Blob Storage
+- Serve content from Decap CMS
 - Read-only operations
 - Must implement proper error handling
 - Should include appropriate caching strategies
+- Rate limiting implementation
+- CORS configuration
+- Real-time content updates via WebSocket
 
 #### Admin Routes (`/api/admin/*`)
 - Protected endpoints for content management
-- Interact with Blob Storage for persistence
+- Decap CMS integration endpoints
 - Require authentication
 - Must implement proper validation
+- Audit logging
+- Role-based access control
+- Content moderation workflows
 
 #### Special Routes
 - `/api/medium/posts`: Fetches blog posts from Medium RSS
 - Dynamic markdown generation: `/app/[page].html.md/route.ts`
+- Image optimization: `/api/image`
+- Analytics: `/api/analytics`
+- Webhook handlers for Decap CMS events
 
 ### Internationalization (`/app/i18n/`)
 - Dictionaries in `/app/i18n/dictionaries/`
@@ -76,6 +99,9 @@ This document describes the architecture and guidelines for Caio Lombello Vendra
 - Configuration in `settings.ts`
 - Helper functions in `index.ts`
 - Use `getDictionary` function for translations
+- RTL support for future languages
+- Pluralization rules
+- Decap CMS-driven translation management
 
 ### Styling
 - Primary: Tailwind CSS utility classes
@@ -84,6 +110,9 @@ This document describes the architecture and guidelines for Caio Lombello Vendra
 - Custom theme colors defined in config
 - Animations: `tailwindcss-animate` plugin
 - Must maintain consistent design system
+- Dark mode support
+- CSS variables for theming
+- Dynamic theme customization through Decap CMS
 
 ### Utility Functions (`/lib/`)
 - `profile.ts`: Core profile data loading
@@ -91,17 +120,28 @@ This document describes the architecture and guidelines for Caio Lombello Vendra
 - `site-metadata.ts`: Dynamic metadata generation
 - `medium.ts`: Blog post fetching
 - `utils.ts`: Common utilities (class merging, slug generation)
+- `validation.ts`: Data validation utilities
+- `analytics.ts`: Analytics tracking
+- `seo.ts`: SEO optimization helpers
+- `cms.ts`: Decap CMS integration utilities
+- `content.ts`: Content transformation and rendering
 
 ### Configuration Files
 - `next.config.mjs`: Next.js configuration
 - `tsconfig.json`: TypeScript settings
 - `postcss.config.mjs`: PostCSS configuration
 - `components.json`: shadcn/ui settings
+- `pnpm-workspace.yaml`: Workspace configuration
+- `.env.example`: Environment variables template
+- `cms.config.ts`: Decap CMS integration settings
 
 ### Assets and Resources
 - Dynamic favicon generation in `/app`
 - Icons served through API routes
-- Media assets managed through Blob Storage
+- Media assets managed through Decap CMS
+- Image optimization pipeline
+- Asset versioning strategy
+- CDN integration for media delivery
 
 ## Best Practices
 1. Always use TypeScript for type safety
@@ -109,12 +149,26 @@ This document describes the architecture and guidelines for Caio Lombello Vendra
 3. Follow shadcn/ui patterns for component development
 4. Implement responsive design using Tailwind breakpoints
 5. Maintain i18n translations for all user-facing text
-6. Use Blob Storage for dynamic content
+6. Use Decap CMS for all dynamic content
 7. Implement proper error handling and loading states
 8. Follow Next.js App Router conventions
 9. Keep components small and focused
 10. Document complex logic and important decisions
+11. Implement proper testing strategies
+12. Follow accessibility guidelines (WCAG)
+13. Optimize for performance
+14. Implement proper security measures
+15. Use proper Git workflow and commit conventions
+16. Design components for Decap CMS integration
+17. Implement proper content preview functionality
+18. Use proper caching strategies for dynamic content
+19. Implement proper content versioning
+20. Follow Decap CMS best practices for content modeling
 
 ## Deprecated
 - Root `/data/*.ts` files are deprecated
 - Use `/public/data/*.json` and corresponding API routes instead
+- Legacy API routes without proper error handling
+- Components without TypeScript types
+- Direct database access without proper abstraction
+- Static c

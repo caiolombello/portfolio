@@ -1,0 +1,113 @@
+/* Base styles for CMS preview */
+.cms-preview {
+  @apply p-4 bg-background text-foreground antialiased;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+/* Dark mode support */
+.dark .cms-preview {
+  @apply bg-background text-foreground;
+}
+
+/* Typography */
+.cms-preview h1 {
+  @apply text-4xl font-bold tracking-tight mb-4;
+}
+
+.cms-preview h2 {
+  @apply text-3xl font-semibold tracking-tight mb-4;
+}
+
+.cms-preview h3 {
+  @apply text-2xl font-semibold tracking-tight mb-3;
+}
+
+.cms-preview p {
+  @apply mb-4 leading-7;
+}
+
+.cms-preview a {
+  @apply text-primary hover:underline;
+}
+
+/* Lists */
+.cms-preview ul,
+.cms-preview ol {
+  @apply my-6 ml-6;
+}
+
+.cms-preview ul {
+  @apply list-disc;
+}
+
+.cms-preview ol {
+  @apply list-decimal;
+}
+
+.cms-preview li {
+  @apply mb-2;
+}
+
+/* Code blocks */
+.cms-preview pre {
+  @apply p-4 my-6 rounded-lg bg-muted overflow-x-auto;
+}
+
+.cms-preview code {
+  @apply font-mono text-sm;
+}
+
+/* Inline code */
+.cms-preview :not(pre) > code {
+  @apply px-1.5 py-0.5 rounded-md bg-muted;
+}
+
+/* Blockquotes */
+.cms-preview blockquote {
+  @apply pl-6 my-6 border-l-2 border-muted-foreground italic;
+}
+
+/* Tables */
+.cms-preview table {
+  @apply w-full my-6;
+}
+
+.cms-preview th {
+  @apply px-4 py-2 text-left font-semibold border-b;
+}
+
+.cms-preview td {
+  @apply px-4 py-2 border-b border-muted;
+}
+
+/* Images */
+.cms-preview img {
+  @apply rounded-lg max-w-full h-auto my-6;
+}
+
+/* Horizontal rule */
+.cms-preview hr {
+  @apply my-8 border-t border-muted;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .cms-preview {
+    @apply p-2;
+  }
+
+  .cms-preview h1 {
+    @apply text-3xl;
+  }
+
+  .cms-preview h2 {
+    @apply text-2xl;
+  }
+
+  .cms-preview h3 {
+    @apply text-xl;
+  }
+}

@@ -1,43 +1,108 @@
-import { Metadata } from "next"
-import { notFound } from "next/navigation"
-import { Project } from "@/types/project"
-import { PortfolioGrid } from "@/components/portfolio-grid"
-import { getAllProjects } from "@/lib/data"
+"use client";
 
-type PageProps = {
+import { notFound } from "next/navigation";
+import type { Project } from "@/types";
+import { PortfolioGrid } from "@/components/portfolio-grid";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+} from "@/components/ui/pagination";
+import { useLanguage } from "@/contexts/language-context";
+import { useState, useEffect } from "react";
+
+interface PageProps {
   params: Promise<{
-    page: string
-  }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+    page: string;
+  }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { page } = await params
-  return {
-    title: `Portfólio - Página ${page}`,
-  }
-}
+export default function PortfolioPage({ params }: PageProps) {
+  const [pageNumber, setPageNumber] = useState<number | null>(null);
+  const { language, t } = useLanguage();
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function PortfolioPage({ params }: PageProps) {
-  const { page } = await params
-  const pageNum = parseInt(page)
-  if (isNaN(pageNum) || pageNum < 1) {
-    notFound()
+  useEffect(() => {
+    const initPage = async () => {
+      const { page } = await params;
+      const num = parseInt(page, 10);
+      if (isNaN(num) || num < 1) {
+        notFound();
+      }
+      setPageNumber(num);
+    };
+    initPage();
+  }, [params]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch("/api/public/projects");
+        const data = await response.json();
+        setProjects(data);
+      } catch (error) {
+        console.error("Error loading projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  if (loading || pageNumber === null) {
+    return (
+      <div className="container mx-auto py-8 flex justify-center items-center">
+        <div className="animate-spin h-8 w-8 border-4 border-gold rounded-full border-t-transparent" />
+      </div>
+    );
   }
 
-  const projects: Project[] = getAllProjects()
-  const itemsPerPage = 9
-  const startIndex = (pageNum - 1) * itemsPerPage
-  const endIndex = startIndex + itemsPerPage
-  const paginatedProjects = projects.slice(startIndex, endIndex)
+  const postsPerPage = 9;
+  const start = (pageNumber - 1) * postsPerPage;
+  const end = start + postsPerPage;
+  const paginatedProjects = projects.slice(start, end);
 
   if (paginatedProjects.length === 0) {
-    notFound()
+    notFound();
   }
+
+  const totalPages = Math.ceil(projects.length / postsPerPage);
 
   return (
     <div className="container mx-auto py-8">
+      <h1 className="text-4xl font-bold text-center mb-8">
+        {t("projects.title")}
+      </h1>
+
       <PortfolioGrid projects={paginatedProjects} />
+
+      {totalPages > 1 && (
+        <Pagination className="mt-8">
+          <PaginationContent>
+            {pageNumber > 1 && (
+              <PaginationItem>
+                <PaginationPrevious href={`/portfolio/page/${pageNumber - 1}`}>
+                  {t("projects.pagination.previous")}
+                </PaginationPrevious>
+              </PaginationItem>
+            )}
+
+            {pageNumber < totalPages && (
+              <PaginationItem>
+                <PaginationNext href={`/portfolio/page/${pageNumber + 1}`}>
+                  {t("projects.pagination.next")}
+                </PaginationNext>
+              </PaginationItem>
+            )}
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
-  )
-} 
+  );
+}

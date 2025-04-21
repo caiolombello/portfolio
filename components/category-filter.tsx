@@ -1,28 +1,42 @@
-"use client"
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/language-context";
 
 interface CategoryFilterProps {
-  categories: string[]
-  activeCategory: string
-  onCategoryChange: (category: string) => void
+  categories: string[];
+  activeCategory: string;
+  onCategoryChange: (category: string) => void;
 }
 
-export default function CategoryFilter({ categories, activeCategory, onCategoryChange }: CategoryFilterProps) {
+export default function CategoryFilter({
+  categories,
+  activeCategory,
+  onCategoryChange,
+}: CategoryFilterProps) {
+  const { language } = useLanguage();
+
+  const translateCategory = (category: string) => {
+    if (category === "All") {
+      return language === "en" ? "All" : "Todos";
+    }
+    return category;
+  };
+
   return (
     <div className="mb-8 flex flex-wrap justify-center gap-2">
       {categories.map((category) => (
-        <button
+        <Button
           key={category}
+          variant={activeCategory === category ? "default" : "outline"}
           onClick={() => onCategoryChange(category)}
-          className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-            activeCategory === category
-              ? "bg-gold text-primary-foreground"
-              : "bg-secondary text-muted-foreground hover:bg-secondary/80"
-          }`}
+          className={
+            activeCategory === category ? "bg-gold hover:bg-gold/90" : ""
+          }
         >
-          {category}
-        </button>
+          {translateCategory(category)}
+        </Button>
       ))}
     </div>
-  )
+  );
 }
-

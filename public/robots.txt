@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://caio.lombello.com/sitemap.xml
-

@@ -1,49 +1,96 @@
-import type { Metadata } from "next"
-import { getProfile } from "@/lib/profile"
+import { Metadata } from "next";
+import { SITE_CONFIG } from "./constants";
 
-// Função para gerar metadados dinâmicos
-export async function getSiteMetadata(): Promise<Metadata> {
-  // Carregar o perfil para obter informações dinâmicas
-  const profile = await getProfile()
+interface GenerateMetadataOptions {
+  title?: string;
+  description?: string;
+  image?: string;
+  noIndex?: boolean;
+  alternates?: {
+    canonical?: string;
+    languages?: Record<string, string>;
+  };
+}
 
-  // Definir metadados padrão
-  const title = profile?.pt?.name || "Portfolio"
-  const description = profile?.pt?.about || "Meu portfolio profissional"
+export function generateMetadata({
+  title,
+  description = SITE_CONFIG.description,
+  image = SITE_CONFIG.ogImage,
+  noIndex = false,
+  alternates,
+}: GenerateMetadataOptions = {}): Metadata {
+  const finalTitle = title
+    ? `${title} | ${SITE_CONFIG.name}`
+    : SITE_CONFIG.name;
 
   return {
-    title: {
-      default: title,
-      template: `%s | ${title}`,
-    },
-    description: description,
-    keywords: ["portfolio", "desenvolvedor", "programador", "web", "fullstack"],
-    authors: [{ name: profile?.pt?.name || "Desenvolvedor" }],
-    creator: profile?.pt?.name || "Desenvolvedor",
-    publisher: profile?.pt?.name || "Desenvolvedor",
-    robots: {
-      index: true,
-      follow: true,
-    },
+    title: finalTitle,
+    description,
     openGraph: {
+      title: finalTitle,
+      description,
+      images: [{ url: image }],
       type: "website",
-      locale: "pt_BR",
-      url: process.env.NEXT_PUBLIC_BASE_URL || "https://portfolio.vercel.app",
-      title: title,
-      description: description,
-      siteName: title,
+      siteName: SITE_CONFIG.name,
     },
     twitter: {
       card: "summary_large_image",
-      title: title,
-      description: description,
+      title: finalTitle,
+      description,
+      images: [image],
     },
-    viewport: {
-      width: "device-width",
-      initialScale: 1,
-      maximumScale: 1,
+    robots: {
+      index: !noIndex,
+      follow: !noIndex,
     },
-    themeColor: "#121212",
-    colorScheme: "dark",
-  }
+    alternates,
+  };
 }
 
+export function generateJsonLd(data: Record<string, unknown>) {
+  return {
+    __html: JSON.stringify(data),
+  };
+}
+
+export function generatePersonJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Caio Barbieri",
+    url: SITE_CONFIG.url,
+    sameAs: [SITE_CONFIG.links.github, SITE_CONFIG.links.linkedin],
+  };
+}
+
+export function generateBlogPostJsonLd({
+  title,
+  description,
+  publishDate,
+  updateDate,
+  image,
+  url,
+}: {
+  title: string;
+  description: string;
+  publishDate: string;
+  updateDate?: string;
+  image?: string;
+  url: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description,
+    image: image || SITE_CONFIG.ogImage,
+    datePublished: publishDate,
+    dateModified: updateDate || publishDate,
+    author: generatePersonJsonLd(),
+    publisher: generatePersonJsonLd(),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+  };
+}

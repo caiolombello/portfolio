@@ -1,0 +1,35 @@
+{
+  "company": "Vertigo Tecnologia",
+  "title_pt": "Desenvolvedor Pleno",
+  "title_en": "Mid-level Developer",
+  "period": "Set 2022 - Dez 2023",
+  "responsibilities_pt": [
+    {
+      "item": "Desenvolvimento e manutenção de aplicações cloud-native em Python e Go"
+    },
+    {
+      "item": "Implementação de soluções de monitoramento com Prometheus e Grafana"
+    },
+    {
+      "item": "Automação de infraestrutura usando Terraform e AWS CDK"
+    },
+    {
+      "item": "Gerenciamento de clusters Kubernetes e implementação de práticas GitOps"
+    }
+  ],
+  "responsibilities_en": [
+    {
+      "item": "Development and maintenance of cloud-native applications in Python and Go"
+    },
+    {
+      "item": "Implementation of monitoring solutions with Prometheus and Grafana"
+    },
+    {
+      "item": "Infrastructure automation using Terraform and AWS CDK"
+    },
+    {
+      "item": "Kubernetes cluster management and GitOps practices implementation"
+    }
+  ],
+  "startDate": "2022-09-01"
+}

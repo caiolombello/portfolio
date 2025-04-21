@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import {
   Home,
   User,
@@ -17,29 +17,53 @@ import {
   X,
   LineChart,
   Search,
-} from "lucide-react"
-import { useState } from "react"
-import { useAuth } from "@/contexts/auth-context"
+} from "lucide-react";
+import { useState } from "react";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function AdminSidebar() {
-  const pathname = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
-  const { logout } = useAuth()
+  const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
+  const { logout } = useAuth();
 
-  const isActive = (path: string) => pathname === path
+  const isActive = (path: string) => pathname === path;
 
   const menuItems = [
     { path: "/admin/dashboard", label: "Dashboard", icon: <Home size={20} /> },
     { path: "/admin/profile", label: "Perfil", icon: <User size={20} /> },
-    { path: "/admin/skills", label: "Habilidades", icon: <BarChart2 size={20} /> },
-    { path: "/admin/experiences", label: "Experiências", icon: <Briefcase size={20} /> },
-    { path: "/admin/education", label: "Educação", icon: <GraduationCap size={20} /> },
-    { path: "/admin/certifications", label: "Certificações", icon: <Award size={20} /> },
-    { path: "/admin/projects", label: "Projetos", icon: <FolderKanban size={20} /> },
+    {
+      path: "/admin/skills",
+      label: "Habilidades",
+      icon: <BarChart2 size={20} />,
+    },
+    {
+      path: "/admin/experiences",
+      label: "Experiências",
+      icon: <Briefcase size={20} />,
+    },
+    {
+      path: "/admin/education",
+      label: "Educação",
+      icon: <GraduationCap size={20} />,
+    },
+    {
+      path: "/admin/certifications",
+      label: "Certificações",
+      icon: <Award size={20} />,
+    },
+    {
+      path: "/admin/projects",
+      label: "Projetos",
+      icon: <FolderKanban size={20} />,
+    },
     { path: "/admin/posts", label: "Blog", icon: <FileText size={20} /> },
-    { path: "/admin/analytics", label: "Analytics", icon: <LineChart size={20} /> },
+    {
+      path: "/admin/analytics",
+      label: "Analytics",
+      icon: <LineChart size={20} />,
+    },
     { path: "/admin/metadata", label: "SEO", icon: <Search size={20} /> },
-  ]
+  ];
 
   return (
     <>
@@ -85,6 +109,5 @@ export default function AdminSidebar() {
         </div>
       </aside>
     </>
-  )
+  );
 }
-

@@ -1,11 +1,11 @@
-import Contact from "@/components/contact"
+import Contact from "@/components/contact";
 
 export const metadata = {
-  title: "Contato | Caio Lombello",
-  description: "Entre em contato com Caio Lombello para projetos, consultorias ou oportunidades de trabalho",
-}
+  title: "Contato",
+  description:
+    "Entre em contato com Caio Barbieri para projetos, consultorias ou oportunidades de trabalho",
+};
 
 export default function ContactPage() {
-  return <Contact />
+  return <Contact />;
 }
-

@@ -1,4 +1,4 @@
-# Caio Lombello - Portfólio Profissional
+# Caio Barbieri - Portfólio Profissional
 
 > Site de portfólio profissional de Caio Lombello Vendramini Barbieri, um Engenheiro DevOps especializado em Cloud Native, Kubernetes, e Inteligência Artificial para DevOps. O site apresenta informações sobre experiência profissional, projetos, artigos técnicos e formas de contato.
 

@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import { useLanguage } from "@/contexts/language-context"
+import { useLanguage } from "@/contexts/language-context";
 
 interface SectionHeadingProps {
-  title: string
+  title: string;
 }
 
 export default function SectionHeading({ title }: SectionHeadingProps) {
-  const { t } = useLanguage()
+  const { t } = useLanguage();
 
   return (
     <div className="mb-8 flex items-center">
@@ -15,6 +15,5 @@ export default function SectionHeading({ title }: SectionHeadingProps) {
       <h2 className="mx-4 text-2xl font-bold text-gold">{title}</h2>
       <div className="h-0.5 flex-grow bg-gold/20"></div>
     </div>
-  )
+  );
 }
-

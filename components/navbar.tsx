@@ -1,6 +1,5 @@
-import Header from "./header"
+import Header from "./header";
 
 export default function Navbar() {
-  return <Header />
+  return <Header />;
 }
-

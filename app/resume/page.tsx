@@ -1,11 +1,11 @@
-import Resume from "@/components/resume"
+import Resume from "@/components/resume";
 
 export const metadata = {
-  title: "Currículo | Caio Lombello",
-  description: "Experiência profissional, educação e habilidades de Caio Lombello",
-}
+  title: "Currículo",
+  description:
+    "Experiência profissional, educação e habilidades de Caio Barbieri",
+};
 
 export default function ResumePage() {
-  return <Resume />
+  return <Resume />;
 }
-

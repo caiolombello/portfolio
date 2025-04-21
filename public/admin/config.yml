@@ -1,82 +1,385 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: caiolombello/portfolio
   branch: main
+  auth_scope: repo
+  base_url: https://caio.lombello.com
+  auth_endpoint: /api/auth
+  app_id: Ov23liV8nKCxLPEg5oZr
+  commit_messages:
+    create: Create {{collection}} "{{slug}}"
+    update: Update {{collection}} "{{slug}}"
+    delete: Delete {{collection}} "{{slug}}"
+    uploadMedia: Upload "{{path}}"
+    deleteMedia: Delete "{{path}}"
+    openAuthoring: "{{message}}"
+
+publish_mode: editorial_workflow
+
+site_url: https://caio.lombello.com
+display_url: https://caio.lombello.com
+
+# Configuração global de i18n
+i18n:
+  # Estrutura dos arquivos de tradução
+  structure: multiple_files
+  # Idiomas suportados
+  locales: [pt, en]
+  # Idioma padrão
+  default_locale: pt
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
-  - label: "Perfil"
-    name: "profile"
+  # 1. Coleção para Configurações Globais (incluindo Perfil)
+  - label: "⚙️ Configurações Globais"
+    name: "settings"
     files:
       - label: "Perfil"
         name: "profile"
         file: "content/settings/profile.json"
+        i18n: true
         fields:
-          - { label: "Nome (PT)", name: "name_pt", widget: string }
-          - { label: "Nome (EN)", name: "name_en", widget: string }
-          - { label: "Título (PT)", name: "title_pt", widget: string }
-          - { label: "Título (EN)", name: "title_en", widget: string }
-          - { label: "Bio (PT)", name: "bio_pt", widget: text }
-          - { label: "Bio (EN)", name: "bio_en", widget: text }
-          - { label: "Email", name: "email", widget: string }
-          - { label: "Avatar", name: "avatar", widget: image }
-          - { label: "LinkedIn", name: "linkedin", widget: string, required: false }
-          - { label: "GitHub", name: "github", widget: string, required: false }
-          - { label: "Twitter", name: "twitter", widget: string, required: false }
-  - label: "Habilidades"
+          - { label: "Nome Completo", name: "name", widget: string, i18n: true }
+          - {
+              label: "Título Profissional",
+              name: "title",
+              widget: string,
+              i18n: true,
+            }
+          - {
+              label: "Localização",
+              name: "location",
+              widget: string,
+              i18n: true,
+              required: false,
+            }
+          - {
+              label: "Data de Nascimento",
+              name: "birthDate",
+              widget: string,
+              i18n: true,
+              required: false,
+            }
+          - {
+              label: "Sobre Mim (Bio)",
+              name: "about",
+              widget: markdown,
+              i18n: true,
+            }
+          - {
+              label: "Email de Contato",
+              name: "email",
+              widget: string,
+              pattern: ["^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", "Email inválido"],
+            }
+          - {
+              label: "Telefone (Opcional)",
+              name: "phone",
+              widget: string,
+              required: false,
+            }
+          - label: "Links Sociais"
+            name: "socialLinks"
+            widget: "object"
+            required: false
+            fields:
+              - {
+                  label: "LinkedIn URL",
+                  name: "linkedin",
+                  widget: string,
+                  required: false,
+                  pattern: ["^https?://", "Deve ser uma URL válida"],
+                }
+              - {
+                  label: "GitHub URL",
+                  name: "github",
+                  widget: string,
+                  required: false,
+                  pattern: ["^https?://", "Deve ser uma URL válida"],
+                }
+              - {
+                  label: "Twitter URL",
+                  name: "twitter",
+                  widget: string,
+                  required: false,
+                  pattern: ["^https?://", "Deve ser uma URL válida"],
+                }
+              - {
+                  label: "Website",
+                  name: "website",
+                  widget: string,
+                  required: false,
+                  pattern: ["^https?://", "Deve ser uma URL válida"],
+                }
+              - {
+                  label: "WhatsApp",
+                  name: "whatsapp",
+                  widget: string,
+                  required: false,
+                  pattern: ["^https?://", "Deve ser uma URL válida"],
+                }
+
+  # 2. Coleção para Habilidades
+  - label: "🛠️ Habilidades"
     name: "skills"
     files:
-      - label: "Skills"
-        name: "skills"
+      - label: "Lista de Habilidades"
+        name: "skills_list"
         file: "content/data/skills.json"
         fields:
           - name: skills_list
-            label: "Lista de Habilidades"
+            label: "Habilidades"
+            label_singular: "Habilidade"
             widget: list
             fields:
-              - { label: "Nome", name: "name", widget: string }
-              - { label: "Porcentagem", name: "percentage", widget: number }
-  - label: "Projetos"
+              - { label: "Nome da Habilidade", name: "name", widget: string }
+              - label: "Categoria"
+                name: "category"
+                widget: "select"
+                options:
+                  [
+                    "Linguagens",
+                    "Cloud/Infra",
+                    "CI/CD",
+                    "Observabilidade",
+                    "Frontend",
+                    "Backend",
+                    "Banco de Dados",
+                    "Ferramentas",
+                    "Outros",
+                  ]
+              - label: "Nível"
+                name: "level"
+                widget: "select"
+                options:
+                  [
+                    "Avançado",
+                    "Experiente",
+                    "Proficiente",
+                    "Familiarizado",
+                    "Iniciante",
+                  ]
+
+  # 3. Coleção para Experiência Profissional
+  - label: "🏢 Experiência Profissional"
+    name: "experience"
+    folder: "content/experience"
+    create: true
+    i18n: true
+    slug: "{{company}}-{{year}}"
+    fields:
+      - { label: "Empresa", name: "company", widget: string }
+      - { label: "Cargo", name: "title", widget: string, i18n: true }
+      - { label: "Período", name: "period", widget: string }
+      - label: "Responsabilidades"
+        name: "responsibilities"
+        widget: list
+        i18n: true
+        field: { label: "Item", name: "item", widget: string }
+      - {
+          label: "Data de Início",
+          name: "startDate",
+          widget: datetime,
+          format: "YYYY-MM-DD",
+          date_format: "DD/MM/YYYY",
+          time_format: false,
+          required: false,
+        }
+
+  # 4. Coleção para Educação
+  - label: "🎓 Educação"
+    name: "education"
+    folder: "content/education"
+    create: true
+    i18n: true
+    slug: "{{institution}}-{{year}}"
+    fields:
+      - { label: "Instituição", name: "institution", widget: string }
+      - { label: "Curso/Grau", name: "degree", widget: string, i18n: true }
+      - { label: "Período", name: "period", widget: string }
+      - {
+          label: "Descrição",
+          name: "description",
+          widget: markdown,
+          i18n: true,
+          required: false,
+        }
+      - {
+          label: "Data de Conclusão",
+          name: "endDate",
+          widget: datetime,
+          format: "YYYY-MM",
+          date_format: "MM/YYYY",
+          time_format: false,
+          required: false,
+        }
+
+  # 5. Coleção para Certificações
+  - label: "📜 Certificações"
+    name: "certifications"
+    folder: "content/certifications"
+    create: true
+    slug: "{{name}}"
+    fields:
+      - { label: "Nome da Certificação", name: "name", widget: string }
+      - { label: "Emissor", name: "issuer", widget: string }
+      - {
+          label: "Data de Emissão",
+          name: "date",
+          widget: datetime,
+          format: "YYYY-MM-DD",
+          date_format: "DD/MM/YYYY",
+          time_format: false,
+        }
+      - {
+          label: "Descrição",
+          name: "description",
+          widget: markdown,
+          required: false,
+        }
+      - {
+          label: "URL da Credencial",
+          name: "url",
+          widget: string,
+          required: false,
+          pattern: ["^https?://", "Deve ser uma URL válida"],
+        }
+
+  # 6. Coleção para Projetos
+  - label: "💡 Projetos"
     name: "projects"
     folder: "content/projects"
     create: true
-    slug: "{{slug}}"
-    extension: "json"
-    format: "json"
+    i18n: true
+    slug: "{{id}}"
     fields:
-      - { label: "ID", name: "id", widget: string }
-      - { label: "Título (PT)", name: "title_pt", widget: string }
-      - { label: "Título (EN)", name: "title_en", widget: string }
-      - { label: "Descrição Curta (PT)", name: "shortDescription_pt", widget: text }
-      - { label: "Descrição Curta (EN)", name: "shortDescription_en", widget: text }
-      - { label: "Descrição (PT)", name: "description_pt", widget: text }
-      - { label: "Descrição (EN)", name: "description_en", widget: text }
-      - { label: "Imagem", name: "imageUrl", widget: image }
-      - { label: "Categoria", name: "category", widget: string }
-      - { label: "Tecnologias", name: "technologies", widget: list, field: {label: "Tecnologia", name: "tech", widget: string} }
-      - { label: "GitHub", name: "githubUrl", widget: string, required: false }
-      - { label: "Demo", name: "liveUrl", widget: string, required: false }
-      - { label: "Destaque", name: "featured", widget: boolean, required: false }
-      - { label: "Criado em", name: "createdAt", widget: datetime }
-      - { label: "Atualizado em", name: "updatedAt", widget: datetime }
-  - label: "Blog Posts"
+      - {
+          label: "ID",
+          name: "id",
+          widget: string,
+          pattern:
+            [
+              "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "Use apenas letras minúsculas, números e hífens",
+            ],
+        }
+      - { label: "Título", name: "title", widget: string, i18n: true }
+      - {
+          label: "Descrição Curta",
+          name: "shortDescription",
+          widget: text,
+          i18n: true,
+        }
+      - {
+          label: "Descrição Completa",
+          name: "description",
+          widget: markdown,
+          i18n: true,
+        }
+      - {
+          label: "Imagem Principal",
+          name: "imageUrl",
+          widget: "image-input",
+          required: false,
+        }
+      - {
+          label: "Categoria",
+          name: "category",
+          widget: string,
+          required: false,
+        }
+      - label: "Tecnologias"
+        name: "technologies"
+        widget: technology-picker
+      - {
+          label: "GitHub URL",
+          name: "githubUrl",
+          widget: string,
+          required: false,
+          pattern: ["^https?://", "Deve ser uma URL válida"],
+        }
+      - {
+          label: "Demo URL",
+          name: "liveUrl",
+          widget: string,
+          required: false,
+          pattern: ["^https?://", "Deve ser uma URL válida"],
+        }
+      - {
+          label: "Destaque?",
+          name: "featured",
+          widget: boolean,
+          default: false,
+          required: false,
+        }
+      - {
+          label: "Data de Criação",
+          name: "createdAt",
+          widget: datetime,
+          format: "YYYY-MM-DD",
+          date_format: "DD/MM/YYYY",
+          time_format: false,
+          required: false,
+        }
+      - {
+          label: "Última Atualização",
+          name: "updatedAt",
+          widget: datetime,
+          format: "YYYY-MM-DD",
+          date_format: "DD/MM/YYYY",
+          time_format: false,
+          required: false,
+        }
+
+  # 7. Coleção para Blog Posts
+  - label: "📰 Blog Posts"
     name: "posts"
     folder: "content/posts"
     create: true
+    i18n: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    extension: "md"
-    format: "frontmatter"
     fields:
-      - { label: "Título (PT)", name: "title_pt", widget: string }
-      - { label: "Título (EN)", name: "title_en", widget: string }
-      - { label: "Resumo (PT)", name: "summary_pt", widget: text }
-      - { label: "Resumo (EN)", name: "summary_en", widget: text }
-      - { label: "Data Publicação", name: "publicationDate", widget: datetime }
-      - { label: "Imagem Capa", name: "imageUrl", widget: image, required: false }
-      - { label: "Categoria", name: "category", widget: string }
+      - { label: "Título", name: "title", widget: string, i18n: true }
+      - { label: "Resumo", name: "summary", widget: text, i18n: true }
+      - {
+          label: "Data de Publicação",
+          name: "publicationDate",
+          widget: datetime,
+          format: "YYYY-MM-DD",
+          date_format: "DD/MM/YYYY",
+          time_format: false,
+        }
+      - {
+          label: "Imagem de Capa",
+          name: "imageUrl",
+          widget: "image-input",
+          required: false,
+        }
+      - {
+          label: "Categoria",
+          name: "category",
+          widget: string,
+          required: false,
+        }
       - { label: "Tags", name: "tags", widget: list, required: false }
-      - { label: "Autor", name: "author", widget: object, fields: [{label: "Nome", name: "name", widget: string}, {label: "Avatar", name: "avatar", widget: image, required: false}], required: false }
-      - { label: "Publicado", name: "published", widget: boolean, required: false }
-      - { label: "Corpo (PT)", name: "body_pt", widget: markdown }
-      - { label: "Corpo (EN)", name: "body_en", widget: markdown } 
+      - label: "Autor"
+        name: "author"
+        widget: object
+        required: false
+        fields:
+          - { label: "Nome", name: "name", widget: string }
+          - {
+              label: "Avatar",
+              name: "avatar",
+              widget: "image-input",
+              required: false,
+            }
+      - {
+          label: "Publicado?",
+          name: "published",
+          widget: boolean,
+          default: true,
+        }
+      - { label: "Conteúdo", name: "body", widget: markdown, i18n: true }

@@ -1,326 +1,270 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { ArrowDownTrayIcon, DocumentTextIcon, ArrowPathIcon } from "@heroicons/react/24/outline"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { jsPDF } from "jspdf"
-import { useLanguage } from "@/contexts/language-context"
-
-const CATEGORY_LABELS = {
-  pt: {
-    "Linguagens": "Linguagens",
-    "Cloud/Infra": "Cloud/Infra",
-    "CI/CD": "CI/CD",
-    "Observabilidade": "Observabilidade",
-    "Ferramentas": "Ferramentas",
-    "Metodologias": "Metodologias"
-  },
-  en: {
-    "Linguagens": "Languages",
-    "Cloud/Infra": "Cloud/Infra",
-    "CI/CD": "CI/CD",
-    "Observabilidade": "Observability",
-    "Ferramentas": "Tools",
-    "Metodologias": "Methodologies"
-  }
-};
-
-const LEVEL_LABELS = {
-  pt: {
-    "Avançado": "Avançado",
-    "Experiente": "Experiente",
-    "Proficiente": "Proficiente",
-    "Familiarizado": "Familiarizado"
-  },
-  en: {
-    "Avançado": "Advanced",
-    "Experiente": "Experienced",
-    "Proficiente": "Proficient",
-    "Familiarizado": "Familiar"
-  }
-};
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { jsPDF } from "jspdf";
+import { useLanguage } from "@/contexts/language-context";
+import html2canvas from "html2canvas";
+import { Download, Loader2 } from "lucide-react";
 
 // Tipo para os dados do currículo
 interface ResumeData {
   personalInfo: {
-    name: string
-    title: string
-    email: string
-    phone: string
-    location: string
-  }
-  summary: string
+    name: string;
+    title: string;
+    email: string;
+    phone: string;
+    location: string;
+  };
+  summary: string;
   experiences: {
-    title: string
-    company: string
-    period: string
-    responsibilities: string[]
-  }[]
+    title: string;
+    company: string;
+    period: string;
+    responsibilities: string[];
+  }[];
   education: {
-    degree: string
-    institution: string
-    period: string
-    description: string
-  }[]
-  certifications: string[]
+    degree: string;
+    institution: string;
+    period: string;
+    description?: string;
+  }[];
+  certifications: string[];
   skills: {
-    name: string
-    category: string
-    level: string
-  }[]
+    name: string;
+    category: string;
+    level: string;
+  }[];
 }
 
-export default function ResumeDownload({ resumeData }: { resumeData: ResumeData }) {
-  const { language = "pt", t } = useLanguage() || {}
-  const [isGenerating, setIsGenerating] = useState(false)
+export default function ResumeDownload({
+  resumeData,
+  certificationsCredly,
+}: {
+  resumeData: ResumeData;
+  certificationsCredly?: string[];
+}) {
+  const { language = "pt", t } = useLanguage() || {};
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
-  // Função para gerar o conteúdo Markdown
+  // Função para gerar nome do arquivo baseado no idioma e data
+  const getFileName = (extension: string): string => {
+    const name = resumeData.personalInfo.name.replace(/\s+/g, "_");
+    const role = resumeData.personalInfo.title.replace(/\s+/g, "_");
+    const date = new Date().toISOString().split("T")[0];
+    const lang = language.toUpperCase();
+
+    return `${name}_${role}_${lang}_${date}.${extension}`;
+  };
+
+  // Função para gerar o conteúdo Markdown otimizado para ATS
   const generateMarkdownContent = (): string => {
-    const { personalInfo, summary, experiences, education, certifications, skills } = resumeData
-    const safeLang = (language === "pt" || language === "en" ? language : "en") as "pt" | "en"
-    let markdown = `# ${personalInfo.name}\n\n`
-    markdown += `**${personalInfo.title}**\n\n`
-    markdown += `${t("email")}: ${personalInfo.email} | ${t("phone")}: ${personalInfo.phone} | ${t("location")}: ${personalInfo.location}\n\n`
-    // Resumo profissional
-    markdown += `## ${t("about")}\n\n`
-    markdown += `${summary}\n\n`
-    // Experiência
-    markdown += `## ${t("experience")}\n\n`
+    const { personalInfo, summary, experiences, education, skills } =
+      resumeData;
+    const allCertifications = [
+      ...(resumeData.certifications || []),
+      ...(certificationsCredly || []),
+    ];
+
+    // Cabeçalho com informações pessoais em formato claro
+    let markdown = `# ${personalInfo.name}\n`;
+    markdown += `${personalInfo.title}\n\n`;
+    markdown += `Email: ${personalInfo.email}\n`;
+    markdown += `Phone: ${personalInfo.phone}\n`;
+    markdown += `Location: ${personalInfo.location}\n\n`;
+
+    // Resumo profissional com palavras-chave relevantes
+    markdown += `## ${t("about.title")}\n\n`;
+    markdown += `${summary}\n\n`;
+
+    // Experiência profissional com estrutura clara e consistente
+    markdown += `## ${t("resume.experience.title")}\n\n`;
     experiences.forEach((exp) => {
-      markdown += `### ${exp.title}\n`
-      markdown += `**${exp.company}** | ${exp.period}\n\n`
+      markdown += `### ${exp.title}\n`;
+      markdown += `${exp.company}\n`;
+      markdown += `${exp.period}\n\n`;
+      markdown += `Responsibilities:\n`;
       exp.responsibilities.forEach((resp) => {
-        markdown += `- ${resp}\n`
-      })
-      markdown += "\n"
-    })
-    // Educação
-    markdown += `## ${t("education")}\n\n`
+        markdown += `* ${resp}\n`;
+      });
+      markdown += "\n";
+    });
+
+    // Educação com formato padronizado
+    markdown += `## ${t("resume.education.title")}\n\n`;
     education.forEach((edu) => {
-      markdown += `### ${edu.degree}\n`
-      markdown += `**${edu.institution}** | ${edu.period}\n\n`
-      markdown += `${edu.description}\n\n`
-    })
-    // Certificações
-    markdown += `## ${t("certifications")}\n\n`
-    certifications.forEach((cert) => {
-      markdown += `- ${cert}\n`
-    })
-    markdown += "\n"
-    // Habilidades agrupadas por categoria
-    markdown += `## ${t("skills")}\n\n`
-    const grouped: Record<string, { name: string; level: string }[]> = {}
-    skills.forEach((skill: any) => {
-      if (!skill.category) return;
-      if (!grouped[skill.category]) grouped[skill.category] = []
-      grouped[skill.category].push({ name: skill.name, level: skill.level })
-    })
+      markdown += `### ${edu.degree}\n`;
+      markdown += `${edu.institution}\n`;
+      markdown += `${edu.period}\n`;
+      if (edu.description) {
+        markdown += `\n${edu.description}\n`;
+      }
+      markdown += "\n";
+    });
+
+    // Certificações em lista clara
+    markdown += `## ${t("resume.certifications.title")}\n\n`;
+    allCertifications.forEach((cert) => {
+      markdown += `* ${cert}\n`;
+    });
+    markdown += "\n";
+
+    // Habilidades agrupadas por categoria com níveis claros
+    markdown += `## ${t("resume.skills.title")}\n\n`;
+    const grouped: Record<string, { name: string; level: string }[]> = {};
+    skills.forEach((skill) => {
+      if (!grouped[skill.category]) {
+        grouped[skill.category] = [];
+      }
+      grouped[skill.category].push({ name: skill.name, level: skill.level });
+    });
+
     Object.entries(grouped).forEach(([category, skills]) => {
-      const catLabel = (CATEGORY_LABELS[safeLang] as Record<string, string>)[category] || category
-      markdown += `### ${catLabel}\n`
-      skills.forEach(skill => {
-        const levelLabel = (LEVEL_LABELS[safeLang] as Record<string, string>)[skill.level] || skill.level
-        markdown += `- ${skill.name} (${levelLabel})\n`
-      })
-      markdown += "\n"
-    })
-    return markdown
-  }
+      markdown += `### ${t(category) || category}\n`;
+      skills.forEach((skill) => {
+        // Formato mais limpo para ATS: Nome da skill - Nível
+        markdown += `* ${skill.name} - ${t(skill.level) || skill.level}\n`;
+      });
+      markdown += "\n";
+    });
+
+    return markdown;
+  };
 
   const downloadMarkdown = () => {
-    try {
-      const markdownContent = generateMarkdownContent()
-
-      // Criar um blob com o conteúdo Markdown
-      const blob = new Blob([markdownContent], { type: "text/markdown" })
-      const url = URL.createObjectURL(blob)
-
-      // Criar um link para download e clicar nele
-      const a = document.createElement("a")
-      a.href = url
-      a.download = `resume-${language}.md`
-      document.body.appendChild(a)
-      a.click()
-
-      // Limpar
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
-    } catch (error) {
-      console.error("Erro ao baixar o currículo em Markdown:", error)
-    }
-  }
+    const content = generateMarkdownContent();
+    const blob = new Blob([content], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = getFileName("md");
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   const downloadPDF = async () => {
-    setIsGenerating(true)
-
+    setIsGeneratingPDF(true);
     try {
-      const markdownContent = generateMarkdownContent()
-
-      // Converter Markdown para HTML simples
-      const html = markdownToHTML(markdownContent)
-
-      // Criar um elemento temporário para renderizar o HTML
-      const tempDiv = document.createElement("div")
-      tempDiv.innerHTML = html
-      tempDiv.style.display = "none"
-      document.body.appendChild(tempDiv)
-
-      // Configurar o PDF
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4",
-      })
-
-      // Adicionar estilos básicos
-      const style = document.createElement("style")
-      style.textContent = `
-        body { font-family: Arial, sans-serif; color: #333; }
-        h1 { font-size: 24px; color: #000; margin-bottom: 5px; }
-        h2 { font-size: 18px; color: #333; margin-top: 15px; margin-bottom: 5px; border-bottom: 1px solid #ddd; padding-bottom: 3px; }
-        h3 { font-size: 16px; color: #444; margin-bottom: 3px; }
-        p { font-size: 12px; margin: 5px 0; }
-        ul { padding-left: 20px; }
-        li { font-size: 12px; margin: 3px 0; }
-      `
-      document.head.appendChild(style)
-
-      // Gerar o PDF a partir do HTML
-      pdf.html(tempDiv, {
-        callback: (pdf) => {
-          // Salvar o PDF
-          pdf.save(`resume-${language}.pdf`)
-
-          // Limpar
-          document.body.removeChild(tempDiv)
-          document.head.removeChild(style)
-          setIsGenerating(false)
-        },
-        x: 10,
-        y: 10,
-        width: 190,
-        windowWidth: 800,
-      })
-    } catch (error) {
-      console.error("Erro ao gerar o PDF:", error)
-      setIsGenerating(false)
-    }
-  }
-
-  // Função simples para converter Markdown para HTML
-  const markdownToHTML = (markdown: string): string => {
-    let html = markdown
-
-    // Cabeçalhos
-    html = html.replace(/^# (.*$)/gm, "<h1>$1</h1>")
-    html = html.replace(/^## (.*$)/gm, "<h2>$1</h2>")
-    html = html.replace(/^### (.*$)/gm, "<h3>$1</h3>")
-
-    // Negrito
-    html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-
-    // Itálico
-    html = html.replace(/\*(.*?)\*/g, "<em>$1</em>")
-
-    // Listas
-    html = html.replace(/^- (.*$)/gm, "<li>$1</li>")
-    html = html.replace(/(<li>.*<\/li>)\n(<li>)/g, "$1\n<ul>$2")
-    html = html.replace(/(<\/li>)\n(?![<-])/g, "$1\n</ul>\n")
-
-    // Parágrafos
-    html = html.replace(/^(?!<[hl]|<ul|<li|<\/ul)(.*$)/gm, "<p>$1</p>")
-
-    // Quebras de linha
-    html = html.replace(/\n/g, "")
-
-    return html
-  }
-
-  const generatePDF = async (lang: string) => {
-    setIsGenerating(true)
-
-    try {
-      const markdownContent = generateMarkdownContent()
-      const html = markdownToHTML(markdownContent)
-
-      const tempDiv = document.createElement("div")
-      tempDiv.innerHTML = html
-      tempDiv.style.display = "none"
-      document.body.appendChild(tempDiv)
+      const content = generateMarkdownContent();
 
       const pdf = new jsPDF({
         orientation: "portrait",
-        unit: "mm",
+        unit: "pt",
         format: "a4",
-      })
+      });
 
-      const style = document.createElement("style")
-      style.textContent = `
-        body { font-family: Arial, sans-serif; color: #333; }
-        h1 { font-size: 24px; color: #000; margin-bottom: 5px; }
-        h2 { font-size: 18px; color: #333; margin-top: 15px; margin-bottom: 5px; border-bottom: 1px solid #ddd; padding-bottom: 3px; }
-        h3 { font-size: 16px; color: #444; margin-bottom: 3px; }
-        p { font-size: 12px; margin: 5px 0; }
-        ul { padding-left: 20px; }
-        li { font-size: 12px; margin: 3px 0; }
-      `
-      document.head.appendChild(style)
+      const margin = {
+        top: 40,
+        right: 40,
+        bottom: 60,
+        left: 40,
+      };
 
-      pdf.html(tempDiv, {
-        callback: (pdf) => {
-          pdf.save(`resume-${lang}.pdf`)
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const contentWidth = pageWidth - margin.left - margin.right;
 
-          document.body.removeChild(tempDiv)
-          document.head.removeChild(style)
-          setIsGenerating(false)
-        },
-        x: 10,
-        y: 10,
-        width: 190,
-        windowWidth: 800,
-      })
+      const fontSize = {
+        normal: 10,
+        h1: 16,
+        h2: 14,
+        h3: 12,
+      };
+
+      let yPos = margin.top;
+      const lineHeight = 1.4;
+
+      const addText = (text: string, size: number, isBold: boolean = false) => {
+        if (isBold) pdf.setFont("helvetica", "bold");
+        else pdf.setFont("helvetica", "normal");
+
+        pdf.setFontSize(size);
+
+        const lines = pdf.splitTextToSize(text, contentWidth);
+        const textHeight = lines.length * size * lineHeight;
+
+        if (yPos + textHeight > pageHeight - margin.bottom) {
+          pdf.addPage();
+          yPos = margin.top;
+        }
+
+        pdf.text(lines, margin.left, yPos);
+        yPos += textHeight + size * 0.5;
+      };
+
+      content.split("\n").forEach((line) => {
+        if (!line.trim()) {
+          yPos += fontSize.normal * 0.8;
+          return;
+        }
+
+        if (line.startsWith("# ")) {
+          addText(line.slice(2), fontSize.h1, true);
+          yPos += 5;
+        } else if (line.startsWith("## ")) {
+          yPos += 10;
+          addText(line.slice(3), fontSize.h2, true);
+          yPos += 5;
+        } else if (line.startsWith("### ")) {
+          yPos += 5;
+          addText(line.slice(4), fontSize.h3, true);
+        } else if (line.startsWith("* ")) {
+          pdf.setFont("helvetica", "normal");
+          pdf.setFontSize(fontSize.normal);
+          const bulletText = "• " + line.slice(2);
+          const lines = pdf.splitTextToSize(bulletText, contentWidth - 20);
+
+          if (
+            yPos + lines.length * fontSize.normal * lineHeight >
+            pageHeight - margin.bottom
+          ) {
+            pdf.addPage();
+            yPos = margin.top;
+          }
+
+          pdf.text(lines, margin.left + 15, yPos);
+          yPos += lines.length * fontSize.normal * lineHeight;
+        } else {
+          addText(line, fontSize.normal);
+        }
+      });
+
+      pdf.save(getFileName("pdf"));
     } catch (error) {
-      console.error("Erro ao gerar o PDF:", error)
-      setIsGenerating(false)
+      console.error("Error generating PDF:", error);
+    } finally {
+      setIsGeneratingPDF(false);
     }
-  }
+  };
 
   return (
-    <div className="flex gap-2">
-      <Button
-        variant="outline"
-        onClick={downloadMarkdown}
-        disabled={isGenerating}
-        className="flex items-center gap-2"
-      >
-        <DocumentTextIcon className="h-4 w-4" />
-        Markdown
-      </Button>
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" disabled={isGenerating} className="flex items-center gap-2">
-            {isGenerating ? (
-              <>
-                <ArrowPathIcon className="h-4 w-4 animate-spin" />
-                Gerando...
-              </>
-            ) : (
-              <>
-                <ArrowDownTrayIcon className="h-4 w-4" />
-                PDF
-              </>
-            )}
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => downloadPDF()}>
-            {t("download")}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
-  )
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline">
+          {isGeneratingPDF ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Download className="mr-2 h-4 w-4" />
+          )}
+          {language === "pt" ? "Baixar Currículo" : "Download Resume"}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem onClick={downloadMarkdown}>
+          {language === "pt" ? "Baixar como Markdown" : "Download as Markdown"}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={downloadPDF}>
+          {language === "pt" ? "Baixar como PDF" : "Download as PDF"}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
-

@@ -1,0 +1,504 @@
+/* ==========================================================================
+   Variáveis Globais do Tema
+   ========================================================================== */
+:root {
+  --cms-bg: hsl(222.2 84% 4.9%); /* Fundo principal escuro */
+  --cms-card: hsl(217.2 32.6% 17.5%); /* Fundo de cards/elementos secundários */
+  --cms-foreground: hsl(210 40% 98%); /* Cor de texto principal clara */
+  --cms-foreground-muted: hsl(
+    215 20.2% 65.1%
+  ); /* Cor de texto secundária/muteda */
+  --cms-border: hsl(
+    217.2 32.6% 25.5%
+  ); /* Cor da borda sutil (um pouco mais clara) */
+  --cms-input-bg: hsl(217.2 32.6% 10.5%); /* Fundo para inputs */
+  --cms-gold: #ffd700; /* Cor de destaque dourada */
+  --cms-radius: 0.4rem; /* Arredondamento de borda */
+  --cms-font: "Inter", Arial, Helvetica, sans-serif; /* Fonte padrão */
+}
+
+/* ==========================================================================
+     Estilos Base
+     ========================================================================== */
+body,
+#nc-root {
+  background-color: var(--cms-bg) !important;
+  color: var(--cms-foreground);
+  font-family: var(--cms-font);
+}
+
+/* Remove fundos brancos indesejados (manter como último recurso) */
+*[style*="background-color: rgb(255, 255, 255)"],
+*[style*="background: rgb(255, 255, 255)"] {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* ==========================================================================
+     Cabeçalho (Header)
+     ========================================================================== */
+[class*="AppHeader-css"] {
+  background-color: var(--cms-bg) !important;
+  color: var(--cms-foreground) !important;
+  border-bottom: 1px solid var(--cms-border) !important;
+  box-shadow: none !important;
+}
+
+[class*="AppHeaderNavLink"],
+[class*="AppHeaderButton"] {
+  color: var(--cms-foreground-muted) !important;
+  background-color: transparent !important;
+  border-bottom: 2px solid transparent !important;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+  padding-bottom: 4px !important;
+  border-radius: 0 !important;
+}
+[class*="AppHeaderNavLink"]:hover,
+[class*="AppHeaderButton"]:hover {
+  color: var(--cms-foreground) !important;
+  background-color: transparent !important;
+}
+
+.header-link-active,
+[class*="AppHeaderNavLink"].header-link-active {
+  color: var(--cms-gold) !important;
+  font-weight: 600 !important;
+  border-bottom-color: var(--cms-gold) !important;
+}
+
+[class*="AppHeaderQuickNewButton"] {
+  background-color: var(--cms-gold) !important;
+  color: var(--cms-bg) !important;
+  border-radius: var(--cms-radius) !important;
+  border: none !important;
+  font-weight: 500 !important;
+}
+[class*="AvatarDropdownButton"] svg path {
+  background-color: var(--cms-gold) !important;
+  fill: var(--cms-bg) !important;
+}
+
+[class*="AppHeaderTestRepoIndicator"] {
+  color: var(--cms-foreground-muted) !important;
+  border: 1px solid var(--cms-border) !important;
+  background-color: var(--cms-card) !important;
+  padding: 4px 8px !important;
+  border-radius: var(--cms-radius) !important;
+  font-size: 0.8em !important;
+}
+
+/* ==========================================================================
+     Barra Lateral (Sidebar)
+     ========================================================================== */
+[class*="SidebarContainer"] {
+  background-color: var(--cms-bg) !important;
+  border-right: 1px solid var(--cms-border) !important;
+}
+
+[class*="SidebarHeading"] {
+  color: var(--cms-gold) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9em !important;
+  padding-bottom: 10px !important;
+  border-bottom: 1px solid var(--cms-border) !important;
+}
+
+[class*="SidebarNavLink"] {
+  color: var(--cms-foreground-muted) !important;
+  background-color: transparent !important;
+  border-radius: var(--cms-radius) !important;
+  padding: 8px 12px !important;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+[class*="SidebarNavLink"]:hover {
+  color: var(--cms-foreground) !important;
+  background-color: var(--cms-card) !important;
+}
+[class*="SidebarNavLink"] svg path {
+  fill: var(--cms-foreground-muted) !important;
+  transition: fill 0.2s;
+}
+[class*="SidebarNavLink"]:hover svg path {
+  fill: var(--cms-foreground) !important;
+}
+
+.sidebar-active,
+[class*="SidebarNavLink"].sidebar-active {
+  color: var(--cms-bg) !important;
+  background-color: var(--cms-gold) !important;
+  font-weight: 600 !important;
+}
+.sidebar-active svg path,
+[class*="SidebarNavLink"].sidebar-active svg path {
+  fill: var(--cms-bg) !important;
+}
+
+[class*="SearchInput"] {
+  background-color: var(--cms-input-bg) !important;
+  color: var(--cms-foreground) !important;
+  border: 1px solid var(--cms-border) !important;
+  border-radius: var(--cms-radius) !important;
+  box-shadow: none !important;
+}
+[class*="SearchInput"]::placeholder {
+  color: var(--cms-foreground-muted) !important;
+}
+[class*="SearchContainer"] svg path {
+  fill: var(--cms-foreground-muted) !important;
+}
+
+/* ==========================================================================
+     Área Principal e Cards
+     ========================================================================== */
+[class*="CollectionMain"] {
+  background-color: var(--cms-bg) !important;
+  /* *** TESTE 1: Padding comentado para verificar se causa desalinhamento *** */
+  /* padding: 20px 25px !important; */
+}
+
+/* Topo da coleção (onde fica o H1) */
+/* *** TESTE 2: VERIFIQUE E SUBSTITUA a classe abaixo pela classe EXATA encontrada no inspetor! *** */
+[class*="CollectionTopContainer"] /* <-- ou .classe-exata-gerada */ {
+  background-color: var(--cms-card) !important;
+  border: 1px solid var(--cms-border) !important;
+  border-radius: var(--cms-radius) !important;
+  padding: 18px 20px !important;
+  margin-bottom: 18px !important;
+  box-shadow: none !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+[class*="CollectionTopHeading"] {
+  color: var(--cms-foreground) !important;
+  font-weight: 600 !important;
+  font-size: 1.5em !important;
+  margin: 0 !important; /* Garantir que não haja margem estranha */
+  padding: 0 !important;
+}
+
+/* Container dos botões de visualização (Lista/Grid) */
+/* *** TESTE 2: VERIFIQUE E SUBSTITUA a classe abaixo pela classe EXATA encontrada no inspetor! *** */
+[class*="CollectionControlsContainer"] /* <-- ou .outra-classe-exata-gerada */ {
+  padding: 0 0 15px 0 !important;
+  margin-top: 10px !important;
+  margin-bottom: 15px !important;
+  border-bottom: 1px solid var(--cms-border) !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important; /* Alinhar verticalmente */
+  position: relative; /* Adicionado para teste */
+  z-index: 5; /* Adicionado para teste */
+}
+
+/* Estilos para os botões de visualização dentro do container */
+[class*="CollectionControlsContainer"] button[class*="ViewControlsButton"] {
+  color: var(--cms-foreground-muted) !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  padding: 5px !important;
+  border-radius: var(--cms-radius) !important;
+  margin-left: 5px !important;
+}
+[class*="CollectionControlsContainer"] button[class*="ViewControlsButton"] svg {
+  fill: var(--cms-foreground-muted) !important;
+  width: 20px;
+  height: 20px;
+}
+[class*="CollectionControlsContainer"]
+  button[class*="ViewControlsButton"]:hover,
+[class*="CollectionControlsContainer"]
+  button[class*="ViewControlsButton"].active {
+  color: var(--cms-gold) !important;
+  background: var(--cms-input-bg) !important;
+  border-color: var(--cms-border) !important;
+}
+[class*="CollectionControlsContainer"]
+  button[class*="ViewControlsButton"]:hover
+  svg,
+[class*="CollectionControlsContainer"]
+  button[class*="ViewControlsButton"].active
+  svg {
+  fill: var(--cms-gold) !important;
+}
+
+/* Card de item na lista */
+[class*="ListCard"],
+[class*="Card"]:not([class*="SidebarContainer"]):not(
+    [class*="CollectionTopContainer"]
+  ) {
+  background-color: var(--cms-card) !important;
+  color: var(--cms-foreground) !important;
+  border-radius: var(--cms-radius) !important;
+  box-shadow: none !important;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+[class*="ListCardLink"]:hover [class*="ListCard"] {
+  border-color: var(--cms-gold) !important;
+  background-color: hsl(217.2 32.6% 20.5%) !important;
+}
+
+/* Título do item no card */
+[class*="ListCardTitle"] {
+  color: var(--cms-foreground) !important;
+  font-weight: 500 !important;
+}
+
+/* Remover sombra branca fantasma (se ainda existir em algum lugar) */
+/* Tente usar a classe específica que você encontrou antes, ou inspecione novamente */
+.css-f7u68r-CardBody::after {
+  box-shadow: none !important;
+  display: none !important;
+}
+
+/* ==========================================================================
+     Editor e Toolbar do Editor
+     ========================================================================== */
+[class*="EditorContainer"] {
+  background-color: var(--cms-bg) !important;
+}
+[class*="ToolbarContainer"] {
+  background-color: var(--cms-bg) !important;
+  border-bottom: 1px solid var(--cms-border) !important;
+  box-shadow: none !important;
+  color: var(--cms-foreground) !important;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+}
+
+[class*="ToolbarSectionBackLink"] {
+  color: var(--cms-foreground-muted) !important;
+}
+[class*="BackArrow"] {
+  color: var(--cms-gold) !important;
+}
+
+[class*="BackStatus"],
+[class*="BackStatusUnchanged"] {
+  color: #90ee90 !important;
+  background-color: rgba(144, 238, 144, 0.1) !important;
+  border: 1px solid rgba(144, 238, 144, 0.3) !important;
+  border-radius: var(--cms-radius) !important;
+  padding: 2px 6px !important;
+  font-size: 0.8em !important;
+  font-weight: 500 !important;
+}
+
+[class*="PublishedButton"] {
+  background-color: var(--cms-card) !important;
+  color: var(--cms-foreground) !important;
+  border: 1px solid var(--cms-border) !important;
+  font-weight: 500 !important;
+  border-radius: var(--cms-radius) !important;
+  /* padding: 6px 12px !important; */
+}
+[class*="PublishedButton"]:hover {
+  background-color: var(--cms-input-bg) !important;
+  border-color: var(--cms-gold) !important;
+  color: var(--cms-gold) !important;
+}
+
+.css-c5ftz9-StyledModal {
+  background-color: var(--cms-bg) !important;
+}
+
+/* ==========================================================================
+     Painel de Controle (Formulário no Editor)
+     ========================================================================== */
+[class*="ControlPaneContainer"] {
+  background-color: var(--cms-bg) !important;
+  padding-right: 25px !important;
+  padding-left: 5px;
+}
+
+[class*="ControlContainer"] {
+  background-color: transparent !important;
+  border: none !important;
+  margin-bottom: 24px !important;
+}
+
+[class*="FieldLabel"] {
+  color: var(--cms-gold) !important;
+  font-size: 0.75em !important;
+  text-transform: uppercase !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  margin-bottom: 8px !important;
+  background: transparent !important;
+  display: block;
+  background-color: transparent !important;
+}
+[class*="FieldLabel"] > span {
+  color: var(--cms-foreground-muted) !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  margin-left: 6px;
+  font-size: 0.9em;
+  background-color: transparent !important;
+}
+
+.css-p8138j-FieldLabel-fieldLabel-fieldLabel::after {
+  border-bottom-left-radius: 3px;
+  background-color: var(--cms-bg) !important;
+}
+
+.css-83wr9v {
+  display: block;
+  width: 100%;
+  padding: 16px 20px;
+  margin: 0px;
+  border: 2px solid var(--cms-border) !important;
+  border-radius: 0px 5px 5px;
+  outline: 0px;
+  box-shadow: none;
+  background-color: var(--cms-bg) !important;
+  color: rgb(68, 74, 87);
+  transition: border-color 0.2s;
+  position: relative;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+[class*="ControlPaneContainer"] input[type="text"],
+[class*="ControlPaneContainer"] input[type="email"],
+[class*="ControlPaneContainer"] input[type="url"],
+[class*="ControlPaneContainer"] input[type="number"],
+[class*="ControlPaneContainer"] textarea,
+[class*="ControlPaneContainer"] select {
+  background-color: var(--cms-input-bg) !important;
+  color: var(--cms-foreground) !important;
+  border: 1px solid var(--cms-border) !important;
+  border-radius: var(--cms-radius) !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  padding: 10px 12px !important;
+  width: 100%;
+  font-size: 0.95em !important;
+}
+
+[class*="ControlPaneContainer"] input:focus,
+[class*="ControlPaneContainer"] textarea:focus,
+[class*="ControlPaneContainer"] select:focus {
+  border-color: var(--cms-gold) !important;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.25) !important;
+}
+
+[class*="ControlPaneContainer"] input::placeholder,
+[class*="ControlPaneContainer"] textarea::placeholder {
+  color: var(--cms-foreground-muted) !important;
+  opacity: 0.8 !important;
+}
+
+/* ==========================================================================
+     Botões Gerais
+     ========================================================================== */
+button[class*="FileWidgetButton"] {
+  background-color: var(--cms-card) !important;
+  color: var(--cms-foreground-muted) !important;
+  border: 1px solid var(--cms-border) !important;
+  font-weight: 500 !important;
+  padding: 8px 15px !important;
+  font-family: var(--cms-font) !important;
+  border-radius: var(--cms-radius) !important;
+  box-shadow: none !important;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+  text-transform: none !important;
+  font-size: 0.9em !important;
+  margin-right: 10px;
+}
+button[class*="FileWidgetButton"]:hover {
+  background-color: var(--cms-input-bg) !important;
+  color: var(--cms-gold) !important;
+  border-color: var(--cms-gold) !important;
+}
+
+/* ==========================================================================
+     Utilitários e Correções
+     ========================================================================== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--cms-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--cms-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cms-foreground-muted);
+}
+
+.Toastify__toast,
+.Toastify__toast--dark {
+  background-color: var(--cms-card) !important;
+  color: var(--cms-foreground) !important;
+  border: 1px solid var(--cms-border) !important;
+  border-radius: var(--cms-radius) !important;
+}
+.Toastify__close-button > svg {
+  fill: var(--cms-foreground-muted) !important;
+}
+.Toastify__close-button:hover > svg {
+  fill: var(--cms-foreground) !important;
+}
+
+/* ==========================================================================
+     Editor - Botões de Controle de Visualização (Toggle/Sync)
+     ========================================================================== */
+button[class*="EditorToggle"] {
+  background-color: var(--cms-card) !important;
+  color: var(--cms-foreground-muted) !important;
+  border: 1px solid var(--cms-border) !important;
+  box-shadow: none !important;
+  /* width: 32px !important; */
+  /* height: 32px !important; */
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  position: relative;
+  z-index: 10;
+}
+button[class*="EditorToggle"] svg {
+  fill: var(--cms-foreground-muted) !important;
+  /* width: 18px; */
+  /* height: 18px; */
+}
+button[class*="EditorToggle"]:hover {
+  background-color: var(--cms-input-bg) !important;
+  color: var(--cms-gold) !important;
+  border-color: var(--cms-gold) !important;
+}
+button[class*="EditorToggle"]:hover svg {
+  fill: var(--cms-gold) !important;
+}
+
+/* ==========================================================================
+     Painel de Preview - Nota
+     ========================================================================== */
+/* NOTA: Estilo do conteúdo interno do preview via registerPreviewStyle */
+
+[class*="PreviewPaneContainer"] {
+  background-color: var(--cms-bg) !important;
+}
+[class*="PreviewPaneFrame"] {
+  border: 1px solid var(--cms-border) !important;
+  border-radius: var(--cms-radius) !important;
+  background-color: #fff; /* Fundo interno do iframe */
+}

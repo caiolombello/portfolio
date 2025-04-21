@@ -1,15 +1,15 @@
-import type { Metadata } from "next"
+import type { Metadata } from "next";
 
 interface PageSEOProps {
-  title: string
-  description: string
-  path: string
-  ogImage?: string
-  type?: "website" | "article"
-  publishedTime?: string
-  modifiedTime?: string
-  authors?: string[]
-  tags?: string[]
+  title: string;
+  description: string;
+  path: string;
+  ogImage?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  authors?: string[];
+  tags?: string[];
 }
 
 export function generatePageMetadata({
@@ -20,11 +20,14 @@ export function generatePageMetadata({
   type = "website",
   publishedTime,
   modifiedTime,
-  authors = ["Caio Lombello"],
+  authors = ["Caio Barbieri"],
   tags = [],
 }: PageSEOProps): Metadata {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com"
-  const imageUrl = ogImage ? `${baseUrl}${ogImage}` : `${baseUrl}/api/og?title=${encodeURIComponent(title)}`
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com";
+  const imageUrl = ogImage
+    ? `${baseUrl}${ogImage}`
+    : `${baseUrl}/api/og?title=${encodeURIComponent(title)}`;
 
   const metadata: Metadata = {
     title,
@@ -52,7 +55,7 @@ export function generatePageMetadata({
       description,
       images: [imageUrl],
     },
-  }
+  };
 
   // Adicionar metadados específicos para artigos
   if (type === "article") {
@@ -63,9 +66,8 @@ export function generatePageMetadata({
       tags,
       publishedTime,
       modifiedTime,
-    }
+    };
   }
 
-  return metadata
+  return metadata;
 }
-

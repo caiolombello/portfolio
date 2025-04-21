@@ -1,57 +1,63 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { toast } from "sonner"
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { toast } from "sonner";
 
 interface SiteSettings {
-  siteName: string
-  baseUrl: string
-  contactEmail: string
+  siteName: string;
+  baseUrl: string;
+  contactEmail: string;
   socialLinks: {
-    github: string
-    linkedin: string
-    twitter: string
-  }
+    github: string;
+    linkedin: string;
+    twitter: string;
+  };
 }
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState<SiteSettings>({
-    siteName: "Caio Lombello",
+    siteName: "Caio Barbieri",
     baseUrl: "https://caio.lombello.com",
-    contactEmail: "contato@caio.lombello.com",
+    contactEmail: "caio@lombello.com",
     socialLinks: {
       github: "https://github.com/caiolombello",
       linkedin: "https://linkedin.com/in/caiolombello",
       twitter: "https://twitter.com/caiolombello",
     },
-  })
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
+  });
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    loadSettings()
-  }, [])
+    loadSettings();
+  }, []);
 
   async function loadSettings() {
     try {
-      const response = await fetch("/api/admin/settings")
-      if (!response.ok) throw new Error("Erro ao carregar configurações")
-      const data = await response.json()
-      setSettings(data)
+      const response = await fetch("/api/admin/settings");
+      if (!response.ok) throw new Error("Erro ao carregar configurações");
+      const data = await response.json();
+      setSettings(data);
     } catch (error) {
-      console.error("Erro ao carregar configurações:", error)
-      toast.error("Erro ao carregar configurações")
+      console.error("Erro ao carregar configurações:", error);
+      toast.error("Erro ao carregar configurações");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function saveSettings() {
-    setSaving(true)
+    setSaving(true);
     try {
       const response = await fetch("/api/admin/settings", {
         method: "POST",
@@ -59,21 +65,21 @@ export default function SettingsPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(settings),
-      })
+      });
 
-      if (!response.ok) throw new Error("Erro ao salvar configurações")
+      if (!response.ok) throw new Error("Erro ao salvar configurações");
 
-      toast.success("Configurações salvas com sucesso!")
+      toast.success("Configurações salvas com sucesso!");
     } catch (error) {
-      console.error("Erro ao salvar configurações:", error)
-      toast.error("Erro ao salvar configurações")
+      console.error("Erro ao salvar configurações:", error);
+      toast.error("Erro ao salvar configurações");
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
   }
 
   if (loading) {
-    return <div>Carregando...</div>
+    return <div>Carregando...</div>;
   }
 
   return (
@@ -97,21 +103,27 @@ export default function SettingsPage() {
             <Label>Nome do Site</Label>
             <Input
               value={settings.siteName}
-              onChange={(e) => setSettings({ ...settings, siteName: e.target.value })}
+              onChange={(e) =>
+                setSettings({ ...settings, siteName: e.target.value })
+              }
             />
           </div>
           <div>
             <Label>URL Base</Label>
             <Input
               value={settings.baseUrl}
-              onChange={(e) => setSettings({ ...settings, baseUrl: e.target.value })}
+              onChange={(e) =>
+                setSettings({ ...settings, baseUrl: e.target.value })
+              }
             />
           </div>
           <div>
             <Label>Email de Contato</Label>
             <Input
               value={settings.contactEmail}
-              onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
+              onChange={(e) =>
+                setSettings({ ...settings, contactEmail: e.target.value })
+              }
             />
           </div>
         </CardContent>
@@ -132,7 +144,10 @@ export default function SettingsPage() {
               onChange={(e) =>
                 setSettings({
                   ...settings,
-                  socialLinks: { ...settings.socialLinks, github: e.target.value },
+                  socialLinks: {
+                    ...settings.socialLinks,
+                    github: e.target.value,
+                  },
                 })
               }
             />
@@ -144,7 +159,10 @@ export default function SettingsPage() {
               onChange={(e) =>
                 setSettings({
                   ...settings,
-                  socialLinks: { ...settings.socialLinks, linkedin: e.target.value },
+                  socialLinks: {
+                    ...settings.socialLinks,
+                    linkedin: e.target.value,
+                  },
                 })
               }
             />
@@ -156,7 +174,10 @@ export default function SettingsPage() {
               onChange={(e) =>
                 setSettings({
                   ...settings,
-                  socialLinks: { ...settings.socialLinks, twitter: e.target.value },
+                  socialLinks: {
+                    ...settings.socialLinks,
+                    twitter: e.target.value,
+                  },
                 })
               }
             />
@@ -170,5 +191,5 @@ export default function SettingsPage() {
         </Button>
       </div>
     </div>
-  )
-} 
+  );
+}

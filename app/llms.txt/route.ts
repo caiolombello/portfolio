@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server"
-import fs from "fs/promises"
-import path from "path"
+import { NextResponse } from "next/server";
+import fs from "fs/promises";
+import path from "path";
 
 interface Project {
   id: string;
@@ -22,21 +22,50 @@ interface Skill {
 async function generateLlmsTxt() {
   try {
     // Carregar dados necessários
-    const profilePath = path.join(process.cwd(), "public", "data", "profile.json")
-    const projectsPath = path.join(process.cwd(), "public", "data", "projects.json")
-    const postsPath = path.join(process.cwd(), "public", "data", "posts.json")
-    const skillsPath = path.join(process.cwd(), "public", "data", "skills.json")
-    const certificationsPath = path.join(process.cwd(), "public", "data", "certifications.json")
+    const profilePath = path.join(
+      process.cwd(),
+      "public",
+      "data",
+      "profile.json",
+    );
+    const projectsPath = path.join(
+      process.cwd(),
+      "public",
+      "data",
+      "projects.json",
+    );
+    const postsPath = path.join(process.cwd(), "public", "data", "posts.json");
+    const skillsPath = path.join(
+      process.cwd(),
+      "public",
+      "data",
+      "skills.json",
+    );
+    const certificationsPath = path.join(
+      process.cwd(),
+      "public",
+      "data",
+      "certifications.json",
+    );
 
     // Ler os arquivos
-    const profileData = JSON.parse(await fs.readFile(profilePath, "utf-8"))
-    const projectsData = JSON.parse(await fs.readFile(projectsPath, "utf-8")) as Project[]
-    const postsData = JSON.parse(await fs.readFile(postsPath, "utf-8")) as Post[]
-    const skillsData = JSON.parse(await fs.readFile(skillsPath, "utf-8")) as Skill[]
-    const certificationsData = JSON.parse(await fs.readFile(certificationsPath, "utf-8"))
+    const profileData = JSON.parse(await fs.readFile(profilePath, "utf-8"));
+    const projectsData = JSON.parse(
+      await fs.readFile(projectsPath, "utf-8"),
+    ) as Project[];
+    const postsData = JSON.parse(
+      await fs.readFile(postsPath, "utf-8"),
+    ) as Post[];
+    const skillsData = JSON.parse(
+      await fs.readFile(skillsPath, "utf-8"),
+    ) as Skill[];
+    const certificationsData = JSON.parse(
+      await fs.readFile(certificationsPath, "utf-8"),
+    );
 
     // Obter o domínio base do site (para produção, você deve configurar isso)
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com"
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com";
 
     // Gerar o conteúdo do llms.txt
     const content = `# Caio Lombello Vendramini Barbieri - Portfólio Profissional
@@ -76,24 +105,23 @@ ${postsData.map((post: Post) => `- [${post.title}](${baseUrl}/blog/${post.id}.ht
 ## Optional
 
 - [Política de Privacidade](${baseUrl}/privacy-policy.html.md): Informações sobre como os dados dos usuários são tratados no site
-- [Termos de Uso](${baseUrl}/terms-of-use.html.md): Termos e condições para uso do site`
+- [Termos de Uso](${baseUrl}/terms-of-use.html.md): Termos e condições para uso do site`;
 
-    return content
+    return content;
   } catch (error) {
-    console.error("Erro ao gerar llms.txt:", error)
+    console.error("Erro ao gerar llms.txt:", error);
     return `# Caio Lombello Vendramini Barbieri - Portfólio Profissional
 
-> Ocorreu um erro ao gerar o conteúdo dinâmico. Por favor, tente novamente mais tarde.`
+> Ocorreu um erro ao gerar o conteúdo dinâmico. Por favor, tente novamente mais tarde.`;
   }
 }
 
 export async function GET() {
-  const content = await generateLlmsTxt()
+  const content = await generateLlmsTxt();
 
   return new NextResponse(content, {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8",
     },
-  })
+  });
 }
-

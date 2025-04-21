@@ -1,67 +1,74 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import Image from "next/image"
-import { generateSlug } from "@/lib/utils"
+import { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import Image from "next/image";
+import { generateSlug } from "@/lib/utils";
 
 interface BlogPost {
-  id: string
-  title: string
-  slug: string
-  excerpt: string
-  content: string
-  coverImage?: string
-  date: string
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  coverImage?: string;
+  date: string;
   author: {
-    name: string
-    avatar?: string
-  }
-  tags: string[]
-  published: boolean
-  createdAt: string
-  updatedAt: string
+    name: string;
+    avatar?: string;
+  };
+  tags: string[];
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export default function Blog() {
-  const [posts, setPosts] = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await fetch("/api/medium/posts")
+        const response = await fetch("/api/medium/posts");
         if (!response.ok) {
-          throw new Error("Failed to fetch posts")
+          throw new Error("Failed to fetch posts");
         }
-        const data = await response.json()
-        
+        const data = await response.json();
+
         // Gerar slugs para cada post
-        const postsWithSlugs = data.map((post: any) => ({
+        const postsWithSlugs = data.map((post: Omit<BlogPost, 'slug'>) => ({
           ...post,
           slug: generateSlug(post.title),
-        }))
+        }));
 
-        setPosts(postsWithSlugs)
+        setPosts(postsWithSlugs);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred")
+        setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
 
-    fetchPosts()
-  }, [])
+    fetchPosts();
+  }, []);
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>
+    return <div>Error: {error}</div>;
   }
 
   return (
@@ -102,6 +109,5 @@ export default function Blog() {
         ))}
       </div>
     </div>
-  )
+  );
 }
-

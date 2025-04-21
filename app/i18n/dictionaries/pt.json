@@ -24,7 +24,13 @@
     "title": "Projetos",
     "description": "Aqui estão alguns dos projetos em que trabalhei.",
     "viewProject": "Ver Projeto",
-    "viewAll": "Ver Todos os Projetos"
+    "viewAll": "Ver Todos os Projetos",
+    "backToPortfolio": "Voltar para o portfólio",
+    "projectDetails": "Detalhes do Projeto",
+    "technologiesUsed": "Tecnologias Utilizadas",
+    "viewDemo": "Ver Demonstração",
+    "githubRepo": "Repositório GitHub",
+    "project": "projeto"
   },
   "blog": {
     "title": "Blog",
@@ -41,7 +47,19 @@
     "message": "Mensagem",
     "send": "Enviar Mensagem",
     "success": "Sua mensagem foi enviada com sucesso!",
-    "error": "Houve um erro ao enviar sua mensagem. Por favor, tente novamente."
+    "error": "Houve um erro ao enviar sua mensagem. Por favor, tente novamente.",
+    "info": "Informações de Contato",
+    "successMessage": "Sua mensagem foi enviada com sucesso!",
+    "errorMessage": "Ocorreu um erro. Por favor, tente novamente.",
+    "messageMinLength": "A mensagem deve ter pelo menos 10 caracteres.",
+    "sending": "Enviando...",
+    "birthDate": "Data de Nascimento",
+    "location": "Localização",
+    "phone": "Telefone",
+    "nameRequired": "Nome é obrigatório.",
+    "emailRequired": "Email é obrigatório.",
+    "invalidEmail": "Endereço de email inválido.",
+    "messageRequired": "Mensagem é obrigatória."
   },
   "resume": {
     "title": "Currículo",
@@ -99,4 +117,3 @@
     "es": "Espanhol"
   }
 }
-

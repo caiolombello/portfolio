@@ -1,7 +1,13 @@
-let userConfig = undefined
+import bundleAnalyzer from "@next/bundle-analyzer";
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
+
+let userConfig = undefined;
 try {
   // try to import ESM first
-  userConfig = await import('./v0-user-next.config.mjs')
+  userConfig = await import("./v0-user-next.config.mjs");
 } catch (e) {
   try {
     // fallback to CJS import
@@ -13,91 +19,191 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // Allow development origins
+  allowedDevOrigins: [
+    "http://localhost:3000",
+    "http://192.168.15.2:3000",
+    "http://127.0.0.1:3000",
+  ],
+
+  // Enable Turbopack configuration
+  turbopack: {
+    // Configure loaders for SVG and other file types
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
+    },
+    // Configure resolve aliases for common paths
+    resolveAlias: {
+      "@": ".",
+      "@/components": "./components",
+      "@/lib": "./lib",
+      "@/styles": "./styles",
+      "@/public": "./public",
+    },
+    // Configure extensions for module resolution
+    resolveExtensions: [
+      ".tsx",
+      ".ts",
+      ".jsx",
+      ".js",
+      ".json",
+      ".css",
+      ".scss",
+      ".mdx",
+    ],
+  },
+
+  // Image optimization configuration
   images: {
-    domains: ['v0.blob.com'],
-    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "192.168.15.2",
+        port: "3000",
+      },
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+    formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-  headers: async () => {
+
+  // Enable React strict mode for better development experience
+  reactStrictMode: true,
+
+  // Enable experimental features
+  experimental: {
+    serverActions: {
+      allowedOrigins: ["localhost:3000", "192.168.15.2:3000"],
+    },
+  },
+
+  // Configure headers for CORS and security
+  async headers() {
     return [
       {
-        source: '/:path*',
+        source: "/:path*",
         headers: [
           {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on',
+            key: "Access-Control-Allow-Origin",
+            value: "*",
           },
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload',
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PUT, DELETE, OPTIONS",
           },
           {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
+            key: "Access-Control-Allow-Headers",
+            value: "X-Requested-With, Content-Type, Authorization",
           },
           {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
           },
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
           },
           {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
+          },
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "origin-when-cross-origin",
           },
         ],
       },
-    ]
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*",
+          },
+        ],
+      },
+      {
+        source: "/fonts/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*",
+          },
+        ],
+      },
+    ];
   },
+
+  // Redirects configuration
   redirects: async () => {
     return [
       {
-        source: '/blog',
-        destination: '/blog/page/1',
+        source: "/blog",
+        destination: "/blog/page/1",
         permanent: true,
       },
       {
-        source: '/portfolio',
-        destination: '/portfolio/page/1',
+        source: "/portfolio",
+        destination: "/portfolio/page/1",
         permanent: true,
       },
-    ]
+    ];
   },
+
+  // Rewrites configuration
   rewrites: async () => {
     return [
       {
-        source: '/sitemap.xml',
-        destination: '/api/sitemap',
+        source: "/sitemap.xml",
+        destination: "/api/sitemap",
       },
       {
-        source: '/robots.txt',
-        destination: '/api/robots',
+        source: "/robots.txt",
+        destination: "/api/robots",
       },
-    ]
+      {
+        source: "/admin",
+        destination: "/admin/index.html",
+      },
+      {
+        source: "/admin/",
+        destination: "/admin/index.html",
+      },
+    ];
   },
-}
+};
 
 if (userConfig) {
-  // ESM imports will have a "default" property
-  const config = userConfig.default || userConfig
+  const config = userConfig.default || userConfig;
 
   for (const key in config) {
     if (
-      typeof nextConfig[key] === 'object' &&
+      typeof nextConfig[key] === "object" &&
       !Array.isArray(nextConfig[key])
     ) {
       nextConfig[key] = {
         ...nextConfig[key],
         ...config[key],
-      }
+      };
     } else {
-      nextConfig[key] = config[key]
+      nextConfig[key] = config[key];
     }
   }
 }
 
-export default nextConfig
+export default withBundleAnalyzer(nextConfig);

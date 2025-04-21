@@ -1,59 +1,101 @@
-import { notFound } from "next/navigation"
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
-import { generatePageMetadata } from "@/components/seo/page-seo"
-import type { Metadata } from "next"
-import { Project } from "@/types/project"
-import { getProjectById } from "@/lib/data"
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { generatePageMetadata } from "@/components/seo/page-seo";
+import type { Metadata } from "next";
+import type { Project, Technology } from "@/types/project";
+import { loadProjectById } from "@/lib/data";
+import { getDictionary } from "@/app/i18n";
 
 interface ProjectPageProps {
   params: Promise<{
-    id: string
-  }>
+    id: string;
+    lang: string;
+  }>;
 }
 
-export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
-  const { id } = await params;
-  const project = getProjectById(id)
+export async function generateMetadata({
+  params,
+}: ProjectPageProps): Promise<Metadata> {
+  const { id, lang } = await params;
+  const project = await loadProjectById(id);
+  const dict = await getDictionary(lang);
 
   if (!project) {
     return {
-      title: "Projeto não encontrado | Caio Lombello",
-      description: "O projeto solicitado não foi encontrado",
-    }
+      title: `${dict.notFound.title} | Caio Barbieri`,
+      description: dict.notFound.description,
+    };
   }
 
+  const title = lang === "pt" ? project.title_pt : project.title_en;
+  const description =
+    lang === "pt" ? project.shortDescription_pt : project.shortDescription_en;
+
   return generatePageMetadata({
-    title: `${project.title ?? ""} | Portfólio`,
-    description: project.shortDescription ?? "",
+    title: `${title} | ${dict.projects.title}`,
+    description: description,
     path: `/portfolio/${project.id}`,
     ogImage: project.imageUrl ?? "",
     type: "article",
-    tags: [project.category, "portfolio", "projeto"],
-  })
+    tags: [project.category ?? "", "portfolio", dict.projects.project ?? ""],
+  });
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { id } = await params;
-  const project = getProjectById(id)
+  const { id, lang } = await params;
+  const project = await loadProjectById(id);
+  const dict = await getDictionary(lang);
 
   if (!project) {
-    notFound()
+    notFound();
   }
+
+  const title = lang === "pt" ? project.title_pt : project.title_en;
+  const shortDescription =
+    lang === "pt" ? project.shortDescription_pt : project.shortDescription_en;
+  const description =
+    lang === "pt" ? project.description_pt : project.description_en;
 
   return (
     <div className="container py-12">
-      <Link href="/portfolio" className="mb-8 inline-flex items-center text-muted-foreground hover:text-gold">
+      <Link
+        href={`/${lang}/portfolio`}
+        className="mb-8 inline-flex items-center text-muted-foreground hover:text-gold"
+      >
         <ArrowLeft size={16} className="mr-2" />
-        Voltar para o portfólio
+        {dict.projects.backToPortfolio}
       </Link>
+
+      {/* Dados estruturados Schema.org para CreativeWork/Project */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            name: title,
+            description: shortDescription,
+            image: project.imageUrl ?? "",
+            url: `https://caio.lombello.com/${lang}/portfolio/${project.id}`,
+            datePublished: project.createdAt,
+            dateModified: project.updatedAt,
+            inLanguage: lang === "pt" ? "Portuguese" : "English",
+            genre: project.category,
+            keywords:
+              project.technologies?.map((tech) => tech.tech).join(", ") ?? "",
+            ...(project.githubUrl ? { codeRepository: project.githubUrl } : {}),
+            ...(project.liveUrl ? { url: project.liveUrl } : {}),
+          }),
+        }}
+      />
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <div className="relative aspect-video overflow-hidden rounded-lg border border-border/40">
           <Image
             src={project.imageUrl ?? "/placeholder.svg"}
-            alt={project.title ?? ""}
+            alt={title}
             fill
             className="object-cover"
             priority
@@ -65,36 +107,47 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             {project.category}
           </span>
 
-          <h1 className="mb-4 text-3xl font-bold text-gold">{project.title}</h1>
+          <h1 className="mb-4 text-3xl font-bold text-gold">{title}</h1>
 
-          <p className="mb-6 text-muted-foreground">{project.shortDescription}</p>
+          <p className="mb-6 text-muted-foreground">{shortDescription}</p>
 
           <div className="rounded-lg border border-border/40 bg-card p-6">
-            <h2 className="mb-4 text-xl font-semibold text-foreground">Detalhes do Projeto</h2>
+            <h2 className="mb-4 text-xl font-semibold text-foreground">
+              {dict.projects.projectDetails}
+            </h2>
 
-            <p className="mb-4 text-muted-foreground">
-              {project.description}
-            </p>
+            <p className="mb-4 text-muted-foreground">{description}</p>
 
-            <h3 className="mb-2 text-lg font-medium text-foreground">Tecnologias Utilizadas:</h3>
+            <h3 className="mb-2 text-lg font-medium text-foreground">
+              {dict.projects.technologiesUsed}:
+            </h3>
 
             <div className="mb-4 flex flex-wrap gap-2">
-              {project.technologies.map((tech) => (
-                <span key={tech} className="rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground">
-                  {tech}
+              {project.technologies?.map((tech: Technology) => (
+                <span
+                  key={tech.tech}
+                  className="rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground"
+                >
+                  {tech.tech}
                 </span>
               ))}
             </div>
 
             <div className="flex gap-4">
               {project.liveUrl && (
-                <Link href={project.liveUrl} className="inline-flex items-center text-gold hover:underline">
-                  Ver Demonstração
+                <Link
+                  href={project.liveUrl}
+                  className="inline-flex items-center text-gold hover:underline"
+                >
+                  {dict.projects.viewDemo}
                 </Link>
               )}
               {project.githubUrl && (
-                <Link href={project.githubUrl} className="inline-flex items-center text-gold hover:underline">
-                  Repositório GitHub
+                <Link
+                  href={project.githubUrl}
+                  className="inline-flex items-center text-gold hover:underline"
+                >
+                  {dict.projects.githubRepo}
                 </Link>
               )}
             </div>
@@ -102,6 +155,5 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

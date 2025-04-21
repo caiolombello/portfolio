@@ -1,5 +1,11 @@
-"use client"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+"use client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   ChartBarIcon,
   BriefcaseIcon,
@@ -9,13 +15,13 @@ import {
   UserIcon,
   TrophyIcon,
   ChartPieIcon,
-  MagnifyingGlassIcon
-} from "@heroicons/react/24/outline"
-import Link from "next/link"
-import { useAuth } from "@/contexts/auth-context"
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function AdminDashboard() {
-  const { isAuthenticated, loading } = useAuth()
+  const { isAuthenticated, loading } = useAuth();
 
   // Mostrar um indicador de carregamento enquanto verificamos a autenticação
   if (loading) {
@@ -23,12 +29,12 @@ export default function AdminDashboard() {
       <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
         <div className="animate-spin h-8 w-8 border-4 border-gold rounded-full border-t-transparent"></div>
       </div>
-    )
+    );
   }
 
   // Se não estiver autenticado, o AuthGuard já cuidará do redirecionamento
   if (!isAuthenticated) {
-    return null
+    return null;
   }
 
   const cards = [
@@ -86,7 +92,7 @@ export default function AdminDashboard() {
       icon: <MagnifyingGlassIcon className="h-8 w-8 text-gold" />,
       href: "/admin/metadata",
     },
-  ]
+  ];
 
   return (
     <div>
@@ -97,17 +103,20 @@ export default function AdminDashboard() {
           <Link key={index} href={card.href}>
             <Card className="h-full hover:border-gold/40 transition-colors cursor-pointer">
               <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-                <CardTitle className="text-xl font-bold">{card.title}</CardTitle>
+                <CardTitle className="text-xl font-bold">
+                  {card.title}
+                </CardTitle>
                 {card.icon}
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-sm text-muted-foreground">{card.description}</CardDescription>
+                <CardDescription className="text-sm text-muted-foreground">
+                  {card.description}
+                </CardDescription>
               </CardContent>
             </Card>
           </Link>
         ))}
       </div>
     </div>
-  )
+  );
 }
-

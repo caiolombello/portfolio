@@ -1,3 +1,6 @@
+/* Prism.js Theme */
+@import "prismjs/themes/prism-tomorrow.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -93,7 +96,102 @@
   }
 
   .shadow-gold\/10 {
-    box-shadow: 0 4px 6px -1px rgba(255, 215, 0, 0.1), 0 2px 4px -1px rgba(255, 215, 0, 0.06);
+    box-shadow:
+      0 4px 6px -1px rgba(255, 215, 0, 0.1),
+      0 2px 4px -1px rgba(255, 215, 0, 0.06);
   }
 }
 
+/* Code block styles */
+.prose pre {
+  margin: 1.5em 0;
+  padding: 0;
+  background: none;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  display: block;
+  padding: 1rem;
+  background: #1e1e1e !important;
+  border-radius: 0.5rem;
+  font-size: 0.875rem !important;
+  line-height: 1.5;
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
+/* Ensure inline code is styled consistently */
+:not(pre) > code {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 0.2em 0.4em;
+  border-radius: 0.3em;
+  font-size: 0.9em;
+}
+
+/* Line Numbers */
+pre[class*="language-"].line-numbers {
+  position: relative;
+  padding-left: 3.8em;
+  counter-reset: start;
+}
+
+pre[class*="language-"].line-numbers > code {
+  position: relative;
+  white-space: inherit;
+}
+
+.line-numbers .line-numbers-rows {
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  font-size: 100%;
+  left: -3.8em;
+  width: 3em;
+  letter-spacing: -1px;
+  border-right: 1px solid #999;
+  user-select: none;
+}
+
+.line-numbers-rows > span {
+  display: block;
+  counter-increment: start;
+}
+
+.line-numbers-rows > span:before {
+  content: counter(start);
+  color: #999;
+  display: block;
+  padding-right: 0.8em;
+  text-align: right;
+}
+
+/* Tailwind Prose Overrides */
+.prose code::before,
+.prose code::after {
+  content: none !important;
+}
+
+.prose pre {
+  @apply bg-transparent p-0 dark:bg-transparent;
+}
+
+.prose pre code {
+  @apply p-4;
+}
+
+pre[class*="language-"] {
+  @apply rounded-md;
+  background: #1e1e1e !important;
+}
+
+/* Ensure code blocks have proper contrast in dark mode */
+.dark pre[class*="language-"] {
+  background: #1e1e1e !important;
+}
+
+.dark code[class*="language-"] {
+  text-shadow: none !important;
+}
