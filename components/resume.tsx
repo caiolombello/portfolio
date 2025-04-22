@@ -48,7 +48,7 @@ export default function Resume() {
     async function fetchData() {
       const expRes = await fetch("/api/public/experience");
       const eduRes = await fetch("/api/public/education");
-      const skillsRes = await fetch("/api/public/skills");
+      const skillsRes = await fetch("/api/skills");
       const expData = expRes.ok ? await expRes.json() : {};
       const eduData = eduRes.ok ? await eduRes.json() : {};
       const skillsData = skillsRes.ok

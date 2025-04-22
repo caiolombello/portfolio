@@ -43,7 +43,7 @@ export default function ResumeContent({ lang }: ResumeContentProps) {
           await Promise.all([
             fetch(`/api/public/experience?lang=${lang}`),
             fetch(`/api/public/education?lang=${lang}`),
-            fetch(`/api/public/skills?lang=${lang}`),
+            fetch(`/api/skills?lang=${lang}`),
             fetch(`/api/public/certifications?lang=${lang}`),
           ]);
 

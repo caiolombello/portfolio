@@ -152,7 +152,7 @@ export default function SkillsList() {
   useEffect(() => {
     async function fetchSkills() {
       try {
-        const response = await fetch("/api/public/skills");
+        const response = await fetch("/api/skills");
         if (response.ok) {
           const data = await response.json();
           setSkills(data.skills_list || []);

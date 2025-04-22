@@ -39,7 +39,7 @@ async function fetchProfile() {
 }
 
 async function fetchSkills() {
-  const res = await fetch("/api/public/skills");
+  const res = await fetch("/api/skills");
   if (!res.ok) return [];
   return res.json();
 }
