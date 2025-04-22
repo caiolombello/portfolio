@@ -1,48 +1,23 @@
 {
   "skills_list": [
     {
-      "name": "TypeScript",
-      "category": "Linguagens",
-      "level": "Experiente"
-    },
-    {
-      "name": "React",
-      "category": "Frontend",
-      "level": "Experiente"
-    },
-    {
-      "name": "Node.js",
-      "category": "Backend",
-      "level": "Experiente"
-    },
-    {
-      "name": "Docker",
+      "name": "AWS",
       "category": "Cloud/Infra",
-      "level": "Experiente"
+      "level": "Avançado"
     },
     {
       "name": "Kubernetes",
       "category": "Cloud/Infra",
-      "level": "Proficiente"
-    },
-    {
-      "name": "AWS",
-      "category": "Cloud/Infra",
-      "level": "Proficiente"
-    },
-    {
-      "name": "CI/CD",
-      "category": "CI/CD",
-      "level": "Experiente"
-    },
-    {
-      "name": "Git",
-      "category": "Ferramentas",
-      "level": "Experiente"
+      "level": "Avançado"
     },
     {
       "name": "Terraform",
       "category": "Cloud/Infra",
+      "level": "Avançado"
+    },
+    {
+      "name": "Docker",
+      "category": "Containerização",
       "level": "Avançado"
     },
     {
@@ -61,24 +36,9 @@
       "level": "Avançado"
     },
     {
-      "name": "Bamboo",
-      "category": "CI/CD",
-      "level": "Proficiente"
-    },
-    {
-      "name": "GitLab CI/CD",
-      "category": "CI/CD",
-      "level": "Proficiente"
-    },
-    {
       "name": "Python",
       "category": "Linguagens",
       "level": "Avançado"
-    },
-    {
-      "name": "Golang",
-      "category": "Linguagens",
-      "level": "Proficiente"
     },
     {
       "name": "Shell Script",
@@ -96,63 +56,8 @@
       "level": "Proficiente"
     },
     {
-      "name": "Loki",
-      "category": "Observabilidade",
-      "level": "Proficiente"
-    },
-    {
-      "name": "Thanos",
-      "category": "Observabilidade",
-      "level": "Proficiente"
-    },
-    {
       "name": "OpenTelemetry",
       "category": "Observabilidade",
-      "level": "Proficiente"
-    },
-    {
-      "name": "FastAPI",
-      "category": "Framework",
-      "level": "Proficiente"
-    },
-    {
-      "name": "OpenAI API",
-      "category": "AI & Automação",
-      "level": "Proficiente"
-    },
-    {
-      "name": "Prompt Engineering",
-      "category": "AI & Automação",
-      "level": "Proficiente"
-    },
-    {
-      "name": "MageAI",
-      "category": "AI & Automação",
-      "level": "Proficiente"
-    },
-    {
-      "name": "Ollama",
-      "category": "AI & Automação",
-      "level": "Proficiente"
-    },
-    {
-      "name": "HashiCorp Vault",
-      "category": "Segurança",
-      "level": "Proficiente"
-    },
-    {
-      "name": "Consul",
-      "category": "Segurança",
-      "level": "Proficiente"
-    },
-    {
-      "name": "Redis",
-      "category": "Mensageria/Cache",
-      "level": "Proficiente"
-    },
-    {
-      "name": "RabbitMQ",
-      "category": "Mensageria",
       "level": "Proficiente"
     }
   ]
