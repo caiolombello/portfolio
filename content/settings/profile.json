@@ -1,15 +1,15 @@
 {
   "pt": {
     "name": "Caio Barbieri",
-    "title": "Engenheiro DevOps",
+    "title": "Engenheiro DevOps Pleno",
     "location": "São Paulo, Brasil",
-    "about": "Engenheiro DevOps apaixonado por automação, CI/CD e práticas ágeis. Especializado em AWS, Kubernetes e ferramentas de observabilidade."
+    "about": "Engenheiro DevOps com 3+ anos de atuação em automação de infraestrutura, CI/CD e observabilidade. Especialista em AWS, Kubernetes e Terraform; criei pipelines GitOps que reduziram tempo de deploy em 70% e implementei stacks de monitoramento que anteciparam falhas críticas. Apaixonado por IA aplicada a operações, lidero iniciativas que aumentam eficiência e escalam ambientes de produção com segurança."
   },
   "en": {
     "name": "Caio Barbieri",
-    "title": "DevOps Engineer",
+    "title": "Senior DevOps Engineer",
     "location": "São Paulo, Brazil",
-    "about": "DevOps Engineer passionate about automation, CI/CD, and agile practices. Specialized in AWS, Kubernetes, and observability tools."
+    "about": "DevOps Engineer with 3+ years of hands‑on experience in infrastructure automation, CI/CD and observability. Expert in AWS, Kubernetes and Terraform; architected GitOps pipelines that cut deployment time by 70% and deployed monitoring stacks that preempted critical incidents. Passionate about AI‑driven operations, I lead initiatives that boost efficiency and scale production environments securely."
   },
   "email": "caio@lombello.com",
   "phone": "+55 (19) 99753-6692",

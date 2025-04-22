@@ -1,79 +1,81 @@
 {
   "pt": [
     {
-      "title": "DevOps Analyst Pleno",
-      "company": "Vertigo Tecnologia",
+      "title": "Analista DevOps Pleno",
+      "company": "Vertigo Tecnologia (Remoto)",
       "period": "Set 2024 - Presente",
       "responsibilities": [
-        "Automação e Entregas: Desenvolvimento e implementação de soluções de automação de infraestrutura, pipelines CI/CD e práticas de DevOps para diversos clientes.",
-        "Iniciativas com IA: Criação e implementação de ferramentas baseadas em IA para otimizar processos e operações.",
-        "Engenharia de Plataforma (VeeCode Platform): Contribuição para configuração e otimização da plataforma, desenvolvendo templates, plugins e customizações.",
-        "Implementação de soluções de observabilidade para garantir monitoramento eficaz e diagnóstico rápido de problemas.",
-        "Consultoria DevOps: Suporte contínuo aos clientes, liderando a adoção de práticas de DevOps e promovendo a transformação digital."
+        "Desenvolvimento e implementação de soluções de automação de infraestrutura, pipelines CI/CD e práticas DevOps",
+        "Criação e implementação de ferramentas baseadas em IA para otimização de processos operacionais",
+        "Configuração e otimização da Engenharia de Plataforma (VeeCode)",
+        "Implementação de soluções de observabilidade para monitoramento e diagnóstico rápido de problemas",
+        "Suporte e consultoria DevOps para clientes, promovendo transformação digital"
       ]
     },
     {
       "title": "Analista DevOps Júnior",
-      "company": "Vertigo Tecnologia",
+      "company": "Vertigo Tecnologia (Remoto)",
       "period": "Out 2022 - Set 2024",
       "responsibilities": [
-        "Transformação Cultural Cloud Native: Liderança em iniciativas de diagnóstico e transformação cultural, promovendo práticas Cloud Native.",
-        "Desenvolvimento de Pipelines GitOps e DevSecOps: Implementação de pipelines automatizados para aplicações NodeJS, utilizando Bamboo (YAML) e scripts Shell.",
-        "Monitoramento e Alertas: Implementação de soluções de monitoramento com Grafana, Prometheus, Loki e Alertmanager.",
-        "Gestão de Serviços de Mensageria e Cache: Administração de serviços como Redis e RabbitMQ.",
-        "Automação de Deployments com Helm e Docker: Criação de Helm Charts e Dockerfiles customizados para simplificar e automatizar deployments.",
-        "Automações com Terraform: Desenvolvimento e manutenção de automações com Terraform para AWS, Helm e Kubernetes.",
-        "Segurança e Conformidade em AWS: Implementação do princípio de menor privilégio nas configurações AWS."
+        "Liderança em transformação cultural Cloud Native para adoção de práticas DevOps",
+        "Desenvolvimento de pipelines GitOps e DevSecOps para aplicações Node.js com Bamboo e Shell Script",
+        "Implementação de monitoramento com Grafana, Prometheus, Loki e Alertmanager",
+        "Administração de serviços Redis e RabbitMQ, garantindo alta disponibilidade",
+        "Automação de deployments com Helm e Docker",
+        "Infraestrutura como código (IaC) com Terraform para AWS e Kubernetes",
+        "Implementação de segurança e conformidade AWS (princípio de menor privilégio)",
+        "Gerenciamento de HashiCorp Vault e Consul para segurança e networking"
       ]
     },
     {
       "title": "Estagiário DevOps",
-      "company": "Vertigo Tecnologia",
+      "company": "Vertigo Tecnologia (Remoto)",
       "period": "Fev 2022 - Out 2022",
       "responsibilities": [
-        "Implementação de GitLab em Cluster DigitalOcean: Provisão do GitLab utilizando Helm e Kubernetes.",
-        "Migração de Repositórios com Automação: Migração de mais de 200 repositórios do GitLab.com para o ambiente corporativo utilizando Python e a API do GitLab.",
-        "Otimização de Performance com Helm: Personalização de templates Helm para o GitLab, resultando em melhorias significativas de performance.",
-        "Desenvolvimento de Pipelines de CI/CD: Criação e implementação de pipelines para diversas aplicações, facilitando integrações e entregas contínuas."
+        "Provisionamento de GitLab em cluster DigitalOcean usando Helm e Kubernetes",
+        "Automação da migração de 200+ repositórios com Python e API GitLab",
+        "Personalização de templates Helm para otimização de performance do GitLab",
+        "Desenvolvimento de pipelines CI/CD e contêinerização de aplicações"
       ]
     }
   ],
   "en": [
     {
       "title": "DevOps Analyst Pleno",
-      "company": "Vertigo Tecnologia",
+      "company": "Vertigo Tecnologia (Remote)",
       "period": "Sep 2024 - Present",
       "responsibilities": [
-        "Automation and Delivery: Development and implementation of infrastructure automation solutions, CI/CD pipelines, and DevOps practices for various clients.",
-        "AI Initiatives: Creation and implementation of AI-based tools to optimize processes and operations.",
-        "Platform Engineering (VeeCode Platform): Contribution to the configuration and optimization of the platform, developing templates, plugins, and customizations.",
-        "Implementation of observability solutions to ensure effective monitoring and rapid problem diagnosis.",
-        "DevOps Consulting: Continuous support to clients, leading the adoption of DevOps practices and promoting digital transformation."
+        "Development and implementation of infrastructure automation solutions, CI/CD pipelines, and DevOps practices",
+        "Creation and deployment of AI-based tools to optimize operational processes",
+        "Configuration and optimization of Platform Engineering (VeeCode)",
+        "Implementation of observability solutions for effective monitoring and rapid issue diagnosis",
+        "Ongoing DevOps consulting and digital transformation support for clients"
       ]
     },
     {
       "title": "Junior DevOps Analyst",
-      "company": "Vertigo Tecnologia",
+      "company": "Vertigo Tecnologia (Remote)",
       "period": "Oct 2022 - Sep 2024",
       "responsibilities": [
-        "Cloud Native Cultural Transformation: Leadership in diagnostic and cultural transformation initiatives, promoting Cloud Native practices.",
-        "GitOps and DevSecOps Pipeline Development: Implementation of automated pipelines for NodeJS applications, using Bamboo (YAML) and Shell scripts.",
-        "Monitoring and Alerts: Implementation of monitoring solutions with Grafana, Prometheus, Loki, and Alertmanager.",
-        "Messaging and Cache Services Management: Administration of services such as Redis and RabbitMQ.",
-        "Deployment Automation with Helm and Docker: Creation of Helm Charts and custom Dockerfiles to simplify and automate deployments.",
-        "Terraform Automations: Development and maintenance of automations with Terraform for AWS, Helm, and Kubernetes.",
-        "AWS Security and Compliance: Implementation of the principle of least privilege in AWS configurations."
+        "Led Cloud Native cultural transformation initiatives to adopt DevOps best practices",
+        "Developed GitOps and DevSecOps pipelines for Node.js applications using Bamboo and Shell scripts",
+        "Implemented monitoring solutions with Grafana, Prometheus, Loki, and Alertmanager",
+        "Managed Redis and RabbitMQ services to ensure high availability",
+        "Automated deployments using Helm and Docker",
+        "Engineered infrastructure as code (IaC) with Terraform for AWS and Kubernetes",
+        "Enforced AWS security and compliance via the principle of least privilege",
+        "Administered HashiCorp Vault and Consul for security and networking"
       ]
     },
     {
       "title": "DevOps Intern",
-      "company": "Vertigo Tecnologia",
+      "company": "Vertigo Tecnologia (Remote)",
       "period": "Feb 2022 - Oct 2022",
       "responsibilities": [
-        "GitLab Implementation in DigitalOcean Cluster: Provision of GitLab using Helm and Kubernetes.",
-        "Repository Migration with Automation: Migration of over 200 repositories from GitLab.com to the corporate environment using Python and the GitLab API.",
-        "Performance Optimization with Helm: Customization of Helm templates for GitLab, resulting in significant performance improvements.",
-        "CI/CD Pipeline Development: Creation and implementation of pipelines for various applications, facilitating continuous integration and delivery."
+        "Provisioned GitLab on a DigitalOcean cluster using Helm and Kubernetes",
+        "Automated migration of 200+ repositories via Python and the GitLab API",
+        "Customized Helm templates to optimize GitLab performance",
+        "Built CI/CD pipelines and containerized applications for streamlined DevOps processes"
       ]
     }
   ]

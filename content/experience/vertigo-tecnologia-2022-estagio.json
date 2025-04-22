@@ -2,34 +2,19 @@
   "company": "Vertigo Tecnologia",
   "title_pt": "Estagiário DevOps",
   "title_en": "DevOps Intern",
-  "period": "Mar 2022 - Set 2022",
+  "period": "Feb 2022 - Oct 2022",
   "responsibilities_pt": [
-    {
-      "item": "Desenvolvimento de scripts de automação em Python"
-    },
-    {
-      "item": "Configuração e manutenção de pipelines CI/CD"
-    },
-    {
-      "item": "Suporte à infraestrutura AWS e monitoramento"
-    },
-    {
-      "item": "Aprendizado e aplicação de práticas DevOps"
-    }
+    { "item": "Provisionamento de GitLab em cluster DigitalOcean usando Helm e Kubernetes" },
+    { "item": "Migração automatizada de 200+ repositórios do GitLab.com para ambiente corporativo usando Python e API GitLab" },
+    { "item": "Otimização de performance com personalização de templates Helm para GitLab" },
+    { "item": "Desenvolvimento de pipelines CI/CD e contêinerização de aplicações" }
   ],
   "responsibilities_en": [
-    {
-      "item": "Development of automation scripts in Python"
-    },
-    {
-      "item": "Configuration and maintenance of CI/CD pipelines"
-    },
-    {
-      "item": "AWS infrastructure support and monitoring"
-    },
-    {
-      "item": "Learning and applying DevOps practices"
-    }
+    { "item": "Provisioned GitLab on a DigitalOcean cluster using Helm and Kubernetes" },
+    { "item": "Automated migration of 200+ repositories from GitLab.com to corporate environment using Python and the GitLab API" },
+    { "item": "Optimized performance by customizing Helm templates for GitLab" },
+    { "item": "Developed CI/CD pipelines and containerized applications" }
   ],
-  "startDate": "2022-03-01"
+  "startDate": "2022-02-01",
+  "endDate": "2022-10-01"
 }
