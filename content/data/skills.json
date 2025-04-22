@@ -1,23 +1,48 @@
 {
   "skills_list": [
     {
-      "name": "AWS",
+      "name": "TypeScript",
+      "category": "Linguagens",
+      "level": "Experiente"
+    },
+    {
+      "name": "React",
+      "category": "Frontend",
+      "level": "Experiente"
+    },
+    {
+      "name": "Node.js",
+      "category": "Backend",
+      "level": "Experiente"
+    },
+    {
+      "name": "Docker",
       "category": "Cloud/Infra",
-      "level": "Avançado"
+      "level": "Experiente"
     },
     {
       "name": "Kubernetes",
       "category": "Cloud/Infra",
-      "level": "Avançado"
+      "level": "Proficiente"
+    },
+    {
+      "name": "AWS",
+      "category": "Cloud/Infra",
+      "level": "Proficiente"
+    },
+    {
+      "name": "CI/CD",
+      "category": "CI/CD",
+      "level": "Experiente"
+    },
+    {
+      "name": "Git",
+      "category": "Ferramentas",
+      "level": "Experiente"
     },
     {
       "name": "Terraform",
       "category": "Cloud/Infra",
-      "level": "Avançado"
-    },
-    {
-      "name": "Docker",
-      "category": "Containerização",
       "level": "Avançado"
     },
     {
@@ -59,11 +84,6 @@
       "name": "Shell Script",
       "category": "Linguagens",
       "level": "Avançado"
-    },
-    {
-      "name": "TypeScript",
-      "category": "Linguagens",
-      "level": "Proficiente"
     },
     {
       "name": "Prometheus",
