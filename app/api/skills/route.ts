@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { loadSkills } from "@/lib/utils";
+import { loadSkills } from "@/lib/server/files";
 
 export async function GET() {
   try {
@@ -7,9 +7,6 @@ export async function GET() {
     return NextResponse.json(skills);
   } catch (error) {
     console.error("Error loading skills:", error);
-    return NextResponse.json(
-      { error: "Failed to load skills" },
-      { status: 500 }
-    );
+    return NextResponse.json({ skills_list: [] });
   }
 }

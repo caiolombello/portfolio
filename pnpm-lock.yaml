@@ -140,9 +140,6 @@ importers:
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.1
-      clsx:
-        specifier: ^2.0.0
-        version: 2.1.1
       cmdk:
         specifier: ^0.2.0
         version: 0.2.1(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -159,7 +156,7 @@ importers:
         specifier: ^8.0.0-rc17
         version: 8.5.1(react@18.3.1)
       fs:
-        specifier: ^0.0.1-security
+        specifier: 0.0.1-security
         version: 0.0.1-security
       gray-matter:
         specifier: ^4.0.3
@@ -242,9 +239,6 @@ importers:
       sonner:
         specifier: ^1.2.4
         version: 1.7.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      tailwind-merge:
-        specifier: ^2.1.0
-        version: 2.6.0
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.3.3)))
@@ -280,7 +274,7 @@ importers:
         specifier: ^21.1.7
         version: 21.1.7
       '@types/node':
-        specifier: ^20.10.4
+        specifier: ^20.17.30
         version: 20.17.30
       '@types/react':
         specifier: ^18.2.45
@@ -297,6 +291,9 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^4.4.1
         version: 4.4.1(vite@5.4.18(@types/node@20.17.30))
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -315,6 +312,9 @@ importers:
       prettier:
         specifier: 3.5.3
         version: 3.5.3
+      tailwind-merge:
+        specifier: ^2.6.0
+        version: 2.6.0
       tailwindcss:
         specifier: ^3.3.6
         version: 3.4.17(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.3.3))
