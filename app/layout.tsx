@@ -122,73 +122,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head>
         <meta name="msapplication-TileColor" content="#121212" />
         <meta name="theme-color" content="#121212" />
-        <link rel="icon" href="/api/favicon?format=ico" type="image/x-icon" />
-        <link
-          rel="icon"
-          href="/api/favicon?size=16"
-          type="image/png"
-          sizes="16x16"
-        />
-        <link
-          rel="icon"
-          href="/api/favicon?size=32"
-          type="image/png"
-          sizes="32x32"
-        />
-        <link
-          rel="icon"
-          href="/api/favicon?size=48"
-          type="image/png"
-          sizes="48x48"
-        />
-        <link
-          rel="icon"
-          href="/api/favicon?size=64"
-          type="image/png"
-          sizes="64x64"
-        />
-        <link
-          rel="icon"
-          href="/api/favicon?size=96"
-          type="image/png"
-          sizes="96x96"
-        />
-        <link
-          rel="icon"
-          href="/api/favicon?size=128"
-          type="image/png"
-          sizes="128x128"
-        />
-        <link
-          rel="icon"
-          href="/api/favicon?size=192"
-          type="image/png"
-          sizes="192x192"
-        />
-        <link
-          rel="icon"
-          href="/api/favicon?size=256"
-          type="image/png"
-          sizes="256x256"
-        />
-        <link
-          rel="icon"
-          href="/api/favicon?size=384"
-          type="image/png"
-          sizes="384x384"
-        />
-        <link
-          rel="icon"
-          href="/api/favicon?size=512"
-          type="image/png"
-          sizes="512x512"
-        />
-        <link
-          rel="apple-touch-icon"
-          href="/api/favicon?size=180"
-          type="image/png"
-          sizes="180x180"
-        />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -198,7 +136,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Caio Barbieri" />
-        <link rel="manifest" href="/manifest.json" />
         <link rel="canonical" href="https://caio.lombello.com" />
         <script
           type="application/ld+json"
