@@ -42,6 +42,7 @@ export const pt = {
     readMore: "Leia Mais",
     viewAll: "Ver Todos os Posts",
     publishedOn: "Publicado em",
+    noPosts: "Nenhum post encontrado.",
   },
   contact: {
     title: "Contato",

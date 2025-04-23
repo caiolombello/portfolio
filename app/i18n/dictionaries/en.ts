@@ -42,6 +42,7 @@ export const en = {
     readMore: "Read More",
     viewAll: "View All Posts",
     publishedOn: "Published on",
+    noPosts: "No posts found.",
   },
   contact: {
     title: "Contact",

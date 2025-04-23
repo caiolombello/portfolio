@@ -40,8 +40,9 @@ export const es = {
     description:
       "Pensamientos, ideas y perspectivas sobre tecnología y desarrollo.",
     readMore: "Leer Más",
-    viewAll: "Ver Todas las Entradas",
+    viewAll: "Ver Todos los Posts",
     publishedOn: "Publicado el",
+    noPosts: "No hay posts encontrados.",
   },
   contact: {
     title: "Contacto",

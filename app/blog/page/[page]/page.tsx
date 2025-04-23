@@ -84,10 +84,11 @@ export default function BlogPage({ params }: PageProps) {
     const fetchPosts = async () => {
       try {
         const response = await fetch("/api/public/posts");
-        const data = await response.json();
-        setPosts(data);
+        const { posts: postsData } = await response.json();
+        setPosts(postsData || []);
       } catch (error) {
         console.error("Error loading posts:", error);
+        setPosts([]);
       } finally {
         setLoading(false);
       }
@@ -98,6 +99,17 @@ export default function BlogPage({ params }: PageProps) {
 
   if (pageNumber === null) {
     return <BlogGridSkeleton />;
+  }
+
+  if (!loading && posts.length === 0) {
+    return (
+      <div className="container mx-auto py-8">
+        <h1 className="text-4xl font-bold text-center mb-8">{t("blog.title")}</h1>
+        <p className="text-center text-gray-500">
+          {t("blog.noPosts")}
+        </p>
+      </div>
+    );
   }
 
   const postsPerPage = 9;

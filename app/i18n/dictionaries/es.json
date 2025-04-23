@@ -32,7 +32,8 @@
     "description": "Pensamientos, ideas y perspectivas sobre tecnología y desarrollo.",
     "readMore": "Leer Más",
     "viewAll": "Ver Todas las Publicaciones",
-    "publishedOn": "Publicado el"
+    "publishedOn": "Publicado el",
+    "noPosts": "No hay posts encontrados."
   },
   "contact": {
     "title": "Contacto",
