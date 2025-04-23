@@ -24,7 +24,8 @@
     "title": "Proyectos",
     "description": "Aquí hay algunos de los proyectos en los que he trabajado.",
     "viewProject": "Ver Proyecto",
-    "viewAll": "Ver Todos los Proyectos"
+    "viewAll": "Ver Todos los Proyectos",
+    "noProjects": "No hay proyectos encontrados."
   },
   "blog": {
     "title": "Blog",

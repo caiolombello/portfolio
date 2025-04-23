@@ -33,6 +33,7 @@ export const es = {
     viewDemo: "Ver Demostración",
     githubRepo: "Repositorio GitHub",
     project: "proyecto",
+    noProjects: "No hay proyectos encontrados.",
   },
   blog: {
     title: "Blog",

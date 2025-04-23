@@ -43,10 +43,11 @@ export default function PortfolioPage({ params }: PageProps) {
     const fetchProjects = async () => {
       try {
         const response = await fetch("/api/public/projects");
-        const data = await response.json();
-        setProjects(data);
+        const { projects: projectsData } = await response.json();
+        setProjects(projectsData || []);
       } catch (error) {
         console.error("Error loading projects:", error);
+        setProjects([]);
       } finally {
         setLoading(false);
       }
@@ -66,6 +67,20 @@ export default function PortfolioPage({ params }: PageProps) {
   const postsPerPage = 9;
   const start = (pageNumber - 1) * postsPerPage;
   const end = start + postsPerPage;
+
+  if (projects.length === 0) {
+    return (
+      <div className="container mx-auto py-8">
+        <h1 className="text-4xl font-bold text-center mb-8">
+          {t("projects.title")}
+        </h1>
+        <p className="text-center text-gray-500">
+          {t("projects.noProjects")}
+        </p>
+      </div>
+    );
+  }
+
   const paginatedProjects = projects.slice(start, end);
 
   if (paginatedProjects.length === 0) {

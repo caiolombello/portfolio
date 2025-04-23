@@ -33,6 +33,7 @@ export const en = {
     viewDemo: "View Demo",
     githubRepo: "GitHub Repository",
     project: "project",
+    noProjects: "No projects found.",
   },
   blog: {
     title: "Blog",

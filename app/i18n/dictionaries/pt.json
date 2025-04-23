@@ -30,7 +30,8 @@
     "technologiesUsed": "Tecnologias Utilizadas",
     "viewDemo": "Ver Demonstração",
     "githubRepo": "Repositório GitHub",
-    "project": "projeto"
+    "project": "projeto",
+    "noProjects": "Nenhum projeto encontrado."
   },
   "blog": {
     "title": "Blog",
