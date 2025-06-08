@@ -239,8 +239,8 @@ This project is open source and available under the [MIT License](LICENSE).
 Need help setting up your portfolio?
 
 - 📖 Read the [Configuration Guide](CONFIG.md)
-- 🐛 [Report issues](https://github.com/yourusername/portfolio/issues)
-- 💬 [Start a discussion](https://github.com/yourusername/portfolio/discussions)
+- 🐛 [Report issues](https://github.com/caiolombello/portfolio/issues)
+- 💬 [Start a discussion](https://github.com/caiolombello/portfolio/discussions)
 
 ## 🌟 Showcase
 
