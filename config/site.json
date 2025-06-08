@@ -1,0 +1,46 @@
+{
+  "site": {
+    "name": "Caio Barbieri Portfolio",
+    "title": "Caio Barbieri - DevOps Engineer",
+    "shortName": "Caio Barbieri",
+    "description": "Portfolio pessoal de Caio Barbieri, DevOps Engineer especializado em Cloud Native, Kubernetes e automação",
+    "url": "https://caio.lombello.com",
+    "author": "Caio Barbieri",
+    "email": "caio@lombello.com",
+    "phone": "+55 (19) 99753-6692",
+    "location": "Campinas, São Paulo, Brasil",
+    "profileImage": {
+      "type": "local",
+      "source": "/images/Profile.jpg",
+      "fallbacks": [
+        {
+          "type": "github",
+          "source": "caiolombello"
+        }
+      ]
+    }
+  },
+  "social": {
+    "github": "https://github.com/caiolombello",
+    "linkedin": "https://linkedin.com/in/caiolvbarbieri",
+    "twitter": "https://twitter.com/caiolombello",
+    "website": "https://caio.lombello.com"
+  },
+  "integrations": {
+    "credlyUsername": "caiolombello",
+    "twitterHandle": "@caiolombello"
+  },
+  "seo": {
+    "keywords": [
+      "DevOps",
+      "Cloud Native",
+      "Kubernetes",
+      "AWS",
+      "Terraform",
+      "CI/CD",
+      "Automação",
+      "Infraestrutura",
+      "Campinas"
+    ]
+  }
+} 

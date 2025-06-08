@@ -42,11 +42,42 @@ function BlogContent({
           <PaginationContent>
             {pageNumber > 1 && (
               <PaginationItem>
-                <PaginationPrevious href={`/blog/page/${pageNumber - 1}`}>
+                <PaginationPrevious href={pageNumber === 2 ? "/blog" : `/blog/page/${pageNumber - 1}`}>
                   {t("blog.pagination.previous")}
                 </PaginationPrevious>
               </PaginationItem>
             )}
+
+            {[...Array(totalPages)].map((_, idx) => {
+              const currentPage = idx + 1;
+              if (
+                currentPage === 1 ||
+                currentPage === totalPages ||
+                Math.abs(currentPage - pageNumber) <= 1
+              ) {
+                return (
+                  <PaginationItem key={currentPage}>
+                    <PaginationLink
+                      href={currentPage === 1 ? "/blog" : `/blog/page/${currentPage}`}
+                      isActive={currentPage === pageNumber}
+                    >
+                      {currentPage}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              }
+              if (
+                (currentPage === 2 && pageNumber > 3) ||
+                (currentPage === totalPages - 1 && pageNumber < totalPages - 2)
+              ) {
+                return (
+                  <PaginationItem key={currentPage + "-ellipsis"}>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                );
+              }
+              return null;
+            })}
 
             {pageNumber < totalPages && (
               <PaginationItem>

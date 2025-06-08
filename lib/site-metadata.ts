@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { SITE_CONFIG } from "./constants";
+import { getSiteConfig, type SiteConfig } from "./config-server";
 
 interface GenerateMetadataOptions {
   title?: string;
@@ -94,3 +95,143 @@ export function generateBlogPostJsonLd({
     },
   };
 }
+
+// Função para gerar metadata base dinâmico
+export function generateSiteMetadata(): Metadata {
+  const config = getSiteConfig();
+  
+  return {
+    title: {
+      default: config.site.shortName,
+      template: `%s | ${config.site.shortName}`,
+    },
+    description: config.site.description,
+    keywords: config.seo.keywords,
+    authors: [{ name: config.site.author, url: config.site.url }],
+    creator: config.site.author,
+    publisher: config.site.author,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    verification: {
+      google: process.env.GOOGLE_SITE_VERIFICATION,
+    },
+    alternates: {
+      canonical: config.site.url,
+      languages: {
+        "pt-BR": `${config.site.url}/pt`,
+        "en-US": `${config.site.url}/en`,
+        "es-ES": `${config.site.url}/es`,
+      },
+    },
+    openGraph: {
+      type: "website",
+      locale: "pt_BR",
+      url: config.site.url,
+      title: config.site.title,
+      description: config.site.description,
+      siteName: config.site.shortName,
+      images: [
+        {
+          url: `${config.site.url}/api/og`,
+          width: 1200,
+          height: 630,
+          alt: config.site.shortName,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: config.site.title,
+      description: config.site.description,
+      site: config.integrations.twitterHandle,
+      creator: config.integrations.twitterHandle,
+      images: [`${config.site.url}/api/og`],
+    },
+    manifest: `${config.site.url}/api/webmanifest`,
+  };
+}
+
+// Função para gerar metadata de página específica
+export function generatePageMetadata(
+  title: string,
+  description?: string,
+  image?: string,
+  noIndex?: boolean
+): Metadata {
+  const config = getSiteConfig();
+  const pageDescription = description || config.site.description;
+  const pageImage = image || `${config.site.url}/api/og?title=${encodeURIComponent(title)}`;
+  
+  return {
+    title,
+    description: pageDescription,
+    keywords: config.seo.keywords,
+    authors: [{ name: config.site.author, url: config.site.url }],
+    robots: noIndex ? "noindex,nofollow" : undefined,
+    openGraph: {
+      title,
+      description: pageDescription,
+      url: config.site.url,
+      siteName: config.site.shortName,
+      images: [
+        {
+          url: pageImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale: "pt_BR",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: pageDescription,
+      site: config.integrations.twitterHandle,
+      creator: config.integrations.twitterHandle,
+      images: [pageImage],
+    },
+  };
+}
+
+// Função para gerar structured data
+export function generateStructuredData() {
+  const config = getSiteConfig();
+  
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: config.site.author,
+    url: config.site.url,
+    jobTitle: config.site.title.split(" - ")[1] || "Professional",
+    worksFor: {
+      "@type": "Organization",
+      name: config.site.shortName,
+    },
+    sameAs: [
+      config.social.github,
+      config.social.linkedin,
+      config.social.twitter,
+      config.social.website,
+    ],
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: config.site.location,
+    },
+    email: config.site.email,
+  };
+}
+
+// Re-export types and functions for compatibility
+export type { SiteConfig };
+export { getSiteConfig };

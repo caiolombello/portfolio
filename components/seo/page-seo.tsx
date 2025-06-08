@@ -1,73 +1,132 @@
+"use client";
+
+import { useSiteConfig } from "@/hooks/use-site-config";
 import type { Metadata } from "next";
 
 interface PageSEOProps {
   title: string;
-  description: string;
-  path: string;
-  ogImage?: string;
-  type?: "website" | "article";
+  description?: string;
+  image?: string;
   publishedTime?: string;
   modifiedTime?: string;
+  url?: string;
+  type?: "website" | "article";
+  keywords?: string[];
   authors?: string[];
   tags?: string[];
 }
 
-export function generatePageMetadata({
+export default function PageSEO({
   title,
   description,
-  path,
-  ogImage,
-  type = "website",
+  image,
   publishedTime,
   modifiedTime,
-  authors = ["Caio Barbieri"],
+  url,
+  type = "website",
+  keywords = [],
+  authors,
   tags = [],
-}: PageSEOProps): Metadata {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com";
-  const imageUrl = ogImage
-    ? `${baseUrl}${ogImage}`
-    : `${baseUrl}/api/og?title=${encodeURIComponent(title)}`;
+}: PageSEOProps) {
+  const { config, loading } = useSiteConfig();
 
-  const metadata: Metadata = {
-    title,
-    description,
-    alternates: {
-      canonical: `${baseUrl}${path}`,
-    },
-    openGraph: {
-      title,
-      description,
-      url: path,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
-      type,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [imageUrl],
-    },
-  };
-
-  // Adicionar metadados específicos para artigos
-  if (type === "article") {
-    metadata.openGraph = {
-      ...metadata.openGraph,
-      type: "article",
-      authors,
-      tags,
-      publishedTime,
-      modifiedTime,
-    };
+  if (loading) {
+    return null;
   }
 
-  return metadata;
+  // Usar configuração dinâmica para valores padrão
+  const pageDescription = description || config.site.description;
+  const pageImage = image || `${config.site.url}/api/og?title=${encodeURIComponent(title)}`;
+  const pageUrl = url || config.site.url;
+  const pageAuthors = authors || [config.site.author];
+  const pageKeywords = keywords.length > 0 ? keywords : config.seo.keywords;
+
+  return (
+    <>
+      {/* Meta tags básicas */}
+      <title>{title}</title>
+      <meta name="description" content={pageDescription} />
+      <meta name="keywords" content={pageKeywords.join(", ")} />
+      <meta name="author" content={pageAuthors.join(", ")} />
+      
+      {/* Open Graph */}
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={pageDescription} />
+      <meta property="og:type" content={type} />
+      <meta property="og:url" content={pageUrl} />
+      <meta property="og:site_name" content={config.site.shortName} />
+      <meta property="og:locale" content="pt_BR" />
+      
+      {pageImage && (
+        <>
+          <meta property="og:image" content={pageImage} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content={title} />
+        </>
+      )}
+
+      {/* Article específico */}
+      {type === "article" && (
+        <>
+          {publishedTime && (
+            <meta property="article:published_time" content={publishedTime} />
+          )}
+          {modifiedTime && (
+            <meta property="article:modified_time" content={modifiedTime} />
+          )}
+          {pageAuthors.map((author, index) => (
+            <meta key={index} property="article:author" content={author} />
+          ))}
+          {tags.map((tag, index) => (
+            <meta key={index} property="article:tag" content={tag} />
+          ))}
+        </>
+      )}
+
+      {/* Twitter Card */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={pageDescription} />
+      <meta name="twitter:site" content={config.integrations.twitterHandle} />
+      <meta name="twitter:creator" content={config.integrations.twitterHandle} />
+      
+      {pageImage && (
+        <meta name="twitter:image" content={pageImage} />
+      )}
+
+      {/* Canonical */}
+      <link rel="canonical" href={pageUrl} />
+
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": type === "article" ? "Article" : "WebPage",
+            headline: title,
+            description: pageDescription,
+            url: pageUrl,
+            author: {
+              "@type": "Person",
+              name: pageAuthors[0],
+              url: config.site.url,
+            },
+            publisher: {
+              "@type": "Organization",
+              name: config.site.shortName,
+              url: config.site.url,
+            },
+            ...(pageImage && { image: pageImage }),
+            ...(publishedTime && { datePublished: publishedTime }),
+            ...(modifiedTime && { dateModified: modifiedTime }),
+            ...(type === "article" && {
+              keywords: tags.join(", "),
+            }),
+          }),
+        }}
+      />
+    </>
+  );
 }

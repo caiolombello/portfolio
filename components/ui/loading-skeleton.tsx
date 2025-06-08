@@ -49,3 +49,18 @@ export function PostSkeleton() {
     </div>
   );
 }
+
+export function ProjectSkeleton() {
+  return (
+    <div className="space-y-6">
+      <LoadingSkeleton className="h-8 w-full" />
+      <LoadingSkeleton className="h-6 w-2/3" />
+      <LoadingSkeleton className="h-80 w-full" />
+      <div className="space-y-3">
+        <LoadingSkeleton className="h-4 w-full" />
+        <LoadingSkeleton className="h-4 w-full" />
+        <LoadingSkeleton className="h-4 w-3/4" />
+      </div>
+    </div>
+  );
+}

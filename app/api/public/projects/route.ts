@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { loadProjects } from "@/lib/server/files";
+import { loadProjects } from "@/lib/data";
 
 export async function GET() {
   try {
-    const projects = loadProjects();
+    const projects = await loadProjects();
     return NextResponse.json({ projects });
   } catch (error) {
     console.error("Error loading projects:", error);

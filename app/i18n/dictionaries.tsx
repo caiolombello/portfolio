@@ -39,7 +39,7 @@ const pt: Dictionary = {
   about: "Sobre",
   projects: "Projetos",
   blog: {
-    title: "Blog | Caio Barbieri",
+    title: "Blog",
     description: "Artigos sobre desenvolvimento, DevOps e tecnologia",
     back: "Voltar para o blog",
     readMore: "Ler mais",
@@ -58,8 +58,7 @@ const pt: Dictionary = {
   contact: "Contato",
   resume: {
     title: "Currículo",
-    description:
-      "Currículo profissional de Caio Barbieri, desenvolvedor Full Stack com experiência em DevOps e Cloud Computing.",
+    description: "Currículo profissional com experiência em desenvolvimento Full Stack, DevOps e Cloud Computing.",
   },
   posts: {
     edit: {
@@ -97,13 +96,6 @@ const pt: Dictionary = {
   // Footer
   rights_reserved: "Todos os direitos reservados",
 
-  // Admin
-  admin_panel: "Painel Administrativo",
-  edit_profile: "Editar Perfil",
-  edit_projects: "Editar Projetos",
-  edit_posts: "Editar Posts",
-  logout: "Sair",
-
   // Outros
   view_project: "Ver Projeto",
   read_more: "Ler Mais",
@@ -126,7 +118,7 @@ const en: Dictionary = {
   about: "About",
   projects: "Projects",
   blog: {
-    title: "Blog | Caio Barbieri",
+    title: "Blog",
     description: "Articles about development, DevOps and technology",
     back: "Back to blog",
     readMore: "Read more",
@@ -144,9 +136,8 @@ const en: Dictionary = {
   },
   contact: "Contact",
   resume: {
-    title: "Resume | Caio Barbieri",
-    description:
-      "Professional resume of Caio Barbieri, Full Stack developer with experience in DevOps and Cloud Computing.",
+    title: "Resume",
+    description: "Professional resume with experience in Full Stack development, DevOps and Cloud Computing.",
   },
   posts: {
     edit: {
@@ -184,13 +175,6 @@ const en: Dictionary = {
   // Footer
   rights_reserved: "All rights reserved",
 
-  // Admin
-  admin_panel: "Admin Panel",
-  edit_profile: "Edit Profile",
-  edit_projects: "Edit Projects",
-  edit_posts: "Edit Posts",
-  logout: "Logout",
-
   // Others
   view_project: "View Project",
   read_more: "Read More",
@@ -213,7 +197,7 @@ const es: Dictionary = {
   about: "Sobre",
   projects: "Proyectos",
   blog: {
-    title: "Blog | Caio Barbieri",
+    title: "Blog",
     description: "Artículos sobre desarrollo, DevOps y tecnología",
     back: "Volver al blog",
     readMore: "Leer más",
@@ -232,8 +216,7 @@ const es: Dictionary = {
   contact: "Contacto",
   resume: {
     title: "Currículo",
-    description:
-      "Currículo profissional de Caio Barbieri, desenvolvedor Full Stack com experiência em DevOps e Cloud Computing.",
+    description: "Currículo profesional con experiencia en desarrollo Full Stack, DevOps y Cloud Computing.",
   },
   posts: {
     edit: {
@@ -270,13 +253,6 @@ const es: Dictionary = {
 
   // Footer
   rights_reserved: "Todos los derechos reservados",
-
-  // Admin
-  admin_panel: "Panel de Administración",
-  edit_profile: "Editar Perfil",
-  edit_projects: "Editar Proyectos",
-  edit_posts: "Editar Posts",
-  logout: "Cerrar Sesión",
 
   // Outros
   view_project: "Ver Proyecto",

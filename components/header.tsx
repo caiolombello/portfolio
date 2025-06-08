@@ -6,15 +6,9 @@ import MobileMenu from "./mobile-menu";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import LanguageSwitcher from "./language-switcher";
 import { useLanguage } from "@/contexts/language-context";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Metadata } from "next";
-import { DevToolbar } from "@/components/dev/toolbar";
-import { ThemeProvider } from "@/components/theme-provider";
-import { MetadataManager } from "@/components/metadata-manager";
-import { generateSeoMetadata } from "@/lib/seo";
-import { generatePersonSchema, generateWebSiteSchema } from "@/lib/schema";
-import { getDictionary, Lang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 interface LocalizedProfile {
@@ -40,19 +34,20 @@ interface ProfileData {
 
 export default function Header() {
   const { t, language } = useLanguage();
+  const { config, loading: configLoading } = useSiteConfig();
   const pathname = usePathname();
   // Esconder a imagem na navbar quando estiver na home ou na página de contato
   const hideNavbarImage = pathname === "/" || pathname === "/contact";
 
   const [profile, setProfile] = useState<ProfileData>({
     pt: {
-      name: "Caio Barbieri",
+      name: config?.site?.shortName || "Your Name",
       title: "Engenheiro DevOps",
       location: "São Paulo, Brasil",
       about: "",
     },
     en: {
-      name: "Caio Barbieri",
+      name: config?.site?.shortName || "Your Name",
       title: "DevOps Engineer",
       location: "São Paulo, Brazil",
       about: "",
@@ -87,6 +82,11 @@ export default function Header() {
     { href: "/contact", label: t("nav.contact") },
   ];
 
+  // Não renderizar até que a configuração seja carregada
+  if (configLoading) {
+    return null;
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
@@ -96,7 +96,7 @@ export default function Header() {
             {!hideNavbarImage && (
               <div className="relative h-8 w-8 overflow-hidden rounded-full">
                 <Image
-                  src="/images/profile-ios.png"
+                  src="/api/profile-image"
                   alt={
                     profile[language as keyof Pick<ProfileData, "pt" | "en">]
                       .name
@@ -104,6 +104,7 @@ export default function Header() {
                   fill
                   className="object-cover"
                   sizes="32px"
+                  priority
                 />
               </div>
             )}
@@ -142,7 +143,7 @@ export default function Header() {
           title={
             profile[language as keyof Pick<ProfileData, "pt" | "en">].title
           }
-          imageUrl="/images/profile-ios.png"
+          imageUrl="/api/profile-image"
           showImage={!hideNavbarImage}
         />
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">

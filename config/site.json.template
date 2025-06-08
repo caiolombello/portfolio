@@ -1,0 +1,46 @@
+{
+  "site": {
+    "name": "Your Portfolio Name",
+    "title": "Your Name - Your Profession",
+    "shortName": "Your Name",
+    "description": "Professional portfolio and blog showcasing your projects, skills and experience",
+    "url": "https://yourdomain.com",
+    "author": "Your Full Name",
+    "email": "your.email@example.com",
+    "phone": "+1 (555) 123-4567",
+    "location": "Your City, State/Country",
+    "profileImage": {
+      "type": "github",
+      "source": "yourusername",
+      "fallbacks": [
+        {
+          "type": "local",
+          "source": "/images/profile/profile.jpg"
+        },
+        {
+          "type": "external",
+          "source": "https://example.com/your-photo.jpg"
+        }
+      ]
+    }
+  },
+  "social": {
+    "github": "https://github.com/yourusername",
+    "linkedin": "https://linkedin.com/in/yourprofile",
+    "twitter": "https://twitter.com/yourusername",
+    "website": "https://yourdomain.com"
+  },
+  "integrations": {
+    "credlyUsername": "your-credly-username",
+    "twitterHandle": "@yourusername"
+  },
+  "seo": {
+    "keywords": [
+      "your profession",
+      "your main skills",
+      "your location",
+      "your industry",
+      "portfolio"
+    ]
+  }
+} 

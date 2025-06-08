@@ -1,0 +1,25 @@
+{
+  "id": "data-analytics-dashboard",
+  "title_pt": "Dashboard de Analytics",
+  "title_en": "Data Analytics Dashboard",
+  "shortDescription_pt": "Dashboard interativo para visualização de dados e analytics",
+  "shortDescription_en": "Interactive dashboard for data visualization and analytics",
+  "description_pt": "Dashboard avançado para análise de dados com gráficos interativos, relatórios customizáveis, processamento de grandes volumes de dados, integração com múltiplas fontes de dados, e sistema de alertas automáticos. Construído com Python Django e tecnologias de Big Data.",
+  "description_en": "Advanced dashboard for data analysis with interactive charts, customizable reports, big data processing, integration with multiple data sources, and automatic alert system. Built with Python Django and Big Data technologies.",
+  "category": "Data Science",
+  "technologies": [
+    { "tech": "Python" },
+    { "tech": "Django" },
+    { "tech": "PostgreSQL" },
+    { "tech": "D3.js" },
+    { "tech": "Pandas" },
+    { "tech": "Apache Kafka" },
+    { "tech": "Redis" },
+    { "tech": "Docker" },
+    { "tech": "Elasticsearch" }
+  ],
+  "githubUrl": "https://github.com/caiolombello/analytics-dashboard",
+  "featured": false,
+  "createdAt": "2023-10-15",
+  "updatedAt": "2024-01-08"
+} 

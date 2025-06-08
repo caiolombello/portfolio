@@ -10,6 +10,7 @@ import SkillsList from "./skill-bar";
 import CredlyCertifications from "./credly-certifications";
 import { useLanguage } from "@/contexts/language-context";
 import { fetchCredlyBadges } from "@/lib/credly";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import type { Skill } from "@/types/skill";
 
 interface Experience {
@@ -34,6 +35,7 @@ interface CredlyBadge {
 
 export default function Resume() {
   const { language } = useLanguage();
+  const { config, loading: configLoading } = useSiteConfig();
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const [educations, setEducations] = useState<Education[]>([]);
   const [certifications, setCertifications] = useState<
@@ -63,8 +65,12 @@ export default function Resume() {
 
   useEffect(() => {
     async function loadCredlyCertifications() {
+      if (!config.integrations.credlyUsername || config.integrations.credlyUsername === "your-credly-username") {
+        return; // Skip if no Credly username configured
+      }
+      
       try {
-        const badges = await fetchCredlyBadges("caiolombello");
+        const badges = await fetchCredlyBadges(config.integrations.credlyUsername);
         const certificationNames = badges.map(
           (badge: CredlyBadge) => badge.badge_template.name,
         );
@@ -73,25 +79,28 @@ export default function Resume() {
         console.error("Error fetching Credly badges:", error);
       }
     }
-    loadCredlyCertifications();
-  }, []);
+    
+    if (!configLoading) {
+      loadCredlyCertifications();
+    }
+  }, [config.integrations.credlyUsername, configLoading]);
 
   const certificationsStrings = certifications.map((cert) =>
     typeof cert === "string" ? cert : cert.name,
   );
 
   const personalInfo = {
-    name: "Caio Barbieri",
-    title: "DevOps Engineer",
-    location: "Campinas, SP",
-    email: "caio@lombello.com",
-    phone: "+55 (19) 99753-6692",
+    name: config.site.shortName,
+    title: config.site.author,
+    location: config.site.location,
+    email: config.site.email,
+    phone: config.site.phone,
   };
 
   const summary =
     language === "pt"
-      ? "Engenheiro DevOps com expertise em Cloud Native, Observabilidade, automação de infraestrutura e CI/CD."
-      : "DevOps Engineer with expertise in Cloud Native, Observability, infrastructure automation, and CI/CD.";
+      ? "Engenheiro DevOps experiente com 3+ anos transformando operações através de automação e Cloud Native. Especialista em AWS, Kubernetes e Terraform com histórico comprovado: 70% redução no tempo de deploy, 40% menos incidentes através de observabilidade avançada, $200K+ economia anual para clientes via automação."
+      : "Experienced DevOps Engineer with 3+ years transforming operations through automation and Cloud Native practices. Expert in AWS, Kubernetes and Terraform with proven track record: 70% deployment time reduction, 40% fewer incidents through advanced observability, $200K+ annual savings for clients via automation.";
 
   return (
     <div className="container py-12">

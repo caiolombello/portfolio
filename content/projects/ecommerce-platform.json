@@ -1,0 +1,24 @@
+{
+  "id": "ecommerce-platform",
+  "title_pt": "Plataforma E-commerce",
+  "title_en": "E-commerce Platform",
+  "shortDescription_pt": "Plataforma completa de e-commerce com painel administrativo",
+  "shortDescription_en": "Complete e-commerce platform with administrative panel",
+  "description_pt": "Plataforma robusta de e-commerce com carrinho de compras, sistema de pagamento integrado, gestão de estoque, painel administrativo completo, relatórios de vendas, e sistema de avaliações. Desenvolvida com Vue.js e Laravel, integrando APIs de pagamento como Stripe e PayPal.",
+  "description_en": "Robust e-commerce platform with shopping cart, integrated payment system, inventory management, complete administrative panel, sales reports, and review system. Developed with Vue.js and Laravel, integrating payment APIs like Stripe and PayPal.",
+  "category": "E-commerce",
+  "technologies": [
+    { "tech": "Vue.js" },
+    { "tech": "Laravel" },
+    { "tech": "PHP" },
+    { "tech": "MySQL" },
+    { "tech": "Stripe" },
+    { "tech": "PayPal" },
+    { "tech": "Redis" },
+    { "tech": "Docker" }
+  ],
+  "githubUrl": "https://github.com/caiolombello/ecommerce",
+  "featured": false,
+  "createdAt": "2023-12-05",
+  "updatedAt": "2024-01-15"
+} 

@@ -31,15 +31,32 @@
     "viewDemo": "View Demo",
     "githubRepo": "GitHub Repository",
     "project": "project",
-    "noProjects": "No projects found."
+    "noProjects": "No projects found.",
+    "noProjectsWithFilters": "No projects found with the selected filters.",
+    "tryDifferentFilters": "Try different filters or clear the current filters.",
+    "viewMore": "View More Projects",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page"
+    }
   },
   "blog": {
     "title": "Blog",
     "description": "Thoughts, ideas, and insights about technology and development.",
     "readMore": "Read More",
     "viewAll": "View All Posts",
+    "viewMore": "View More Posts",
     "publishedOn": "Published on",
-    "noPosts": "No posts found."
+    "noPosts": "No posts found.",
+    "noPostsWithFilters": "No posts found with the selected filters.",
+    "tryDifferentFilters": "Try different filters or clear the current filters.",
+    "back": "Back to blog",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page"
+    }
   },
   "contact": {
     "title": "Contact",

@@ -20,7 +20,7 @@ interface MobileMenuProps {
 export default function MobileMenu({
   name,
   title,
-  imageUrl = "/images/profile-ios.png",
+  imageUrl,
   showImage = true,
 }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,7 +53,7 @@ export default function MobileMenu({
         <SheetContent side="left" className="w-[300px] sm:w-[400px]">
           <div className="flex flex-col space-y-4 py-4">
             <div className="flex items-center space-x-2">
-              {showImage && (
+              {showImage && imageUrl && (
                 <div className="relative h-10 w-10 overflow-hidden rounded-full">
                   <Image
                     src={imageUrl}

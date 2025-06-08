@@ -9,7 +9,9 @@ import {
 } from "@heroicons/react/24/outline";
 import ContactForm from "./contact-form";
 import { useLanguage } from "@/contexts/language-context";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { useEffect, useState } from "react";
+import { ContactSkeleton } from "@/components/loading-skeleton";
 
 interface ProfileData {
   name: string;
@@ -28,10 +30,12 @@ interface ProfileData {
 
 export default function Contact() {
   const { t, language } = useLanguage();
+  const { config, loading: configLoading } = useSiteConfig();
+  const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<ProfileData>({
     name: "Caio Lombello Vendramini Barbieri",
     title: language === "pt" ? "Engenheiro DevOps" : "DevOps Engineer",
-    imageUrl: "/images/profile-ios.png",
+    imageUrl: "/api/profile-image",
     socialLinks: {
       github: "https://github.com/caiolombello",
       linkedin: "https://linkedin.com/in/caiolvbarbieri",
@@ -56,7 +60,7 @@ export default function Contact() {
             setProfile({
               name: fullName,
               title: mainTitle,
-              imageUrl: data.imageUrl || "/images/profile-ios.png",
+              imageUrl: "/api/profile-image",
               socialLinks: {
                 github:
                   data.socialLinks?.github || "https://github.com/caiolombello",

@@ -267,11 +267,24 @@ export async function loadPosts(): Promise<Post[]> {
   return getCachedData("posts", async () => {
     const dirPath = path.join(CONTENT_DIR, "posts");
     const files = await readDirectory(dirPath);
+    
+    // Filter out README and other non-post files
+    const postFiles = files.filter((file) => 
+      file.endsWith(".md") && 
+      !file.toLowerCase().includes("readme") &&
+      !file.toLowerCase().includes("docs")
+    );
+    
     const posts = await Promise.all(
-      files.map(async (file: string) => {
+      postFiles.map(async (file: string) => {
         const filePath = path.join(dirPath, file);
         const fileContent = await readMarkdownFile(filePath);
         const { data: frontmatter, content } = matter(fileContent);
+
+        // Skip files without proper frontmatter (no title)
+        if (!frontmatter.title_pt && !frontmatter.title_en && !frontmatter.title) {
+          return null;
+        }
 
         // Generate slugs from titles
         const slug_pt = generateSlug(

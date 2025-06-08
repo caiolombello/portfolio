@@ -54,12 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as ChangeFrequency,
       priority: 0.8,
     },
-    {
-      url: `${baseUrl}/admin`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as ChangeFrequency,
-      priority: 0.1,
-    },
+
   ];
 
   // Adicionar páginas de projetos

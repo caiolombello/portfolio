@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import {
   Card,
@@ -11,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { BlogImage } from "@/components/blog/blog-image";
 import type { Post } from "@/types";
 import { useLanguage } from "@/contexts/language-context";
 
@@ -35,13 +35,13 @@ export function BlogGrid({ posts }: BlogGridProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {posts.map((post) => {
+      {posts.map((post, index) => {
         const slug = language === "pt" ? post.slug_pt : post.slug_en;
         const title = language === "pt" ? post.title_pt : post.title_en;
         const summary = language === "pt" ? post.summary_pt : post.summary_en;
 
         return (
-          <Card key={slug} className="flex flex-col">
+          <Card key={slug || `post-${index}`} className="flex flex-col">
             <CardHeader>
               <CardTitle className="line-clamp-2">{title}</CardTitle>
               <CardDescription className="line-clamp-3">
@@ -49,16 +49,15 @@ export function BlogGrid({ posts }: BlogGridProps) {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-grow space-y-4">
-              {post.coverImage && (
-                <div className="relative aspect-video">
-                  <Image
-                    src={post.coverImage}
-                    alt={title}
-                    fill
-                    className="object-cover rounded-md"
-                  />
-                </div>
-              )}
+              <div className="relative aspect-video">
+                <BlogImage
+                  src={post.coverImage}
+                  alt={title}
+                  fill
+                  className="object-cover rounded-md"
+                  size="small"
+                />
+              </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <time dateTime={post.publicationDate}>
                   {new Date(post.publicationDate).toLocaleDateString(

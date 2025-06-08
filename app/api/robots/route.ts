@@ -13,7 +13,7 @@ export async function GET() {
       // Se não encontrar o robots.txt, gerar um novo
       const baseUrl =
         process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com";
-      robotsContent = `# Allow all crawlers\nUser-agent: *\nAllow: /\n\n# Sitemap\nSitemap: ${baseUrl}/sitemap.xml\n\n# Disallow admin and API routes\nDisallow: /api/\nDisallow: /admin/\nDisallow: /_next/\nDisallow: /static/\n\n# Crawl-delay\nCrawl-delay: 10\n\n# Host\nHost: ${baseUrl}\n`;
+      robotsContent = `# Allow all crawlers\nUser-agent: *\nAllow: /\n\n# Sitemap\nSitemap: ${baseUrl}/sitemap.xml\n\n# Disallow API routes\nDisallow: /api/\nDisallow: /_next/\nDisallow: /static/\n\n# Crawl-delay\nCrawl-delay: 10\n\n# Host\nHost: ${baseUrl}\n`;
       await fs.writeFile(robotsPath, robotsContent, "utf-8");
     }
     return new NextResponse(robotsContent, {

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { fetchCredlyBadges } from "@/lib/credly";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import Image from "next/image";
 
 interface BadgeTemplate {
@@ -27,12 +28,23 @@ function formatDate(dateString: string) {
 }
 
 export default function CredlyCertifications() {
+  const { config, loading: configLoading } = useSiteConfig();
   const [badges, setBadges] = useState<Badge[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const username = "caiolombello";
 
   useEffect(() => {
+    if (configLoading) return;
+    
+    const username = config.integrations.credlyUsername;
+    
+    // Skip if no Credly username configured or using default placeholder
+    if (!username || username === "your-credly-username") {
+      setLoading(false);
+      setError("Credly username not configured");
+      return;
+    }
+
     fetchCredlyBadges(username)
       .then((data) => {
         if (Array.isArray(data)) {
@@ -55,7 +67,7 @@ export default function CredlyCertifications() {
         setError("Failed to fetch Credly badges");
       })
       .finally(() => setLoading(false));
-  }, [username]);
+  }, [config.integrations.credlyUsername, configLoading]);
 
   if (loading)
     return (

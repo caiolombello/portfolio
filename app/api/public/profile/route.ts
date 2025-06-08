@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 
 export async function GET() {
-  const filePath = path.join(process.cwd(), "content/settings/profile.json");
+  const filePath = path.join(process.cwd(), "content/profile/profile.json");
   if (!fs.existsSync(filePath)) {
     return NextResponse.json({ error: "Profile not found" }, { status: 404 });
   }

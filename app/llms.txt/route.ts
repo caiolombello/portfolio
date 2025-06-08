@@ -1,118 +1,223 @@
 import { NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
+import matter from "gray-matter";
+
+interface SiteConfig {
+  site: {
+    name: string;
+    title: string;
+    shortName: string;
+    description: string;
+    url: string;
+    author: string;
+    email: string;
+    location: string;
+  };
+  social: {
+    github: string;
+    linkedin: string;
+    twitter: string;
+    website: string;
+  };
+}
 
 interface Project {
   id: string;
   title: string;
-  shortDescription: string;
+  description: string;
+  shortDescription?: string;
 }
 
 interface Post {
-  id: string;
+  slug: string;
   title: string;
-  summary: string;
+  description: string;
 }
 
 interface Skill {
   name: string;
 }
 
+// Função para carregar configuração do site
+async function loadSiteConfig(): Promise<SiteConfig> {
+  try {
+    const configPath = path.join(process.cwd(), "config/site.json");
+    const configData = await fs.readFile(configPath, "utf-8");
+    return JSON.parse(configData);
+  } catch (error) {
+    // Fallback para configurações padrão
+    console.warn("Site config not found, using defaults");
+    return {
+      site: {
+        name: "Portfolio Template",
+        title: "Your Name - Professional Portfolio",
+        shortName: "Your Name",
+        description: "Professional portfolio and blog",
+        url: "https://yoursite.com",
+        author: "Your Name",
+        email: "your.email@example.com",
+        location: "Your Location",
+      },
+      social: {
+        github: "https://github.com/yourusername",
+        linkedin: "https://linkedin.com/in/yourprofile",
+        twitter: "https://twitter.com/yourusername",
+        website: "https://yoursite.com",
+      },
+    };
+  }
+}
+
+// Função para carregar perfil
+async function loadProfile() {
+  try {
+    const profilePath = path.join(process.cwd(), "content/profile/profile.json");
+    const profileData = await fs.readFile(profilePath, "utf-8");
+    return JSON.parse(profileData);
+  } catch (error) {
+    return null;
+  }
+}
+
+// Função para carregar projetos
+async function loadProjects(): Promise<Project[]> {
+  try {
+    const projectsDir = path.join(process.cwd(), "content/projects");
+    const files = await fs.readdir(projectsDir);
+    const projects: Project[] = [];
+
+    for (const file of files) {
+      if (file.endsWith(".json")) {
+        const projectPath = path.join(projectsDir, file);
+        const projectData = await fs.readFile(projectPath, "utf-8");
+        const project = JSON.parse(projectData);
+        projects.push({
+          id: project.id,
+          title: project.title,
+          description: project.description,
+          shortDescription: project.shortDescription || project.description,
+        });
+      }
+    }
+
+    return projects.sort((a, b) => a.title.localeCompare(b.title));
+  } catch (error) {
+    return [];
+  }
+}
+
+// Função para carregar posts do blog
+async function loadPosts(): Promise<Post[]> {
+  try {
+    const postsDir = path.join(process.cwd(), "content/posts");
+    const files = await fs.readdir(postsDir);
+    const posts: Post[] = [];
+
+    for (const file of files) {
+      if (file.endsWith(".md")) {
+        const postPath = path.join(postsDir, file);
+        const postContent = await fs.readFile(postPath, "utf-8");
+        const { data } = matter(postContent);
+        
+        if (data.published !== false) {
+          posts.push({
+            slug: file.replace(".md", ""),
+            title: data.title,
+            description: data.description,
+          });
+        }
+      }
+    }
+
+    return posts.sort((a, b) => a.title.localeCompare(b.title));
+  } catch (error) {
+    return [];
+  }
+}
+
+// Função para carregar skills
+async function loadSkills(): Promise<Skill[]> {
+  try {
+    const skillsPath = path.join(process.cwd(), "content/skills/skills.json");
+    const skillsData = await fs.readFile(skillsPath, "utf-8");
+    const { skills_list } = JSON.parse(skillsData);
+    return skills_list || [];
+  } catch (error) {
+    return [];
+  }
+}
+
 // Função para gerar o conteúdo do llms.txt dinamicamente
 async function generateLlmsTxt() {
   try {
     // Carregar dados necessários
-    const profilePath = path.join(
-      process.cwd(),
-      "public",
-      "data",
-      "profile.json",
-    );
-    const projectsPath = path.join(
-      process.cwd(),
-      "public",
-      "data",
-      "projects.json",
-    );
-    const postsPath = path.join(process.cwd(), "public", "data", "posts.json");
-    const skillsPath = path.join(
-      process.cwd(),
-      "public",
-      "data",
-      "skills.json",
-    );
-    const certificationsPath = path.join(
-      process.cwd(),
-      "public",
-      "data",
-      "certifications.json",
-    );
+    const config = await loadSiteConfig();
+    const profile = await loadProfile();
+    const projects = await loadProjects();
+    const posts = await loadPosts();
+    const skills = await loadSkills();
 
-    // Ler os arquivos
-    const profileData = JSON.parse(await fs.readFile(profilePath, "utf-8"));
-    const projectsData = JSON.parse(
-      await fs.readFile(projectsPath, "utf-8"),
-    ) as Project[];
-    const postsData = JSON.parse(
-      await fs.readFile(postsPath, "utf-8"),
-    ) as Post[];
-    const skillsData = JSON.parse(
-      await fs.readFile(skillsPath, "utf-8"),
-    ) as Skill[];
-    const certificationsData = JSON.parse(
-      await fs.readFile(certificationsPath, "utf-8"),
-    );
-
-    // Obter o domínio base do site (para produção, você deve configurar isso)
-    const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com";
+    const baseUrl = config.site.url;
+    const authorName = config.site.shortName;
+    const authorTitle = profile?.pt?.title || config.site.author;
+    const authorAbout = profile?.pt?.about || config.site.description;
 
     // Gerar o conteúdo do llms.txt
-    const content = `# Caio Lombello Vendramini Barbieri - Portfólio Profissional
+    const content = `# ${authorName} - Professional Portfolio
 
-> Site de portfólio profissional de ${profileData.pt.name}, um ${profileData.pt.title}. O site apresenta informações sobre experiência profissional, projetos, artigos técnicos e formas de contato.
+> Professional portfolio website of ${authorName}, a ${authorTitle}. The site showcases professional experience, projects, technical articles, and contact information.
 
-Este site é construído com Next.js e Tailwind CSS, com tema escuro predominante e detalhes em amarelo/dourado. O site é totalmente responsivo e disponível em português e inglês.
+This site is built with Next.js and Tailwind CSS, featuring a modern dark theme with responsive design. The site is available in multiple languages (Portuguese, English, and Spanish).
 
-## Perfil Profissional
+## Professional Profile
 
-- [Sobre Mim](${baseUrl}/index.html.md): ${profileData.pt.about}
-- [Currículo](${baseUrl}/resume/index.html.md): Experiência profissional detalhada, formação acadêmica e certificações técnicas
-- [Contato](${baseUrl}/contact/index.html.md): Informações de contato e formulário para mensagens
+- [About Me](${baseUrl}/): ${authorAbout}
+- [Resume](${baseUrl}/resume/): Detailed professional experience, education, and technical certifications
+- [Contact](${baseUrl}/contact/): Contact information and message form
 
-## Redes Sociais
+## Social Networks
 
-- LinkedIn: https://linkedin.com/in/caiolvbarbieri
-- GitHub: https://github.com/caiolombello
-- Twitter: https://twitter.com/caiolombello
-- Website: https://caio.lombello.com
+- LinkedIn: ${config.social.linkedin}
+- GitHub: ${config.social.github}
+- Twitter: ${config.social.twitter}
+- Website: ${config.social.website}
 
-## Projetos
+## Projects
 
-- [Portfólio de Projetos](${baseUrl}/portfolio/index.html.md): Visão geral de todos os projetos desenvolvidos
-${projectsData.map((project: Project) => `- [${project.title}](${baseUrl}/portfolio/${project.id}.html.md): ${project.shortDescription}`).join("\n")}
+- [Portfolio Projects](${baseUrl}/portfolio/): Overview of all developed projects
+${projects.map((project: Project) => `- [${project.title}](${baseUrl}/portfolio/${project.id}/): ${project.shortDescription}`).join("\n")}
 
 ## Blog
 
-- [Blog](${baseUrl}/blog/index.html.md): Artigos técnicos sobre DevOps, Cloud, Kubernetes e desenvolvimento de software
-${postsData.map((post: Post) => `- [${post.title}](${baseUrl}/blog/${post.id}.html.md): ${post.summary}`).join("\n")}
+- [Blog](${baseUrl}/blog/): Technical articles about development, DevOps, cloud technologies, and software engineering
+${posts.map((post: Post) => `- [${post.title}](${baseUrl}/blog/${post.slug}/): ${post.description}`).join("\n")}
 
-## Tecnologias
+## Technologies
 
-- [Habilidades Técnicas](${baseUrl}/resume/index.html.md#skills): ${skillsData.map((skill: Skill) => skill.name).join(", ")}
-- [Certificações](${baseUrl}/resume/index.html.md#certifications): ${certificationsData.join(", ")}
+- [Technical Skills](${baseUrl}/resume/#skills): ${skills.map((skill: Skill) => skill.name).join(", ")}
+- [Certifications](${baseUrl}/resume/#certifications): Professional certifications and technical achievements
+
+## Contact Information
+
+- Email: ${config.site.email}
+- Location: ${config.site.location}
 
 ## Optional
 
-- [Política de Privacidade](${baseUrl}/privacy-policy.html.md): Informações sobre como os dados dos usuários são tratados no site
-- [Termos de Uso](${baseUrl}/terms-of-use.html.md): Termos e condições para uso do site`;
+- [Privacy Policy](${baseUrl}/privacy-policy/): Information about how user data is handled on the site
+- [Terms of Use](${baseUrl}/terms-of-use/): Terms and conditions for site usage
+
+---
+
+This portfolio showcases the professional work and expertise of ${authorName}, demonstrating skills in modern web development, cloud technologies, and software engineering best practices.`;
 
     return content;
   } catch (error) {
-    console.error("Erro ao gerar llms.txt:", error);
-    return `# Caio Lombello Vendramini Barbieri - Portfólio Profissional
+    console.error("Error generating llms.txt:", error);
+    return `# Professional Portfolio
 
-> Ocorreu um erro ao gerar o conteúdo dinâmico. Por favor, tente novamente mais tarde.`;
+> An error occurred while generating dynamic content. Please try again later.`;
   }
 }
 
@@ -121,7 +226,9 @@ export async function GET() {
 
   return new NextResponse(content, {
     headers: {
-      "Content-Type": "text/markdown; charset=utf-8",
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "public, max-age=3600, s-maxage=3600", // Cache por 1 hora
+      "X-Content-Source": "dynamic", // Indica que é gerado dinamicamente
     },
   });
 }

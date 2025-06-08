@@ -1,0 +1,24 @@
+{
+  "id": "portfolio-website",
+  "title_pt": "Website Portfolio Pessoal",
+  "title_en": "Personal Portfolio Website",
+  "shortDescription_pt": "Website portfolio responsivo e moderno com Next.js",
+  "shortDescription_en": "Modern and responsive portfolio website with Next.js",
+  "description_pt": "Portfolio pessoal desenvolvido com Next.js 14, featuring sistema de blog integrado, internacionalização completa (PT/EN/ES), design responsivo com Tailwind CSS, e sistema de gerenciamento de conteúdo. Inclui páginas de projetos, blog com filtros por tags, e seção de contato funcional.",
+  "description_en": "Personal portfolio developed with Next.js 14, featuring integrated blog system, complete internationalization (PT/EN/ES), responsive design with Tailwind CSS, and content management system. Includes project pages, blog with tag filters, and functional contact section.",
+  "imageUrl": "https://via.placeholder.com/600x400/FFD700/000000?text=Portfolio+Website",
+  "category": "Web Development",
+  "technologies": [
+    { "tech": "Next.js" },
+    { "tech": "React" },
+    { "tech": "TypeScript" },
+    { "tech": "Tailwind CSS" },
+    { "tech": "shadcn/ui" },
+    { "tech": "Vercel" }
+  ],
+  "githubUrl": "https://github.com/caiolombello/portfolio",
+  "liveUrl": "https://caio.lombello.com",
+  "featured": true,
+  "createdAt": "2025-01-15",
+  "updatedAt": "2025-06-08"
+} 

@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { BlogImage } from "@/components/blog/blog-image";
 import { marked } from "marked";
 import { useLanguage } from "@/contexts/language-context";
 import type { Post } from "@/types";
@@ -72,16 +72,17 @@ export function BlogPostContent({ post }: BlogPostContentProps) {
             {summary && (
               <p className="text-lg text-muted-foreground">{summary}</p>
             )}
-            {post.coverImage && (
-              <Image
+            
+            <div className="mt-4 relative aspect-video rounded-lg overflow-hidden">
+              <BlogImage
                 src={post.coverImage}
                 alt={title}
-                width={1200}
-                height={630}
-                className="mt-4 rounded-lg"
+                fill
+                className="object-cover"
                 priority
+                size="large"
               />
-            )}
+            </div>
           </header>
 
           <div

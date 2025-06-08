@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getDictionary } from "@/app/i18n";
-import { generatePageMetadata } from "@/components/seo/page-seo";
+import { generatePageMetadata } from "@/lib/site-metadata";
 
 interface PageProps {
   params: {
@@ -15,11 +15,8 @@ export async function generateMetadata({
   const { lang } = params;
   const dict = await getDictionary(lang);
 
-  return generatePageMetadata({
-    title: dict.projects.title,
-    description: dict.projects.description,
-    path: `/portfolio`,
-    type: "website",
-    tags: ["portfolio", "projects"],
-  });
+  return generatePageMetadata(
+    dict.projects.title,
+    dict.projects.description
+  );
 }

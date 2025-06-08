@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/language-context";
+import { AboutSkeleton } from "@/components/loading-skeleton";
 
 interface ProfileLanguage {
   name: string;
@@ -48,16 +49,33 @@ export default function About() {
   const { language, t } = useLanguage();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [skills, setSkills] = useState<Skill[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchProfile().then((data) => setProfile(data));
-    fetchSkills().then((data) => setSkills(data));
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const [profileData, skillsData] = await Promise.all([
+          fetchProfile(),
+          fetchSkills()
+        ]);
+        setProfile(profileData);
+        setSkills(skillsData || []);
+      } catch (error) {
+        console.error('Error loading profile/skills:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
   }, [language]);
 
+  if (loading) return <AboutSkeleton />;
   if (!profile) return null;
 
   const currentProfile = (profile[language] || profile["pt"]) as ProfileLanguage;
-  const profileImageUrl = profile.imageUrl || "/images/profile-ios.png";
+  const profileImageUrl = "/api/profile-image";
   const currentSkills =
     Array.isArray(skills) && skills.length > 0
       ? skills

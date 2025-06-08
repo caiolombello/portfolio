@@ -1,217 +1,253 @@
-# Portfolio Website
+# 🚀 Modern Portfolio Template
 
-Este é o repositório do meu portfólio profissional, construído com Next.js, TypeScript, Tailwind CSS e Decap CMS.
+A modern, responsive, and fully configurable portfolio template built with Next.js 14, TypeScript, and Tailwind CSS. Perfect for developers, designers, and professionals who want to showcase their work beautifully.
 
-## Tecnologias Principais
+## ✨ Features
 
-- Next.js 14+ com App Router
-- React 18+
-- TypeScript
-- Tailwind CSS
-- shadcn/ui components
-- i18n (Português, Inglês, Espanhol)
-- pnpm para gerenciamento de pacotes
-- Decap CMS para gerenciamento de conteúdo
+### 🎨 **Modern Design**
+- Clean, professional interface with dark/light mode support
+- Responsive design that works on all devices
+- Beautiful animations and transitions
+- Optimized for performance and accessibility
 
-## Estrutura do Projeto
+### 📝 **Content Management**
+- **File-based CMS**: No complex setup, just edit JSON and Markdown files
+- **Multilingual support**: English, Portuguese, and Spanish out of the box
+- **Blog system**: Write posts in Markdown with full syntax highlighting
+- **Project showcase**: Display your work with images, technologies, and links
+- **Resume/CV**: Professional resume with PDF export capability
 
-### Componentes (`/components`)
+### 🔧 **Easy Configuration**
+- **Single config file**: All site settings in one place
+- **Template system**: Copy and customize for your own use
+- **No hardcoded data**: Everything is configurable
+- **Comprehensive documentation**: Detailed setup guide
 
-- Server Components por padrão
-- Client Components usam diretiva 'use client'
-- Componentes UI seguem estes padrões:
-  - Componentes base em `/components`
-  - Primitivos reutilizáveis em `/components/ui` (baseados em shadcn/ui)
-  - Uso de Tailwind CSS para estilização
-  - Tipagem adequada com TypeScript
-  - Responsivos e acessíveis
-  - Seguem princípios de design atômico
-  - Suportam injeção dinâmica de conteúdo
-  - Compatíveis com preview do Decap CMS
+### 🚀 **Performance & SEO**
+- **Next.js 14**: Latest features with App Router
+- **Static generation**: Fast loading times
+- **SEO optimized**: Meta tags, sitemaps, structured data
+- **Image optimization**: Automatic image processing
+- **Analytics ready**: Vercel Analytics integration
+- **Social media previews**: Dynamic Open Graph images with profile photo
 
-### Gerenciamento de Dados
+### 🛠 **Developer Experience**
+- **TypeScript**: Full type safety
+- **Tailwind CSS**: Utility-first styling
+- **ESLint & Prettier**: Code quality tools
+- **Vitest**: Testing framework
+- **Hot reload**: Instant development feedback
 
-#### Fonte Primária de Dados (`/content/`)
+## 🏁 Quick Start
 
-- Arquivos JSON armazenam conteúdo principal:
-  - Informações do perfil (`settings/profile.json`)
-  - Experiência profissional (`experience/*.json`)
-  - Detalhes educacionais (`education/*.json`)
-  - Habilidades e certificações (`data/skills.json`, `certifications/*.json`)
-  - Projetos (`projects/*.json`)
-  - Posts do blog (`posts/*.md`)
-- Cada tipo de dado tem tipos TypeScript correspondentes em `/types/`
-- Validação de dados usando schemas Zod
-
-#### Integração com CMS (`/public/admin/`)
-
-- Decap CMS como sistema principal de gerenciamento de conteúdo
-- Configuração em `/public/admin/config.yml`
-- Atualizações de conteúdo em tempo real
-- Versionamento de conteúdo
-- Gerenciamento de assets de mídia
-- Suporte a múltiplos idiomas
-- Funcionalidade de preview de conteúdo
-- Integração com webhooks para deploys automáticos
-- Armazenamento baseado em Git
-
-## Desenvolvimento Local
-
-1. Clone o repositório:
+### 1. Clone & Install
 
 ```bash
-git clone https://github.com/caiolombello/portifolio.git
+git clone https://github.com/caiolombello/portfolio.git
 cd portfolio
+npm install
 ```
 
-2. Instale as dependências:
+### 2. Configure Your Site
 
 ```bash
-pnpm install
+# Copy the configuration template
+cp config/site.json.template config/site.json
+
+# Edit with your information
+nano config/site.json
 ```
 
-3. Inicie o servidor de desenvolvimento:
+### 3. Add Your Content
 
 ```bash
-pnpm dev
+# Update profile information
+nano content/profile/profile.json
+
+# Add your projects
+ls content/projects/
+
+# Write blog posts
+ls content/posts/
+
+# Add your experience
+ls content/experience/
 ```
 
-4. Acesse o CMS em `http://localhost:3000/admin`
-
-## Gerenciando Conteúdo
-
-### Acessando o CMS
-
-1. Acesse `/admin` no seu navegador
-2. Faça login com suas credenciais do GitHub
-3. Você terá acesso ao painel de administração
-
-### Tipos de Conteúdo
-
-1. **Perfil**
-
-   - Informações pessoais e profissionais
-   - Links sociais
-   - Foto de perfil
-
-2. **Habilidades**
-
-   - Nome da habilidade
-   - Categoria
-   - Nível de proficiência
-
-3. **Experiência Profissional**
-
-   - Empresa
-   - Cargo (PT/EN)
-   - Período
-   - Responsabilidades (PT/EN)
-
-4. **Educação**
-
-   - Instituição
-   - Curso/Grau (PT/EN)
-   - Período
-   - Descrição (PT/EN)
-
-5. **Certificações**
-
-   - Nome da certificação
-   - Emissor
-   - Data
-   - Descrição
-   - URL da credencial
-
-6. **Projetos**
-
-   - ID único
-   - Título (PT/EN)
-   - Descrição curta (PT/EN)
-   - Descrição completa (PT/EN)
-   - Imagem
-   - Categoria
-   - Tecnologias
-   - Links (GitHub, Demo)
-
-7. **Blog Posts**
-   - Título (PT/EN)
-   - Resumo (PT/EN)
-   - Data de publicação
-   - Imagem de capa
-   - Categoria
-   - Tags
-   - Autor
-   - Corpo do post (PT/EN)
-
-### Workflow de Edição
-
-1. Faça login no CMS
-2. Escolha o tipo de conteúdo que deseja editar
-3. Faça suas alterações
-4. Preview as mudanças (quando disponível)
-5. Salve e publique
-
-### Internacionalização (i18n)
-
-- Campos com sufixos `_pt` e `_en` são para conteúdo em português e inglês
-- Preencha ambos os idiomas para manter o site totalmente bilíngue
-- O frontend escolherá automaticamente o idioma correto
-
-## Testes
-
-Execute os testes:
+### 4. Run Development Server
 
 ```bash
-# Executa todos os testes
-pnpm test
-
-# Executa testes em modo watch
-pnpm test:watch
-
-# Executa testes com cobertura
-pnpm test:coverage
+npm run dev
 ```
 
-## Notificações no Discord
+Open [http://localhost:3000](http://localhost:3000) to see your portfolio!
 
-O projeto inclui integração com Discord para notificações de alterações de conteúdo:
+## 📁 Project Structure
 
-1. Crie um webhook no Discord:
+```
+portfolio/
+├── app/                    # Next.js 14 App Router
+│   ├── [lang]/            # Internationalization routes
+│   ├── api/               # API routes
+│   └── components/        # Page components
+├── components/            # Reusable UI components
+├── content/              # Your content (JSON/Markdown)
+│   ├── posts/            # Blog posts (Markdown)
+│   ├── projects/         # Portfolio projects (JSON)
+│   ├── experience/       # Work experience (JSON)
+│   ├── education/        # Education (JSON)
+│   ├── skills/           # Skills list (JSON)
+│   └── profile/          # Personal info (JSON)
+├── config/               # Site configuration
+│   ├── site.json         # Main config file
+│   └── site.json.template # Template for new users
+├── hooks/                # Custom React hooks
+├── lib/                  # Utility functions
+├── public/               # Static assets
+└── types/                # TypeScript definitions
+```
 
-   - Clique com o botão direito no canal > Configurações
-   - Integrações > Webhooks > Novo Webhook
-   - Copie a URL do webhook
+## ⚙️ Configuration
 
-2. Adicione a URL como secret no GitHub:
+### Site Configuration (`config/site.json`)
 
-   - Settings > Secrets > New repository secret
-   - Nome: `DISCORD_WEBHOOK_URL`
-   - Valor: URL do webhook
+The main configuration file controls all aspects of your portfolio:
 
-3. As notificações serão enviadas automaticamente quando houver mudanças em `content/`
+```json
+{
+  "site": {
+    "name": "Your Portfolio Name",
+    "title": "Your Name - Your Profession",
+    "shortName": "Your Name",
+    "description": "Your professional description...",
+    "url": "https://yourdomain.com",
+    "author": "Your Full Name",
+    "email": "your.email@example.com",
+    "phone": "+1 (555) 123-4567",
+    "location": "Your Location"
+  },
+  "social": {
+    "github": "https://github.com/yourusername",
+    "linkedin": "https://linkedin.com/in/yourprofile",
+    "twitter": "https://twitter.com/yourusername",
+    "website": "https://yourdomain.com"
+  },
+  "integrations": {
+    "credlyUsername": "your-credly-username",
+    "twitterHandle": "@yourusername"
+  }
+}
+```
 
-## Contribuindo
+For detailed configuration instructions, see [CONFIG.md](CONFIG.md).
 
-1. Crie uma branch para sua feature:
+## 🎨 Customization
+
+### Styling
+- **Colors**: Edit `tailwind.config.ts`
+- **Fonts**: Modify `app/layout.tsx`
+- **Components**: Customize in `/components`
+
+### Content
+- **Blog posts**: Add Markdown files to `content/posts/`
+- **Projects**: Add JSON files to `content/projects/`
+- **Experience**: Add JSON files to `content/experience/`
+- **Skills**: Edit `content/skills/skills.json`
+
+### Images
+- **Profile**: `/public/images/profile/`
+- **Projects**: `/public/images/projects/`
+- **Blog**: `/public/images/blog/`
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Deploy with zero configuration
+
+### Other Platforms
+
+The portfolio works on any platform that supports Next.js:
+- Netlify
+- Railway
+- AWS Amplify
+- Self-hosted
+
+## 🌐 Internationalization
+
+Built-in support for multiple languages:
+
+- **English (en)**
+- **Portuguese (pt)**
+- **Spanish (es)**
+
+Language switching via header controls, with automatic content fallbacks.
+
+## 📊 Analytics & Monitoring
+
+- **Vercel Analytics**: Built-in performance monitoring
+- **Health endpoint**: `/api/health` for uptime monitoring
+- **SEO optimization**: Automatic sitemaps and meta tags
+
+## 🔌 Integrations
+
+### Credly Certifications
+Display your professional certifications automatically by setting your Credly username in the config.
+
+### Social Links
+Automatically generates social media links and contact information throughout the site.
+
+## 🧪 Testing
 
 ```bash
-git checkout -b feature/nome-da-feature
+# Run tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
 ```
 
-2. Faça suas alterações e commit:
+## 📦 Scripts
 
 ```bash
-git commit -m "feat: descrição da alteração"
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run test         # Run tests
+npm run type-check   # TypeScript type checking
 ```
 
-3. Push para o repositório:
+## 🤝 Contributing
 
-```bash
-git push origin feature/nome-da-feature
-```
+We welcome contributions! Whether you're fixing bugs, adding features, or improving documentation.
 
-4. Abra um Pull Request
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if needed
+5. Submit a pull request
 
-## Licença
+## 📄 License
 
-Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+This project is open source and available under the [MIT License](LICENSE).
+
+## 🆘 Support
+
+Need help setting up your portfolio?
+
+- 📖 Read the [Configuration Guide](CONFIG.md)
+- 🐛 [Report issues](https://github.com/yourusername/portfolio/issues)
+- 💬 [Start a discussion](https://github.com/yourusername/portfolio/discussions)
+
+## 🌟 Showcase
+
+Built with this template? We'd love to see your portfolio! Share it by opening an issue with the "showcase" label.
+
+---
+
+**Built with ❤️ for the developer community**
+
+Give it a ⭐ if this template helped you build your portfolio!

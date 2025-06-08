@@ -1,6 +1,6 @@
 {
   "name": "portfolio",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,8 +11,9 @@
     "test": "vitest",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
-    "validate-cms": "NODE_OPTIONS=\"--loader ts-node/esm\" ts-node --esm scripts/validate-cms-types.ts",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "cross-env ANALYZE=true next build",
+    "optimize-images": "node scripts/optimize-images.mjs",
+    "prebuild": "npm run optimize-images"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.787.0",
@@ -61,8 +62,6 @@
     "class-variance-authority": "^0.7.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
-    "decap-cms-app": "^3.1.0-beta.0",
-    "decap-cms-core": "^3.6.1",
     "embla-carousel-react": "^8.0.0-rc17",
     "fs": "0.0.1-security",
     "gray-matter": "^4.0.3",

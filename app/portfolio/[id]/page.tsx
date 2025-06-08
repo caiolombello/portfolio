@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { generatePageMetadata } from "@/components/seo/page-seo";
+import { generatePageMetadata } from "@/lib/site-metadata";
 import type { Metadata } from "next";
 import type { Project, Technology } from "@/types/project";
 import { loadProjectById } from "@/lib/data";
@@ -33,14 +33,11 @@ export async function generateMetadata({
   const description =
     lang === "pt" ? project.shortDescription_pt : project.shortDescription_en;
 
-  return generatePageMetadata({
-    title: `${title} | ${dict.projects.title}`,
-    description: description,
-    path: `/portfolio/${project.id}`,
-    ogImage: project.imageUrl ?? "",
-    type: "article",
-    tags: [project.category ?? "", "portfolio", dict.projects.project ?? ""],
-  });
+  return generatePageMetadata(
+    `${title} | ${dict.projects.title}`,
+    description,
+    project.imageUrl ?? undefined
+  );
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {

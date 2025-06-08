@@ -24,6 +24,8 @@ const nextConfig = {
     "http://localhost:3000",
     "http://192.168.15.2:3000",
     "http://127.0.0.1:3000",
+    "192.168.15.2:3000",
+    "localhost:3000",
   ],
 
   // Enable Turbopack configuration
@@ -68,10 +70,27 @@ const nextConfig = {
         protocol: "https",
         hostname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "github.com",
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.credly.com",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Enable image optimization for better performance
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 dias
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 
   // Enable React strict mode for better development experience
@@ -129,11 +148,19 @@ const nextConfig = {
         ],
       },
       {
-        source: "/_next/static/:path*",
+        source: "/_next/:path*",
         headers: [
           {
             key: "Access-Control-Allow-Origin",
             value: "*",
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PUT, DELETE, OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "X-Requested-With, Content-Type, Authorization",
           },
         ],
       },
@@ -146,41 +173,13 @@ const nextConfig = {
           },
         ],
       },
-      {
-        source: "/admin/:path*",
-        headers: [
-          {
-            key: "Access-Control-Allow-Origin",
-            value: "*"
-          }
-        ],
-      },
-      {
-        source: "/admin/config.yml",
-        headers: [
-          {
-            key: "Content-Type",
-            value: "text/yaml"
-          }
-        ],
-      },
+
     ];
   },
 
   // Redirects configuration
   redirects: async () => {
-    return [
-      {
-        source: "/blog",
-        destination: "/blog/page/1",
-        permanent: true,
-      },
-      {
-        source: "/portfolio",
-        destination: "/portfolio/page/1",
-        permanent: true,
-      },
-    ];
+    return [];
   },
 
   // Rewrites configuration

@@ -65,14 +65,7 @@ export function DevToolbar({ className }: DevToolbarProps) {
             >
               Clear Storage
             </button>
-            <a
-              href="/admin"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-foreground"
-            >
-              CMS
-            </a>
+
           </div>
         </div>
 

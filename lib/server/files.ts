@@ -82,10 +82,10 @@ export function loadProjects() {
 
 export function loadSkills() {
   try {
-    const dataDir = path.join(process.cwd(), "content/data");
-    ensureDirectoryExists(dataDir);
+    const skillsDir = path.join(process.cwd(), "content/skills");
+    ensureDirectoryExists(skillsDir);
     
-    const skillsPath = path.join(dataDir, "skills.json");
+    const skillsPath = path.join(skillsDir, "skills.json");
     if (!fs.existsSync(skillsPath)) {
       const defaultSkills = {
         skills_list: [
