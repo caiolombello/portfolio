@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/language-context";
+import { useSiteConfig } from "@/hooks/use-site-config";
 
 export default function DynamicTitle() {
   const { language } = useLanguage();
+  const { config, loading: configLoading } = useSiteConfig();
   const [profile, setProfile] = useState({
-    name: "Caio Lombello Vendramini Barbieri",
-    title: language === "pt" ? "Engenheiro DevOps" : "DevOps Engineer",
+    name: config?.site?.author || "Caio Lombello Vendramini Barbieri",
+    title: config?.site.title?.split(' - ')[1] || "Engenheiro DevOps",
   });
 
   useEffect(() => {

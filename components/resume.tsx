@@ -97,10 +97,10 @@ export default function Resume() {
     phone: config.site.phone,
   };
 
-  const summary =
+  const summary = config?.site?.description || (
     language === "pt"
       ? "Engenheiro DevOps experiente com 3+ anos transformando operações através de automação e Cloud Native. Especialista em AWS, Kubernetes e Terraform com histórico comprovado: 70% redução no tempo de deploy, 40% menos incidentes através de observabilidade avançada, $200K+ economia anual para clientes via automação."
-      : "Experienced DevOps Engineer with 3+ years transforming operations through automation and Cloud Native practices. Expert in AWS, Kubernetes and Terraform with proven track record: 70% deployment time reduction, 40% fewer incidents through advanced observability, $200K+ annual savings for clients via automation.";
+      : "Experienced DevOps Engineer with 3+ years transforming operations through automation and Cloud Native practices. Expert in AWS, Kubernetes and Terraform with proven track record: 70% deployment time reduction, 40% fewer incidents through advanced observability, $200K+ annual savings for clients via automation.");
 
   return (
     <div className="container py-12">

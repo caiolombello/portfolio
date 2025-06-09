@@ -42,19 +42,19 @@ export default function Header() {
   const [profile, setProfile] = useState<ProfileData>({
     pt: {
       name: config?.site?.shortName || "Your Name",
-      title: "Engenheiro DevOps",
-      location: "São Paulo, Brasil",
+      title: config?.site?.title?.split(' - ')[1] || "Engenheiro DevOps",
+      location: config?.site?.location || "São Paulo, Brasil",
       about: "",
     },
     en: {
       name: config?.site?.shortName || "Your Name",
-      title: "DevOps Engineer",
-      location: "São Paulo, Brazil",
+      title: config?.site?.title?.split(' - ')[1] || "DevOps Engineer",
+      location: config?.site?.location || "São Paulo, Brazil",
       about: "",
     },
-    email: "",
-    phone: "",
-    socialLinks: {},
+    email: config?.site?.email || "",
+    phone: config?.site?.phone || "",
+    socialLinks: config?.social || {},
   });
 
   useEffect(() => {
