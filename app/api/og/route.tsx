@@ -90,12 +90,30 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     
-    // Determinar URL base
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}` 
-      : request.url.includes('localhost') || request.url.includes('192.168.15.2')
-        ? request.url.includes('192.168.15.2') ? 'http://192.168.15.2:3000' : 'http://localhost:3000'
-        : 'https://portfolio-template.vercel.app';
+    // Determinar URL base - ensure it works correctly in all environments
+    let baseUrl;
+    // For development environments
+    if (request.url.includes('localhost')) {
+      baseUrl = 'http://localhost:3000';
+    } else if (request.url.includes('192.168.15.2')) {
+      baseUrl = 'http://192.168.15.2:3000';
+    }
+    // For production
+    else {
+      // In production, use the actual host from the request
+      const host = request.headers.get('host') || '';
+      const protocol = host.includes('localhost') ? 'http' : 'https';
+      baseUrl = `${protocol}://${host}`;
+      
+      // Fallback to VERCEL_URL if available
+      if (!host && process.env.VERCEL_URL) {
+        baseUrl = `https://${process.env.VERCEL_URL}`;
+      }
+      // Final fallback to your actual domain
+      else if (!host) {
+        baseUrl = 'https://caio.lombello.com';
+      }
+    }
 
  
     const config = await getSiteConfigEdge(baseUrl);
