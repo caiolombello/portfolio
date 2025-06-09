@@ -145,7 +145,7 @@ export default function About() {
               </Link>
             </Button>
 
-            {config?.social.calendarUrl && (
+            {config?.social && 'calendarUrl' in config.social && typeof config.social.calendarUrl === 'string' && (
               <Button asChild>
                 <Link
                   href={config.social.calendarUrl}
