@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/language-context";
+import { useSiteConfig } from "@/hooks/use-site-config";
 import { AboutSkeleton } from "@/components/loading-skeleton";
 
 interface ProfileLanguage {
@@ -47,6 +48,7 @@ async function fetchSkills() {
 
 export default function About() {
   const { language, t } = useLanguage();
+  const { config } = useSiteConfig();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [loading, setLoading] = useState(true);
@@ -143,16 +145,18 @@ export default function About() {
               </Link>
             </Button>
 
-            <Button asChild>
-              <Link
-                href="https://fantastical.app/caiolvbarbieri"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ArrowTopRightOnSquareIcon className="h-4 w-4 mr-2" />
-                Agendar reunião
-              </Link>
-            </Button>
+            {config?.social.calendarUrl && (
+              <Button asChild>
+                <Link
+                  href={config.social.calendarUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 mr-2" />
+                  {language === 'pt' ? 'Agendar reunião' : 'Schedule meeting'}
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
 

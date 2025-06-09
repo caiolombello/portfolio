@@ -26,6 +26,7 @@ export interface SiteConfig {
     linkedin: string;
     twitter: string;
     website: string;
+    calendarUrl?: string;
   };
   integrations: {
     credlyUsername: string;
@@ -55,6 +56,7 @@ function getDefaultConfig(): SiteConfig {
       linkedin: "https://linkedin.com/in/yourprofile",
       twitter: "https://twitter.com/yourusername",
       website: "https://yoursite.com",
+      calendarUrl: undefined, // Will hide the schedule meeting button by default
     },
     integrations: {
       credlyUsername: "your-credly-username",
