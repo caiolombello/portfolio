@@ -88,9 +88,11 @@ export function ProjectImage({
       height={height}
       quality={90}
       placeholder={shouldUseBlur ? "blur" : "empty"}
-      sizes={size === "large" 
-        ? "(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 50vw"
-        : "(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+      sizes={fill
+        ? (size === "large" 
+          ? "(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 50vw"
+          : "(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw")
+        : undefined
       }
     />
   );

@@ -73,6 +73,11 @@ export function BlogImage({
     return null;
   }
 
+  // Define responsive sizes based on the size prop
+  const imageSizes = size === "large" 
+    ? "(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 50vw"
+    : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw";
+
   return (
     <Image 
       src={src || ""}
@@ -80,7 +85,10 @@ export function BlogImage({
       className={className}
       priority={priority}
       onError={handleImageError}
-      {...(fill ? { fill: true } : { width, height })}
+      {...(fill ? { 
+        fill: true,
+        sizes: imageSizes 
+      } : { width, height })}
     />
   );
 } 

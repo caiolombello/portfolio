@@ -100,8 +100,16 @@ const OptimizedImage = ({
     );
   }
 
+  // Make sure we're not using defaultSizes="100vw" unnecessarily when image isn't full viewport width
+  const calculatedSizes = fill && sizes ? sizes : defaultSizes;
+  
   return (
-    <div className={cn("relative overflow-hidden", !fill && "inline-block")}>
+    <div className={cn(
+      "relative overflow-hidden", 
+      !fill && "inline-block",
+      // Ensure the container has explicit height when using fill
+      fill && !className?.includes('h-') && !className?.includes('height') && "h-full"
+    )}>
       <Image
         src={src}
         alt={alt}
@@ -115,7 +123,7 @@ const OptimizedImage = ({
         fill={fill}
         width={!fill ? width : undefined}
         height={!fill ? height : undefined}
-        sizes={defaultSizes}
+        sizes={calculatedSizes}
         quality={quality}
         placeholder={placeholder}
         blurDataURL={
