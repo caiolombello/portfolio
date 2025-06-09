@@ -1,6 +1,8 @@
 # 🚀 Modern Portfolio Template
 
-A modern, responsive, and fully configurable portfolio template built with Next.js 14, TypeScript, and Tailwind CSS. Perfect for developers, designers, and professionals who want to showcase their work beautifully.
+A modern, responsive, and fully configurable portfolio template built with Next.js 15, TypeScript, and Tailwind CSS. Perfect for developers, designers, and professionals who want to showcase their work beautifully.
+
+![Portfolio Preview](public/images/Portfolio.png)
 
 ## ✨ Features
 

@@ -59,6 +59,21 @@
       "name": "OpenTelemetry",
       "category": "Observabilidade",
       "level": "Experiente"
+    },
+    {
+      "name": "Tempo",
+      "category": "Observabilidade",
+      "level": "Experiente"
+    },
+    {
+      "name": "Loki",
+      "category": "Observabilidade",
+      "level": "Experiente"
+    },
+    {
+      "name": "Thanos",
+      "category": "Observabilidade",
+      "level": "Experiente"
     }
   ]
 }
