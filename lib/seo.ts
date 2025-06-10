@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types";
+import { getSiteConfig } from "./config-server";
 
 export interface SeoConfig {
   title: string;
@@ -42,6 +42,7 @@ interface ProfileOpenGraph {
 
 export function generateSeoMetadata(config: Partial<SeoConfig>): Metadata {
   const fullConfig = { ...defaultConfig, ...config } as Required<SeoConfig>;
+  const siteConfig = getSiteConfig();
   const {
     title,
     description,
@@ -62,19 +63,20 @@ export function generateSeoMetadata(config: Partial<SeoConfig>): Metadata {
     openGraph: {
       title,
       description,
+      url: alternates?.canonical ?? siteConfig.site.url,
       images: ogImage ? [{ url: ogImage }] : undefined,
       type: ogType,
-      siteName: process.env.NEXT_PUBLIC_SITE_NAME,
+      siteName: siteConfig.site.shortName,
     },
     twitter: {
       card: twitterCard,
       title,
       description,
       images: ogImage ? [ogImage] : undefined,
-      creator: process.env.NEXT_PUBLIC_TWITTER_HANDLE,
+      creator: siteConfig.integrations.twitterHandle,
     },
     alternates: {
-      canonical: alternates?.canonical,
+      canonical: alternates?.canonical ?? siteConfig.site.url,
       languages: alternates?.languages,
     },
     robots: {
