@@ -40,6 +40,19 @@ interface ProfileOpenGraph {
   alternateLocale?: string[];
 }
 
+// Helper to build a dynamic OG image URL for any page type
+export function buildOgImageUrl(params: {
+  title: string;
+  subtitle?: string;
+  coverImage?: string;
+}): string {
+  const url = new URL('/api/og', process.env.NEXT_PUBLIC_SITE_URL || '');
+  url.searchParams.set('title', params.title);
+  if (params.subtitle) url.searchParams.set('subtitle', params.subtitle);
+  if (params.coverImage) url.searchParams.set('coverImage', params.coverImage);
+  return url.toString();
+}
+
 export function generateSeoMetadata(config: Partial<SeoConfig>): Metadata {
   const fullConfig = { ...defaultConfig, ...config } as Required<SeoConfig>;
   const siteConfig = getSiteConfig();
@@ -55,16 +68,19 @@ export function generateSeoMetadata(config: Partial<SeoConfig>): Metadata {
     authors,
   } = fullConfig;
 
+  // If no ogImage provided, fallback to dynamic route
+  const finalOgImage = ogImage || buildOgImageUrl({ title, subtitle: description });
+
   return {
     title,
     description,
-    keywords: keywords?.join(", "),
+    keywords: keywords?.join(', '),
     authors,
     openGraph: {
       title,
       description,
       url: alternates?.canonical ?? siteConfig.site.url,
-      images: ogImage ? [{ url: ogImage }] : undefined,
+      images: finalOgImage ? [{ url: finalOgImage }] : undefined,
       type: ogType,
       siteName: siteConfig.site.shortName,
     },
@@ -72,7 +88,7 @@ export function generateSeoMetadata(config: Partial<SeoConfig>): Metadata {
       card: twitterCard,
       title,
       description,
-      images: ogImage ? [ogImage] : undefined,
+      images: finalOgImage ? [finalOgImage] : undefined,
       creator: siteConfig.integrations.twitterHandle,
     },
     alternates: {
