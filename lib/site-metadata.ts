@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { SITE_CONFIG } from "./constants";
 import { getSiteConfig, type SiteConfig } from "./config-server";
+import { buildOgImageUrl } from "./seo";
 
 interface GenerateMetadataOptions {
   title?: string;
@@ -141,7 +142,7 @@ export function generateSiteMetadata(): Metadata {
       siteName: config.site.shortName,
       images: [
         {
-          url: `${config.site.url}/api/og`,
+          url: buildOgImageUrl({ title: config.site.shortName }),
           width: 1200,
           height: 630,
           alt: config.site.shortName,
@@ -154,7 +155,7 @@ export function generateSiteMetadata(): Metadata {
       description: config.site.description,
       site: config.integrations.twitterHandle,
       creator: config.integrations.twitterHandle,
-      images: [`${config.site.url}/api/og`],
+      images: [buildOgImageUrl({ title: config.site.shortName })],
     },
     manifest: `${config.site.url}/api/webmanifest`,
   };
@@ -169,7 +170,7 @@ export function generatePageMetadata(
 ): Metadata {
   const config = getSiteConfig();
   const pageDescription = description || config.site.description;
-  const pageImage = image || `${config.site.url}/api/og?title=${encodeURIComponent(title)}`;
+  const pageImage = image || buildOgImageUrl({ title });
   
   return {
     title,

@@ -46,7 +46,8 @@ export function buildOgImageUrl(params: {
   subtitle?: string;
   coverImage?: string;
 }): string {
-  const url = new URL('/api/og', process.env.NEXT_PUBLIC_SITE_URL || '');
+  const siteBase = process.env.NEXT_PUBLIC_SITE_URL || getSiteConfig().site.url;
+  const url = new URL('/api/og', siteBase);
   url.searchParams.set('title', params.title);
   if (params.subtitle) url.searchParams.set('subtitle', params.subtitle);
   if (params.coverImage) url.searchParams.set('coverImage', params.coverImage);
