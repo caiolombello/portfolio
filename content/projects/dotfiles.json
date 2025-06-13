@@ -1,0 +1,19 @@
+{
+  "id": "dotfiles",
+  "title_pt": "Dotfiles",
+  "title_en": "Dotfiles",
+  "shortDescription_pt": "Configurações do sistema operacional",
+  "shortDescription_en": "System configuration",
+  "description_pt": "Configurações do sistema operacional",
+  "description_en": "System configuration",
+  "imageUrl": "/images/Portfolio.webp",
+  "category": "Web Development",
+  "technologies": [
+    { "tech": "Linux" },
+    { "tech": "Shell" },
+  ],
+  "githubUrl": "https://github.com/caiolombello/dotfiles",
+  "featured": true,
+  "createdAt": "2025-06-13",
+  "updatedAt": "2025-06-13"
+}
