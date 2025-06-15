@@ -2,12 +2,12 @@
   "id": "dotfiles",
   "title_pt": "Dotfiles",
   "title_en": "Dotfiles",
-  "shortDescription_pt": "Configurações do sistema operacional",
-  "shortDescription_en": "System configuration",
-  "description_pt": "Configurações do sistema operacional",
-  "description_en": "System configuration",
+  "shortDescription_pt": "Arquivos de configuração personalizados para Linux",
+  "shortDescription_en": "Custom configuration files for Linux",
+  "description_pt": "Conjunto de arquivos de configuração (dotfiles) para personalização do ambiente Linux, incluindo configurações de shell, terminal e ferramentas do sistema",
+  "description_en": "Collection of configuration files (dotfiles) for Linux environment customization, including shell, terminal and system tools settings",
   "imageUrl": "/images/dotfiles.webp",
-  "category": "Web Development",
+  "category": "System Configuration",
   "technologies": [
     { "tech": "Linux" },
     { "tech": "Shell" }
