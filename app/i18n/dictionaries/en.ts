@@ -34,6 +34,14 @@ export const en = {
     githubRepo: "GitHub Repository",
     project: "project",
     noProjects: "No projects found.",
+    noProjectsWithFilters: "No projects found with the selected filters.",
+    tryDifferentFilters: "Try different filters or clear the current filters.",
+    viewMore: "View More Projects",
+    pagination: {
+      previous: "Previous",
+      next: "Next",
+      page: "Page",
+    },
   },
   blog: {
     title: "Blog",
@@ -43,6 +51,14 @@ export const en = {
     viewAll: "View All Posts",
     publishedOn: "Published on",
     noPosts: "No posts found.",
+    noPostsWithFilters: "No posts found with the selected filters.",
+    tryDifferentFilters: "Try different filters or clear the current filters.",
+    viewMore: "View More Posts",
+    pagination: {
+      previous: "Previous",
+      next: "Next",
+      page: "Page",
+    },
   },
   contact: {
     title: "Contact",

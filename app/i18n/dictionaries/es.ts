@@ -34,6 +34,14 @@ export const es = {
     githubRepo: "Repositorio GitHub",
     project: "proyecto",
     noProjects: "No hay proyectos encontrados.",
+    noProjectsWithFilters: "No hay proyectos encontrados con los filtros seleccionados.",
+    tryDifferentFilters: "Prueba con filtros diferentes o limpia los filtros actuales.",
+    viewMore: "Ver Más Proyectos",
+    pagination: {
+      previous: "Anterior",
+      next: "Siguiente",
+      page: "Página",
+    },
   },
   blog: {
     title: "Blog",
@@ -43,6 +51,14 @@ export const es = {
     viewAll: "Ver Todos los Posts",
     publishedOn: "Publicado el",
     noPosts: "No hay posts encontrados.",
+    noPostsWithFilters: "No hay posts encontrados con los filtros seleccionados.",
+    tryDifferentFilters: "Prueba con filtros diferentes o limpia los filtros actuales.",
+    viewMore: "Ver Más Posts",
+    pagination: {
+      previous: "Anterior",
+      next: "Siguiente",
+      page: "Página",
+    },
   },
   contact: {
     title: "Contacto",
