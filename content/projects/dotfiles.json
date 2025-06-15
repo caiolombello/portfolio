@@ -6,11 +6,11 @@
   "shortDescription_en": "System configuration",
   "description_pt": "Configurações do sistema operacional",
   "description_en": "System configuration",
-  "imageUrl": "/images/Portfolio.webp",
+  "imageUrl": "/images/dotfiles.webp",
   "category": "Web Development",
   "technologies": [
     { "tech": "Linux" },
-    { "tech": "Shell" },
+    { "tech": "Shell" }
   ],
   "githubUrl": "https://github.com/caiolombello/dotfiles",
   "featured": true,
