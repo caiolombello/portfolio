@@ -14,5 +14,29 @@
     "loading": "Carregando...",
     "error": "Ocorreu um erro",
     "notFound": "Página não encontrada"
+  },
+  "blog": {
+    "back": "Voltar para o Blog",
+    "readMore": "Leia Mais",
+    "publishedOn": "Publicado em",
+    "viewMore": "Ver Mais Posts",
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Próximo",
+      "page": "Página"
+    },
+    "readingTime": "min de leitura",
+    "share": "Compartilhar",
+    "tags": "Tags",
+    "notFound": {
+      "title": "Post Não Encontrado",
+      "page": "Página"
+    },
+    "tableOfContents": "Neste Artigo",
+    "previousPost": "Post Anterior",
+    "nextPost": "Próximo Post"
+  },
+  "contact": {
+    "title": "Contato"
   }
 }

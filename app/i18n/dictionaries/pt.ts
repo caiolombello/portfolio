@@ -59,6 +59,9 @@ export const pt = {
       next: "Próximo",
       page: "Página",
     },
+    readingTime: "min de leitura",
+    share: "Compartilhar",
+    tags: "Tags",
   },
   contact: {
     title: "Contato",

@@ -69,8 +69,22 @@ export function generateSeoMetadata(config: Partial<SeoConfig>): Metadata {
     authors,
   } = fullConfig;
 
-  // If no ogImage provided, fallback to dynamic route
-  const finalOgImage = ogImage || buildOgImageUrl({ title, subtitle: description });
+  // --- Nova lógica para determinar a imagem OG ---
+  let finalOgImage: string | undefined;
+
+  // 1. Usar imagem específica da página/post, se fornecida
+  if (ogImage) {
+    finalOgImage = ogImage.startsWith('http') ? ogImage : `${siteConfig.site.url}${ogImage}`;
+  }
+  // 2. Se não houver imagem específica, verificar a estratégia no config
+  else if (siteConfig.og?.strategy === 'static' && siteConfig.og.image) {
+    finalOgImage = `${siteConfig.site.url}${siteConfig.og.image}`;
+  }
+  // 3. Fallback para a geração dinâmica
+  else {
+    finalOgImage = buildOgImageUrl({ title, subtitle: description });
+  }
+  // --- Fim da nova lógica ---
 
   return {
     title,

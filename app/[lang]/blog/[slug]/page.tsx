@@ -5,10 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { marked } from "marked";
 import { getDictionary } from "@/app/i18n/dictionaries";
 import { generateSeoMetadata } from "@/lib/seo";
 import type { Lang } from "@/lib/i18n";
+import BlogPostHeader from "@/components/blog/blog-post-header";
+import PostNavigation from "@/components/blog/post-navigation";
+import { getSiteConfig } from "@/lib/config-server";
+import MarkdownRenderer from "@/components/blog/markdown-renderer";
+import ReadingProgressBar from "@/components/blog/reading-progress-bar";
 
 interface PageProps {
   params: Promise<{
@@ -51,102 +55,100 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
 
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString(
-      lang === "en" ? "en-US" : lang === "es" ? "es-ES" : "pt-BR",
-      {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      },
-    );
-  };
+  const postIndex = posts.findIndex(
+    (p) => p.slug_pt === slug || p.slug_en === slug,
+  );
+  const previousPost = postIndex > 0 ? posts[postIndex - 1] : undefined;
+  const nextPost =
+    postIndex < posts.length - 1 ? posts[postIndex + 1] : undefined;
+  const siteConfig = getSiteConfig();
 
   const content = lang === "en" ? post.body_en : post.body_pt;
   const title = lang === "en" ? post.title_en : post.title_pt;
   const summary = lang === "en" ? post.summary_en : post.summary_pt;
-  const dateFromSlug = slug.split("-").slice(0, 3).join("-");
-  const parsedContent = await marked.parse(content ?? "");
 
   return (
-    <div className="container py-12">
-      <Link
-        href={`/${lang}/blog`}
-        className="mb-8 inline-flex items-center text-muted-foreground hover:text-gold"
-      >
-        <ArrowLeft size={16} className="mr-2" />
-        {dictionary.blog.back}
-      </Link>
-
-      {/* Dados estruturados Schema.org para BlogPosting */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: title,
-            description: summary,
-            image: post.coverImage ?? "",
-            author: { "@type": "Person", name: post.author?.name ?? "" },
-            datePublished: dateFromSlug,
-            dateModified: dateFromSlug,
-            url: `https://caio.lombello.com/${lang}/blog/${dateFromSlug}`,
-          }),
-        }}
-      />
-
-      <article className="mx-auto max-w-3xl">
-        <div className="mb-6">
-          <div className="mb-4 flex items-center gap-3">
-            {post.tags &&
-              post.tags.length > 0 &&
-              post.tags.map((tag: string) => (
-                <span
-                  key={tag}
-                  className="rounded-full bg-secondary px-3 py-1 text-sm text-muted-foreground"
-                >
-                  {tag}
-                </span>
-              ))}
-            <time
-              className="text-sm text-muted-foreground"
-              dateTime={dateFromSlug}
-            >
-              {dictionary.blog.publishedOn} {formatDate(dateFromSlug)}
-            </time>
-          </div>
-
-          <h1 className="mb-6 text-3xl font-bold text-gold md:text-4xl">
-            {title}
-          </h1>
-
-          <p className="text-lg text-muted-foreground">{summary}</p>
-        </div>
-
-        {post.coverImage && (
-          <div className="relative mb-8 aspect-video w-full overflow-hidden rounded-lg">
-            <Image
-              src={post.coverImage}
-              alt={title}
-              fill
-              className="object-cover"
-              priority
+    <>
+      <ReadingProgressBar />
+      <div className="container py-12">
+        <Link
+          href={`/blog`}
+          className="mb-8 inline-flex items-center text-muted-foreground hover:text-gold"
+        >
+          <ArrowLeft size={16} className="mr-2" />
+          {dictionary.blog.back}
+        </Link>
+        <main>
+          <article>
+            <BlogPostHeader
+              post={post}
+              dictionary={dictionary}
+              lang={lang}
+              siteUrl={siteConfig.site.url}
             />
-          </div>
-        )}
 
-        <Card>
-          <CardContent className="pt-6">
-            <div
-              className="prose prose-invert max-w-none prose-headings:text-gold prose-a:text-gold prose-pre:bg-secondary"
+            {/* Dados estruturados Schema.org para BlogPosting */}
+            <script
+              type="application/ld+json"
               dangerouslySetInnerHTML={{
-                __html: parsedContent,
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "BlogPosting",
+                  headline: title,
+                  description: summary,
+                  image: post.coverImage ?? "",
+                  author: {
+                    "@type": "Person",
+                    name: post.author?.name ?? "Caio Barbieri",
+                    url: siteConfig.site.url,
+                  },
+                  publisher: {
+                    "@type": "Organization",
+                    name: post.author?.name ?? "Caio Barbieri",
+                    logo: {
+                      "@type": "ImageObject",
+                      url: `${siteConfig.site.url}/icon.png`,
+                    },
+                  },
+                  datePublished: post.publicationDate,
+                  dateModified: post.publicationDate,
+                  mainEntityOfPage: {
+                    "@type": "WebPage",
+                    "@id": `${siteConfig.site.url}/blog/${
+                      lang === "en" ? post.slug_en : post.slug_pt
+                    }`,
+                  },
+                }),
               }}
             />
-          </CardContent>
-        </Card>
-      </article>
-    </div>
+
+            {post.coverImage && (
+              <div className="relative mb-8 aspect-video w-full overflow-hidden rounded-lg">
+                <Image
+                  src={post.coverImage}
+                  alt={title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            )}
+
+            <Card>
+              <CardContent className="pt-6">
+                <MarkdownRenderer content={content ?? ""} />
+              </CardContent>
+            </Card>
+
+            <PostNavigation
+              previousPost={previousPost}
+              nextPost={nextPost}
+              dictionary={dictionary}
+              lang={lang}
+            />
+          </article>
+        </main>
+      </div>
+    </>
   );
 }

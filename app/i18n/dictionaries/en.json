@@ -56,7 +56,10 @@
       "previous": "Previous",
       "next": "Next",
       "page": "Page"
-    }
+    },
+    "readingTime": "min de leitura",
+    "share": "Compartilhar",
+    "tags": "Tags"
   },
   "contact": {
     "title": "Contact",

@@ -53,12 +53,15 @@ export const es = {
     noPosts: "No hay posts encontrados.",
     noPostsWithFilters: "No hay posts encontrados con los filtros seleccionados.",
     tryDifferentFilters: "Prueba con filtros diferentes o limpia los filtros actuales.",
-    viewMore: "Ver Más Posts",
+    viewMore: "Ver Más Publicaciones",
     pagination: {
       previous: "Anterior",
       next: "Siguiente",
       page: "Página",
     },
+    readingTime: "min de lectura",
+    share: "Compartir",
+    tags: "Etiquetas",
   },
   contact: {
     title: "Contacto",

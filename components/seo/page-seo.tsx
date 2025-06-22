@@ -36,7 +36,19 @@ export default function PageSEO({
 
   // Usar configuração dinâmica para valores padrão
   const pageDescription = description || config.site.description;
-  const pageImage = image || `${config.site.url}/api/og?title=${encodeURIComponent(title)}`;
+
+  let pageImage: string;
+  if (image) {
+    // Se a imagem for um caminho relativo, adicione a URL base.
+    pageImage = image.startsWith('http') ? image : `${config.site.url}${image}`;
+  } else if (config.og?.strategy === 'static') {
+    // Se a estratégia for estática, use a imagem padrão do site.
+    pageImage = `${config.site.url}${config.og.image}`;
+  } else {
+    // Caso contrário, use a geração de imagem dinâmica como fallback.
+    pageImage = `${config.site.url}/api/og?title=${encodeURIComponent(title)}`;
+  }
+
   const pageUrl = url || config.site.url;
   const pageAuthors = authors || [config.site.author];
   const pageKeywords = keywords.length > 0 ? keywords : config.seo.keywords;
@@ -48,7 +60,7 @@ export default function PageSEO({
       <meta name="description" content={pageDescription} />
       <meta name="keywords" content={pageKeywords.join(", ")} />
       <meta name="author" content={pageAuthors.join(", ")} />
-      
+
       {/* Open Graph */}
       <meta property="og:title" content={title} />
       <meta property="og:description" content={pageDescription} />
@@ -56,7 +68,7 @@ export default function PageSEO({
       <meta property="og:url" content={pageUrl} />
       <meta property="og:site_name" content={config.site.shortName} />
       <meta property="og:locale" content="pt_BR" />
-      
+
       {pageImage && (
         <>
           <meta property="og:image" content={pageImage} />
@@ -90,7 +102,7 @@ export default function PageSEO({
       <meta name="twitter:description" content={pageDescription} />
       <meta name="twitter:site" content={config.integrations.twitterHandle} />
       <meta name="twitter:creator" content={config.integrations.twitterHandle} />
-      
+
       {pageImage && (
         <meta name="twitter:image" content={pageImage} />
       )}

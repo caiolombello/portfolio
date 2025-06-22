@@ -59,6 +59,9 @@ export const en = {
       next: "Next",
       page: "Page",
     },
+    readingTime: "min read",
+    share: "Share",
+    tags: "Tags",
   },
   contact: {
     title: "Contact",

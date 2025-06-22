@@ -19,6 +19,7 @@ export interface BlogPost {
 export interface Author {
   name: string;
   avatar?: string;
+  url?: string;
 }
 
 export interface Post {

@@ -267,74 +267,58 @@ export async function loadPosts(): Promise<Post[]> {
   return getCachedData("posts", async () => {
     const dirPath = path.join(CONTENT_DIR, "posts");
     const files = await readDirectory(dirPath);
-    
-    // Filter out README and other non-post files
-    const postFiles = files.filter((file) => 
-      file.endsWith(".md") && 
-      !file.toLowerCase().includes("readme") &&
-      !file.toLowerCase().includes("docs")
-    );
-    
-    const posts = await Promise.all(
-      postFiles.map(async (file: string) => {
-        const filePath = path.join(dirPath, file);
-        const fileContent = await readMarkdownFile(filePath);
-        const { data: frontmatter, content } = matter(fileContent);
 
-        // Skip files without proper frontmatter (no title)
-        if (!frontmatter.title_pt && !frontmatter.title_en && !frontmatter.title) {
-          return null;
-        }
+    const postGroups: { [key: string]: string[] } = {};
+    for (const file of files) {
+      const baseName = file.replace(/\.(pt|en|es)\.md$/, "").replace(/\.json$/, "");
+      if (!postGroups[baseName]) {
+        postGroups[baseName] = [];
+      }
+      postGroups[baseName].push(file);
+    }
 
-        // Generate slugs from titles
-        const slug_pt = generateSlug(
-          frontmatter.title_pt || frontmatter.title || "",
-        );
-        const slug_en = generateSlug(
-          frontmatter.title_en || frontmatter.title || "",
-        );
+    const postsPromises = Object.values(postGroups).map(async (groupFiles) => {
+      const jsonFile = groupFiles.find((f) => f.endsWith(".json"));
+      if (!jsonFile) return null;
 
-        // Merge frontmatter with default values
-        const postData = {
-          ...frontmatter,
-          slug_pt,
-          slug_en,
-          content,
-          title_pt: frontmatter.title_pt || frontmatter.title || "",
-          title_en: frontmatter.title_en || frontmatter.title || "",
-          title_es: frontmatter.title_es || frontmatter.title || "",
-          summary_pt: frontmatter.summary_pt || frontmatter.summary || "",
-          summary_en: frontmatter.summary_en || frontmatter.summary || "",
-          summary_es: frontmatter.summary_es || frontmatter.summary || "",
-          body_pt: frontmatter.body_pt || content || "",
-          body_en: frontmatter.body_en || content || "",
-          body_es: frontmatter.body_es || content || "",
-          publicationDate:
-            frontmatter.publicationDate || new Date().toISOString(),
-          coverImage: frontmatter.coverImage || frontmatter.imageUrl || "",
-          author: frontmatter.author || { name: "", avatar: "" },
-          category: frontmatter.category || "",
-          tags: frontmatter.tags || [],
-          published: frontmatter.published ?? true,
-        };
+      const jsonPath = path.join(dirPath, jsonFile);
+      try {
+        const sharedData = await readJsonFile<any>(jsonPath);
+        const postData: Partial<Post> = { ...sharedData };
 
-        try {
-          return PostSchema.parse(postData);
-        } catch (error) {
-          // Type guard for ZodError
-          if (error && typeof error === "object" && "errors" in error) {
-            handleValidationError(error as z.ZodError, filePath);
-          } else {
-            console.error(`Error parsing post ${filePath}:`, error);
+        const mdFiles = groupFiles.filter((f) => f.endsWith(".md"));
+
+        for (const file of mdFiles) {
+          const langMatch = file.match(/\.(pt|en|es)\.md$/);
+          const lang = langMatch ? langMatch[1] : null;
+
+          if (lang) {
+            const contentPath = path.join(dirPath, file);
+            const contentFile = await readMarkdownFile(contentPath);
+            const { data: frontmatter, content } = matter(contentFile);
+
+            (postData as any)[`title_${lang}`] = frontmatter.title;
+            (postData as any)[`summary_${lang}`] = frontmatter.summary;
+            (postData as any)[`slug_${lang}`] = generateSlug(frontmatter.title || "");
+            (postData as any)[`body_${lang}`] = content.trim();
           }
-          return null;
         }
-      }),
-    );
 
-    // Filter out null values and sort by publication date
+        return PostSchema.parse(postData);
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          handleValidationError(error, jsonFile);
+        } else {
+          console.error(`Error processing post group for ${jsonFile}:`, error);
+        }
+        return null;
+      }
+    });
+
+    const posts = await Promise.all(postsPromises);
+
     return posts
-      .filter((post): post is Post => post !== null)
+      .filter((post): post is Post => post !== null && !!post.published)
       .sort((a, b) => {
         const dateA = new Date(a.publicationDate);
         const dateB = new Date(b.publicationDate);

@@ -43,5 +43,9 @@
       "Infraestrutura",
       "Campinas"
     ]
+  },
+  "og": {
+    "strategy": "static",
+    "image": "/images/og-default.png"
   }
 }

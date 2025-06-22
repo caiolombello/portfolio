@@ -110,6 +110,9 @@ importers:
       '@types/marked':
         specifier: ^6.0.0
         version: 6.0.0
+      '@types/prismjs':
+        specifier: ^1.26.5
+        version: 1.26.5
       '@types/sharp':
         specifier: ^0.32.0
         version: 0.32.0

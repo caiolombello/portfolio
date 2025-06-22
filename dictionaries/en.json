@@ -14,5 +14,30 @@
     "loading": "Loading...",
     "error": "An error occurred",
     "notFound": "Page not found"
+  },
+  "blog": {
+    "back": "Back to Blog",
+    "readMore": "Read More",
+    "publishedOn": "Published on",
+    "viewMore": "View More Posts",
+    "readingTime": "min read",
+    "share": "Share",
+    "tags": "Tags",
+    "notFound": {
+      "title": "Post Not Found",
+      "description": "The post you are looking for does not exist.",
+      "page": "Page"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page"
+    },
+    "tableOfContents": "In this Article",
+    "previousPost": "Previous Post",
+    "nextPost": "Next Post"
+  },
+  "contact": {
+    "title": "Contact"
   }
 }

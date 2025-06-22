@@ -26,6 +26,10 @@ export interface SiteConfig {
   seo: {
     keywords: string[];
   };
+  og: {
+    strategy: 'static' | 'dynamic';
+    image: string;
+  };
 }
 
 const defaultConfig: SiteConfig = {
@@ -59,6 +63,10 @@ const defaultConfig: SiteConfig = {
       "web development",
       "portfolio"
     ]
+  },
+  og: {
+    strategy: 'dynamic',
+    image: ''
   }
 };
 
@@ -85,4 +93,4 @@ export function useSiteConfig() {
   }, []);
 
   return { config, loading };
-} 
+}

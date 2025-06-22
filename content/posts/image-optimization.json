@@ -1,0 +1,12 @@
+{
+  "publicationDate": "2024-05-21T10:00:00.000Z",
+  "author": {
+    "name": "Caio Barbieri",
+    "avatar": "/images/Profile.jpg",
+    "url": "https://caio.lombello.com"
+  },
+  "category": "Desenvolvimento Web",
+  "tags": ["Otimização", "Performance", "Web", "SEO", "Imagens"],
+  "published": false,
+  "coverImage": "/images/hpa.webp"
+}

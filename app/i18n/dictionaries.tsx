@@ -24,6 +24,10 @@ export type Dictionary = NestedDictionary & {
       next: string;
       page: string;
     };
+    readingTime: string;
+    share: string;
+    previousPost: string;
+    nextPost: string;
   };
   posts: {
     edit: {
@@ -54,6 +58,10 @@ const pt: Dictionary = {
       next: "Próximo",
       page: "Página",
     },
+    readingTime: "min de leitura",
+    share: "Compartilhar",
+    previousPost: "Post Anterior",
+    nextPost: "Próximo Post",
   },
   contact: "Contato",
   resume: {
@@ -78,7 +86,7 @@ const pt: Dictionary = {
 
   // Seções
   about_me: "Sobre Mim",
-  my_projects: "Meus Projetos",
+  my_projects: "Meus Projotos",
   latest_posts: "Últimos Posts",
   get_in_touch: "Entre em Contato",
 
@@ -133,6 +141,10 @@ const en: Dictionary = {
       next: "Next",
       page: "Page",
     },
+    readingTime: "min read",
+    share: "Share",
+    previousPost: "Previous Post",
+    nextPost: "Next Post",
   },
   contact: "Contact",
   resume: {
@@ -212,6 +224,10 @@ const es: Dictionary = {
       next: "Siguiente",
       page: "Página",
     },
+    readingTime: "min de lectura",
+    share: "Compartir",
+    previousPost: "Publicación Anterior",
+    nextPost: "Siguiente Publicación",
   },
   contact: "Contacto",
   resume: {
@@ -249,18 +265,18 @@ const es: Dictionary = {
 
   // Messages
   success_message: "Mensaje enviado con éxito!",
-  error_message: "Ocurrió un error. Por favor, inténtelo de nuevo.",
+  error_message: "Ocurrió un error. Inténtalo de nuevo.",
 
   // Footer
   rights_reserved: "Todos los derechos reservados",
 
-  // Outros
+  // Others
   view_project: "Ver Proyecto",
   read_more: "Leer Más",
-  back_to_home: "Volver al Inicio",
+  back_to_home: "Volver a Inicio",
   loading: "Cargando...",
 
-  // Redes sociales
+  // Social media
   github: "GitHub",
   linkedin: "LinkedIn",
   twitter: "Twitter",
@@ -269,14 +285,14 @@ const es: Dictionary = {
   whatsapp: "WhatsApp",
 };
 
-// Dicionários disponíveis
+// Mapeamento de localidade para dicionário
 const dictionaries = {
   pt,
   en,
   es,
 };
 
-// Função para obter o dicionário com base no idioma
+// Função para obter o dicionário com base na localidade
 export const getDictionary = (locale: string): Dictionary => {
-  return dictionaries[locale as keyof typeof dictionaries] || dictionaries.pt;
+  return dictionaries[locale as keyof typeof dictionaries] || en;
 };

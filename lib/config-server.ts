@@ -35,6 +35,10 @@ export interface SiteConfig {
   seo: {
     keywords: string[];
   };
+  og?: {
+    strategy: 'static' | 'dynamic';
+    image: string;
+  };
 }
 
 function getDefaultConfig(): SiteConfig {
@@ -71,6 +75,10 @@ function getDefaultConfig(): SiteConfig {
         "portfolio"
       ],
     },
+    og: {
+      strategy: "dynamic",
+      image: "",
+    },
   };
 }
 
@@ -99,4 +107,4 @@ export function getSiteConfig(): SiteConfig {
     cachedConfig = loadSiteConfigFromFile();
   }
   return cachedConfig;
-} 
+}

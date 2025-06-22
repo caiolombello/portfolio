@@ -138,4 +138,5 @@ export const PostSchema = z.object({
   body_pt: z.string(),
   body_en: z.string(),
   body_es: z.string().optional(),
+  published: z.boolean().optional(),
 });
