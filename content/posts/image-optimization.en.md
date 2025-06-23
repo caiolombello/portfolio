@@ -1,6 +1,7 @@
 ---
 title: "The Importance of Image Optimization for the Web"
 summary: "Discover why optimizing images is crucial for your website's performance, SEO, and user experience. Learn essential techniques and tools."
+publicationDate: "2024-05-21T10:00:00.000Z"
 ---
 
 ## Why Optimize Images?

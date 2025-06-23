@@ -1,6 +1,7 @@
 ---
 title: "A Importância da Otimização de Imagens para a Web"
 summary: "Descubra por que otimizar imagens é crucial para o desempenho do seu site, SEO e experiência do usuário. Aprenda técnicas e ferramentas essenciais."
+publicationDate: "2024-05-21T10:00:00.000Z"
 ---
 
 ## Por Que Otimizar Imagens?

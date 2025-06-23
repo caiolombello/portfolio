@@ -46,11 +46,18 @@ export function buildOgImageUrl(params: {
   subtitle?: string;
   coverImage?: string;
 }): string {
-  const siteBase = process.env.NEXT_PUBLIC_SITE_URL || getSiteConfig().site.url;
-  const url = new URL('/api/og', siteBase);
-  url.searchParams.set('title', params.title);
-  if (params.subtitle) url.searchParams.set('subtitle', params.subtitle);
-  if (params.coverImage) url.searchParams.set('coverImage', params.coverImage);
+  const siteConfig = getSiteConfig();
+
+  if (siteConfig.og?.strategy === "static" && siteConfig.og.image) {
+    return `${siteConfig.site.url}${siteConfig.og.image}`;
+  }
+
+  const siteBase =
+    process.env.NEXT_PUBLIC_SITE_URL || getSiteConfig().site.url;
+  const url = new URL("/api/og", siteBase);
+  url.searchParams.set("title", params.title);
+  if (params.subtitle) url.searchParams.set("subtitle", params.subtitle);
+  if (params.coverImage) url.searchParams.set("coverImage", params.coverImage);
   return url.toString();
 }
 

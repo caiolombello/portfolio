@@ -34,6 +34,23 @@ interface CacheEntry<T> {
   timestamp: number;
 }
 
+// Define a type for the shared data from the JSON file
+type PostSharedData = Omit<
+  Post,
+  | "title_pt"
+  | "title_en"
+  | "title_es"
+  | "summary_pt"
+  | "summary_en"
+  | "summary_es"
+  | "body_pt"
+  | "body_en"
+  | "body_es"
+  | "slug_pt"
+  | "slug_en"
+  | "slug_es"
+>;
+
 // Cache for frequently accessed data
 const cache = new Map<string, CacheEntry<unknown>>();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes in milliseconds
@@ -283,24 +300,44 @@ export async function loadPosts(): Promise<Post[]> {
 
       const jsonPath = path.join(dirPath, jsonFile);
       try {
-        const sharedData = await readJsonFile<any>(jsonPath);
+        const sharedData = await readJsonFile<PostSharedData>(jsonPath);
         const postData: Partial<Post> = { ...sharedData };
 
         const mdFiles = groupFiles.filter((f) => f.endsWith(".md"));
 
         for (const file of mdFiles) {
           const langMatch = file.match(/\.(pt|en|es)\.md$/);
-          const lang = langMatch ? langMatch[1] : null;
+          const lang = langMatch ? (langMatch[1] as "pt" | "en" | "es") : null;
 
           if (lang) {
             const contentPath = path.join(dirPath, file);
             const contentFile = await readMarkdownFile(contentPath);
             const { data: frontmatter, content } = matter(contentFile);
+            const title = frontmatter.title || "";
+            const summary = frontmatter.summary || "";
+            const slug = generateSlug(title);
+            const body = content.trim();
 
-            (postData as any)[`title_${lang}`] = frontmatter.title;
-            (postData as any)[`summary_${lang}`] = frontmatter.summary;
-            (postData as any)[`slug_${lang}`] = generateSlug(frontmatter.title || "");
-            (postData as any)[`body_${lang}`] = content.trim();
+            switch (lang) {
+              case "pt":
+                postData.title_pt = title;
+                postData.summary_pt = summary;
+                postData.slug_pt = slug;
+                postData.body_pt = body;
+                break;
+              case "en":
+                postData.title_en = title;
+                postData.summary_en = summary;
+                postData.slug_en = slug;
+                postData.body_en = body;
+                break;
+              case "es":
+                postData.title_es = title;
+                postData.summary_es = summary;
+                postData.slug_es = slug;
+                postData.body_es = body;
+                break;
+            }
           }
         }
 

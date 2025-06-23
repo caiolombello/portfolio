@@ -25,6 +25,7 @@ export interface Author {
 export interface Post {
   slug_pt: string;
   slug_en: string;
+  slug_es?: string;
   title_pt: string;
   title_en: string;
   title_es?: string;

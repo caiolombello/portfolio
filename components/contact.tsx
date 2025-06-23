@@ -62,7 +62,7 @@ export default function Contact() {
 
             // Get the location directly from the profile data for the current language
             const profileLocation = data[language]?.location;
-            
+
             setProfile({
               name: fullName,
               title: mainTitle,
@@ -81,7 +81,7 @@ export default function Contact() {
               },
               email: data.email || config?.site.email || "caio@lombello.com",
               phone: data.phone || config?.site.phone || "+55 (19) 99753-6692",
-              location: profileLocation || 
+              location: profileLocation ||
                 (language === "pt"
                   ? "Campinas, São Paulo, Brasil"
                   : "Campinas, São Paulo, Brazil"),
@@ -94,7 +94,7 @@ export default function Contact() {
     }
 
     fetchProfile();
-  }, [language]);
+  }, [language, config]);
 
   return (
     <div className="container py-12">
