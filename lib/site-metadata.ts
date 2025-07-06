@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { SITE_CONFIG } from "./constants";
 import { getSiteConfig, type SiteConfig } from "./config-server";
 import { buildOgImageUrl } from "./seo";
+import { loadProfile } from "./data";
 
 interface GenerateMetadataOptions {
   title?: string;
@@ -98,15 +99,19 @@ export function generateBlogPostJsonLd({
 }
 
 // Função para gerar metadata base dinâmico
-export function generateSiteMetadata(): Metadata {
+export async function generateSiteMetadata(): Promise<Metadata> {
   const config = getSiteConfig();
-  
+  const profile = await loadProfile();
+
+  const siteTitle = profile?.pt?.title ? `${profile.pt.name} - ${profile.pt.title}` : config.site.title;
+  const siteDescription = profile?.pt?.about || config.site.description;
+
   return {
     title: {
-      default: config.site.shortName,
+      default: siteTitle,
       template: `%s | ${config.site.shortName}`,
     },
-    description: config.site.description,
+    description: siteDescription,
     keywords: config.seo.keywords,
     authors: [{ name: config.site.author, url: config.site.url }],
     creator: config.site.author,
@@ -137,8 +142,8 @@ export function generateSiteMetadata(): Metadata {
       type: "website",
       locale: "pt_BR",
       url: config.site.url,
-      title: config.site.title,
-      description: config.site.description,
+      title: siteTitle,
+      description: siteDescription,
       siteName: config.site.shortName,
       images: [
         {
@@ -151,8 +156,8 @@ export function generateSiteMetadata(): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: config.site.title,
-      description: config.site.description,
+      title: siteTitle,
+      description: siteDescription,
       site: config.integrations.twitterHandle,
       creator: config.integrations.twitterHandle,
       images: [buildOgImageUrl({ title: config.site.shortName })],
@@ -162,16 +167,17 @@ export function generateSiteMetadata(): Metadata {
 }
 
 // Função para gerar metadata de página específica
-export function generatePageMetadata(
+export async function generatePageMetadata(
   title: string,
   description?: string,
   image?: string,
   noIndex?: boolean
-): Metadata {
+): Promise<Metadata> {
   const config = getSiteConfig();
-  const pageDescription = description || config.site.description;
+  const profile = await loadProfile();
+  const pageDescription = description || profile?.pt?.about || config.site.description;
   const pageImage = image || buildOgImageUrl({ title });
-  
+
   return {
     title,
     description: pageDescription,
@@ -206,15 +212,16 @@ export function generatePageMetadata(
 }
 
 // Função para gerar structured data
-export function generateStructuredData() {
+export async function generateStructuredData() {
   const config = getSiteConfig();
-  
+  const profile = await loadProfile();
+
   return {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: config.site.author,
+    name: profile?.pt?.name || config.site.author,
     url: config.site.url,
-    jobTitle: config.site.title.split(" - ")[1] || "Professional",
+    jobTitle: profile?.pt?.title || config.site.title.split(" - ")[1] || "Professional",
     worksFor: {
       "@type": "Organization",
       name: config.site.shortName,
@@ -227,7 +234,7 @@ export function generateStructuredData() {
     ],
     address: {
       "@type": "PostalAddress",
-      addressLocality: config.site.location,
+      addressLocality: profile?.pt?.location || config.site.location,
     },
     email: config.site.email,
   };

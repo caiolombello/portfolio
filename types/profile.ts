@@ -15,6 +15,7 @@ export interface SocialLinks {
 export interface Profile {
   pt: ProfileLocale;
   en: ProfileLocale;
+  es?: ProfileLocale;
   email: string;
   phone?: string;
   avatar?: string;

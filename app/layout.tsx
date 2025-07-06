@@ -27,15 +27,17 @@ export const viewport = {
 export const metadataBase = new URL(getSiteConfig().site.url);
 
 // Gerar metadata dinamicamente
-export const metadata: Metadata = generateSiteMetadata();
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSiteMetadata();
+}
 
 interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
   const config = getSiteConfig();
-  const structuredData = generateStructuredData();
+  const structuredData = await generateStructuredData();
 
   return (
     <html lang="pt-BR" suppressHydrationWarning>
@@ -98,5 +100,3 @@ export default function RootLayout({ children }: RootLayoutProps) {
     </html>
   );
 }
-
-import "./globals.css";
