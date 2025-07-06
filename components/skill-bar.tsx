@@ -84,7 +84,24 @@ const ICON_MAPPING: Record<string, string> = {
   "Docker Compose": "Docker",
   "Docker Swarm": "Docker",
   "Helm Charts": "Helm",
-};
+  "OpenTelemetry": "Opentelemetry",
+  "OpenTelemetry Collector": "Opentelemetry",
+  "OpenTelemetry SDK": "Opentelemetry",
+  "OpenTelemetry API": "Opentelemetry",
+  "OpenTelemetry Instrumentation": "Opentelemetry",
+  "OpenTelemetry Tracing": "Opentelemetry",
+  "OpenTelemetry Metrics": "Opentelemetry",
+  "Oracle Cloud": "Oracle",
+  "ArgoCD": "Argo",
+  "HashiCorp Consul": "Consul",
+  "HashiCorp Vault": "Vault",
+  "HashiCorp Terraform": "Terraform",
+  "HashiCorp Nomad": "Nomad",
+  "HashiCorp Packer": "Packer",
+  "Keycloak": "Keycloak",
+  LLMs: "Openai",
+}
+
 
 const LEVEL_STYLES: Record<
   SkillLevel,
