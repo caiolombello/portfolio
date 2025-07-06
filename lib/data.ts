@@ -143,7 +143,7 @@ async function getCachedData<T>(
  */
 export async function loadProfile(): Promise<Profile> {
   return getCachedData("profile", async () => {
-    const filePath = path.join(CONTENT_DIR, "settings", "profile.json");
+    const filePath = path.join(CONTENT_DIR, "profile", "profile.json");
     const data = await readJsonFile<Profile>(filePath);
     return ProfileSchema.parse(data);
   });
@@ -156,7 +156,7 @@ export async function loadProfile(): Promise<Profile> {
  */
 export async function loadSkills(): Promise<SkillsData> {
   return getCachedData("skills", async () => {
-    const filePath = path.join(CONTENT_DIR, "data", "skills.json");
+    const filePath = path.join(CONTENT_DIR, "skills", "skills.json");
     const data = await readJsonFile<SkillsData>(filePath);
     return SkillsDataSchema.parse(data);
   });

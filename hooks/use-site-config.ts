@@ -18,6 +18,7 @@ export interface SiteConfig {
     linkedin: string;
     twitter: string;
     website: string;
+    calendarUrl?: string;
   };
   integrations: {
     credlyUsername: string;
@@ -49,7 +50,8 @@ const defaultConfig: SiteConfig = {
     github: "https://github.com/yourusername",
     linkedin: "https://linkedin.com/in/yourprofile",
     twitter: "https://twitter.com/yourusername",
-    website: "https://yoursite.com"
+    website: "https://yoursite.com",
+    calendarUrl: undefined,
   },
   integrations: {
     credlyUsername: "your-credly-username",

@@ -3,11 +3,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  EnvelopeIcon,
-  PhoneIcon,
-  ChatBubbleLeftRightIcon,
-  ArrowTopRightOnSquareIcon,
-} from "@heroicons/react/24/outline";
+  Mail,
+  Phone,
+  Github,
+  Linkedin,
+  MessageCircle,
+  CalendarPlus,
+} from "lucide-react";
 import SkillsList from "./skill-bar";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -78,6 +80,8 @@ export default function About() {
 
   const currentProfile = (profile[language] || profile["pt"]) as ProfileLanguage;
   const profileImageUrl = "/api/profile-image";
+  const githubUsername = config.social.github?.split("/").pop() || "";
+  const linkedinUsername = config.social.linkedin?.split("/").pop() || "";
   const currentSkills =
     Array.isArray(skills) && skills.length > 0
       ? skills
@@ -111,52 +115,49 @@ export default function About() {
             {currentProfile.title}
           </h2>
 
-          <div className="mb-8 flex flex-col gap-3">
-            <div className="flex items-center gap-2">
-              <EnvelopeIcon className="h-4 w-4 text-gold" />
-              <Link
-                href={`mailto:${profile.email}`}
-                className="text-foreground hover:text-gold transition-colors"
-              >
-                {profile.email}
+          <div className="w-full flex flex-col items-center md:items-start gap-3">
+            <Button variant="outline" asChild className="w-full max-w-xs justify-start gap-3">
+              <Link href={`mailto:${profile.email}`}>
+                <Mail className="h-4 w-4" />
+                <span>{profile.email}</span>
               </Link>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <PhoneIcon className="h-4 w-4 text-gold" />
-              <Link
-                href={`tel:${profile.phone}`}
-                className="text-foreground hover:text-gold transition-colors"
-              >
-                {profile.phone}
+            </Button>
+            <Button variant="outline" asChild className="w-full max-w-xs justify-start gap-3">
+              <Link href={`tel:${profile.phone}`}>
+                <Phone className="h-4 w-4" />
+                <span>{profile.phone}</span>
               </Link>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-            <Button asChild className="gap-2">
-              <Link
-                href="https://wa.me/5519997536692"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ChatBubbleLeftRightIcon className="h-4 w-4" />
-                WhatsApp
+            </Button>
+            <Button variant="outline" asChild className="w-full max-w-xs justify-start gap-3">
+              <Link href={config.social.github} target="_blank" rel="noopener noreferrer">
+                <Github className="h-4 w-4" />
+                <span>{githubUsername}</span>
+              </Link>
+            </Button>
+            <Button variant="outline" asChild className="w-full max-w-xs justify-start gap-3">
+              <Link href={config.social.linkedin} target="_blank" rel="noopener noreferrer">
+                <Linkedin className="h-4 w-4" />
+                <span>{linkedinUsername}</span>
               </Link>
             </Button>
 
-            {config?.social && 'calendarUrl' in config.social && typeof config.social.calendarUrl === 'string' && (
-              <Button asChild>
-                <Link
-                  href={config.social.calendarUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ArrowTopRightOnSquareIcon className="h-4 w-4 mr-2" />
-                  {language === 'pt' ? 'Agendar reunião' : 'Schedule meeting'}
-                </Link>
-              </Button>
-            )}
+            <div className="w-full max-w-xs pt-2 flex flex-col gap-3">
+                <Button asChild className="w-full justify-center gap-2 bg-green-600 hover:bg-green-700">
+                    <Link href="https://wa.me/5519997536692" target="_blank" rel="noopener noreferrer">
+                        <MessageCircle className="h-4 w-4" />
+                        WhatsApp
+                    </Link>
+                </Button>
+
+                {config?.social?.calendarUrl && (
+                    <Button asChild className="w-full justify-center gap-2 bg-green-600 hover:bg-green-700">
+                        <Link href={config.social.calendarUrl} target="_blank" rel="noopener noreferrer">
+                            <CalendarPlus className="h-4 w-4" />
+                            {language === 'pt' ? 'Agendar reunião' : 'Schedule meeting'}
+                        </Link>
+                    </Button>
+                )}
+            </div>
           </div>
         </div>
 
