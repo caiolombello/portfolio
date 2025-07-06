@@ -1,15 +1,15 @@
 {
   "pt": {
     "name": "Caio Barbieri",
-    "title": "Engenheiro DevOps Pleno",
+    "title": "Engenheiro DevOps Sênior",
     "location": "Campinas, São Paulo, Brasil",
-    "about": "Engenheiro DevOps com 3+ anos de atuação em automação de infraestrutura, CI/CD e observabilidade. Especialista em AWS, Kubernetes e Terraform; criei pipelines GitOps que reduziram tempo de deploy em 70% e implementei stacks de monitoramento que anteciparam falhas críticas. Apaixonado por IA aplicada a operações, lidero iniciativas que aumentam eficiência e escalam ambientes de produção com segurança."
+    "about": "Engenheiro DevOps especializado em Cloud Native, Observabilidade e Automação de Infraestrutura. Experiência sólida em criar pipelines GitOps e DevSecOps de ponta a ponta, com foco em segurança, escalabilidade e eficiência operacional. Integro Inteligência Artificial a operações para antecipar falhas, otimizar recursos e acelerar decisões. Domínio avançado de Python, Golang e Kubernetes para entregar soluções robustas, performáticas e resilientes. Atuação voltada à inovação contínua e redução de desperdícios operacionais, com mindset orientado a resultados."
   },
   "en": {
     "name": "Caio Barbieri",
-    "title": "Mid-level DevOps Engineer",
+    "title": "Senior DevOps Engineer",
     "location": "Campinas, São Paulo, Brazil",
-    "about": "DevOps Engineer with 3+ years of hands‑on experience in infrastructure automation, CI/CD and observability. Expert in AWS, Kubernetes and Terraform; architected GitOps pipelines that cut deployment time by 70% and deployed monitoring stacks that preempted critical incidents. Passionate about AI‑driven operations, I lead initiatives that boost efficiency and scale production environments securely."
+    "about": "DevOps Engineer specializing in Cloud Native, Observability, and Infrastructure Automation. Solid experience creating end-to-end GitOps and DevSecOps pipelines, focusing on security, scalability, and operational efficiency. I integrate Artificial Intelligence into operations to anticipate failures, optimize resources, and accelerate decisions. Advanced proficiency in Python, Golang, and Kubernetes to deliver robust, high-performance, and resilient solutions. My work is geared towards continuous innovation and reducing operational waste, with a results-oriented mindset."
   },
   "email": "caio@lombello.com",
   "phone": "+55 (19) 99753-6692",

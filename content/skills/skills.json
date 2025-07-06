@@ -6,6 +6,11 @@
       "level": "Avançado"
     },
     {
+      "name": "Oracle Cloud",
+      "category": "Cloud/Infra",
+      "level": "Experiente"
+    },
+    {
       "name": "Kubernetes",
       "category": "Cloud/Infra",
       "level": "Avançado"
@@ -16,13 +21,13 @@
       "level": "Avançado"
     },
     {
-      "name": "Docker",
-      "category": "Containerização",
-      "level": "Avançado"
+      "name": "HashiCorp Consul",
+      "category": "Cloud/Infra",
+      "level": "Experiente"
     },
     {
-      "name": "Helm",
-      "category": "CI/CD",
+      "name": "Docker",
+      "category": "Containerização",
       "level": "Avançado"
     },
     {
@@ -36,44 +41,79 @@
       "level": "Avançado"
     },
     {
-      "name": "Python",
-      "category": "Linguagens",
+      "name": "Helm",
+      "category": "CI/CD",
+      "level": "Avançado"
+    },
+    {
+      "name": "ArgoCD",
+      "category": "CI/CD",
       "level": "Experiente"
     },
     {
-      "name": "Shell Script",
+      "name": "Python",
       "category": "Linguagens",
       "level": "Avançado"
     },
     {
+      "name": "Golang",
+      "category": "Linguagens",
+      "level": "Proficiente"
+    },
+    {
       "name": "Prometheus",
       "category": "Observabilidade",
-      "level": "Experiente"
+      "level": "Avançado"
     },
     {
       "name": "Grafana",
       "category": "Observabilidade",
-      "level": "Experiente"
+      "level": "Avançado"
     },
     {
       "name": "OpenTelemetry",
       "category": "Observabilidade",
-      "level": "Experiente"
+      "level": "Avançado"
     },
     {
       "name": "Tempo",
       "category": "Observabilidade",
-      "level": "Experiente"
+      "level": "Avançado"
     },
     {
       "name": "Loki",
       "category": "Observabilidade",
-      "level": "Experiente"
+      "level": "Avançado"
     },
     {
       "name": "Thanos",
       "category": "Observabilidade",
+      "level": "Avançado"
+    },
+    {
+      "name": "Alertmanager",
+      "category": "Observabilidade",
+      "level": "Avançado"
+    },
+    {
+      "name": "HashiCorp Vault",
+      "category": "Segurança",
       "level": "Experiente"
+    },
+    {
+      "name": "Keycloak",
+      "category": "Segurança",
+      "level": "Experiente"
+    },
+    {
+      "name": "Backstage",
+      "category": "Ferramentas",
+      "level": "Experiente"
+    },
+    {
+      "name": "LLMs",
+      "category": "Automação",
+      "level": "Avançado"
     }
   ]
 }

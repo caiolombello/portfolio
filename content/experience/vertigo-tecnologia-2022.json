@@ -4,26 +4,16 @@
   "title_en": "Junior DevOps Analyst",
   "period": "Oct 2022 - Sep 2024",
   "responsibilities_pt": [
-    { "item": "Liderança de iniciativas de transformação cultural Cloud Native para adoção de práticas DevOps" },
-    { "item": "Desenvolvimento de pipelines GitOps e DevSecOps para aplicações Node.js usando Bamboo (YAML) e Shell script" },
-    { "item": "Implementação de monitoramento com Grafana, Prometheus, Loki e Alertmanager, integrando alertas ao Microsoft Teams" },
-    { "item": "Gestão de serviços Redis e RabbitMQ para alta disponibilidade e performance" },
-    { "item": "Automação de deploy com Helm Charts e Dockerfiles customizados para eficiência e reprodutibilidade" },
-    { "item": "Criação de clusters locais com K3d para testes e integração contínua em ambientes controlados" },
-    { "item": "Automações com Terraform (AWS, Helm, Kubernetes) para infraestrutura como código" },
-    { "item": "Aplicação do princípio de menor privilégio em configurações AWS para segurança e compliance" },
-    { "item": "Gerenciamento de HashiCorp Vault e Consul para segurança de segredos e configurações de rede" }
+    { "item": "Liderei iniciativas de transformação cultural Cloud Native, desenvolvi pipelines GitOps/DevSecOps com Bamboo e Shell Script e implementei stacks de monitoramento com Grafana, Prometheus, Loki e Alertmanager." },
+    { "item": "Gerenciei Redis, RabbitMQ, Helm Charts customizados, Dockerfiles e clusters locais com K3d." },
+    { "item": "Criei automações com Terraform e reforcei a segurança na AWS aplicando o princípio do menor privilégio." },
+    { "item": "Também gerenciei Vault e Consul da HashiCorp, garantindo segurança e resiliência na gestão de segredos e rede." }
   ],
   "responsibilities_en": [
-    { "item": "Led Cloud Native cultural transformation initiatives to adopt DevOps best practices" },
-    { "item": "Developed GitOps and DevSecOps pipelines for Node.js applications using Bamboo (YAML) and Shell scripts" },
-    { "item": "Implemented monitoring with Grafana, Prometheus, Loki, and Alertmanager, integrating alerts into Microsoft Teams" },
-    { "item": "Managed Redis and RabbitMQ services for high availability and performance" },
-    { "item": "Automated deployments with custom Helm Charts and Dockerfiles for efficiency and reproducibility" },
-    { "item": "Created local development clusters with K3d for testing and continuous integration" },
-    { "item": "Built Terraform automations (AWS, Helm, Kubernetes) for infrastructure as code" },
-    { "item": "Applied principle of least privilege in AWS configurations for security and compliance" },
-    { "item": "Managed HashiCorp Vault and Consul for secure secret and network configuration" }
+    { "item": "Led Cloud Native cultural transformation initiatives, developed GitOps/DevSecOps pipelines with Bamboo and Shell Script, and implemented monitoring stacks with Grafana, Prometheus, Loki, and Alertmanager." },
+    { "item": "Managed Redis, RabbitMQ, custom Helm Charts, Dockerfiles, and local clusters with K3d." },
+    { "item": "Created Terraform automations and reinforced AWS security by applying the principle of least privilege." },
+    { "item": "Also managed HashiCorp's Vault and Consul, ensuring security and resilience in secret and network management." }
   ],
   "startDate": "2022-10-01",
   "endDate": "2024-09-30"
