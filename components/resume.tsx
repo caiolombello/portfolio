@@ -12,6 +12,7 @@ import { useLanguage } from "@/contexts/language-context";
 import { fetchCredlyBadges } from "@/lib/credly";
 import { useSiteConfig } from "@/hooks/use-site-config";
 import type { Skill } from "@/types/skill";
+import type { Profile } from "@/types/profile";
 
 interface Experience {
   title: string;
@@ -36,6 +37,7 @@ interface CredlyBadge {
 export default function Resume() {
   const { language } = useLanguage();
   const { config, loading: configLoading } = useSiteConfig();
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const [educations, setEducations] = useState<Education[]>([]);
   const [certifications, setCertifications] = useState<
@@ -48,17 +50,24 @@ export default function Resume() {
 
   useEffect(() => {
     async function fetchData() {
-      const expRes = await fetch("/api/public/experience");
-      const eduRes = await fetch("/api/public/education");
-      const skillsRes = await fetch("/api/skills");
+      const [expRes, eduRes, skillsRes, profileRes] = await Promise.all([
+        fetch("/api/public/experience"),
+        fetch("/api/public/education"),
+        fetch("/api/skills"),
+        fetch("/api/public/profile"),
+      ]);
+
       const expData = expRes.ok ? await expRes.json() : {};
       const eduData = eduRes.ok ? await eduRes.json() : {};
       const skillsData = skillsRes.ok
         ? await skillsRes.json()
         : { skills_list: [] };
+      const profileData = profileRes.ok ? await profileRes.json() : null;
+
       setExperiences(expData[language] || []);
       setEducations(eduData[language] || []);
       setSkills(skillsData.skills_list || []);
+      setProfile(profileData);
     }
     fetchData();
   }, [language]);
@@ -68,7 +77,7 @@ export default function Resume() {
       if (!config.integrations.credlyUsername || config.integrations.credlyUsername === "your-credly-username") {
         return; // Skip if no Credly username configured
       }
-      
+
       try {
         const badges = await fetchCredlyBadges(config.integrations.credlyUsername);
         const certificationNames = badges.map(
@@ -79,7 +88,7 @@ export default function Resume() {
         console.error("Error fetching Credly badges:", error);
       }
     }
-    
+
     if (!configLoading) {
       loadCredlyCertifications();
     }
@@ -89,18 +98,22 @@ export default function Resume() {
     typeof cert === "string" ? cert : cert.name,
   );
 
+  const currentProfile = profile?.[language] || {
+    name: "",
+    title: "",
+    location: "",
+    about: "",
+  };
+
   const personalInfo = {
-    name: config.site.shortName,
-    title: config.site.author,
-    location: config.site.location,
+    name: currentProfile.name || config.site.shortName,
+    title: currentProfile.title || config.site.author,
+    location: currentProfile.location || config.site.location,
     email: config.site.email,
     phone: config.site.phone,
   };
 
-  const summary = config?.site?.description || (
-    language === "pt"
-      ? "Engenheiro DevOps experiente com 3+ anos transformando operações através de automação e Cloud Native. Especialista em AWS, Kubernetes e Terraform com histórico comprovado: 70% redução no tempo de deploy, 40% menos incidentes através de observabilidade avançada, $200K+ economia anual para clientes via automação."
-      : "Experienced DevOps Engineer with 3+ years transforming operations through automation and Cloud Native practices. Expert in AWS, Kubernetes and Terraform with proven track record: 70% deployment time reduction, 40% fewer incidents through advanced observability, $200K+ annual savings for clients via automation.");
+  const summary = currentProfile.about || config?.site?.description;
 
   return (
     <div className="container py-12">
