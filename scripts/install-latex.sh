@@ -20,14 +20,18 @@ TINYTEX_URL="https://github.com/rstudio/tinytex-releases/releases/download/daily
 echo "Downloading TinyTeX from $TINYTEX_URL..."
 curl -L "$TINYTEX_URL" | tar xz -C "$LATEX_DIR" --strip-components=1
 
-# Find tlmgr executable
-TLMGR_PATH=$(find "$LATEX_DIR" -name tlmgr -type f -executable | head -n 1)
+# Find tlmgr executable (usually in bin/x86_64-linux/tlmgr or bin/*/tlmgr)
+# Note: tlmgr might be a symlink, so we don't use -type f
+TLMGR_PATH=$(find "$LATEX_DIR" -name tlmgr | head -n 1)
 
 if [ -z "$TLMGR_PATH" ]; then
     echo "Error: tlmgr not found in $LATEX_DIR"
     ls -R "$LATEX_DIR"
     exit 1
 fi
+
+# Ensure tlmgr is executable
+chmod +x "$TLMGR_PATH"
 
 BIN_DIR=$(dirname "$TLMGR_PATH")
 echo "Found tlmgr at $TLMGR_PATH"
