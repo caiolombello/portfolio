@@ -13,9 +13,12 @@ fi
 
 echo "Installing TinyTeX to $LATEX_DIR..."
 
-# Download and install TinyTeX
+# Download and install TinyTeX directly (avoiding installer script that needs wget)
 mkdir -p "$LATEX_DIR"
-curl -L https://yihui.org/tinytex/install-bin-unix.sh | sh -s "$LATEX_DIR"
+TINYTEX_URL="https://github.com/rstudio/tinytex-releases/releases/download/daily/TinyTeX-1.tgz"
+
+echo "Downloading TinyTeX from $TINYTEX_URL..."
+curl -L "$TINYTEX_URL" | tar xz -C "$LATEX_DIR" --strip-components=1
 
 # Add to PATH temporarily for tlmgr
 export PATH="$BIN_DIR:$PATH"
