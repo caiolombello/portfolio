@@ -1,0 +1,161 @@
+% GitHub Repo and Documentation: https://github.com/celiobjunior/resume-template
+% Copyright © 2025 Celio B Junior. All rights reserved.
+%
+% Licensed under the Apache License, Version 2.0 (the "License");
+% you may not use this file except in compliance with the License.
+% You may obtain a copy of the License at
+%
+% http://www.apache.org/licenses/LICENSE-2.0
+%
+% This template follows best practices from README.md
+
+% Start of LaTeX document: defines document type and format
+% a4paper = A4 page size, 10pt = base font size
+\documentclass[a4paper,10pt]{article}
+
+% --- PACKAGES ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{titlesec}
+% For better line breaks in long URLs (don't use \href{}, use \url{} for long URLs)
+% \usepackage{xurl}
+
+% --- DOCUMENT SETUP ---
+% Set page margins to maximize content space
+\geometry{top=1.0cm, bottom=1.0cm, left=1.0cm, right=1.0cm}
+
+% Remove page numbers and headers for clean resume look
+\pagestyle{empty}
+
+% PDF metadata - customize with your information
+\hypersetup{
+pdftitle={CV Caio Barbieri },
+pdfauthor={ Caio Barbieri },
+colorlinks=true,
+linkcolor=black,
+urlcolor=black,
+citecolor=black,
+bookmarksdepth=1
+}
+
+% Disable section numbering for cleaner appearance
+\setcounter{secnumdepth}{0}
+
+% Format section headers with bold text and underline
+\titleformat{\section}
+{\Large\bfseries}
+{}
+{0em}
+{}
+[\titlerule\vspace{0.5ex}]
+
+% --- BEGIN DOCUMENT ---
+\begin{document}
+
+% --- HEADER ---
+% Replace with your personal information
+\begin{center}
+{\LARGE \textbf{ Caio Barbieri }}
+\\ [0.1cm]
+Campinas, São Paulo, Brasil
+{\textbullet}
+Email: \href{mailto:caio@lombello.com }{ caio@lombello.com }
+{\textbullet}
+\href{ https://linkedin.com/in/caiolvbarbieri }{linkedin.com/in/caiolvbarbieri }
+{\textbullet}
+\href{ https://github.com/caiolombello }{github.com/caiolombello }
+\end{center}
+
+% --- SECTIONS ---
+
+\section{ Experiência Profissional }
+% List work experience in reverse chronological order (most recent first)
+\subsection*{\texorpdfstring{
+\textbf{ Opsteam } \hfill 
+}{
+Opsteam -- 
+}}
+\textit{ SRE | Cloud Engineer \hfill Ago 2025 - Presente }
+\begin{itemize}
+\item Prestar serviços especializados em Engenharia de Confiabilidade de Sites (SRE) e Cloud, com foco no gerenciamento de infraestrutura na AWS e outros provedores de nuvem.
+\item Implementar práticas de confiabilidade, automação e observabilidade para garantir resiliência, segurança e eficiência.
+\item Apoiar iniciativas de DevOps e consultoria técnica para clientes, promovendo melhores práticas em arquitetura e governança em ambientes Cloud Native.
+\end{itemize}
+\subsection*{\texorpdfstring{
+\textbf{ Vertigo Tecnologia } \hfill 
+}{
+Vertigo Tecnologia -- 
+}}
+\textit{ Analista DevOps Sênior \hfill Jun 2025 - Ago 2025 }
+\begin{itemize}
+\item Responsável por arquitetar e entregar toda a fundação de engenharia de plataforma para um cliente enterprise.
+\item Criei templates e módulos reutilizáveis com IaC, pipelines DevSecOps usando ArgoCD, integração com Keycloak e Backstage, além da implantação de uma stack de observabilidade centralizada e multi-cluster.
+\item Gerenciei ambientes Kubernetes em múltiplas nuvens (AWS e Oracle Cloud), garantindo operações seguras, escaláveis e padronizadas.
+\item Liderei tecnicamente o projeto, executando todas as implementações de forma hands-on.
+\end{itemize}
+\subsection*{\texorpdfstring{
+\textbf{ Vertigo Tecnologia } \hfill 
+}{
+Vertigo Tecnologia -- 
+}}
+\textit{ Analista DevOps Pleno \hfill Set 2024 - Jul 2025 }
+\begin{itemize}
+\item Desenvolvi soluções de automação de infraestrutura e pipelines CI/CD para diversos clientes.
+\item Liderei iniciativas de automação baseadas em IA e contribuí ativamente para a plataforma VeeCode, criando templates, plugins e funcionalidades customizadas.
+\item Implementei soluções de observabilidade e ofereci consultoria contínua em DevOps para apoiar a transformação digital e capacitação das equipes.
+\end{itemize}
+\subsection*{\texorpdfstring{
+\textbf{ Vertigo Tecnologia } \hfill 
+}{
+Vertigo Tecnologia -- 
+}}
+\textit{ Analista DevOps Júnior \hfill Oct 2022 - Sep 2024 }
+\begin{itemize}
+\item Liderei iniciativas de transformação cultural Cloud Native, desenvolvi pipelines GitOps/DevSecOps com Bamboo e Shell Script e implementei stacks de monitoramento com Grafana, Prometheus, Loki e Alertmanager.
+\item Gerenciei Redis, RabbitMQ, Helm Charts customizados, Dockerfiles e clusters locais com K3d.
+\item Criei automações com Terraform e reforcei a segurança na AWS aplicando o princípio do menor privilégio.
+\item Também gerenciei Vault e Consul da HashiCorp, garantindo segurança e resiliência na gestão de segredos e rede.
+\end{itemize}
+\subsection*{\texorpdfstring{
+\textbf{ Vertigo Tecnologia } \hfill 
+}{
+Vertigo Tecnologia -- 
+}}
+\textit{ Estagiário DevOps \hfill Feb 2022 - Oct 2022 }
+\begin{itemize}
+\item Implementei o GitLab em cluster DigitalOcean usando Helm e Kubernetes.
+\item Automatizei a migração de mais de 200 repositórios via Python e API do GitLab.
+\item Otimizei templates Helm, pipelines CI/CD e contêinerizei aplicações para acelerar o ciclo de desenvolvimento.
+\end{itemize}
+
+% ------
+
+\section{ Habilidades }
+% Keep this section concise and relevant to your target jobs
+\begin{itemize}
+\item \textbf{ Cloud/Infra: } AWS, Oracle Cloud, Kubernetes, Terraform, HashiCorp Consul
+\item \textbf{ Containerização: } Docker
+\item \textbf{ CI/CD: } GitOps, DevSecOps, Helm, ArgoCD
+\item \textbf{ Linguagens: } Python, Golang
+\item \textbf{ Observabilidade: } Prometheus, Grafana, OpenTelemetry, Tempo, Loki, Thanos, Alertmanager
+\item \textbf{ Segurança: } HashiCorp Vault, Keycloak
+\item \textbf{ Ferramentas: } Backstage
+\item \textbf{ Automação: } LLMs
+\end{itemize}
+
+% ------
+
+\section{ Educação }
+% Use this format for each degree - most recent first
+\subsection*{\texorpdfstring{
+\textbf{ Universidade Estácio de Sá } \hfill 
+}{
+Universidade Estácio de Sá -- 
+}}
+\textit{ Bacharelado em Sistemas de Informação \hfill Mar 2022 - Dez 2025 }
+
+\end{document}

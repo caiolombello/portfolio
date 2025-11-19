@@ -12,11 +12,9 @@ import {
 } from "lucide-react";
 import SkillsList from "./skill-bar";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useEffect, useState } from "react";
 import { useLanguage } from "@/contexts/language-context";
 import { useSiteConfig } from "@/hooks/use-site-config";
-import { AboutSkeleton } from "@/components/loading-skeleton";
+import { motion } from "framer-motion";
 
 interface ProfileLanguage {
   name: string;
@@ -36,66 +34,33 @@ interface Skill {
   percentage: number;
 }
 
-async function fetchProfile() {
-  const res = await fetch("/api/public/profile");
-  if (!res.ok) return null;
-  return res.json();
+interface AboutProps {
+  profile: Profile | null;
+  skills: Skill[];
 }
 
-async function fetchSkills() {
-  const res = await fetch("/api/skills");
-  if (!res.ok) return [];
-  return res.json();
-}
-
-export default function About() {
+export default function About({ profile, skills }: AboutProps) {
   const { language, t } = useLanguage();
   const { config } = useSiteConfig();
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [skills, setSkills] = useState<Skill[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        const [profileData, skillsData] = await Promise.all([
-          fetchProfile(),
-          fetchSkills()
-        ]);
-        setProfile(profileData);
-        setSkills(skillsData || []);
-      } catch (error) {
-        console.error('Error loading profile/skills:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, [language]);
-
-  if (loading) return <AboutSkeleton />;
   if (!profile) return null;
 
   const currentProfile = (profile[language] || profile["pt"]) as ProfileLanguage;
   const profileImageUrl = "/api/profile-image";
   const githubUsername = config.social.github?.split("/").pop() || "";
   const linkedinUsername = config.social.linkedin?.split("/").pop() || "";
-  const currentSkills =
-    Array.isArray(skills) && skills.length > 0
-      ? skills
-      : [
-          { name: "Python & Golang", percentage: 90 },
-          { name: "Kubernetes", percentage: 85 },
-          { name: "CI/CD Automation", percentage: 90 },
-        ];
 
   return (
-    <section className="container py-12 md:py-16">
+    <section id="about" className="container py-12 md:py-16" suppressHydrationWarning>
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
         {/* Coluna Esquerda - Informações Pessoais */}
-        <div className="flex flex-col items-center text-center md:items-start md:text-left">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col items-center text-center md:items-start md:text-left"
+        >
           <div className="relative mb-6 h-48 w-48 sm:h-64 sm:w-64 overflow-hidden rounded-full border-4 border-gold shadow-lg shadow-gold/10 transition-transform duration-500 hover:scale-105">
             <Image
               src={profileImageUrl || "/placeholder.svg"}
@@ -111,11 +76,11 @@ export default function About() {
             {currentProfile.name}
           </h1>
 
-          <h2 className="mb-6 text-xl text-muted-foreground">
+          <h2 className="mb-6 text-xl text-muted-foreground" suppressHydrationWarning>
             {currentProfile.title}
           </h2>
 
-          <div className="w-full flex flex-col items-center md:items-start gap-3">
+          <div className="w-full flex flex-col items-center md:items-start gap-3" suppressHydrationWarning>
             <Button variant="outline" asChild className="w-full max-w-xs justify-start gap-3">
               <Link href={`mailto:${profile.email}`}>
                 <Mail className="h-4 w-4" />
@@ -142,39 +107,47 @@ export default function About() {
             </Button>
 
             <div className="w-full max-w-xs pt-2 flex flex-col gap-3">
-                <Button asChild className="w-full justify-center gap-2 bg-green-600 hover:bg-green-700">
-                    <Link href="https://wa.me/5519997536692" target="_blank" rel="noopener noreferrer">
-                        <MessageCircle className="h-4 w-4" />
-                        WhatsApp
-                    </Link>
-                </Button>
+              <Button asChild className="w-full justify-center gap-2 bg-green-600 hover:bg-green-700">
+                <Link href="https://wa.me/5519997536692" target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="h-4 w-4" />
+                  WhatsApp
+                </Link>
+              </Button>
 
-                {config?.social?.calendarUrl && (
-                    <Button asChild className="w-full justify-center gap-2 bg-green-600 hover:bg-green-700">
-                        <Link href={config.social.calendarUrl} target="_blank" rel="noopener noreferrer">
-                            <CalendarPlus className="h-4 w-4" />
-                            {language === 'pt' ? 'Agendar reunião' : 'Schedule meeting'}
-                        </Link>
-                    </Button>
-                )}
+              {config?.social?.calendarUrl && (
+                <Button asChild className="w-full justify-center gap-2 bg-green-600 hover:bg-green-700">
+                  <Link href={config.social.calendarUrl} target="_blank" rel="noopener noreferrer">
+                    <CalendarPlus className="h-4 w-4" />
+                    <span>
+                      {language === 'pt' ? 'Agendar reunião' : 'Schedule meeting'}
+                    </span>
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Coluna Direita - Sobre e Habilidades */}
-        <div className="flex flex-col">
-          <h2 className="mb-4 text-2xl font-bold text-gold">
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col"
+        >
+          <h2 className="mb-4 text-2xl font-bold text-gold" suppressHydrationWarning>
             {t("about.title") || "Sobre"}
           </h2>
 
-          <p className="mb-8 text-muted-foreground">{currentProfile.about}</p>
+          <p className="mb-8 text-muted-foreground" suppressHydrationWarning>{currentProfile.about}</p>
 
-          <h2 className="mb-6 text-2xl font-bold text-gold">
+          <h2 className="mb-6 text-2xl font-bold text-gold" suppressHydrationWarning>
             {t("about.skills") || "Principais Habilidades"}
           </h2>
 
           <SkillsList />
-        </div>
+        </motion.div>
       </div>
     </section>
   );

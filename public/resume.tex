@@ -1,0 +1,161 @@
+% GitHub Repo and Documentation: https://github.com/celiobjunior/resume-template
+% Copyright © 2025 Celio B Junior. All rights reserved.
+%
+% Licensed under the Apache License, Version 2.0 (the "License");
+% you may not use this file except in compliance with the License.
+% You may obtain a copy of the License at
+%
+% http://www.apache.org/licenses/LICENSE-2.0
+%
+% This template follows best practices from README.md
+
+% Start of LaTeX document: defines document type and format
+% a4paper = A4 page size, 10pt = base font size
+\documentclass[a4paper,10pt]{article}
+
+% --- PACKAGES ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{titlesec}
+% For better line breaks in long URLs (don't use \href{}, use \url{} for long URLs)
+% \usepackage{xurl}
+
+% --- DOCUMENT SETUP ---
+% Set page margins to maximize content space
+\geometry{top=1.0cm, bottom=1.0cm, left=1.0cm, right=1.0cm}
+
+% Remove page numbers and headers for clean resume look
+\pagestyle{empty}
+
+% PDF metadata - customize with your information
+\hypersetup{
+pdftitle={CV Caio Barbieri },
+pdfauthor={ Caio Barbieri },
+colorlinks=true,
+linkcolor=black,
+urlcolor=black,
+citecolor=black,
+bookmarksdepth=1
+}
+
+% Disable section numbering for cleaner appearance
+\setcounter{secnumdepth}{0}
+
+% Format section headers with bold text and underline
+\titleformat{\section}
+{\Large\bfseries}
+{}
+{0em}
+{}
+[\titlerule\vspace{0.5ex}]
+
+% --- BEGIN DOCUMENT ---
+\begin{document}
+
+% --- HEADER ---
+% Replace with your personal information
+\begin{center}
+{\LARGE \textbf{ Caio Barbieri }}
+\\ [0.1cm]
+Campinas, São Paulo, Brazil
+{\textbullet}
+Email: \href{mailto:caio@lombello.com }{ caio@lombello.com }
+{\textbullet}
+\href{ https://linkedin.com/in/caiolvbarbieri }{linkedin.com/in/caiolvbarbieri }
+{\textbullet}
+\href{ https://github.com/caiolombello }{github.com/caiolombello }
+\end{center}
+
+% --- SECTIONS ---
+
+\section{ Professional Experience }
+% List work experience in reverse chronological order (most recent first)
+\subsection*{\texorpdfstring{
+\textbf{ Opsteam } \hfill 
+}{
+Opsteam -- 
+}}
+\textit{ SRE | Cloud Engineer \hfill Ago 2025 - Presente }
+\begin{itemize}
+\item Providing specialized services in Site Reliability Engineering (SRE) and Cloud, with a focus on managing infrastructure in AWS and other cloud providers.
+\item Implementing reliability, automation, and observability practices to ensure resilience, security, and efficiency.
+\item Supporting DevOps initiatives and technical consulting for clients, promoting best practices in architecture and governance within Cloud Native environments.
+\end{itemize}
+\subsection*{\texorpdfstring{
+\textbf{ Vertigo Tecnologia } \hfill 
+}{
+Vertigo Tecnologia -- 
+}}
+\textit{ Senior DevOps Analyst \hfill Jun 2025 - Ago 2025 }
+\begin{itemize}
+\item Responsible for architecting and delivering the entire platform engineering foundation for an enterprise client.
+\item Created reusable templates and modules with IaC, DevSecOps pipelines using ArgoCD, integration with Keycloak and Backstage, and deployed a centralized, multi-cluster observability stack.
+\item Managed Kubernetes environments across multiple clouds (AWS and Oracle Cloud), ensuring secure, scalable, and standardized operations.
+\item Technically led the project, executing all implementations hands-on.
+\end{itemize}
+\subsection*{\texorpdfstring{
+\textbf{ Vertigo Tecnologia } \hfill 
+}{
+Vertigo Tecnologia -- 
+}}
+\textit{ Mid-level DevOps Analyst \hfill Set 2024 - Jul 2025 }
+\begin{itemize}
+\item Developed infrastructure automation solutions and CI/CD pipelines for various clients.
+\item Led AI-based automation initiatives and actively contributed to the VeeCode platform by creating templates, plugins, and custom features.
+\item Implemented observability solutions and provided ongoing DevOps consulting to support digital transformation and team enablement.
+\end{itemize}
+\subsection*{\texorpdfstring{
+\textbf{ Vertigo Tecnologia } \hfill 
+}{
+Vertigo Tecnologia -- 
+}}
+\textit{ Junior DevOps Analyst \hfill Oct 2022 - Sep 2024 }
+\begin{itemize}
+\item Led Cloud Native cultural transformation initiatives, developed GitOps/DevSecOps pipelines with Bamboo and Shell Script, and implemented monitoring stacks with Grafana, Prometheus, Loki, and Alertmanager.
+\item Managed Redis, RabbitMQ, custom Helm Charts, Dockerfiles, and local clusters with K3d.
+\item Created Terraform automations and reinforced AWS security by applying the principle of least privilege.
+\item Also managed HashiCorp's Vault and Consul, ensuring security and resilience in secret and network management.
+\end{itemize}
+\subsection*{\texorpdfstring{
+\textbf{ Vertigo Tecnologia } \hfill 
+}{
+Vertigo Tecnologia -- 
+}}
+\textit{ DevOps Intern \hfill Feb 2022 - Oct 2022 }
+\begin{itemize}
+\item Implemented GitLab on a DigitalOcean cluster using Helm and Kubernetes.
+\item Automated the migration of over 200 repositories via Python and the GitLab API.
+\item Optimized Helm templates, CI/CD pipelines, and containerized applications to accelerate the development cycle.
+\end{itemize}
+
+% ------
+
+\section{ Skills }
+% Keep this section concise and relevant to your target jobs
+\begin{itemize}
+\item \textbf{ Cloud/Infra: } AWS, Oracle Cloud, Kubernetes, Terraform, HashiCorp Consul
+\item \textbf{ Containerization: } Docker
+\item \textbf{ CI/CD: } GitOps, DevSecOps, Helm, ArgoCD
+\item \textbf{ Languages: } Python, Golang
+\item \textbf{ Observability: } Prometheus, Grafana, OpenTelemetry, Tempo, Loki, Thanos, Alertmanager
+\item \textbf{ Security: } HashiCorp Vault, Keycloak
+\item \textbf{ Tools: } Backstage
+\item \textbf{ Automation: } LLMs
+\end{itemize}
+
+% ------
+
+\section{ Education }
+% Use this format for each degree - most recent first
+\subsection*{\texorpdfstring{
+\textbf{ Universidade Estácio de Sá } \hfill 
+}{
+Universidade Estácio de Sá -- 
+}}
+\textit{ Bachelor in Information Systems \hfill Mar 2022 - Dez 2025 }
+
+\end{document}

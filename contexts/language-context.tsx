@@ -41,28 +41,49 @@ function detectUserLanguage(): Locale {
   return locales[0];
 }
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Locale>(locales[0]); // Temporary initial value
-  const [dictionary, setDictionary] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+export function LanguageProvider({
+  children,
+  initialDictionary,
+  initialLanguage = "pt"
+}: {
+  children: ReactNode;
+  initialDictionary?: any;
+  initialLanguage?: Locale;
+}) {
+  const [language, setLanguage] = useState<Locale>(initialLanguage);
+  const [dictionary, setDictionary] = useState<any>(initialDictionary);
+  const [loading, setLoading] = useState(false);
 
-  // Initialize language on mount
+  // Initialize language after mount, checking localStorage first, then browser language
   useEffect(() => {
-    const userLang = detectUserLanguage();
-    setLanguage(userLang);
-    document.documentElement.lang = userLang;
+    const savedLanguage = localStorage.getItem("language") as Locale;
+    if (savedLanguage && locales.includes(savedLanguage)) {
+      if (savedLanguage !== language) {
+        setLanguage(savedLanguage);
+      }
+    } else {
+      // If no saved language, detect from browser
+      const browserLang = navigator.language.split("-")[0];
+      if (locales.includes(browserLang as Locale) && browserLang !== language) {
+        setLanguage(browserLang as Locale);
+      }
+    }
+    document.documentElement.lang = language;
   }, []);
 
   // Load dictionary when language changes
   useEffect(() => {
     const load = async () => {
+      // Only load if language is different from initial or if we don't have dictionary
+      if (language === initialLanguage && dictionary) return;
+
       setLoading(true);
       try {
         const dict = await getDictionary(language);
         setDictionary(dict);
       } catch (e) {
         console.error("Failed to load dictionary:", e);
-        setDictionary(null);
+        // Keep previous dictionary or null
       } finally {
         setLoading(false);
       }
@@ -93,23 +114,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   return (
     <LanguageContext.Provider value={{ language, changeLanguage, t, loading }}>
-      {loading ? (
-        <div
-          style={{
-            minHeight: 120,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            className="animate-spin h-8 w-8 border-4 border-gold rounded-full"
-            style={{ borderTopColor: "transparent" }}
-          />
-        </div>
-      ) : (
-        children
-      )}
+      {children}
     </LanguageContext.Provider>
   );
 }

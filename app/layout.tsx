@@ -35,9 +35,14 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
+import { getDictionary } from "@/app/i18n";
+
+// ... (imports)
+
 export default async function RootLayout({ children }: RootLayoutProps) {
   const config = getSiteConfig();
   const structuredData = await generateStructuredData();
+  const initialDictionary = await getDictionary("pt");
 
   return (
     <html lang="pt-BR" suppressHydrationWarning>
@@ -83,7 +88,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <LanguageProvider>
+          <LanguageProvider initialDictionary={initialDictionary} initialLanguage="pt">
             <DynamicTitle />
             <div className="flex min-h-screen flex-col">
               <Navbar />

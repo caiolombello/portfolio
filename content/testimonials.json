@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "name": "Rodrigo Pontes",
+    "role": "DevOps Engineer Senior | SRE | IA | DevSecOps",
+    "content": "Caio is my friend and coworker, and I congratulate him for being an excellent professional in DevOps, DevSecOps, SRE, and AI. I had the opportunity to collaborate with him on projects demanding high technical responsibility and strategic decision-making. Caio stood out not only for his mastery of modern automation tools, IaC, and CI/CD but mainly for his systemic thinking and innovative solutions that added real value. His constant search for knowledge and willingness to share make him a key player in any tech team. It's great to work with someone who combines technical competence, proactivity, future vision, and humility. He also stands out in the AI market, planning and building cutting-edge solutions!",
+    "content_pt": "O Caio é meu amigo e colega de trabalho, parabenizo ele pelo excelente profissional que é na área de DevOps, DevSecOps, SRE, IA. Tive a oportunidade de colaborar com ele em projetos que exigiam alto nível de responsabilidade técnica e tomada de decisão estratégica. Caio se destacou não apenas pelo domínio das ferramentas e práticas modernas de automação, infraestrutura como código e CI/CD, mas principalmente pela sua capacidade de pensar de forma sistêmica e propor soluções inovadoras que realmente agregaram valor ao time e ao produto final. Sua busca constante por conhecimento, aliada à disposição em compartilhar o que sabe, o torna uma peça fundamental em qualquer equipe de tecnologia. É muito bom trabalhar com alguém que une competência técnica, proatividade, visão de futuro e tem humildade de interpretar a opinião alheia. Além disto se destaca no mercado de IA, planejando e montado soluções atuais!",
+    "image": "/testimonials/rodrigo-pontes.jpg",
+    "linkedin": "https://www.linkedin.com/in/rodrigo-pontes-/"
+  },
+  {
+    "id": "2",
+    "name": "Highlander Dantas",
+    "role": "Staff Software Engineer | Platform Engineer | Instructor",
+    "content": "I had the privilege of working with Caio and can confidently say: he is one of those rare professionals. Extremely technical, fast learner, and impressively adaptable to any challenge, regardless of technology or complexity. Beyond technical mastery, Caio has a sense of responsibility and collaboration that elevates any team. Always ready to help, propose solutions, and keep quality at the center. He is the kind of person you want by your side when you need someone reliable, intelligent, and versatile. I strongly recommend Caio for any company or project seeking technical excellence with a practical attitude.",
+    "content_pt": "Tive o privilégio de trabalhar com o Caio e posso dizer com tranquilidade: ele é daqueles profissionais raros. Extremamente técnico, rápido para aprender e com uma capacidade impressionante de se adaptar a qualquer desafio, independentemente da tecnologia ou da complexidade envolvida. Além do domínio técnico, o Caio tem um senso de responsabilidade e colaboração que eleva o nível de qualquer time. Sempre pronto para ajudar, propor soluções e manter a qualidade no centro do que faz. É o tipo de pessoa que você quer ter ao seu lado quando precisa de alguém confiável, inteligente e versátil. Recomendo fortemente o Caio para qualquer empresa ou projeto que esteja buscando excelência técnica com atitude prática.",
+    "image": "/testimonials/highlander-dantas.jpg",
+    "linkedin": "https://www.linkedin.com/in/highlander-dantas/"
+  }
+]

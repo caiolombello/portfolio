@@ -83,10 +83,10 @@ export default function Footer() {
     <footer className="border-t py-6 md:py-8" role="contentinfo">
       <div className="container flex flex-col items-center justify-between gap-6 md:flex-row">
         <div className="flex flex-col items-center gap-2 md:items-start">
-          <p className="text-center text-sm text-muted-foreground md:text-left">
+          <p className="text-center text-sm text-muted-foreground md:text-left" suppressHydrationWarning>
             &copy; {currentYear} {profileName}
           </p>
-          <p className="text-center text-sm text-muted-foreground md:text-left">
+          <p className="text-center text-sm text-muted-foreground md:text-left" suppressHydrationWarning>
             {rightsText}
           </p>
         </div>
@@ -95,6 +95,7 @@ export default function Footer() {
           className="flex items-center gap-4"
           role="navigation"
           aria-label="Social links"
+          suppressHydrationWarning
         >
           {socialLinks.github && (
             <Button variant="ghost" size="icon" asChild>

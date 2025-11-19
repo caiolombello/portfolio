@@ -46,12 +46,13 @@ export default function MobileMenu({
             className="md:hidden"
             size="icon"
             aria-label="Open menu"
+            suppressHydrationWarning
           >
             <Menu className="h-6 w-6" />
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="w-[300px] sm:w-[400px]">
-          <div className="flex flex-col space-y-4 py-4">
+          <div className="flex flex-col space-y-4 py-4" suppressHydrationWarning>
             <div className="flex items-center space-x-2">
               {showImage && imageUrl && (
                 <div className="relative h-10 w-10 overflow-hidden rounded-full">
@@ -65,8 +66,8 @@ export default function MobileMenu({
                 </div>
               )}
               <div className="space-y-1">
-                <h4 className="text-sm font-semibold">{name}</h4>
-                <p className="text-sm text-muted-foreground">{title}</p>
+                <h4 className="text-sm font-semibold" suppressHydrationWarning>{name}</h4>
+                <p className="text-sm text-muted-foreground" suppressHydrationWarning>{title}</p>
               </div>
             </div>
             <nav className="flex flex-col space-y-4">
@@ -82,6 +83,7 @@ export default function MobileMenu({
                       : "text-muted-foreground",
                   )}
                   aria-current={pathname === item.href ? "page" : undefined}
+                  suppressHydrationWarning
                 >
                   {item.label}
                 </Link>

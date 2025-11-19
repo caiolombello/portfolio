@@ -29,9 +29,8 @@ export default function ScrollToTop() {
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-50 transition-opacity duration-300 ${
-        isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
-      }`}
+      className={`fixed bottom-6 right-6 z-50 transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
     >
       <Button
         variant="outline"
@@ -40,7 +39,7 @@ export default function ScrollToTop() {
         className="rounded-full bg-background/80 backdrop-blur hover:bg-background/90 transition-transform hover:scale-110"
         aria-label="Voltar ao topo"
       >
-        <ChevronUp className="h-5 w-5" />
+        <ChevronUp className="h-5 w-5" suppressHydrationWarning />
       </Button>
     </div>
   );

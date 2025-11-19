@@ -108,10 +108,10 @@ export default function Header() {
                 />
               </div>
             )}
-            <span className="font-bold">
+            <span className="font-bold" suppressHydrationWarning>
               {profile[language as keyof Pick<ProfileData, "pt" | "en">].name}
             </span>
-            <span className="text-sm text-muted-foreground">
+            <span className="text-sm text-muted-foreground" suppressHydrationWarning>
               |{" "}
               {profile[language as keyof Pick<ProfileData, "pt" | "en">].title}
             </span>
@@ -132,6 +132,7 @@ export default function Header() {
                     : "text-muted-foreground",
                 )}
                 aria-current={pathname === item.href ? "page" : undefined}
+                suppressHydrationWarning
               >
                 {item.label}
               </Link>
@@ -156,6 +157,7 @@ export default function Header() {
             className="flex items-center gap-2"
             role="navigation"
             aria-label="Utility navigation"
+            suppressHydrationWarning
           >
             <LanguageSwitcher />
             <ModeToggle />
