@@ -1,0 +1,114 @@
+% GitHub Repo and Documentation: https://github.com/celiobjunior/resume-template
+% Copyright © 2025 Celio B Junior. All rights reserved.
+%
+% Licensed under the Apache License, Version 2.0 (the "License");
+% you may not use this file except in compliance with the License.
+% You may obtain a copy of the License at
+%
+% http://www.apache.org/licenses/LICENSE-2.0
+%
+% This template follows best practices from README.md
+
+% Start of LaTeX document: defines document type and format
+% a4paper = A4 page size, 10pt = base font size
+\documentclass[a4paper,10pt]{article}
+
+% --- PACKAGES ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{parskip}
+\usepackage{hyperref}
+\usepackage{titlesec}
+% For better line breaks in long URLs (don't use \href{}, use \url{} for long URLs)
+% \usepackage{xurl}
+
+% --- DOCUMENT SETUP ---
+% Set page margins to maximize content space
+\geometry{top=1.0cm, bottom=1.0cm, left=1.0cm, right=1.0cm}
+
+% Remove page numbers and headers for clean resume look
+\pagestyle{empty}
+
+% PDF metadata - customize with your information
+\hypersetup{
+pdftitle={CV {{{ name }}} },
+pdfauthor={ {{{ name }}} },
+colorlinks=true,
+linkcolor=black,
+urlcolor=black,
+citecolor=black,
+bookmarksdepth=1
+}
+
+% Disable section numbering for cleaner appearance
+\setcounter{secnumdepth}{0}
+
+% Format section headers with bold text and underline
+\titleformat{\section}
+{\Large\bfseries}
+{}
+{0em}
+{}
+[\titlerule\vspace{0.5ex}]
+
+% --- BEGIN DOCUMENT ---
+\begin{document}
+
+% --- HEADER ---
+% Replace with your personal information
+\begin{center}
+{\LARGE \textbf{ {{{ name }}} }}
+\\ [0.1cm]
+{{{ location }}}
+{\textbullet}
+Email: \href{mailto:{{{ email }}} }{ {{{ email }}} }
+{\textbullet}
+\href{ {{{ linkedin }}} }{linkedin.com/in/{{{ linkedinUser }}} }
+{\textbullet}
+\href{ {{{ github }}} }{github.com/{{{ githubUser }}} }
+\end{center}
+
+% --- SECTIONS ---
+
+\section{ {{{ labels.experience }}} }
+% List work experience in reverse chronological order (most recent first)
+{{#each experience}}
+\subsection*{\texorpdfstring{
+\textbf{ {{{ company }}} } \hfill {{{ location }}}
+}{
+{{{ company }}} -- {{{ location }}}
+}}
+\textit{ {{{ title }}} \hfill {{{ period }}} }
+\begin{itemize}
+{{#each responsibilities}}
+\item {{{ this }}}
+{{/each}}
+\end{itemize}
+{{/each}}
+
+% ------
+
+\section{ {{{ labels.skills }}} }
+% Keep this section concise and relevant to your target jobs
+\begin{itemize}
+{{#each skills}}
+\item \textbf{ {{{ category }}}: } {{{ items }}}
+{{/each}}
+\end{itemize}
+
+% ------
+
+\section{ {{{ labels.education }}} }
+% Use this format for each degree - most recent first
+{{#each education}}
+\subsection*{\texorpdfstring{
+\textbf{ {{{ institution }}} } \hfill {{{ location }}}
+}{
+{{{ institution }}} -- {{{ location }}}
+}}
+\textit{ {{{ degree }}} \hfill {{{ period }}} }
+{{/each}}
+
+\end{document}

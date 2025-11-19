@@ -1,0 +1,38 @@
+# {{name}}
+
+{{title}}
+{{location}}
+Email: {{email}}
+Linkedin: {{linkedin}}
+Github: {{github}}
+
+## {{labels.about}}
+
+{{about}}
+
+## {{labels.experience}}
+
+{{#each experience}}
+### {{title}}
+**{{company}}** | {{period}} | {{location}}
+
+{{#each responsibilities}}
+* {{this}}
+{{/each}}
+
+{{/each}}
+
+## {{labels.skills}}
+
+{{#each skills}}
+* **{{category}}**: {{items}}
+{{/each}}
+
+## {{labels.education}}
+
+{{#each education}}
+### {{degree}}
+**{{institution}}** | {{period}} | {{location}}
+{{description}}
+
+{{/each}}
