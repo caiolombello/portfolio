@@ -36,6 +36,10 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    /* Gold colors - Light mode uses Goldenrod for better visual harmony */
+    --gold: 43 74% 49%; /* #DAA520 - Goldenrod - equilibrado e vibrante */
+    --gold-rgb: 218, 165, 32;
   }
 
   .dark {
@@ -66,6 +70,10 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+
+    /* Gold colors - Dark mode uses bright gold */
+    --gold: 51 100% 50%; /* #FFD700 - Gold brilhante */
+    --gold-rgb: 255, 215, 0;
   }
 }
 
@@ -73,6 +81,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -80,25 +89,110 @@
 
 @layer utilities {
   .bg-gold {
-    background-color: #ffd700;
+    background-color: hsl(var(--gold));
   }
 
   .text-gold {
-    color: #ffd700;
+    color: hsl(var(--gold));
   }
 
   .hover\:text-gold:hover {
-    color: #ffd700;
+    color: hsl(var(--gold));
   }
 
   .border-gold {
-    border-color: #ffd700;
+    border-color: hsl(var(--gold));
   }
 
   .shadow-gold\/10 {
     box-shadow:
-      0 4px 6px -1px rgba(255, 215, 0, 0.1),
-      0 2px 4px -1px rgba(255, 215, 0, 0.06);
+      0 4px 6px -1px rgba(var(--gold-rgb), 0.1),
+      0 2px 4px -1px rgba(var(--gold-rgb), 0.06);
+  }
+
+  .bg-gold\/90 {
+    background-color: hsl(var(--gold) / 0.9);
+  }
+
+  .bg-gold\/5 {
+    background-color: hsl(var(--gold) / 0.05);
+  }
+
+  .bg-gold\/20 {
+    background-color: hsl(var(--gold) / 0.2);
+  }
+
+  .border-gold\/10 {
+    border-color: hsl(var(--gold) / 0.1);
+  }
+
+  .border-gold\/20 {
+    border-color: hsl(var(--gold) / 0.2);
+  }
+
+  .border-gold\/30 {
+    border-color: hsl(var(--gold) / 0.3);
+  }
+
+  .border-gold\/40 {
+    border-color: hsl(var(--gold) / 0.4);
+  }
+
+  .text-gold\/50 {
+    color: hsl(var(--gold) / 0.5);
+  }
+
+  .text-gold\/80 {
+    color: hsl(var(--gold) / 0.8);
+  }
+
+  .hover\:bg-gold\/5:hover {
+    background-color: hsl(var(--gold) / 0.05);
+  }
+
+  .hover\:bg-gold\/20:hover {
+    background-color: hsl(var(--gold) / 0.2);
+  }
+
+  .hover\:border-gold:hover {
+    border-color: hsl(var(--gold));
+  }
+
+  .focus\:border-gold:focus {
+    border-color: hsl(var(--gold));
+  }
+
+  .focus\:ring-gold:focus {
+    --tw-ring-color: hsl(var(--gold));
+  }
+
+  /* Yellow badge colors - adaptam-se ao tema */
+  .bg-yellow-100 {
+    background-color: hsl(var(--gold) / 0.15);
+  }
+
+  .dark .bg-yellow-100 {
+    background-color: hsl(var(--gold) / 0.15);
+  }
+
+  .bg-yellow-900\/30 {
+    background-color: hsl(var(--gold) / 0.2);
+  }
+
+  .text-yellow-800 {
+    color: hsl(43 74% 40%);
+  }
+
+  .dark .text-yellow-800 {
+    color: hsl(var(--gold));
+  }
+
+  .text-yellow-300 {
+    color: hsl(var(--gold));
+  }
+
+  .text-yellow-500 {
+    color: hsl(var(--gold));
   }
 }
 
@@ -123,7 +217,7 @@
 }
 
 /* Ensure inline code is styled consistently */
-:not(pre) > code {
+:not(pre)>code {
   background: #1e1e1e;
   color: #d4d4d4;
   padding: 0.2em 0.4em;
@@ -138,7 +232,7 @@ pre[class*="language-"].line-numbers {
   counter-reset: start;
 }
 
-pre[class*="language-"].line-numbers > code {
+pre[class*="language-"].line-numbers>code {
   position: relative;
   white-space: inherit;
 }
@@ -155,12 +249,12 @@ pre[class*="language-"].line-numbers > code {
   user-select: none;
 }
 
-.line-numbers-rows > span {
+.line-numbers-rows>span {
   display: block;
   counter-increment: start;
 }
 
-.line-numbers-rows > span:before {
+.line-numbers-rows>span:before {
   content: counter(start);
   color: #999;
   display: block;

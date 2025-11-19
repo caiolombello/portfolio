@@ -24,9 +24,9 @@ const config: Config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        gold: "#FFD700",
+        gold: "hsl(var(--gold))",
         yellow: {
-          500: "#FFD700", // Ouro
+          500: "hsl(var(--gold))", // Ouro adaptativo
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",
