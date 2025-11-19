@@ -2,18 +2,35 @@
   "company": "Vertigo Tecnologia",
   "title_pt": "Analista DevOps Sênior",
   "title_en": "Senior DevOps Analyst",
-  "period": "Jun 2025 - Presente",
+  "period": "Jun 2025 - Ago 2025",
   "responsibilities_pt": [
-    { "item": "Responsável por arquitetar e entregar toda a fundação de engenharia de plataforma para um cliente enterprise." },
-    { "item": "Criei templates e módulos reutilizáveis com IaC, pipelines DevSecOps usando ArgoCD, integração com Keycloak e Backstage, além da implantação de uma stack de observabilidade centralizada e multi-cluster." },
-    { "item": "Gerenciei ambientes Kubernetes em múltiplas nuvens (AWS e Oracle Cloud), garantindo operações seguras, escaláveis e padronizadas." },
-    { "item": "Liderei tecnicamente o projeto, executando todas as implementações de forma hands-on." }
+    {
+      "item": "Responsável por arquitetar e entregar toda a fundação de engenharia de plataforma para um cliente enterprise."
+    },
+    {
+      "item": "Criei templates e módulos reutilizáveis com IaC, pipelines DevSecOps usando ArgoCD, integração com Keycloak e Backstage, além da implantação de uma stack de observabilidade centralizada e multi-cluster."
+    },
+    {
+      "item": "Gerenciei ambientes Kubernetes em múltiplas nuvens (AWS e Oracle Cloud), garantindo operações seguras, escaláveis e padronizadas."
+    },
+    {
+      "item": "Liderei tecnicamente o projeto, executando todas as implementações de forma hands-on."
+    }
   ],
   "responsibilities_en": [
-    { "item": "Responsible for architecting and delivering the entire platform engineering foundation for an enterprise client." },
-    { "item": "Created reusable templates and modules with IaC, DevSecOps pipelines using ArgoCD, integration with Keycloak and Backstage, and deployed a centralized, multi-cluster observability stack." },
-    { "item": "Managed Kubernetes environments across multiple clouds (AWS and Oracle Cloud), ensuring secure, scalable, and standardized operations." },
-    { "item": "Technically led the project, executing all implementations hands-on." }
+    {
+      "item": "Responsible for architecting and delivering the entire platform engineering foundation for an enterprise client."
+    },
+    {
+      "item": "Created reusable templates and modules with IaC, DevSecOps pipelines using ArgoCD, integration with Keycloak and Backstage, and deployed a centralized, multi-cluster observability stack."
+    },
+    {
+      "item": "Managed Kubernetes environments across multiple clouds (AWS and Oracle Cloud), ensuring secure, scalable, and standardized operations."
+    },
+    {
+      "item": "Technically led the project, executing all implementations hands-on."
+    }
   ],
-  "startDate": "2025-06-01"
+  "startDate": "2025-06-01",
+  "endDate": "2025-08-01"
 }
