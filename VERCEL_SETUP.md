@@ -126,7 +126,7 @@ Senior DevOps Engineer & Cloud Architect
 2. Esse arquivo gera uma imagem dinamicamente usando a **ImageResponse API** (edge runtime)
 3. A Vercel cacheia essa imagem automaticamente no CDN global
 4. Quando alguém compartilha seu link, as redes sociais buscam `/opengraph-image` e exibem sua imagem
-5. O mesmo acontece para `twitter-image.tsx` (que neste caso é um re-export do opengraph-image)
+5. O Next.js usa automaticamente a mesma imagem para Twitter/X (não é necessário criar `twitter-image.tsx` separado)
 
 ## Dicas Pro
 

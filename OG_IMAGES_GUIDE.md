@@ -7,19 +7,17 @@ Todas as seções do seu portfólio agora possuem imagens Open Graph personaliza
 ```
 app/
 ├── opengraph-image.tsx       # Página principal (Home)
-├── twitter-image.tsx          # Twitter (Home)
 ├── blog/
 │   ├── opengraph-image.tsx   # Lista de posts do blog
-│   ├── twitter-image.tsx     # Twitter (Blog)
 │   └── [slug]/
 │       └── opengraph-image.tsx  # Cada post individual
 ├── contact/
-│   ├── opengraph-image.tsx   # Página de contato
-│   └── twitter-image.tsx     # Twitter (Contato)
+│   └── opengraph-image.tsx   # Página de contato
 └── resume/
-    ├── opengraph-image.tsx   # Página de currículo
-    └── twitter-image.tsx     # Twitter (Currículo)
+    └── opengraph-image.tsx   # Página de currículo
 ```
+
+> **Nota:** O Next.js usa automaticamente `opengraph-image.tsx` para Twitter/X também. Não é necessário criar arquivos `twitter-image.tsx` separados.
 
 ## 🎨 Designs por Seção
 
