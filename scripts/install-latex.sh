@@ -15,7 +15,7 @@ echo "Installing TinyTeX to $LATEX_DIR..."
 
 # Download and install TinyTeX directly (avoiding installer script that needs wget)
 mkdir -p "$LATEX_DIR"
-TINYTEX_URL="https://github.com/rstudio/tinytex-releases/releases/download/daily/TinyTeX-1.tgz"
+TINYTEX_URL="https://github.com/rstudio/tinytex-releases/releases/download/daily/TinyTeX-1.tar.gz"
 
 echo "Downloading TinyTeX from $TINYTEX_URL..."
 curl -L "$TINYTEX_URL" | tar xz -C "$LATEX_DIR" --strip-components=1
