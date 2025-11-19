@@ -8,10 +8,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { jsPDF } from "jspdf";
 import { useLanguage } from "@/contexts/language-context";
-import html2canvas from "html2canvas";
-import { Download, Loader2 } from "lucide-react";
+import { Download } from "lucide-react";
 
 // Tipo para os dados do currículo
 interface ResumeData {
@@ -51,7 +49,6 @@ export default function ResumeDownload({
   certificationsCredly?: string[];
 }) {
   const { language = "pt", t } = useLanguage() || {};
-  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   // Função para gerar nome do arquivo baseado no idioma e data
   const getFileName = (extension: string): string => {
@@ -151,97 +148,28 @@ export default function ResumeDownload({
   };
 
   const downloadPDF = async () => {
-    setIsGeneratingPDF(true);
+    // Download the pre-generated PDF file
+    const fileName = language === "pt" ? "curriculo.pdf" : "resume.pdf";
+
     try {
-      const content = generateMarkdownContent();
-
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "pt",
-        format: "a4",
-      });
-
-      const margin = {
-        top: 40,
-        right: 40,
-        bottom: 60,
-        left: 40,
-      };
-
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const contentWidth = pageWidth - margin.left - margin.right;
-
-      const fontSize = {
-        normal: 10,
-        h1: 16,
-        h2: 14,
-        h3: 12,
-      };
-
-      let yPos = margin.top;
-      const lineHeight = 1.4;
-
-      const addText = (text: string, size: number, isBold: boolean = false) => {
-        if (isBold) pdf.setFont("helvetica", "bold");
-        else pdf.setFont("helvetica", "normal");
-
-        pdf.setFontSize(size);
-
-        const lines = pdf.splitTextToSize(text, contentWidth);
-        const textHeight = lines.length * size * lineHeight;
-
-        if (yPos + textHeight > pageHeight - margin.bottom) {
-          pdf.addPage();
-          yPos = margin.top;
-        }
-
-        pdf.text(lines, margin.left, yPos);
-        yPos += textHeight + size * 0.5;
-      };
-
-      content.split("\n").forEach((line) => {
-        if (!line.trim()) {
-          yPos += fontSize.normal * 0.8;
-          return;
-        }
-
-        if (line.startsWith("# ")) {
-          addText(line.slice(2), fontSize.h1, true);
-          yPos += 5;
-        } else if (line.startsWith("## ")) {
-          yPos += 10;
-          addText(line.slice(3), fontSize.h2, true);
-          yPos += 5;
-        } else if (line.startsWith("### ")) {
-          yPos += 5;
-          addText(line.slice(4), fontSize.h3, true);
-        } else if (line.startsWith("* ")) {
-          pdf.setFont("helvetica", "normal");
-          pdf.setFontSize(fontSize.normal);
-          const bulletText = "• " + line.slice(2);
-          const lines = pdf.splitTextToSize(bulletText, contentWidth - 20);
-
-          if (
-            yPos + lines.length * fontSize.normal * lineHeight >
-            pageHeight - margin.bottom
-          ) {
-            pdf.addPage();
-            yPos = margin.top;
-          }
-
-          pdf.text(lines, margin.left + 15, yPos);
-          yPos += lines.length * fontSize.normal * lineHeight;
-        } else {
-          addText(line, fontSize.normal);
-        }
-      });
-
-      pdf.save(getFileName("pdf"));
+      const response = await fetch(`/${fileName}`, { method: "HEAD" });
+      if (response.ok) {
+        const link = document.createElement("a");
+        link.href = `/${fileName}`;
+        link.download = fileName;
+        link.target = "_blank";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        alert(
+          language === "pt"
+            ? "PDF não encontrado. Por favor, execute ./scripts/build-resume.sh para gerá-lo."
+            : "PDF not found. Please run ./scripts/build-resume.sh to generate it."
+        );
+      }
     } catch (error) {
-      console.error("Error generating PDF:", error);
-    } finally {
-      setIsGeneratingPDF(false);
+      console.error("Error checking PDF:", error);
     }
   };
 
@@ -249,11 +177,7 @@ export default function ResumeDownload({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
-          {isGeneratingPDF ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Download className="mr-2 h-4 w-4" />
-          )}
+          <Download className="mr-2 h-4 w-4" />
           {language === "pt" ? "Baixar Currículo" : "Download Resume"}
         </Button>
       </DropdownMenuTrigger>

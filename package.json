@@ -13,7 +13,7 @@
     "test:coverage": "vitest run --coverage",
     "analyze": "cross-env ANALYZE=true next build",
     "optimize-images": "node scripts/optimize-images.mjs",
-    "prebuild": "npm run optimize-images"
+    "prebuild": "npm run optimize-images && ./scripts/build-resume.sh"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.787.0",
@@ -66,6 +66,7 @@
     "embla-carousel-react": "^8.0.0-rc17",
     "fs": "0.0.1-security",
     "gray-matter": "^4.0.3",
+    "handlebars": "^4.7.8",
     "highlight.js": "^11.11.1",
     "html2canvas": "^1.4.1",
     "input-otp": "^1.1.0",

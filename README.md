@@ -219,7 +219,9 @@ npm run build        # Build for production
 npm run start        # Start production server
 npm run lint         # Run ESLint
 npm run test         # Run tests
+npm run test         # Run tests
 npm run type-check   # TypeScript type checking
+./scripts/build-resume.sh # Build PDF resumes (requires pdflatex or Docker)
 ```
 
 ## 🤝 Contributing
