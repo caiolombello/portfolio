@@ -14,6 +14,8 @@ import { getSiteConfig } from "@/lib/config-server";
 import MarkdownRenderer from "@/components/blog/markdown-renderer";
 import ReadingProgressBar from "@/components/blog/reading-progress-bar";
 import PostLanguageHandler from "@/components/blog/post-language-handler";
+import { ShareButtons } from "@/components/blog/share-buttons";
+import Comments from "@/components/blog/comments";
 
 interface PageProps {
   params: Promise<{
@@ -114,6 +116,12 @@ export default async function BlogPostPage({ params }: PageProps) {
             <Card>
               <CardContent className="pt-6">
                 <MarkdownRenderer content={content ?? ""} />
+                <div className="mt-8 border-t pt-8">
+                  <ShareButtons
+                    title={title || ""}
+                    url={`${siteConfig.site.url}/blog/${lang === "pt" ? post.slug_pt : post.slug_en}`}
+                  />
+                </div>
               </CardContent>
             </Card>
             <PostNavigation
@@ -122,6 +130,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               dictionary={dictionary}
               lang={lang}
             />
+            <Comments />
           </article>
         </main>
       </div>

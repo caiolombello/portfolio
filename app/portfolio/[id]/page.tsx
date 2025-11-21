@@ -81,7 +81,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             inLanguage: lang === "pt" ? "Portuguese" : "English",
             genre: project.category,
             keywords:
-              project.technologies?.map((tech) => tech.tech).join(", ") ?? "",
+              project.technologies?.map((tech: Technology) => tech.tech).join(", ") ?? "",
             ...(project.githubUrl ? { codeRepository: project.githubUrl } : {}),
             ...(project.liveUrl ? { url: project.liveUrl } : {}),
           }),

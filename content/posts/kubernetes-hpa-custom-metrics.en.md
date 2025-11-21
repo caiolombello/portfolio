@@ -4,7 +4,7 @@ date: "2023-03-18"
 description: "Unlock the Full Potential of Horizontal Pod Autoscaling in Kubernetes. Learn how to use custom metrics for more effective scaling."
 author: "Caio Barbieri"
 tags: ["Kubernetes", "HPA", "Prometheus", "DevOps", "Autoscaling"]
-coverImage: "/images/posts/kubernetes-hpa.png"
+coverImage: "/images/posts/kubernetes-hpa.webp"
 ---
 
 ## Introduction and Summary

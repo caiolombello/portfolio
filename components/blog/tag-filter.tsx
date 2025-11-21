@@ -41,7 +41,7 @@ export function TagFilter({ posts, onFilteredPostsChange }: TagFilterProps) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(post => {
         const title = language === "en" ? post.title_en : post.title_pt;
-        const desc = language === "en" ? post.description_en : post.description_pt;
+        const desc = language === "en" ? post.summary_en : post.summary_pt;
         return (
           title.toLowerCase().includes(query) ||
           desc.toLowerCase().includes(query)
@@ -118,8 +118,8 @@ export function TagFilter({ posts, onFilteredPostsChange }: TagFilterProps) {
                 key={tag}
                 variant={isSelected ? "default" : "secondary"}
                 className={`cursor-pointer transition-all duration-200 hover:scale-105 ${isSelected
-                    ? "bg-gold text-gold-foreground shadow-md"
-                    : "hover:bg-gold/20"
+                  ? "bg-gold text-gold-foreground shadow-md"
+                  : "hover:bg-gold/20"
                   }`}
                 onClick={() => toggleTag(tag)}
               >

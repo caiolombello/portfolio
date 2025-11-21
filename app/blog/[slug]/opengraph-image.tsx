@@ -1,8 +1,9 @@
 import { ImageResponse } from 'next/og';
+import { loadPostBySlug } from '@/lib/data';
 
 export const runtime = 'edge';
 
-export const alt = 'Blog Post - Caio Barbieri';
+export const alt = 'Blog Post Cover';
 export const size = {
   width: 1200,
   height: 630,
@@ -10,12 +11,41 @@ export const size = {
 
 export const contentType = 'image/png';
 
-export default async function Image({ params }: { params: { slug: string } }) {
-  // Formatar o slug para título
-  const title = params.slug
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+interface Props {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
+export default async function Image({ params }: Props) {
+  const { slug } = await params;
+  const post = await loadPostBySlug(slug);
+
+  if (!post) {
+    return new ImageResponse(
+      (
+        <div
+          style={{
+            fontSize: 48,
+            background: 'white',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          Post not found
+        </div>
+      ),
+      { ...size }
+    );
+  }
+
+  // Determine language and content based on slug
+  const isPt = post.slug_pt === slug;
+  const title = isPt ? post.title_pt : post.title_en;
+  const tags = isPt ? post.tags_pt : post.tags_en;
 
   return new ImageResponse(
     (
@@ -25,12 +55,14 @@ export default async function Image({ params }: { params: { slug: string } }) {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%)',
+          alignItems: 'flex-start',
+          justifyContent: 'center',
+          background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+          padding: '80px',
           position: 'relative',
-          overflow: 'hidden',
         }}
       >
-        {/* Grid de fundo */}
+        {/* Background Pattern */}
         <div
           style={{
             position: 'absolute',
@@ -38,181 +70,104 @@ export default async function Image({ params }: { params: { slug: string } }) {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundImage: `
-              linear-gradient(rgba(255, 215, 0, 0.02) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255, 215, 0, 0.02) 1px, transparent 1px)
-            `,
-            backgroundSize: '30px 30px',
+            backgroundImage: 'radial-gradient(circle at 25px 25px, rgba(255, 215, 0, 0.15) 2%, transparent 0%)',
+            backgroundSize: '50px 50px',
           }}
         />
 
-        {/* Header */}
+        {/* Site Brand */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '40px 60px',
-            borderBottom: '2px solid rgba(168, 85, 247, 0.2)',
+            gap: '12px',
+            marginBottom: '40px',
+            background: 'rgba(255, 215, 0, 0.1)',
+            padding: '12px 24px',
+            borderRadius: '30px',
+            border: '1px solid rgba(255, 215, 0, 0.2)',
           }}
         >
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '16px',
+              width: '12px',
+              height: '12px',
+              borderRadius: '50%',
+              background: '#FFD700',
+            }}
+          />
+          <span
+            style={{
+              fontSize: '24px',
+              color: '#FFD700',
+              fontWeight: 'bold',
+              fontFamily: 'sans-serif',
             }}
           >
+            caio.lombello.com
+          </span>
+        </div>
+
+        {/* Title */}
+        <h1
+          style={{
+            fontSize: '72px',
+            fontWeight: 'bold',
+            color: '#ffffff',
+            lineHeight: 1.1,
+            marginBottom: '40px',
+            fontFamily: 'sans-serif',
+            maxWidth: '90%',
+          }}
+        >
+          {title}
+        </h1>
+
+        {/* Tags */}
+        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+          {tags?.slice(0, 3).map((tag: string) => (
             <div
+              key={tag}
               style={{
-                width: '48px',
-                height: '48px',
-                background: 'linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%)',
-                borderRadius: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '28px',
-              }}
-            >
-              📝
-            </div>
-            <span
-              style={{
+                padding: '8px 20px',
+                background: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '20px',
                 fontSize: '24px',
-                color: '#e9d5ff',
-                fontWeight: '600',
+                color: '#e2e8f0',
+                fontFamily: 'sans-serif',
               }}
             >
-              Blog Post
-            </span>
-          </div>
-          <div
-            style={{
-              padding: '8px 20px',
-              background: 'rgba(168, 85, 247, 0.2)',
-              borderRadius: '20px',
-              fontSize: '18px',
-              color: '#c084fc',
-            }}
-          >
-            Caio Barbieri
-          </div>
+              #{tag}
+            </div>
+          ))}
         </div>
 
-        {/* Conteúdo */}
+        {/* Author */}
         <div
           style={{
+            position: 'absolute',
+            bottom: '60px',
+            right: '60px',
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            flex: 1,
-            padding: '60px 80px',
+            alignItems: 'center',
+            gap: '16px',
           }}
         >
-          {/* Título do Post */}
-          <h1
-            style={{
-              fontSize: '64px',
-              fontWeight: '900',
-              color: '#ffffff',
-              margin: '0 0 30px 0',
-              lineHeight: 1.1,
-              letterSpacing: '-1px',
-              maxWidth: '100%',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical',
-            }}
-          >
-            {title}
-          </h1>
-
-          {/* Info */}
           <div
             style={{
               display: 'flex',
-              alignItems: 'center',
-              gap: '24px',
-              marginTop: '20px',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-              }}
-            >
-              <div
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '20px',
-                }}
-              >
-                👨‍💻
-              </div>
-              <span
-                style={{
-                  fontSize: '22px',
-                  color: '#c084fc',
-                  fontWeight: '600',
-                }}
-              >
-                Caio Barbieri
-              </span>
-            </div>
-            <div
-              style={{
-                width: '2px',
-                height: '30px',
-                background: 'rgba(192, 132, 252, 0.3)',
-              }}
-            />
-            <span
-              style={{
-                fontSize: '20px',
-                color: '#e9d5ff',
-              }}
-            >
-              DevOps Engineer
+            <span style={{ fontSize: '24px', color: '#ffffff', fontWeight: 'bold' }}>
+              Caio Barbieri
+            </span>
+            <span style={{ fontSize: '18px', color: '#94a3b8' }}>
+              SRE | Cloud Engineer
             </span>
           </div>
         </div>
-
-        {/* Footer decorativo */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '8px',
-            background: 'linear-gradient(90deg, #a855f7 0%, #ec4899 50%, #f59e0b 100%)',
-          }}
-        />
-
-        {/* Elemento decorativo */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',
-            right: '-100px',
-            width: '300px',
-            height: '300px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%)',
-            filter: 'blur(60px)',
-          }}
-        />
       </div>
     ),
     {
@@ -220,4 +175,3 @@ export default async function Image({ params }: { params: { slug: string } }) {
     }
   );
 }
-
