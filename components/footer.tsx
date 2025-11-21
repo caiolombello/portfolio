@@ -8,6 +8,7 @@ import {
   Instagram,
   Globe,
   MessageSquare,
+  Rss,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
@@ -180,6 +181,18 @@ export default function Footer() {
               </a>
             </Button>
           )}
+
+          <Button variant="ghost" size="icon" asChild>
+            <a
+              href="/feed.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="RSS Feed"
+            >
+              <Rss size={20} className="hover:text-gold" />
+              <span className="sr-only">RSS Feed</span>
+            </a>
+          </Button>
         </div>
       </div>
     </footer>

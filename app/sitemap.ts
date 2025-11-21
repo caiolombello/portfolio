@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { loadPosts } from "@/lib/data";
 
 type ChangeFrequency =
   | "always"
@@ -83,33 +84,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Carregar posts do blog dinâmicos
   let blogPages: MetadataRoute.Sitemap = [];
   try {
-    const postsDir = path.join(process.cwd(), "content/posts");
-    ensureDirectoryExists(postsDir);
+    const posts = await loadPosts();
+    blogPages = posts.flatMap((post: any) => {
+      const pages = [];
 
-    if (fs.existsSync(postsDir)) {
-      const postFiles = fs.readdirSync(postsDir).filter((f) => f.endsWith(".md"));
-      blogPages = postFiles
-        .map((file) => {
-          const filePath = path.join(postsDir, file);
-          const raw = fs.readFileSync(filePath, "utf-8");
-          const { data } = matter(raw);
-          if (!data.publicationDate || isNaN(new Date(data.publicationDate).getTime())) {
-            console.warn(`Post "${file}" com data de publicação inválida ou ausente. Usando data atual.`);
-            return {
-              url: `${baseUrl}/blog/${file.replace(/\.md$/, "")}`,
-              lastModified: new Date(),
-              changeFrequency: "monthly" as ChangeFrequency,
-              priority: 0.7,
-            };
-          }
-          return {
-            url: `${baseUrl}/blog/${file.replace(/\.md$/, "")}`,
-            lastModified: new Date(data.publicationDate),
-            changeFrequency: "monthly" as ChangeFrequency,
-            priority: 0.7,
-          };
+      if (post.slug_pt) {
+        pages.push({
+          url: `${baseUrl}/blog/${post.slug_pt}`,
+          lastModified: new Date(post.publicationDate),
+          changeFrequency: "monthly" as ChangeFrequency,
+          priority: 0.7,
         });
-    }
+      }
+
+      if (post.slug_en) {
+        pages.push({
+          url: `${baseUrl}/blog/${post.slug_en}`,
+          lastModified: new Date(post.publicationDate),
+          changeFrequency: "monthly" as ChangeFrequency,
+          priority: 0.7,
+        });
+      }
+
+      return pages;
+    });
   } catch (error) {
     console.error("Erro ao carregar posts para sitemap:", error);
   }

@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -18,6 +19,41 @@ interface PageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await loadPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: "Post Not Found",
+    };
+  }
+
+  const lang: Lang = (post.slug_pt === slug ? "pt" : "en") as Lang;
+  const title = lang === "en" ? post.title_en : post.title_pt;
+  const description = lang === "en" ? post.description_en : post.description_pt;
+  const siteConfig = getSiteConfig();
+
+  return {
+    title: title,
+    description: description,
+    openGraph: {
+      title: title || siteConfig.site.title,
+      description: description || siteConfig.site.description,
+      type: "article",
+      publishedTime: post.publicationDate,
+      authors: [siteConfig.site.author],
+      images: post.coverImage ? [post.coverImage] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: title || siteConfig.site.title,
+      description: description || siteConfig.site.description,
+      images: post.coverImage ? [post.coverImage] : [],
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
