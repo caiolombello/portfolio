@@ -40,5 +40,7 @@ export interface Post {
   author?: Author;
   category?: string;
   tags?: string[];
+  tags_en?: string[];
+  tags_pt?: string[];
   published?: boolean;
 }

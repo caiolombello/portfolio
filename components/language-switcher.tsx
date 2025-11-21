@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/contexts/language-context";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";
 import {
@@ -11,7 +12,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function LanguageSwitcher() {
-  const { language, changeLanguage } = useLanguage();
+  const { language, changeLanguage, alternateLinks } = useLanguage();
+  const router = useRouter();
+
+  const handleLanguageChange = (lang: "pt" | "en") => {
+    changeLanguage(lang);
+    if (alternateLinks && alternateLinks[lang]) {
+      router.push(alternateLinks[lang]);
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -27,13 +36,13 @@ export default function LanguageSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem
-          onClick={() => changeLanguage("pt")}
+          onClick={() => handleLanguageChange("pt")}
           className={language === "pt" ? "bg-secondary" : ""}
         >
           Português
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => changeLanguage("en")}
+          onClick={() => handleLanguageChange("en")}
           className={language === "en" ? "bg-secondary" : ""}
         >
           English

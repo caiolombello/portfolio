@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import testimonials from '@/content/testimonials.json';
+import { getTestimonialsData } from '@/lib/data';
 
 export async function GET() {
-  return NextResponse.json(testimonials);
+  const data = await getTestimonialsData();
+  return NextResponse.json(data);
 }

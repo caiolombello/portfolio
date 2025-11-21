@@ -17,24 +17,78 @@ export function loadPosts() {
       return [];
     }
 
-    const postFiles = fs.readdirSync(postsDir).filter(file => file.endsWith(".md"));
-    
-    const posts = postFiles.map(filename => {
+    const files = fs.readdirSync(postsDir).filter(file => file.endsWith(".md"));
+    const postsMap = new Map<string, any>();
+
+    files.forEach(filename => {
       const filePath = path.join(postsDir, filename);
       const fileContents = fs.readFileSync(filePath, "utf8");
-      const { data } = matter(fileContents);
-      
-      return {
-        slug: filename.replace(".md", ""),
-        title: data.title || "Untitled",
-        description: data.description || "",
-        date: data.date || new Date().toISOString(),
-        author: data.author || "Anonymous",
-        tags: data.tags || [],
-      };
+      const { data, content } = matter(fileContents);
+
+      // Extract base slug and language
+      // Format: name.lang.md (e.g., hello-world.en.md)
+      const parts = filename.split('.');
+      const lang = parts.length > 2 ? parts[parts.length - 2] : 'en'; // default to en if no lang
+      const baseSlug = filename.replace(`.${lang}.md`, "").replace(".md", "");
+
+      if (!postsMap.has(baseSlug)) {
+        postsMap.set(baseSlug, {
+          slug_en: `${baseSlug}.en`,
+          slug_pt: `${baseSlug}.pt`,
+          title_en: "",
+          title_pt: "",
+          summary_en: "",
+          summary_pt: "",
+          body_en: "",
+          body_pt: "",
+          date: "",
+          author: "Anonymous",
+          tags: [],
+          coverImage: null,
+        });
+      }
+
+      const post = postsMap.get(baseSlug);
+
+      // Common metadata (take from the first file encountered or prefer one language?)
+      // Usually date, author, tags, coverImage are shared or similar.
+      // We'll update them from the current file, so the last one processed wins for shared fields.
+      if (data.publicationDate || data.date) post.date = data.publicationDate || data.date;
+      if (data.author) post.author = data.author;
+      if (data.tags) post.tags = data.tags;
+      if (data.coverImage) post.coverImage = data.coverImage;
+
+      // Language specific fields
+      if (lang === 'pt') {
+        post.title_pt = data.title;
+        post.summary_pt = data.summary || data.description || "";
+        post.body_pt = content;
+        post.slug_pt = `${baseSlug}.pt`; // Ensure explicit slug
+        post.tags_pt = data.tags || [];
+      } else {
+        post.title_en = data.title;
+        post.summary_en = data.summary || data.description || "";
+        post.body_en = content;
+        post.slug_en = `${baseSlug}.en`; // Ensure explicit slug
+        post.tags_en = data.tags || [];
+      }
     });
 
-    return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const posts = Array.from(postsMap.values()).map(post => ({
+      ...post,
+      // Ensure fallbacks if one language is missing
+      title_en: post.title_en || post.title_pt,
+      title_pt: post.title_pt || post.title_en,
+      summary_en: post.summary_en || post.summary_pt,
+      summary_pt: post.summary_pt || post.summary_en,
+      body_en: post.body_en || post.body_pt,
+      body_pt: post.body_pt || post.body_en,
+      tags_en: post.tags_en || post.tags_pt || [],
+      tags_pt: post.tags_pt || post.tags_en || [],
+      publicationDate: post.date, // Map date to publicationDate to match type
+    }));
+
+    return posts.sort((a, b) => new Date(b.publicationDate).getTime() - new Date(a.publicationDate).getTime());
   } catch (error) {
     console.error("Error loading posts:", error);
     return [];
@@ -51,21 +105,28 @@ export function loadProjects() {
     }
 
     const projectFiles = fs.readdirSync(projectsDir).filter(file => file.endsWith(".json"));
-    
+
     const projects = projectFiles.map(filename => {
       const filePath = path.join(projectsDir, filename);
       const fileContents = fs.readFileSync(filePath, "utf8");
       const data = JSON.parse(fileContents);
-      
+
       return {
         id: data.id || filename.replace(".json", ""),
-        title: data.title || "Untitled Project",
-        description: data.description || "",
-        image: data.image || null,
+        title_pt: data.title_pt || data.title || "Untitled Project",
+        title_en: data.title_en || data.title || "Untitled Project",
+        shortDescription_pt: data.shortDescription_pt || "",
+        shortDescription_en: data.shortDescription_en || "",
+        description_pt: data.description_pt || data.description || "",
+        description_en: data.description_en || data.description || "",
+        imageUrl: data.imageUrl || data.image || null,
+        category: data.category,
         technologies: data.technologies || [],
-        github: data.github || null,
-        url: data.url || null,
+        githubUrl: data.githubUrl || data.github || null,
+        liveUrl: data.liveUrl || data.url || null,
         featured: data.featured || false,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt,
       };
     });
 
@@ -84,7 +145,7 @@ export function loadSkills() {
   try {
     const skillsDir = path.join(process.cwd(), "content/skills");
     ensureDirectoryExists(skillsDir);
-    
+
     const skillsPath = path.join(skillsDir, "skills.json");
     if (!fs.existsSync(skillsPath)) {
       const defaultSkills = {
@@ -111,4 +172,4 @@ export function loadSkills() {
     console.error("Error loading skills:", error);
     return { skills_list: [] };
   }
-} 
+}

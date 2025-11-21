@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { loadExperiences } from "@/lib/data";
+import { getExperiencesData } from "@/lib/data";
 import type { Experience } from "@/types/experience";
 
 export async function GET() {
   try {
-    const data = await loadExperiences();
+    const data = await getExperiencesData();
     // Format the data for the expected component structure
     const formattedData = {
       pt: data.map((item: Experience) => ({

@@ -12,6 +12,7 @@ import PostNavigation from "@/components/blog/post-navigation";
 import { getSiteConfig } from "@/lib/config-server";
 import MarkdownRenderer from "@/components/blog/markdown-renderer";
 import ReadingProgressBar from "@/components/blog/reading-progress-bar";
+import PostLanguageHandler from "@/components/blog/post-language-handler";
 
 interface PageProps {
   params: Promise<{
@@ -46,6 +47,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <>
       <ReadingProgressBar />
+      <PostLanguageHandler slugEn={post.slug_en} slugPt={post.slug_pt} />
       <div className="container py-12">
         <Link
           href={`/blog`}

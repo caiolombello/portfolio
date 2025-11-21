@@ -1,28 +1,36 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 export default function ReadingProgressBar() {
-  const [width, setWidth] = useState(0);
-
-  const handleScroll = () => {
-    const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrollPosition = window.scrollY;
-    const scrollPercentage = (scrollPosition / totalHeight) * 100;
-    setWidth(scrollPercentage);
-  };
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
     };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  if (!isVisible) return null;
+
   return (
-    <div
-      className="fixed top-0 left-0 z-50 h-1 bg-gold transition-all duration-75 ease-out"
-      style={{ width: `${width}%` }}
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-1.5 bg-gold origin-left z-50"
+      style={{ scaleX }}
     />
   );
 }

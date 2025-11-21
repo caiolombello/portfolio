@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { SITE_CONFIG } from "./constants";
 import { getSiteConfig, type SiteConfig } from "./config-server";
 import { buildOgImageUrl } from "./seo";
-import { loadProfile } from "./data";
+import { getProfileData } from "./data";
 
 interface GenerateMetadataOptions {
   title?: string;
@@ -101,7 +101,7 @@ export function generateBlogPostJsonLd({
 // Função para gerar metadata base dinâmico
 export async function generateSiteMetadata(): Promise<Metadata> {
   const config = getSiteConfig();
-  const profile = await loadProfile();
+  const profile = await getProfileData();
 
   const siteTitle = profile?.pt?.title ? `${profile.pt.name} - ${profile.pt.title}` : config.site.title;
   const siteDescription = profile?.pt?.about || config.site.description;
@@ -174,7 +174,7 @@ export async function generatePageMetadata(
   noIndex?: boolean
 ): Promise<Metadata> {
   const config = getSiteConfig();
-  const profile = await loadProfile();
+  const profile = await getProfileData();
   const pageDescription = description || profile?.pt?.about || config.site.description;
   const pageImage = image || buildOgImageUrl({ title });
 
@@ -214,7 +214,7 @@ export async function generatePageMetadata(
 // Função para gerar structured data
 export async function generateStructuredData() {
   const config = getSiteConfig();
-  const profile = await loadProfile();
+  const profile = await getProfileData();
 
   return {
     "@context": "https://schema.org",

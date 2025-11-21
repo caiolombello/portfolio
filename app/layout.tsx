@@ -39,13 +39,20 @@ import { getDictionary } from "@/app/i18n";
 
 // ... (imports)
 
+import { cookies } from "next/headers";
+
+// ... (imports)
+
 export default async function RootLayout({ children }: RootLayoutProps) {
   const config = getSiteConfig();
   const structuredData = await generateStructuredData();
-  const initialDictionary = await getDictionary("pt");
+
+  const cookieStore = await cookies();
+  const lang = cookieStore.get("NEXT_LOCALE")?.value || "pt";
+  const initialDictionary = await getDictionary(lang);
 
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <head>
         <meta name="msapplication-TileColor" content="#121212" />
         <meta name="theme-color" content="#121212" />
@@ -88,7 +95,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <LanguageProvider initialDictionary={initialDictionary} initialLanguage="pt">
+          <LanguageProvider initialDictionary={initialDictionary} initialLanguage={lang as any}>
             <DynamicTitle />
             <div className="flex min-h-screen flex-col">
               <Navbar />

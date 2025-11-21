@@ -18,6 +18,8 @@ interface LanguageContextType {
   changeLanguage: (lang: Locale) => void;
   t: (key: string) => string;
   loading: boolean;
+  alternateLinks?: Record<string, string>;
+  setAlternateLinks?: (links: Record<string, string>) => void;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(
@@ -53,6 +55,7 @@ export function LanguageProvider({
   const [language, setLanguage] = useState<Locale>(initialLanguage);
   const [dictionary, setDictionary] = useState<any>(initialDictionary);
   const [loading, setLoading] = useState(false);
+  const [alternateLinks, setAlternateLinks] = useState<Record<string, string>>({});
 
   // Initialize language after mount, checking localStorage first, then browser language
   useEffect(() => {
@@ -94,6 +97,7 @@ export function LanguageProvider({
   const changeLanguage = (lang: Locale) => {
     setLanguage(lang);
     localStorage.setItem("language", lang);
+    document.cookie = `NEXT_LOCALE=${lang}; path=/; max-age=31536000; SameSite=Lax`;
     document.documentElement.lang = lang;
   };
 
@@ -113,7 +117,7 @@ export function LanguageProvider({
   };
 
   return (
-    <LanguageContext.Provider value={{ language, changeLanguage, t, loading }}>
+    <LanguageContext.Provider value={{ language, changeLanguage, t, loading, alternateLinks, setAlternateLinks }}>
       {children}
     </LanguageContext.Provider>
   );

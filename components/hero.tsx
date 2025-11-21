@@ -63,13 +63,13 @@ export default function Hero() {
         <div className="flex flex-wrap items-center justify-center gap-4 mt-4" suppressHydrationWarning>
           <Button asChild size="lg" className="bg-gold text-black hover:bg-gold/90 gap-2">
             <Link href="/contact">
-              <Mail className="h-4 w-4" />
+              <Mail className="h-4 w-4" suppressHydrationWarning />
               {language === 'en' ? 'Get in Touch' : 'Entre em Contato'}
             </Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="gap-2 border-gold/20 hover:bg-gold/5">
             <Link href="/resume" target="_blank">
-              <FileText className="h-4 w-4" />
+              <FileText className="h-4 w-4" suppressHydrationWarning />
               {language === 'en' ? 'View Resume' : 'Ver Currículo'}
             </Link>
           </Button>
@@ -83,7 +83,7 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce"
         suppressHydrationWarning
       >
-        <ArrowDown className="h-6 w-6 text-muted-foreground" />
+        <ArrowDown className="h-6 w-6 text-muted-foreground" suppressHydrationWarning />
       </motion.div>
     </section>
   );

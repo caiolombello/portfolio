@@ -41,7 +41,8 @@ export default function BlogPostHeader({
     body_pt,
     body_en,
     author,
-    tags,
+    tags_en,
+    tags_pt,
     publicationDate,
     slug_pt,
     slug_en,
@@ -50,6 +51,7 @@ export default function BlogPostHeader({
   const title = lang === "en" ? title_en : title_pt;
   const content = lang === "en" ? body_en : body_pt;
   const slug = lang === "en" ? slug_en : slug_pt;
+  const tags = lang === "en" ? tags_en : tags_pt;
   const readingTime = calculateReadingTime(content ?? "");
   const postUrl = `${siteUrl}/blog/${slug}`;
 
@@ -77,13 +79,15 @@ export default function BlogPostHeader({
         {author && (
           <div className="flex items-center gap-2">
             <Image
-              src={author.avatar ?? "/placeholder-user.jpg"}
-              alt={author.name}
+              src={(typeof author === 'object' ? author.avatar : null) ?? "/placeholder-user.jpg"}
+              alt={typeof author === 'object' ? author.name : author}
               width={32}
               height={32}
               className="rounded-full"
             />
-            <span className="font-medium">{author.name}</span>
+            <span className="font-medium">
+              {typeof author === 'object' ? author.name : author}
+            </span>
           </div>
         )}
 

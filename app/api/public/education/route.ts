@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { loadEducation } from "@/lib/data";
+import { getEducationData } from "@/lib/data";
 
 export async function GET() {
   try {
-    const data = await loadEducation();
+    const data = await getEducationData();
     // Formatar os dados para o formato esperado pelo componente
     const formattedData = {
       pt: data.map((item) => ({

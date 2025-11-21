@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { getProfileData } from "@/lib/data";
 
 export async function GET() {
-  const filePath = path.join(process.cwd(), "content/profile/profile.json");
-  if (!fs.existsSync(filePath)) {
+  const data = await getProfileData();
+  if (!data) {
     return NextResponse.json({ error: "Profile not found" }, { status: 404 });
   }
-  const data = fs.readFileSync(filePath, "utf-8");
-  return NextResponse.json(JSON.parse(data));
+  return NextResponse.json(data);
 }
