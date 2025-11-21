@@ -39,7 +39,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
   }, [content]);
 
   const getMarkdownText = () => {
-    const rawMarkup = marked.parse(content);
+    const rawMarkup = marked.parse(content) as string;
     return { __html: rawMarkup };
   };
 
