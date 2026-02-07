@@ -1,19 +1,37 @@
 {
   "company": "Vertigo Tecnologia",
+  "logo": "https://media.licdn.com/dms/image/v2/D4D0BAQGgG02_PqvR_w/company-logo_200_200/B4DZuT08hfKAAc-/0/1767711689183/vertigo_tecnologia_logo?e=1772064000&v=beta&t=oQ-DWcaUe8_5nhx7U86U3Xv-yqQd51To-uut4fHiLd0",
+  "companyUrl": "https://www.linkedin.com/company/vertigotech/",
   "title_pt": "Analista DevOps Júnior",
   "title_en": "Junior DevOps Analyst",
   "period": "Oct 2022 - Sep 2024",
   "responsibilities_pt": [
-    { "item": "Liderei iniciativas de transformação cultural Cloud Native, desenvolvi pipelines GitOps/DevSecOps com Bamboo e Shell Script e implementei stacks de monitoramento com Grafana, Prometheus, Loki e Alertmanager." },
-    { "item": "Gerenciei Redis, RabbitMQ, Helm Charts customizados, Dockerfiles e clusters locais com K3d." },
-    { "item": "Criei automações com Terraform e reforcei a segurança na AWS aplicando o princípio do menor privilégio." },
-    { "item": "Também gerenciei Vault e Consul da HashiCorp, garantindo segurança e resiliência na gestão de segredos e rede." }
+    {
+      "item": "Liderei iniciativas de transformação cultural Cloud Native, desenvolvi pipelines GitOps/DevSecOps com Bamboo e Shell Script e implementei stacks de monitoramento com Grafana, Prometheus, Loki e Alertmanager."
+    },
+    {
+      "item": "Gerenciei Redis, RabbitMQ, Helm Charts customizados, Dockerfiles e clusters locais com K3d."
+    },
+    {
+      "item": "Criei automações com Terraform e reforcei a segurança na AWS aplicando o princípio do menor privilégio."
+    },
+    {
+      "item": "Também gerenciei Vault e Consul da HashiCorp, garantindo segurança e resiliência na gestão de segredos e rede."
+    }
   ],
   "responsibilities_en": [
-    { "item": "Led Cloud Native cultural transformation initiatives, developed GitOps/DevSecOps pipelines with Bamboo and Shell Script, and implemented monitoring stacks with Grafana, Prometheus, Loki, and Alertmanager." },
-    { "item": "Managed Redis, RabbitMQ, custom Helm Charts, Dockerfiles, and local clusters with K3d." },
-    { "item": "Created Terraform automations and reinforced AWS security by applying the principle of least privilege." },
-    { "item": "Also managed HashiCorp's Vault and Consul, ensuring security and resilience in secret and network management." }
+    {
+      "item": "Led Cloud Native cultural transformation initiatives, developed GitOps/DevSecOps pipelines with Bamboo and Shell Script, and implemented monitoring stacks with Grafana, Prometheus, Loki, and Alertmanager."
+    },
+    {
+      "item": "Managed Redis, RabbitMQ, custom Helm Charts, Dockerfiles, and local clusters with K3d."
+    },
+    {
+      "item": "Created Terraform automations and reinforced AWS security by applying the principle of least privilege."
+    },
+    {
+      "item": "Also managed HashiCorp's Vault and Consul, ensuring security and resilience in secret and network management."
+    }
   ],
   "startDate": "2022-10-01",
   "endDate": "2024-09-30"

@@ -9,12 +9,16 @@ export async function GET() {
       pt: data.map((item) => ({
         degree: item.degree_pt,
         institution: item.institution,
+        logo: item.logo,
+        institutionUrl: item.institutionUrl,
         period: item.period,
         description: item.description_pt,
       })),
       en: data.map((item) => ({
         degree: item.degree_en,
         institution: item.institution,
+        logo: item.logo,
+        institutionUrl: item.institutionUrl,
         period: item.period,
         description: item.description_en,
       })),

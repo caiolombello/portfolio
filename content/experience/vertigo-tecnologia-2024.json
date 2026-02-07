@@ -1,17 +1,31 @@
 {
   "company": "Vertigo Tecnologia",
+  "logo": "https://media.licdn.com/dms/image/v2/D4D0BAQGgG02_PqvR_w/company-logo_200_200/B4DZuT08hfKAAc-/0/1767711689183/vertigo_tecnologia_logo?e=1772064000&v=beta&t=oQ-DWcaUe8_5nhx7U86U3Xv-yqQd51To-uut4fHiLd0",
+  "companyUrl": "https://www.linkedin.com/company/vertigotech/",
   "title_pt": "Analista DevOps Pleno",
   "title_en": "Mid-level DevOps Analyst",
-  "period": "Set 2024 - Jul 2025",
+  "period": "Sep 2024 - Jul 2025",
   "responsibilities_pt": [
-    { "item": "Desenvolvi soluções de automação de infraestrutura e pipelines CI/CD para diversos clientes." },
-    { "item": "Liderei iniciativas de automação baseadas em IA e contribuí ativamente para a plataforma VeeCode, criando templates, plugins e funcionalidades customizadas." },
-    { "item": "Implementei soluções de observabilidade e ofereci consultoria contínua em DevOps para apoiar a transformação digital e capacitação das equipes." }
+    {
+      "item": "Desenvolvi soluções de automação de infraestrutura e pipelines CI/CD para diversos clientes."
+    },
+    {
+      "item": "Liderei iniciativas de automação baseadas em IA e contribuí ativamente para a plataforma VeeCode, criando templates, plugins e funcionalidades customizadas."
+    },
+    {
+      "item": "Implementei soluções de observabilidade e ofereci consultoria contínua em DevOps para apoiar a transformação digital e capacitação das equipes."
+    }
   ],
   "responsibilities_en": [
-    { "item": "Developed infrastructure automation solutions and CI/CD pipelines for various clients." },
-    { "item": "Led AI-based automation initiatives and actively contributed to the VeeCode platform by creating templates, plugins, and custom features." },
-    { "item": "Implemented observability solutions and provided ongoing DevOps consulting to support digital transformation and team enablement." }
+    {
+      "item": "Developed infrastructure automation solutions and CI/CD pipelines for various clients."
+    },
+    {
+      "item": "Led AI-based automation initiatives and actively contributed to the VeeCode platform by creating templates, plugins, and custom features."
+    },
+    {
+      "item": "Implemented observability solutions and provided ongoing DevOps consulting to support digital transformation and team enablement."
+    }
   ],
   "startDate": "2024-09-01",
   "endDate": "2025-07-01"

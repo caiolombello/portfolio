@@ -1,8 +1,10 @@
 {
   "company": "Vertigo Tecnologia",
+  "logo": "https://media.licdn.com/dms/image/v2/D4D0BAQGgG02_PqvR_w/company-logo_200_200/B4DZuT08hfKAAc-/0/1767711689183/vertigo_tecnologia_logo?e=1772064000&v=beta&t=oQ-DWcaUe8_5nhx7U86U3Xv-yqQd51To-uut4fHiLd0",
+  "companyUrl": "https://www.linkedin.com/company/vertigotech/",
   "title_pt": "Analista DevOps Sênior",
   "title_en": "Senior DevOps Analyst",
-  "period": "Jun 2025 - Ago 2025",
+  "period": "Jun 2025 - Aug 2025",
   "responsibilities_pt": [
     {
       "item": "Responsável por arquitetar e entregar toda a fundação de engenharia de plataforma para um cliente enterprise."

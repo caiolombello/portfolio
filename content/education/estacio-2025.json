@@ -1,9 +1,9 @@
 {
   "institution": "Universidade Estácio de Sá",
+  "logo": "https://media.licdn.com/dms/image/v2/D4D0BAQEBeOO2qRLchw/company-logo_200_200/B4DZfQjBk8GgAI-/0/1751550537610/estacio_logo?e=1772064000&v=beta&t=wzJn7WuST-QfCj5FEz2Uekn_FTm41_NLJ8RUkGBwa50",
+  "institutionUrl": "https://www.linkedin.com/school/estacio/",
   "degree_pt": "Bacharelado em Sistemas de Informação",
   "degree_en": "Bachelor in Information Systems",
   "period": "Mar 2022 - Dez 2025",
-  "description_pt": "Formação abrangente em análise e modelagem de sistemas de informação, banco de dados, redes de computadores, engenharia de software e gestão de projetos de TI. Inclui disciplinas de programação, segurança da informação e governança de TI.",
-  "description_en": "Comprehensive training in analysis and modeling of information systems, database management, computer networks, software engineering, and IT project management. Coursework includes programming, information security, and IT governance.",
   "endDate": "2025-12"
 }

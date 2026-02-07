@@ -1,8 +1,10 @@
 {
   "company": "Opsteam",
+  "logo": "https://media.licdn.com/dms/image/v2/D4D0BAQHOG3MC7p5IPQ/company-logo_200_200/company-logo_200_200/0/1712165387331/opsteam_logo?e=1772064000&v=beta&t=WqfYLGzNNtFuGhO6f9YJQM3NDMDh4W2S1mHFRtnPr10",
+  "companyUrl": "https://www.linkedin.com/company/opsteam/",
   "title_pt": "SRE | Cloud Engineer",
   "title_en": "SRE | Cloud Engineer",
-  "period": "Ago 2025 - Presente",
+  "period": "Aug 2025 - Present",
   "responsibilities_pt": [
     {
       "item": "Prestar serviços especializados em Engenharia de Confiabilidade de Sites (SRE) e Cloud, com foco no gerenciamento de infraestrutura na AWS e outros provedores de nuvem."

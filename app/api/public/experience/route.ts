@@ -10,18 +10,24 @@ export async function GET() {
       pt: data.map((item: Experience) => ({
         title: item.title_pt,
         company: item.company,
+        logo: item.logo,
+        companyUrl: item.companyUrl,
         period: item.period,
         responsibilities: item.responsibilities_pt.map((r) => r.item),
       })),
       en: data.map((item: Experience) => ({
         title: item.title_en,
         company: item.company,
+        logo: item.logo,
+        companyUrl: item.companyUrl,
         period: item.period,
         responsibilities: item.responsibilities_en.map((r) => r.item),
       })),
       es: data.map((item: Experience) => ({
         title: item.title_es || item.title_en, // Fallback to English if Spanish not available
         company: item.company,
+        logo: item.logo,
+        companyUrl: item.companyUrl,
         period: item.period,
         responsibilities: item.responsibilities_es?.map((r) => r.item) || item.responsibilities_en.map((r) => r.item), // Fallback to English
       })),

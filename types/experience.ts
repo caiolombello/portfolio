@@ -4,6 +4,8 @@ export interface ResponsibilityItem {
 
 export interface Experience {
   company: string;
+  logo?: string;
+  companyUrl?: string;
   title_pt: string;
   title_en: string;
   title_es?: string;

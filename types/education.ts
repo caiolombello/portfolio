@@ -1,5 +1,7 @@
 export interface Education {
   institution: string;
+  logo?: string;
+  institutionUrl?: string;
   degree_pt: string;
   degree_en: string;
   period: string;
