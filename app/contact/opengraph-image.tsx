@@ -1,8 +1,9 @@
 import { ImageResponse } from 'next/og';
+import { getOgSiteConfig, getDomainFromUrl } from '@/lib/og-config';
 
 export const runtime = 'edge';
 
-export const alt = "Get in Touch - Caio Barbieri";
+export const alt = 'Contact';
 export const size = {
   width: 1200,
   height: 630,
@@ -11,6 +12,10 @@ export const size = {
 export const contentType = 'image/png';
 
 export default async function Image() {
+  const config = await getOgSiteConfig();
+  const name = config.site.shortName;
+  const domain = getDomainFromUrl(config.site.url);
+
   return new ImageResponse(
     (
       <div
@@ -42,7 +47,7 @@ export default async function Image() {
           }}
         />
 
-        {/* Círculos decorativos */}
+        {/* Decorative circles */}
         <div
           style={{
             position: 'absolute',
@@ -68,7 +73,7 @@ export default async function Image() {
           }}
         />
 
-        {/* Container principal */}
+        {/* Main container */}
         <div
           style={{
             display: 'flex',
@@ -81,7 +86,7 @@ export default async function Image() {
             zIndex: 1,
           }}
         >
-          {/* Ícone grande de contato */}
+          {/* Contact icon */}
           <div
             style={{
               display: 'flex',
@@ -107,7 +112,7 @@ export default async function Image() {
             </div>
           </div>
 
-          {/* Título */}
+          {/* Title */}
           <h1
             style={{
               fontSize: '88px',
@@ -122,7 +127,7 @@ export default async function Image() {
             Let's Connect
           </h1>
 
-          {/* Subtítulo */}
+          {/* Subtitle */}
           <p
             style={{
               fontSize: '36px',
@@ -137,7 +142,7 @@ export default async function Image() {
             Ready to discuss your next project?
           </p>
 
-          {/* Métodos de contato */}
+          {/* Contact methods */}
           <div
             style={{
               display: 'flex',
@@ -147,90 +152,35 @@ export default async function Image() {
               justifyContent: 'center',
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-                padding: '20px 32px',
-                background: 'rgba(255, 255, 255, 0.1)',
-                borderRadius: '50px',
-                border: '2px solid rgba(255, 255, 255, 0.2)',
-              }}
-            >
+            {[
+              { icon: '📧', label: 'Email' },
+              { icon: '💼', label: 'LinkedIn' },
+              { icon: '💻', label: 'GitHub' },
+            ].map((item) => (
               <div
+                key={item.label}
                 style={{
-                  fontSize: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  padding: '20px 32px',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  borderRadius: '50px',
+                  border: '2px solid rgba(255, 255, 255, 0.2)',
                 }}
               >
-                📧
+                <div style={{ fontSize: '32px' }}>{item.icon}</div>
+                <span
+                  style={{
+                    fontSize: '24px',
+                    color: '#ffffff',
+                    fontWeight: '600',
+                  }}
+                >
+                  {item.label}
+                </span>
               </div>
-              <span
-                style={{
-                  fontSize: '24px',
-                  color: '#ffffff',
-                  fontWeight: '600',
-                }}
-              >
-                Email
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-                padding: '20px 32px',
-                background: 'rgba(255, 255, 255, 0.1)',
-                borderRadius: '50px',
-                border: '2px solid rgba(255, 255, 255, 0.2)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '32px',
-                }}
-              >
-                💼
-              </div>
-              <span
-                style={{
-                  fontSize: '24px',
-                  color: '#ffffff',
-                  fontWeight: '600',
-                }}
-              >
-                LinkedIn
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '16px',
-                padding: '20px 32px',
-                background: 'rgba(255, 255, 255, 0.1)',
-                borderRadius: '50px',
-                border: '2px solid rgba(255, 255, 255, 0.2)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '32px',
-                }}
-              >
-                💻
-              </div>
-              <span
-                style={{
-                  fontSize: '24px',
-                  color: '#ffffff',
-                  fontWeight: '600',
-                }}
-              >
-                GitHub
-              </span>
-            </div>
+            ))}
           </div>
         </div>
 
@@ -253,7 +203,7 @@ export default async function Image() {
               fontWeight: '700',
             }}
           >
-            Caio Barbieri
+            {name}
           </span>
           <div
             style={{
@@ -269,7 +219,7 @@ export default async function Image() {
               fontFamily: 'monospace',
             }}
           >
-            caio.lombello.com/contact
+            {domain}/contact
           </span>
         </div>
       </div>
@@ -279,4 +229,3 @@ export default async function Image() {
     }
   );
 }
-

@@ -1,8 +1,9 @@
 import { ImageResponse } from 'next/og';
+import { getOgSiteConfig, getDomainFromUrl } from '@/lib/og-config';
 
 export const runtime = 'edge';
 
-export const alt = 'Professional Resume - Caio Barbieri';
+export const alt = 'Resume';
 export const size = {
   width: 1200,
   height: 630,
@@ -11,6 +12,11 @@ export const size = {
 export const contentType = 'image/png';
 
 export default async function Image() {
+  const config = await getOgSiteConfig();
+  const name = config.site.shortName;
+  const jobTitle = config.site.title.split(' - ').slice(1).join(' - ') || config.site.description;
+  const domain = getDomainFromUrl(config.site.url);
+
   return new ImageResponse(
     (
       <div
@@ -42,7 +48,7 @@ export default async function Image() {
           }}
         />
 
-        {/* Círculos decorativos */}
+        {/* Decorative circles */}
         <div
           style={{
             position: 'absolute',
@@ -68,7 +74,7 @@ export default async function Image() {
           }}
         />
 
-        {/* Container principal */}
+        {/* Main container */}
         <div
           style={{
             display: 'flex',
@@ -81,7 +87,7 @@ export default async function Image() {
             zIndex: 1,
           }}
         >
-          {/* Ícone de currículo */}
+          {/* Resume icon */}
           <div
             style={{
               display: 'flex',
@@ -108,7 +114,7 @@ export default async function Image() {
             </div>
           </div>
 
-          {/* Título */}
+          {/* Title */}
           <h1
             style={{
               fontSize: '88px',
@@ -123,7 +129,7 @@ export default async function Image() {
             Resume
           </h1>
 
-          {/* Nome */}
+          {/* Name */}
           <h2
             style={{
               fontSize: '48px',
@@ -136,10 +142,10 @@ export default async function Image() {
               textAlign: 'center',
             }}
           >
-            Caio Barbieri
+            {name}
           </h2>
 
-          {/* Título profissional */}
+          {/* Job title */}
           <p
             style={{
               fontSize: '32px',
@@ -150,10 +156,10 @@ export default async function Image() {
               fontWeight: '500',
             }}
           >
-            Senior DevOps Engineer & Cloud Architect
+            {jobTitle}
           </p>
 
-          {/* Seções do currículo */}
+          {/* Resume sections */}
           <div
             style={{
               display: 'flex',
@@ -182,13 +188,7 @@ export default async function Image() {
                   border: '2px solid rgba(255, 255, 255, 0.15)',
                 }}
               >
-                <div
-                  style={{
-                    fontSize: '36px',
-                  }}
-                >
-                  {item.icon}
-                </div>
+                <div style={{ fontSize: '36px' }}>{item.icon}</div>
                 <span
                   style={{
                     fontSize: '20px',
@@ -200,38 +200,6 @@ export default async function Image() {
                 </span>
               </div>
             ))}
-          </div>
-
-          {/* Badge de download */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              marginTop: '50px',
-              padding: '16px 32px',
-              background: 'rgba(251, 146, 60, 0.2)',
-              border: '2px solid rgba(251, 146, 60, 0.4)',
-              borderRadius: '50px',
-            }}
-          >
-            <div
-              style={{
-                fontSize: '28px',
-              }}
-            >
-              ⬇️
-            </div>
-            <span
-              style={{
-                fontSize: '24px',
-                color: '#ffffff',
-                fontWeight: '600',
-                letterSpacing: '1px',
-              }}
-            >
-              AVAILABLE FOR DOWNLOAD
-            </span>
           </div>
         </div>
 
@@ -270,34 +238,8 @@ export default async function Image() {
               fontFamily: 'monospace',
             }}
           >
-            caio.lombello.com/resume
+            {domain}/resume
           </span>
-        </div>
-
-        {/* Elementos decorativos */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '60px',
-            left: '60px',
-            fontSize: '16px',
-            color: 'rgba(255, 255, 255, 0.15)',
-            fontFamily: 'monospace',
-          }}
-        >
-          {'{ pdf: true }'}
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '120px',
-            right: '60px',
-            fontSize: '16px',
-            color: 'rgba(255, 255, 255, 0.15)',
-            fontFamily: 'monospace',
-          }}
-        >
-          {'<CV />'}
         </div>
       </div>
     ),
@@ -306,4 +248,3 @@ export default async function Image() {
     }
   );
 }
-

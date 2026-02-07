@@ -1,8 +1,9 @@
 import { ImageResponse } from 'next/og';
+import { getOgSiteConfig, getDomainFromUrl } from '@/lib/og-config';
 
 export const runtime = 'edge';
 
-export const alt = 'Caio Barbieri - Blog | DevOps & Cloud Articles';
+export const alt = 'Blog';
 export const size = {
   width: 1200,
   height: 630,
@@ -11,6 +12,11 @@ export const size = {
 export const contentType = 'image/png';
 
 export default async function Image() {
+  const config = await getOgSiteConfig();
+  const name = config.site.shortName;
+  const domain = getDomainFromUrl(config.site.url);
+  const keywords = config.seo.keywords.slice(0, 5);
+
   return new ImageResponse(
     (
       <div
@@ -42,7 +48,7 @@ export default async function Image() {
           }}
         />
 
-        {/* Círculos decorativos */}
+        {/* Decorative circles */}
         <div
           style={{
             position: 'absolute',
@@ -68,7 +74,7 @@ export default async function Image() {
           }}
         />
 
-        {/* Container principal */}
+        {/* Main container */}
         <div
           style={{
             display: 'flex',
@@ -81,7 +87,7 @@ export default async function Image() {
             zIndex: 1,
           }}
         >
-          {/* Ícone de Blog */}
+          {/* Blog icon */}
           <div
             style={{
               display: 'flex',
@@ -107,7 +113,7 @@ export default async function Image() {
             </div>
           </div>
 
-          {/* Título */}
+          {/* Title */}
           <h1
             style={{
               fontSize: '88px',
@@ -124,22 +130,7 @@ export default async function Image() {
             Tech Blog
           </h1>
 
-          {/* Subtítulo */}
-          <p
-            style={{
-              fontSize: '32px',
-              color: '#e9d5ff',
-              margin: '0 0 40px 0',
-              textAlign: 'center',
-              lineHeight: 1.4,
-              fontWeight: '500',
-              maxWidth: '900px',
-            }}
-          >
-            Articles about DevOps, Cloud, Kubernetes & More
-          </p>
-
-          {/* Categorias */}
+          {/* Categories */}
           <div
             style={{
               display: 'flex',
@@ -147,9 +138,10 @@ export default async function Image() {
               gap: '16px',
               flexWrap: 'wrap',
               justifyContent: 'center',
+              marginTop: '40px',
             }}
           >
-            {['DevOps', 'Cloud', 'Kubernetes', 'Infrastructure', 'Automation'].map((cat) => (
+            {keywords.map((cat) => (
               <div
                 key={cat}
                 style={{
@@ -187,7 +179,7 @@ export default async function Image() {
               fontWeight: '700',
             }}
           >
-            Caio Barbieri
+            {name}
           </span>
           <div
             style={{
@@ -203,7 +195,7 @@ export default async function Image() {
               fontFamily: 'monospace',
             }}
           >
-            caio.lombello.com/blog
+            {domain}/blog
           </span>
         </div>
       </div>
@@ -213,4 +205,3 @@ export default async function Image() {
     }
   );
 }
-

@@ -1,8 +1,9 @@
 import { ImageResponse } from 'next/og';
+import { getOgSiteConfig, getDomainFromUrl } from '@/lib/og-config';
 
 export const runtime = 'edge';
 
-export const alt = 'Caio Barbieri - DevOps Engineer';
+export const alt = 'Portfolio';
 export const size = {
   width: 1200,
   height: 630,
@@ -11,6 +12,12 @@ export const size = {
 export const contentType = 'image/png';
 
 export default async function Image() {
+  const config = await getOgSiteConfig();
+  const name = config.site.shortName;
+  const title = config.site.title.split(' - ').slice(1).join(' - ') || config.site.description;
+  const domain = getDomainFromUrl(config.site.url);
+  const keywords = config.seo.keywords.slice(0, 6);
+
   return new ImageResponse(
     (
       <div
@@ -26,7 +33,7 @@ export default async function Image() {
           overflow: 'hidden',
         }}
       >
-        {/* Grid de fundo animado */}
+        {/* Grid de fundo */}
         <div
           style={{
             position: 'absolute',
@@ -42,7 +49,7 @@ export default async function Image() {
           }}
         />
 
-        {/* Círculos de fundo decorativos */}
+        {/* Decorative circles */}
         <div
           style={{
             position: 'absolute',
@@ -68,7 +75,7 @@ export default async function Image() {
           }}
         />
 
-        {/* Container principal */}
+        {/* Main container */}
         <div
           style={{
             display: 'flex',
@@ -81,55 +88,7 @@ export default async function Image() {
             zIndex: 1,
           }}
         >
-          {/* Logo/Ícone no topo */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: '40px',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '20px',
-                padding: '16px 32px',
-                background: 'rgba(255, 215, 0, 0.1)',
-                border: '2px solid rgba(255, 215, 0, 0.3)',
-                borderRadius: '50px',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              <div
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
-                  borderRadius: '12px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '24px',
-                }}
-              >
-                ⚡
-              </div>
-              <span
-                style={{
-                  fontSize: '28px',
-                  color: '#FFD700',
-                  fontWeight: '700',
-                  letterSpacing: '2px',
-                }}
-              >
-                DEVOPS • SRE • CLOUD
-              </span>
-            </div>
-          </div>
-
-          {/* Nome principal */}
+          {/* Name */}
           <h1
             style={{
               fontSize: '96px',
@@ -143,10 +102,10 @@ export default async function Image() {
               letterSpacing: '-2px',
             }}
           >
-            Caio Barbieri
+            {name}
           </h1>
 
-          {/* Descrição/Título */}
+          {/* Title */}
           <p
             style={{
               fontSize: '36px',
@@ -158,10 +117,10 @@ export default async function Image() {
               maxWidth: '900px',
             }}
           >
-            Senior DevOps Engineer & Cloud Architect
+            {title}
           </p>
 
-          {/* Tech Stack */}
+          {/* Keywords / Tech Stack */}
           <div
             style={{
               display: 'flex',
@@ -171,9 +130,9 @@ export default async function Image() {
               justifyContent: 'center',
             }}
           >
-            {['AWS', 'Kubernetes', 'Terraform', 'Docker', 'CI/CD', 'Python'].map((tech) => (
+            {keywords.map((keyword) => (
               <div
-                key={tech}
+                key={keyword}
                 style={{
                   padding: '12px 24px',
                   background: 'rgba(255, 255, 255, 0.05)',
@@ -185,13 +144,13 @@ export default async function Image() {
                   backdropFilter: 'blur(10px)',
                 }}
               >
-                {tech}
+                {keyword}
               </div>
             ))}
           </div>
         </div>
 
-        {/* Footer com URL */}
+        {/* Footer with URL */}
         <div
           style={{
             position: 'absolute',
@@ -225,34 +184,8 @@ export default async function Image() {
               fontWeight: '500',
             }}
           >
-            caio.lombello.com
+            {domain}
           </span>
-        </div>
-
-        {/* Elementos decorativos de código */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '80px',
-            left: '60px',
-            fontSize: '14px',
-            color: 'rgba(255, 255, 255, 0.15)',
-            fontFamily: 'monospace',
-          }}
-        >
-          {'<DevOps />'}
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '100px',
-            right: '60px',
-            fontSize: '14px',
-            color: 'rgba(255, 255, 255, 0.15)',
-            fontFamily: 'monospace',
-          }}
-        >
-          {'{ cloud: "native" }'}
         </div>
       </div>
     ),
@@ -261,4 +194,3 @@ export default async function Image() {
     }
   );
 }
-
