@@ -13,14 +13,14 @@ DevOps Engineer specializing in Cloud Native, Observability, and Infrastructure 
 ## Professional Experience
 
 ### SRE | Cloud Engineer
-**Opsteam** | Ago 2025 - Presente | 
+**Opsteam** | Aug 2025 - Present | 
 
 * Providing specialized services in Site Reliability Engineering (SRE) and Cloud, with a focus on managing infrastructure in AWS and other cloud providers.
 * Implementing reliability, automation, and observability practices to ensure resilience, security, and efficiency.
 * Supporting DevOps initiatives and technical consulting for clients, promoting best practices in architecture and governance within Cloud Native environments.
 
 ### Senior DevOps Analyst
-**Vertigo Tecnologia** | Jun 2025 - Ago 2025 | 
+**Vertigo Tecnologia** | Jun 2025 - Aug 2025 | 
 
 * Responsible for architecting and delivering the entire platform engineering foundation for an enterprise client.
 * Created reusable templates and modules with IaC, DevSecOps pipelines using ArgoCD, integration with Keycloak and Backstage, and deployed a centralized, multi-cluster observability stack.
@@ -28,7 +28,7 @@ DevOps Engineer specializing in Cloud Native, Observability, and Infrastructure 
 * Technically led the project, executing all implementations hands-on.
 
 ### Mid-level DevOps Analyst
-**Vertigo Tecnologia** | Set 2024 - Jul 2025 | 
+**Vertigo Tecnologia** | Sep 2024 - Jul 2025 | 
 
 * Developed infrastructure automation solutions and CI/CD pipelines for various clients.
 * Led AI-based automation initiatives and actively contributed to the VeeCode platform by creating templates, plugins, and custom features.
@@ -65,5 +65,5 @@ DevOps Engineer specializing in Cloud Native, Observability, and Infrastructure 
 
 ### Bachelor in Information Systems
 **Universidade Estácio de Sá** | Mar 2022 - Dez 2025 | 
-Comprehensive training in analysis and modeling of information systems, database management, computer networks, software engineering, and IT project management. Coursework includes programming, information security, and IT governance.
+
 

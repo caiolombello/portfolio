@@ -24,8 +24,6 @@ export const viewport = {
   colorScheme: "dark",
 };
 
-export const metadataBase = new URL(getSiteConfig().site.url);
-
 // Gerar metadata dinamicamente
 export async function generateMetadata(): Promise<Metadata> {
   return generateSiteMetadata();

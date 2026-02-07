@@ -13,14 +13,14 @@ Engenheiro DevOps especializado em Cloud Native, Observabilidade e Automação d
 ## Experiência Profissional
 
 ### SRE | Cloud Engineer
-**Opsteam** | Ago 2025 - Presente | 
+**Opsteam** | Aug 2025 - Present | 
 
 * Prestar serviços especializados em Engenharia de Confiabilidade de Sites (SRE) e Cloud, com foco no gerenciamento de infraestrutura na AWS e outros provedores de nuvem.
 * Implementar práticas de confiabilidade, automação e observabilidade para garantir resiliência, segurança e eficiência.
 * Apoiar iniciativas de DevOps e consultoria técnica para clientes, promovendo melhores práticas em arquitetura e governança em ambientes Cloud Native.
 
 ### Analista DevOps Sênior
-**Vertigo Tecnologia** | Jun 2025 - Ago 2025 | 
+**Vertigo Tecnologia** | Jun 2025 - Aug 2025 | 
 
 * Responsável por arquitetar e entregar toda a fundação de engenharia de plataforma para um cliente enterprise.
 * Criei templates e módulos reutilizáveis com IaC, pipelines DevSecOps usando ArgoCD, integração com Keycloak e Backstage, além da implantação de uma stack de observabilidade centralizada e multi-cluster.
@@ -28,7 +28,7 @@ Engenheiro DevOps especializado em Cloud Native, Observabilidade e Automação d
 * Liderei tecnicamente o projeto, executando todas as implementações de forma hands-on.
 
 ### Analista DevOps Pleno
-**Vertigo Tecnologia** | Set 2024 - Jul 2025 | 
+**Vertigo Tecnologia** | Sep 2024 - Jul 2025 | 
 
 * Desenvolvi soluções de automação de infraestrutura e pipelines CI/CD para diversos clientes.
 * Liderei iniciativas de automação baseadas em IA e contribuí ativamente para a plataforma VeeCode, criando templates, plugins e funcionalidades customizadas.
@@ -65,5 +65,5 @@ Engenheiro DevOps especializado em Cloud Native, Observabilidade e Automação d
 
 ### Bacharelado em Sistemas de Informação
 **Universidade Estácio de Sá** | Mar 2022 - Dez 2025 | 
-Formação abrangente em análise e modelagem de sistemas de informação, banco de dados, redes de computadores, engenharia de software e gestão de projetos de TI. Inclui disciplinas de programação, segurança da informação e governança de TI.
+
 

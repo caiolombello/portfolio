@@ -3,8 +3,6 @@ import { loadProjectById } from '@/lib/data';
 import { getOgSiteConfig, getDomainFromUrl } from '@/lib/og-config';
 import type { Technology } from '@/types/project';
 
-export const runtime = 'edge';
-
 export const alt = 'Project';
 export const size = {
   width: 1200,

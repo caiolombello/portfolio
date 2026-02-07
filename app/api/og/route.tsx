@@ -2,8 +2,6 @@ import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 import { getSiteConfigEdge } from "@/lib/config-edge";
 
-export const runtime = "edge";
-
 function uint8ArrayToBase64(uint8Array: Uint8Array): string {
   try {
     if (!uint8Array || uint8Array.length === 0) return '';

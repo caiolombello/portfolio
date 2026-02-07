@@ -6,14 +6,7 @@ PUBLIC_DIR="$PORTFOLIO_ROOT/public"
 
 # 1. Generate LaTeX and Markdown files from JSON content
 echo "Generating resumes from content..."
-# Using ts-node to run the script. Ensure ts-node is available or use node with loader
-# Since it's a module, we might need to use node directly if compiled or ts-node with esm
-if command -v npx &> /dev/null; then
-    npx ts-node --esm scripts/generate-resume.ts
-else
-    echo "Error: npx is not available."
-    exit 1
-fi
+npx tsx scripts/generate-resume.ts
 
 # 2. Compile LaTeX to PDF
 

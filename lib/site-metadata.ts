@@ -64,6 +64,7 @@ export async function generateSiteMetadata(): Promise<Metadata> {
     : fullDescription;
 
   return {
+    metadataBase: new URL(config.site.url),
     title: {
       default: siteTitle,
       template: `%s | ${config.site.shortName}`,

@@ -2,8 +2,6 @@ import { ImageResponse } from 'next/og';
 import { loadPostBySlug } from '@/lib/data';
 import { getOgSiteConfig, getDomainFromUrl } from '@/lib/og-config';
 
-export const runtime = 'edge';
-
 export const alt = 'Blog Post Cover';
 export const size = {
   width: 1200,

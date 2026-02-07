@@ -1,8 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { getOgSiteConfig, getDomainFromUrl } from '@/lib/og-config';
 
-export const runtime = 'edge';
-
 export const alt = 'Resume';
 export const size = {
   width: 1200,
