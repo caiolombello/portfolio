@@ -8,7 +8,6 @@ import Blog from "@/components/blog";
 
 import {
   getProfileData,
-  getSkillsData,
   getTestimonialsData,
   getProjectsData,
   getPostsData
@@ -20,9 +19,8 @@ export default async function Home() {
   const cookieStore = await cookies();
   const lang = cookieStore.get("NEXT_LOCALE")?.value || "pt";
 
-  const [profile, skills, testimonials, projects, posts] = await Promise.all([
+  const [profile, testimonials, projects, posts] = await Promise.all([
     getProfileData(),
-    getSkillsData(),
     getTestimonialsData(),
     getProjectsData(),
     getPostsData(lang)
@@ -32,7 +30,7 @@ export default async function Home() {
     <div className="flex flex-col">
       <Hero />
       <Suspense fallback={<AboutSkeleton />}>
-        <About profile={profile} skills={skills} />
+        <About profile={profile} />
       </Suspense>
       <Portfolio projects={projects} limit={3} />
       <Blog posts={posts} limit={3} />

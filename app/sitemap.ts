@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 import fs from "fs";
 import path from "path";
-import matter from "gray-matter";
 import { loadPosts } from "@/lib/data";
+import { getSiteConfig } from "@/lib/config-server";
 
 type ChangeFrequency =
   | "always"
@@ -20,8 +20,7 @@ const ensureDirectoryExists = (dirPath: string) => {
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://caio.lombello.com";
+  const baseUrl = getSiteConfig().site.url;
 
   // Páginas estáticas
   const staticPages = [
@@ -112,12 +111,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Erro ao carregar posts para sitemap:", error);
   }
 
-  // Adicionar páginas alternativas de idioma
-  const alternatePages = staticPages.map((page) => ({
-    ...page,
-    url: `${page.url}/en`,
-    priority: page.priority - 0.1,
-  }));
-
-  return [...staticPages, ...alternatePages, ...projectPages, ...blogPages];
+  return [...staticPages, ...projectPages, ...blogPages];
 }

@@ -36,12 +36,7 @@ interface RootLayoutProps {
 }
 
 import { getDictionary } from "@/app/i18n";
-
-// ... (imports)
-
 import { cookies } from "next/headers";
-
-// ... (imports)
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   const config = getSiteConfig();
@@ -59,21 +54,20 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <link rel="apple-touch-icon" sizes="180x180" href="/api/favicon?size=180&format=png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/api/favicon?size=32&format=png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/api/favicon?size=16&format=png" />
-        <link rel="manifest" href="/api/webmanifest" />
         <link rel="shortcut icon" href="/api/favicon?format=ico" type="image/x-icon" />
         <link rel="icon" href="/api/favicon?size=192&format=png" sizes="192x192" type="image/png" />
         <link rel="icon" href="/api/favicon?size=96&format=png" sizes="96x96" type="image/png" />
         <link rel="icon" href="/api/favicon?size=48&format=png" sizes="48x48" type="image/png" />
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          content="width=device-width, initial-scale=1.0"
         />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content={config.site.shortName} />
-        <link rel="canonical" href={config.site.url} />
+        <link rel="alternate" type="application/rss+xml" title={`${config.site.shortName} - RSS Feed`} href="/feed.xml" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -88,6 +82,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           "min-h-screen bg-background font-sans antialiased",
           inter.className,
         )}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"

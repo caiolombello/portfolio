@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLanguage } from "@/contexts/language-context";
+import { useToast } from "@/hooks/use-toast";
 import { Download } from "lucide-react";
 
 // Tipo para os dados do currículo
@@ -49,6 +50,7 @@ export default function ResumeDownload({
   certificationsCredly?: string[];
 }) {
   const { language = "pt", t } = useLanguage() || {};
+  const { toast } = useToast();
 
   // Função para gerar nome do arquivo baseado no idioma e data
   const getFileName = (extension: string): string => {
@@ -162,14 +164,22 @@ export default function ResumeDownload({
         link.click();
         document.body.removeChild(link);
       } else {
-        alert(
-          language === "pt"
-            ? "PDF não encontrado. Por favor, execute ./scripts/build-resume.sh para gerá-lo."
-            : "PDF not found. Please run ./scripts/build-resume.sh to generate it."
-        );
+        toast({
+          title: language === "pt" ? "PDF não encontrado" : "PDF not found",
+          description: language === "pt"
+            ? "Execute ./scripts/build-resume.sh para gerar o PDF."
+            : "Run ./scripts/build-resume.sh to generate the PDF.",
+          variant: "destructive",
+        });
       }
-    } catch (error) {
-      console.error("Error checking PDF:", error);
+    } catch {
+      toast({
+        title: language === "pt" ? "Erro" : "Error",
+        description: language === "pt"
+          ? "Não foi possível baixar o PDF."
+          : "Could not download the PDF.",
+        variant: "destructive",
+      });
     }
   };
 

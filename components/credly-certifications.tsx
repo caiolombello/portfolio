@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { fetchCredlyBadges } from "@/lib/credly";
 import { useSiteConfig } from "@/hooks/use-site-config";
+import { useLanguage } from "@/contexts/language-context";
 import Image from "next/image";
 
 interface BadgeTemplate {
@@ -29,9 +30,10 @@ function formatDate(dateString: string) {
 
 export default function CredlyCertifications() {
   const { config, loading: configLoading } = useSiteConfig();
+  const { language } = useLanguage();
   const [badges, setBadges] = useState<Badge[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [notConfigured, setNotConfigured] = useState(false);
 
   useEffect(() => {
     if (configLoading) return;
@@ -41,7 +43,7 @@ export default function CredlyCertifications() {
     // Skip if no Credly username configured or using default placeholder
     if (!username || username === "your-credly-username") {
       setLoading(false);
-      setError("Credly username not configured");
+      setNotConfigured(true);
       return;
     }
 
@@ -57,18 +59,15 @@ export default function CredlyCertifications() {
             return dateB - dateA;
           });
           setBadges(uniqueBadges);
-        } else {
-          console.error("Invalid data format received:", data);
-          setError("Invalid data format received from Credly");
         }
       })
       .catch((err) => {
         console.error("Error fetching Credly badges:", err);
-        setError("Failed to fetch Credly badges");
       })
       .finally(() => setLoading(false));
   }, [config.integrations.credlyUsername, configLoading]);
 
+  if (notConfigured) return null;
   if (loading)
     return (
       <div className="bg-card p-6">
@@ -87,8 +86,7 @@ export default function CredlyCertifications() {
         </div>
       </div>
     );
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!badges.length) return <p>Nenhuma certificação encontrada no Credly.</p>;
+  if (!badges.length) return null;
 
   return (
     <div className="bg-card p-6">
@@ -124,7 +122,7 @@ export default function CredlyCertifications() {
                     rel="noopener noreferrer"
                     className="inline-block text-gold hover:text-gold/80 underline text-xs mt-2"
                   >
-                    Verificar
+                    {language === "pt" ? "Verificar" : "Verify"}
                   </a>
                 </div>
               </div>

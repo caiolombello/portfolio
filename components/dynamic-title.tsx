@@ -8,8 +8,8 @@ export default function DynamicTitle() {
   const { language } = useLanguage();
   const { config, loading: configLoading } = useSiteConfig();
   const [profile, setProfile] = useState({
-    name: config?.site?.author || "Caio Lombello Vendramini Barbieri",
-    title: config?.site.title?.split(' - ')[1] || "Engenheiro DevOps",
+    name: config?.site?.author || "",
+    title: config?.site.title?.split(' - ')[1] || "",
   });
 
   useEffect(() => {

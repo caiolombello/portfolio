@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Skill, SkillLevel } from "@/types/skill";
 import { useLanguage } from "@/contexts/language-context";
 import * as SiIcons from "react-icons/si";
@@ -10,12 +11,15 @@ interface GroupedSkills {
   [category: string]: Skill[];
 }
 
-const CATEGORY_LABELS = {
+const CATEGORY_LABELS: Record<string, Record<string, string>> = {
   pt: {
     Linguagens: "Linguagens",
     "Cloud/Infra": "Cloud/Infra",
     "CI/CD": "CI/CD",
     Observabilidade: "Observabilidade",
+    "Containerização": "Containerização",
+    "Segurança": "Segurança",
+    "Automação": "Automação",
     Frontend: "Frontend",
     Backend: "Backend",
     "Banco de Dados": "Banco de Dados",
@@ -27,6 +31,9 @@ const CATEGORY_LABELS = {
     "Cloud/Infra": "Cloud/Infra",
     "CI/CD": "CI/CD",
     Observabilidade: "Observability",
+    "Containerização": "Containerization",
+    "Segurança": "Security",
+    "Automação": "Automation",
     Frontend: "Frontend",
     Backend: "Backend",
     "Banco de Dados": "Databases",
@@ -35,7 +42,7 @@ const CATEGORY_LABELS = {
   },
 };
 
-const LEVEL_LABELS = {
+const LEVEL_LABELS: Record<string, Record<string, string>> = {
   pt: {
     Avançado: "Avançado",
     Experiente: "Experiente",
@@ -50,6 +57,15 @@ const LEVEL_LABELS = {
     Familiarizado: "Familiar",
     Iniciante: "Beginner",
   },
+};
+
+// Ordem de prioridade dos niveis (menor = mais avancado)
+const LEVEL_ORDER: Record<SkillLevel, number> = {
+  Avançado: 0,
+  Experiente: 1,
+  Proficiente: 2,
+  Familiarizado: 3,
+  Iniciante: 4,
 };
 
 // Mapeamento manual para casos especiais
@@ -84,7 +100,7 @@ const ICON_MAPPING: Record<string, string> = {
   "Docker Compose": "Docker",
   "Docker Swarm": "Docker",
   "Helm Charts": "Helm",
-  "OpenTelemetry": "Opentelemetry",
+  OpenTelemetry: "Opentelemetry",
   "OpenTelemetry Collector": "Opentelemetry",
   "OpenTelemetry SDK": "Opentelemetry",
   "OpenTelemetry API": "Opentelemetry",
@@ -92,24 +108,19 @@ const ICON_MAPPING: Record<string, string> = {
   "OpenTelemetry Tracing": "Opentelemetry",
   "OpenTelemetry Metrics": "Opentelemetry",
   "Oracle Cloud": "Oracle",
-  "ArgoCD": "Argo",
+  ArgoCD: "Argo",
   "HashiCorp Consul": "Consul",
   "HashiCorp Vault": "Vault",
   "HashiCorp Terraform": "Terraform",
   "HashiCorp Nomad": "Nomad",
   "HashiCorp Packer": "Packer",
-  "Keycloak": "Keycloak",
+  Keycloak: "Keycloak",
   LLMs: "Openai",
-}
-
+};
 
 const LEVEL_STYLES: Record<
   SkillLevel,
-  {
-    bg: string;
-    text: string;
-    border: string;
-  }
+  { bg: string; text: string; border: string }
 > = {
   Avançado: {
     bg: "bg-emerald-100 dark:bg-emerald-900/30",
@@ -143,18 +154,15 @@ interface SiIconsType {
 }
 
 function findIcon(skillName: string): IconType | null {
-  // Primeiro, verifica se há um mapeamento manual para o nome da habilidade
   const mappedName = ICON_MAPPING[skillName];
   if (mappedName && (SiIcons as SiIconsType)[`Si${mappedName}`]) {
     return (SiIcons as SiIconsType)[`Si${mappedName}`];
   }
 
-  // Limpa o nome da habilidade para tentar encontrar o ícone
   const cleanName = skillName
-    .replace(/[^a-zA-Z0-9]/g, "") // Remove caracteres especiais
-    .replace(/\s+/g, ""); // Remove espaços
+    .replace(/[^a-zA-Z0-9]/g, "")
+    .replace(/\s+/g, "");
 
-  // Tenta encontrar o ícone com o nome limpo
   const iconName = `Si${cleanName}`;
   return (SiIcons as SiIconsType)[iconName] || null;
 }
@@ -181,68 +189,117 @@ export default function SkillsList() {
     fetchSkills();
   }, []);
 
-  // Agrupar por categoria
+  // Agrupar por categoria e ordenar por nivel
   const grouped: GroupedSkills = skills.reduce((acc, skill) => {
     acc[skill.category] = acc[skill.category] || [];
     acc[skill.category].push(skill);
     return acc;
   }, {} as GroupedSkills);
 
+  // Ordenar skills dentro de cada categoria por nivel
+  for (const category in grouped) {
+    grouped[category].sort(
+      (a, b) => LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level],
+    );
+  }
+
+  const categories = Object.entries(grouped);
+
   return (
     <div>
-      <div className="mb-8 flex flex-wrap gap-4">
-        <div className="flex items-center gap-2">
-          <div className="h-4 w-4 rounded-full bg-emerald-100 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800" />
-          <span className="text-sm text-emerald-900 dark:text-emerald-300">
-            {language === "pt" ? "Avançado" : "Advanced"}
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="h-4 w-4 rounded-full bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800" />
-          <span className="text-sm text-blue-900 dark:text-blue-300">
-            {language === "pt" ? "Experiente" : "Experienced"}
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="h-4 w-4 rounded-full bg-violet-100 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800" />
-          <span className="text-sm text-violet-900 dark:text-violet-300">
-            {language === "pt" ? "Proficiente" : "Proficient"}
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="h-4 w-4 rounded-full bg-gray-100 dark:bg-gray-900/30 border border-gray-200 dark:border-gray-800" />
-          <span className="text-sm text-gray-900 dark:text-gray-300">
-            {language === "pt" ? "Familiarizado" : "Familiar"}
-          </span>
-        </div>
+      {/* Legenda */}
+      <div className="mb-8 flex flex-wrap gap-4" suppressHydrationWarning>
+        {(
+          [
+            {
+              level: "Avançado" as const,
+              color:
+                "bg-emerald-100 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800",
+              textColor: "text-emerald-900 dark:text-emerald-300",
+            },
+            {
+              level: "Experiente" as const,
+              color:
+                "bg-blue-100 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800",
+              textColor: "text-blue-900 dark:text-blue-300",
+            },
+            {
+              level: "Proficiente" as const,
+              color:
+                "bg-violet-100 dark:bg-violet-900/30 border-violet-200 dark:border-violet-800",
+              textColor: "text-violet-900 dark:text-violet-300",
+            },
+            {
+              level: "Familiarizado" as const,
+              color:
+                "bg-gray-100 dark:bg-gray-900/30 border-gray-200 dark:border-gray-800",
+              textColor: "text-gray-900 dark:text-gray-300",
+            },
+          ] as const
+        ).map(({ level, color, textColor }) => (
+          <div key={level} className="flex items-center gap-2">
+            <div
+              className={`h-3 w-3 rounded-full border ${color}`}
+            />
+            <span
+              className={`text-sm ${textColor}`}
+              suppressHydrationWarning
+            >
+              {LEVEL_LABELS[safeLang][level] || level}
+            </span>
+          </div>
+        ))}
       </div>
 
-      {Object.entries(grouped).map(([category, skills]) => (
-        <div key={category} className="mb-6">
-          <h3 className="font-bold text-gold mb-2">
-            {(CATEGORY_LABELS[safeLang] as Record<string, string>)[category] ||
-              category}
-          </h3>
-          <ul className="flex flex-wrap gap-2">
-            {skills.map((skill) => {
-              const Icon = findIcon(skill.name);
-              const levelStyle = LEVEL_STYLES[skill.level];
+      {/* Grid de categorias */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {categories.map(([category, categorySkills], index) => (
+          <motion.div
+            key={category}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: index * 0.08 }}
+            className="rounded-lg border border-border/40 bg-card p-5 transition-all duration-300 hover:border-gold/40 hover:shadow-lg hover:shadow-gold/10"
+          >
+            {/* Header da categoria */}
+            <div className="flex items-center justify-between mb-3">
+              <h3
+                className="font-bold text-gold"
+                suppressHydrationWarning
+              >
+                {CATEGORY_LABELS[safeLang]?.[category] || category}
+              </h3>
+              <span className="text-xs text-muted-foreground rounded-full bg-secondary px-2 py-0.5">
+                {categorySkills.length}
+              </span>
+            </div>
 
-              return (
-                <li
-                  key={skill.name}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-colors duration-200
-                    ${levelStyle.bg} ${levelStyle.text} ${levelStyle.border}
-                    hover:border-gold`}
-                >
-                  {Icon && <Icon size={16} />}
-                  <span>{skill.name}</span>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      ))}
+            {/* Pills */}
+            <ul className="flex flex-wrap gap-2">
+              {categorySkills.map((skill) => {
+                const Icon = findIcon(skill.name);
+                const levelStyle = LEVEL_STYLES[skill.level];
+                const levelLabel =
+                  LEVEL_LABELS[safeLang][skill.level] || skill.level;
+
+                return (
+                  <li
+                    key={skill.name}
+                    title={levelLabel}
+                    className={`group relative flex items-center gap-2 px-3 py-1.5 rounded-full border transition-colors duration-200 cursor-default
+                      ${levelStyle.bg} ${levelStyle.text} ${levelStyle.border}
+                      hover:border-gold`}
+                  >
+                    {Icon && <Icon size={14} />}
+                    <span className="text-sm">{skill.name}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 }

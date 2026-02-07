@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 import type { Project, Technology } from "@/types/project";
 import { loadProjectById } from "@/lib/data";
 import { getDictionary } from "@/app/i18n";
+import { getSiteConfig } from "@/lib/config-server";
 
 interface ProjectPageProps {
   params: Promise<{
@@ -24,7 +25,7 @@ export async function generateMetadata({
 
   if (!project) {
     return {
-      title: `${dict.notFound.title} | Caio Barbieri`,
+      title: dict.notFound.title,
       description: dict.notFound.description,
     };
   }
@@ -75,7 +76,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             name: title,
             description: shortDescription,
             image: project.imageUrl ?? "",
-            url: `https://caio.lombello.com/${lang}/portfolio/${project.id}`,
+            url: `${getSiteConfig().site.url}/portfolio/${project.id}`,
             datePublished: project.createdAt,
             dateModified: project.updatedAt,
             inLanguage: lang === "pt" ? "Portuguese" : "English",

@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
 import type { Post } from "@/types/blog";
 import { useLanguage } from "@/contexts/language-context";
 
@@ -26,17 +26,17 @@ export default function Blog({ posts = [], limit }: BlogProps) {
 
   if (posts.length === 0) {
     return (
-      <div className="container py-12 text-center">
-        <h1 className="mb-12 text-center text-4xl font-bold text-gold">Blog</h1>
+      <div className="container py-16 md:py-24 text-center">
+        <h2 className="mb-12 text-center text-3xl font-bold text-gold">Blog</h2>
         <p className="text-muted-foreground">No posts found.</p>
       </div>
     );
   }
 
   return (
-    <div className="container py-12">
+    <div className="container py-16 md:py-24">
       <div className="flex flex-col items-center mb-12">
-        <h1 className="text-4xl font-bold text-gold mb-4">Blog</h1>
+        <h2 className="text-3xl font-bold text-gold mb-4">Blog</h2>
         {limit && (
           <p className="text-muted-foreground text-center max-w-2xl">
             {language === "en"
@@ -54,27 +54,27 @@ export default function Blog({ posts = [], limit }: BlogProps) {
           const date = post.publicationDate;
 
           return (
-            <Card key={slug} className="flex flex-col h-full overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <Card key={slug} className="flex flex-col h-full overflow-hidden border-border/40 transition-all duration-300 hover:border-gold/40 hover:shadow-lg hover:shadow-gold/10 hover:-translate-y-1">
+              <div className="relative aspect-video overflow-hidden bg-muted">
+                {post.coverImage ? (
+                  <Image
+                    src={post.coverImage}
+                    alt={title || ""}
+                    fill
+                    className="object-cover transition-transform duration-300 hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-secondary to-muted">
+                    <FileText className="h-12 w-12 text-muted-foreground/50" />
+                  </div>
+                )}
+              </div>
               <CardHeader className="pb-2">
                 <CardTitle className="line-clamp-2 text-xl">{title}</CardTitle>
                 <CardDescription className="line-clamp-3 mt-2">{description}</CardDescription>
               </CardHeader>
-              <CardContent className="flex-grow py-4">
-                <div className="relative aspect-video mb-4 overflow-hidden rounded-md bg-muted">
-                  {post.coverImage ? (
-                    <Image
-                      src={post.coverImage}
-                      alt={title || ""}
-                      fill
-                      className="object-cover transition-transform duration-300 hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-secondary/50">
-                      <span className="text-4xl">📝</span>
-                    </div>
-                  )}
-                </div>
+              <CardContent className="flex-grow py-2">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <time dateTime={date}>
                     {new Date(date).toLocaleDateString(language === "en" ? "en-US" : "pt-BR", {

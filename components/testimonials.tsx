@@ -24,14 +24,14 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
   const { language } = useLanguage();
 
   return (
-    <section className="container py-12 bg-muted/30" suppressHydrationWarning>
+    <section className="container py-16 md:py-24 bg-muted/30" suppressHydrationWarning>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        <h2 className="mb-12 text-center text-3xl font-bold text-gold" suppressHydrationWarning>
+        <h2 className="text-center text-3xl font-bold text-gold mb-12" suppressHydrationWarning>
           {language === "en" ? "Recommendations" : "Recomendações"}
         </h2>
 
@@ -44,7 +44,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="h-full border-gold/10 bg-card/50 backdrop-blur-sm hover:border-gold/30 transition-colors">
+              <Card className="h-full border-border/40 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-gold/40 hover:shadow-lg hover:shadow-gold/10 hover:-translate-y-1">
                 <CardHeader className="flex flex-row items-center gap-4 pb-2">
                   <Avatar>
                     <AvatarImage src={testimonial.image} alt={testimonial.name} />

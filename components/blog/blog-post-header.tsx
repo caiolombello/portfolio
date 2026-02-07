@@ -79,11 +79,11 @@ export default function BlogPostHeader({
         {author && (
           <div className="flex items-center gap-2">
             <Image
-              src={(typeof author === 'object' ? author.avatar : null) ?? "/placeholder-user.jpg"}
+              src={(typeof author === 'object' ? author.avatar : null) ?? "/api/profile-image"}
               alt={typeof author === 'object' ? author.name : author}
               width={32}
               height={32}
-              className="rounded-full"
+              className="h-8 w-8 rounded-full object-cover"
             />
             <span className="font-medium">
               {typeof author === 'object' ? author.name : author}

@@ -65,22 +65,6 @@ export async function GET() {
           purpose: "any",
         },
       ],
-      screenshots: [
-        {
-          src: "/images/screenshots/desktop.jpg",
-          sizes: "1280x720",
-          type: "image/jpeg",
-          form_factor: "wide",
-          label: "Desktop view of the portfolio",
-        },
-        {
-          src: "/images/screenshots/mobile.jpg", 
-          sizes: "390x844",
-          type: "image/jpeg",
-          form_factor: "narrow",
-          label: "Mobile view of the portfolio",
-        },
-      ],
       categories: ["portfolio", "business", "productivity"],
       lang: "pt-BR",
       dir: "ltr",

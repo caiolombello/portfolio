@@ -29,17 +29,11 @@ interface Profile {
   phone: string;
 }
 
-interface Skill {
-  name: string;
-  percentage: number;
-}
-
 interface AboutProps {
   profile: Profile | null;
-  skills: Skill[];
 }
 
-export default function About({ profile, skills }: AboutProps) {
+export default function About({ profile }: AboutProps) {
   const { language, t } = useLanguage();
   const { config } = useSiteConfig();
 
@@ -51,7 +45,7 @@ export default function About({ profile, skills }: AboutProps) {
   const linkedinUsername = config.social.linkedin?.split("/").pop() || "";
 
   return (
-    <section id="about" className="container py-12 md:py-16" suppressHydrationWarning>
+    <section id="about" className="container py-16 md:py-24" suppressHydrationWarning>
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
         {/* Coluna Esquerda - Informações Pessoais */}
         <motion.div
@@ -73,9 +67,9 @@ export default function About({ profile, skills }: AboutProps) {
             />
           </div>
 
-          <h1 className="mb-2 text-3xl font-bold text-gold md:text-4xl">
+          <h2 className="mb-2 text-3xl font-bold text-gold md:text-4xl">
             {currentProfile.name}
-          </h1>
+          </h2>
 
           <h2 className="mb-6 text-xl text-muted-foreground" suppressHydrationWarning>
             {currentProfile.title}
@@ -108,15 +102,15 @@ export default function About({ profile, skills }: AboutProps) {
             </Button>
 
             <div className="w-full max-w-xs pt-2 flex flex-col gap-3">
-              <Button asChild className="w-full justify-center gap-2 bg-green-600 hover:bg-green-700">
-                <Link href="https://wa.me/5519997536692" target="_blank" rel="noopener noreferrer">
+              <Button asChild variant="outline" className="w-full justify-center gap-2 border-gold/20 hover:bg-gold/5">
+                <Link href={`https://wa.me/${String(profile.phone || '').replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="h-4 w-4" suppressHydrationWarning />
                   WhatsApp
                 </Link>
               </Button>
 
               {config?.social?.calendarUrl && (
-                <Button asChild className="w-full justify-center gap-2 bg-green-600 hover:bg-green-700">
+                <Button asChild variant="outline" className="w-full justify-center gap-2 border-gold/20 hover:bg-gold/5">
                   <Link href={config.social.calendarUrl} target="_blank" rel="noopener noreferrer">
                     <CalendarPlus className="h-4 w-4" suppressHydrationWarning />
                     <span>

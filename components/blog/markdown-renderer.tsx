@@ -47,6 +47,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
     <div
       className="prose prose-invert max-w-none prose-headings:text-gold prose-a:text-gold prose-pre:bg-transparent prose-pre:p-0"
       dangerouslySetInnerHTML={getMarkdownText()}
+      suppressHydrationWarning
     />
   );
 }

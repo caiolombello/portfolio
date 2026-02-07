@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import SkillBar from "./skill-bar";
+import { motion } from "framer-motion";
 import SectionHeading from "./section-heading";
 import ExperienceItem from "./experience-item";
 import EducationItem from "./education-item";
@@ -11,6 +11,7 @@ import CredlyCertifications from "./credly-certifications";
 import { useLanguage } from "@/contexts/language-context";
 import { fetchCredlyBadges } from "@/lib/credly";
 import { useSiteConfig } from "@/hooks/use-site-config";
+import { Briefcase, GraduationCap, Award, Wrench } from "lucide-react";
 import type { Skill } from "@/types/skill";
 import type { Profile } from "@/types/profile";
 
@@ -24,6 +25,8 @@ interface Experience {
 interface Education {
   degree: string;
   institution: string;
+  logo?: string;
+  institutionUrl?: string;
   period: string;
   description?: string;
 }
@@ -40,13 +43,9 @@ export default function Resume() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const [educations, setEducations] = useState<Education[]>([]);
-  const [certifications, setCertifications] = useState<
-    (string | { name: string })[]
-  >([]);
   const [skills, setSkills] = useState<Skill[]>([]);
-  const [credlyCertifications, setCredlyCertifications] = useState<string[]>(
-    [],
-  );
+  const [credlyCertifications, setCredlyCertifications] = useState<string[]>([]);
+  const [hasCredly, setHasCredly] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -74,29 +73,31 @@ export default function Resume() {
 
   useEffect(() => {
     async function loadCredlyCertifications() {
-      if (!config.integrations.credlyUsername || config.integrations.credlyUsername === "your-credly-username") {
-        return; // Skip if no Credly username configured
+      const username = config.integrations.credlyUsername;
+      if (!username || username === "your-credly-username") {
+        return;
       }
 
       try {
-        const badges = await fetchCredlyBadges(config.integrations.credlyUsername);
+        const badges = await fetchCredlyBadges(username);
         const certificationNames = badges.map(
           (badge: CredlyBadge) => badge.badge_template.name,
         );
         setCredlyCertifications(certificationNames);
+        setHasCredly(true);
       } catch (error) {
         console.error("Error fetching Credly badges:", error);
       }
     }
 
     if (!configLoading) {
+      const username = config.integrations.credlyUsername;
+      if (username && username !== "your-credly-username") {
+        setHasCredly(true);
+      }
       loadCredlyCertifications();
     }
   }, [config.integrations.credlyUsername, configLoading]);
-
-  const certificationsStrings = certifications.map((cert) =>
-    typeof cert === "string" ? cert : cert.name,
-  );
 
   const currentProfile = profile?.[language] || {
     name: "",
@@ -116,9 +117,14 @@ export default function Resume() {
   const summary = currentProfile.about || config?.site?.description;
 
   return (
-    <div className="container py-12">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-        <h1 className="text-4xl font-bold text-gold text-center md:text-left mb-4 md:mb-0">
+    <div className="container py-16 md:py-24">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col md:flex-row justify-between items-center mb-12"
+      >
+        <h1 className="text-4xl font-bold text-gold text-center md:text-left mb-4 md:mb-0" suppressHydrationWarning>
           {language === "pt" ? "Jornada Profissional" : "Professional Journey"}
         </h1>
         <ResumeDownload
@@ -127,52 +133,96 @@ export default function Resume() {
             summary,
             experiences,
             education: educations,
-            certifications: certificationsStrings,
+            certifications: credlyCertifications,
             skills,
           }}
           certificationsCredly={credlyCertifications}
         />
-      </div>
+      </motion.div>
 
-      {/* Seção de Experiência */}
-      <section className="mb-16">
+      {/* Experience */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mb-16"
+      >
         <SectionHeading
           title={language === "pt" ? "Experiência" : "Experience"}
+          icon={Briefcase}
         />
-        <div className="space-y-6">
-          {experiences.map((experience, index) => (
-            <ExperienceItem key={index} {...experience} />
-          ))}
-        </div>
-      </section>
+        {experiences.length > 0 ? (
+          <div className="relative space-y-8">
+            {experiences.map((experience, index) => (
+              <ExperienceItem key={index} {...experience} index={index} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-muted-foreground text-center py-8">
+            {language === "pt"
+              ? "Adicione suas experiências em content/experience/"
+              : "Add your experiences in content/experience/"}
+          </p>
+        )}
+      </motion.section>
 
-      {/* Seção de Educação */}
-      <section className="mb-16">
-        <SectionHeading title={language === "pt" ? "Educação" : "Education"} />
-        <div className="space-y-6">
-          {educations.map((education, index) => (
-            <EducationItem key={index} {...education} />
-          ))}
-        </div>
-      </section>
+      {/* Education */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mb-16"
+      >
+        <SectionHeading title={language === "pt" ? "Educação" : "Education"} icon={GraduationCap} />
+        {educations.length > 0 ? (
+          <div className="relative space-y-8">
+            {educations.map((education, index) => (
+              <EducationItem key={index} {...education} index={index} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-muted-foreground text-center py-8">
+            {language === "pt"
+              ? "Adicione sua formação em content/education/"
+              : "Add your education in content/education/"}
+          </p>
+        )}
+      </motion.section>
 
-      {/* Seção de Certificações (Credly) */}
-      <section className="mb-16">
-        <SectionHeading
-          title={
-            language === "pt"
-              ? "Certificações Profissionais"
-              : "Professional Certifications"
-          }
-        />
-        <CredlyCertifications />
-      </section>
+      {/* Certifications (Credly) — only shown when configured */}
+      {hasCredly && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="mb-16"
+        >
+          <SectionHeading
+            title={
+              language === "pt"
+                ? "Certificações Profissionais"
+                : "Professional Certifications"
+            }
+            icon={Award}
+          />
+          <CredlyCertifications />
+        </motion.section>
+      )}
 
-      {/* Seção de Skills */}
-      <section className="mb-16">
-        <SectionHeading title={language === "pt" ? "Habilidades" : "Skills"} />
+      {/* Skills */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mb-16"
+      >
+        <SectionHeading title={language === "pt" ? "Habilidades" : "Skills"} icon={Wrench} />
         <SkillsList />
-      </section>
+      </motion.section>
     </div>
   );
 }

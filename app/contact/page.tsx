@@ -1,9 +1,10 @@
 import Contact from "@/components/contact";
+import { generatePageMetadata } from "@/lib/site-metadata";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Contato", 
-  description: "Entre em contato para projetos, consultorias ou oportunidades de trabalho",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata("Contact");
+}
 
 export default function ContactPage() {
   return <Contact />;

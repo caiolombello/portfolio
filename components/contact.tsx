@@ -33,14 +33,14 @@ export default function Contact() {
   const { config, loading: configLoading } = useSiteConfig();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<ProfileData>({
-    name: config?.site.author || "Caio Lombello Vendramini Barbieri",
-    title: config?.site.title?.split(' - ')[1] || "Engenheiro DevOps",
+    name: config?.site.author || "",
+    title: config?.site.title?.split(' - ')[1] || "",
     imageUrl: "/api/profile-image",
     socialLinks: {
-      github: config?.social.github || "https://github.com/caiolombello",
-      linkedin: config?.social.linkedin || "https://linkedin.com/in/caiolvbarbieri",
-      twitter: config?.social.twitter || "https://twitter.com/caiolombello",
-      website: config?.social.website || "https://caio.lombello.com",
+      github: config?.social.github || "",
+      linkedin: config?.social.linkedin || "",
+      twitter: config?.social.twitter || "",
+      website: config?.social.website || "",
     },
     email: config?.site.email,
     phone: config?.site.phone,
@@ -56,8 +56,8 @@ export default function Contact() {
           const data = await response.json();
           if (data) {
             const fullName =
-              data[language]?.name || "Caio Lombello Vendramini Barbieri";
-            const fullTitle = data[language]?.title || "Engenheiro DevOps";
+              data[language]?.name || config?.site.author || "";
+            const fullTitle = data[language]?.title || "";
             const mainTitle = fullTitle.split("|")[0].trim();
 
             // Get the location directly from the profile data for the current language
@@ -69,22 +69,17 @@ export default function Contact() {
               imageUrl: "/api/profile-image",
               socialLinks: {
                 github:
-                  data.socialLinks?.github || config?.social.github || "https://github.com/caiolombello",
+                  data.socialLinks?.github || config?.social.github || "",
                 linkedin:
-                  data.socialLinks?.linkedin || config?.social.linkedin ||
-                  "https://linkedin.com/in/caiolvbarbieri",
+                  data.socialLinks?.linkedin || config?.social.linkedin || "",
                 twitter:
-                  data.socialLinks?.twitter || config?.social.twitter ||
-                  "https://twitter.com/caiolombello",
+                  data.socialLinks?.twitter || config?.social.twitter || "",
                 website:
-                  data.socialLinks?.website || config?.social.website || "https://caio.lombello.com",
+                  data.socialLinks?.website || config?.social.website || "",
               },
-              email: data.email || config?.site.email || "caio@lombello.com",
-              phone: data.phone || config?.site.phone || "+55 (19) 99753-6692",
-              location: profileLocation ||
-                (language === "pt"
-                  ? "Campinas, São Paulo, Brasil"
-                  : "Campinas, São Paulo, Brazil"),
+              email: data.email || config?.site.email || "",
+              phone: data.phone || config?.site.phone || "",
+              location: profileLocation || config?.site.location || "",
             });
           }
         }
@@ -131,10 +126,10 @@ export default function Contact() {
                   {t("contact.email")}
                 </p>
                 <Link
-                  href={`mailto:${profile.email || config?.site.email || "caio@lombello.com"}`}
+                  href={`mailto:${profile.email || config?.site.email || ""}`}
                   className="text-foreground hover:text-gold transition-colors duration-200"
                 >
-                  {profile.email || config?.site.email || "caio@lombello.com"}
+                  {profile.email || config?.site.email || ""}
                 </Link>
               </div>
             </div>
@@ -150,13 +145,13 @@ export default function Contact() {
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link
-                    href={`tel:${profile.phone || config?.site.phone || "+5519997536692"}`}
+                    href={`tel:${profile.phone || config?.site.phone || ""}`}
                     className="text-foreground hover:text-gold transition-colors duration-200"
                   >
-                    {profile.phone || config?.site.phone || "+55 (19) 99753-6692"}
+                    {profile.phone || config?.site.phone || ""}
                   </Link>
                   <Link
-                    href={`https://wa.me/${profile.phone?.replace(/\D/g, '') || config?.site.phone?.replace(/\D/g, '') || "5519997536692"}`}
+                    href={`https://wa.me/${profile.phone?.replace(/\D/g, '') || config?.site.phone?.replace(/\D/g, '') || ""}`}
                     className="text-foreground hover:text-gold transition-colors duration-200"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -177,10 +172,7 @@ export default function Contact() {
                   {t("contact.location")}
                 </p>
                 <p className="text-foreground">
-                  {profile.location || config?.site.location ||
-                    (language === "pt"
-                      ? "Campinas, São Paulo, Brasil"
-                      : "Campinas, São Paulo, Brazil")}
+                  {profile.location || config?.site.location || ""}
                 </p>
               </div>
             </div>

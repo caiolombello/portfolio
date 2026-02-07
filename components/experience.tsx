@@ -6,6 +6,8 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 interface Experience {
   title: string;
   company: string;
+  logo?: string;
+  companyUrl?: string;
   period: string;
   responsibilities: string[];
 }
@@ -63,7 +65,7 @@ export default function Experience() {
   return (
     <div className="space-y-6">
       {experiences.map((experience, index) => (
-        <ExperienceItem key={index} {...experience} />
+        <ExperienceItem key={index} {...experience} index={index} />
       ))}
     </div>
   );

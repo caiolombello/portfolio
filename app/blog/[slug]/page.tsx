@@ -11,6 +11,7 @@ import type { Lang } from "@/lib/i18n";
 import BlogPostHeader from "@/components/blog/blog-post-header";
 import PostNavigation from "@/components/blog/post-navigation";
 import { getSiteConfig } from "@/lib/config-server";
+import { generateBlogPostJsonLd } from "@/lib/site-metadata";
 import MarkdownRenderer from "@/components/blog/markdown-renderer";
 import ReadingProgressBar from "@/components/blog/reading-progress-bar";
 import PostLanguageHandler from "@/components/blog/post-language-handler";
@@ -96,6 +97,18 @@ export default async function BlogPostPage({ params }: PageProps) {
         </Link>
         <main>
           <article>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify(generateBlogPostJsonLd({
+                  title: title || "",
+                  description: (lang === "en" ? post.description_en : post.description_pt) || "",
+                  publishDate: post.publicationDate,
+                  image: post.coverImage,
+                  url: `${siteConfig.site.url}/blog/${slug}`,
+                })),
+              }}
+            />
             <BlogPostHeader
               post={post}
               dictionary={dictionary}

@@ -23,7 +23,12 @@ export default function Portfolio({ projects = [], limit }: PortfolioProps) {
   const [activeCategory, setActiveCategory] = useState(
     language === "en" ? "All" : "Todos",
   );
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(
+    () => {
+      const safe = Array.isArray(projects) ? projects : [];
+      return limit && limit > 0 ? safe.slice(0, limit) : safe;
+    }
+  );
   const [isAnimating, setIsAnimating] = useState(false);
 
   // Ensure projects is always an array
@@ -73,7 +78,7 @@ export default function Portfolio({ projects = [], limit }: PortfolioProps) {
   }, [language, activeCategory]);
 
   return (
-    <section id="portfolio" className="container py-12" suppressHydrationWarning>
+    <section id="portfolio" className="container py-16 md:py-24" suppressHydrationWarning>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -81,9 +86,9 @@ export default function Portfolio({ projects = [], limit }: PortfolioProps) {
         transition={{ duration: 0.5 }}
       >
         <div className="flex flex-col items-center mb-12">
-          <h1 className="text-4xl font-bold text-gold mb-4" suppressHydrationWarning>
+          <h2 className="text-3xl font-bold text-gold mb-4" suppressHydrationWarning>
             {language === "en" ? "My Projects" : "Meus Projetos"}
-          </h1>
+          </h2>
           {limit && (
             <p className="text-muted-foreground text-center max-w-2xl">
               {language === "en"

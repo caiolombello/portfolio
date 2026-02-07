@@ -82,9 +82,12 @@ export default function Header() {
     { href: "/contact", label: t("nav.contact") },
   ];
 
-  // Não renderizar até que a configuração seja carregada
   if (configLoading) {
-    return null;
+    return (
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 items-center" />
+      </header>
+    );
   }
 
   return (

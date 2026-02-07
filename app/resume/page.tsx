@@ -1,11 +1,12 @@
 import Resume from "@/components/resume";
 import { Suspense } from "react";
 import { ResumeSkeleton } from "@/components/loading-skeleton";
+import { generatePageMetadata } from "@/lib/site-metadata";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Currículo",
-  description: "Experiência profissional, educação e habilidades técnicas",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generatePageMetadata("Resume");
+}
 
 export default function ResumePage() {
   return (

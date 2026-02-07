@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
+import { useSiteConfig } from "@/hooks/use-site-config";
 
 interface SocialLinks {
   github?: string;
@@ -36,8 +37,9 @@ interface ProfileData {
 
 export default function Footer() {
   const { language } = useLanguage();
-  const [profileName, setProfileName] = useState("Portfolio");
-  const [socialLinks, setSocialLinks] = useState<SocialLinks>({});
+  const { config } = useSiteConfig();
+  const [profileName, setProfileName] = useState(config.site.shortName);
+  const [socialLinks, setSocialLinks] = useState<SocialLinks>(config.social);
   const currentYear = new Date().getFullYear();
 
   const rightsText =
@@ -54,7 +56,7 @@ export default function Footer() {
         if (response.ok) {
           const data = await response.json();
           if (data) {
-            const fullName = data[language]?.name || "Caio Barbieri";
+            const fullName = data[language]?.name || config.site.shortName;
             const nameParts = fullName.split(" ");
             const shortName =
               nameParts.length > 1
@@ -67,14 +69,6 @@ export default function Footer() {
         }
       } catch (error) {
         console.error("Error fetching profile:", error);
-        // Em caso de erro, apenas define o nome, sem links fallback
-        const fullName = "Caio Barbieri";
-        const nameParts = fullName.split(" ");
-        const shortName =
-          nameParts.length > 1
-            ? `${nameParts[0]} ${nameParts[nameParts.length - 1]}`
-            : fullName;
-        setProfileName(shortName);
       }
     }
     fetchProfile();
@@ -99,97 +93,97 @@ export default function Footer() {
           suppressHydrationWarning
         >
           {socialLinks.github && (
-            <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" asChild className="group">
               <a
                 href={socialLinks.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
               >
-                <Github size={20} className="hover:text-gold" />
+                <Github size={20} className="transition-colors group-hover:text-gold" />
                 <span className="sr-only">GitHub</span>
               </a>
             </Button>
           )}
 
           {socialLinks.linkedin && (
-            <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" asChild className="group">
               <a
                 href={socialLinks.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
               >
-                <Linkedin size={20} className="hover:text-gold" />
+                <Linkedin size={20} className="transition-colors group-hover:text-gold" />
                 <span className="sr-only">LinkedIn</span>
               </a>
             </Button>
           )}
 
           {socialLinks.twitter && (
-            <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" asChild className="group">
               <a
                 href={socialLinks.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Twitter"
               >
-                <Twitter size={20} className="hover:text-gold" />
+                <Twitter size={20} className="transition-colors group-hover:text-gold" />
                 <span className="sr-only">Twitter</span>
               </a>
             </Button>
           )}
 
           {socialLinks.instagram && (
-            <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" asChild className="group">
               <a
                 href={socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
               >
-                <Instagram size={20} className="hover:text-gold" />
+                <Instagram size={20} className="transition-colors group-hover:text-gold" />
                 <span className="sr-only">Instagram</span>
               </a>
             </Button>
           )}
 
           {socialLinks.website && (
-            <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" asChild className="group">
               <a
                 href={socialLinks.website}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Website"
               >
-                <Globe size={20} className="hover:text-gold" />
+                <Globe size={20} className="transition-colors group-hover:text-gold" />
                 <span className="sr-only">Website</span>
               </a>
             </Button>
           )}
 
           {socialLinks.whatsapp && (
-            <Button variant="ghost" size="icon" asChild>
+            <Button variant="ghost" size="icon" asChild className="group">
               <a
                 href={socialLinks.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
               >
-                <MessageSquare size={20} className="hover:text-gold" />
+                <MessageSquare size={20} className="transition-colors group-hover:text-gold" />
                 <span className="sr-only">WhatsApp</span>
               </a>
             </Button>
           )}
 
-          <Button variant="ghost" size="icon" asChild>
+          <Button variant="ghost" size="icon" asChild className="group">
             <a
               href="/feed.xml"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="RSS Feed"
             >
-              <Rss size={20} className="hover:text-gold" />
+              <Rss size={20} className="transition-colors group-hover:text-gold" />
               <span className="sr-only">RSS Feed</span>
             </a>
           </Button>

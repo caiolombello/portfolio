@@ -37,9 +37,9 @@
 
     --radius: 0.5rem;
 
-    /* Gold colors - Light mode uses Goldenrod for better visual harmony */
-    --gold: 43 74% 49%; /* #DAA520 - Goldenrod - equilibrado e vibrante */
-    --gold-rgb: 218, 165, 32;
+    /* Gold colors - Light mode uses DarkGoldenrod for WCAG AA contrast */
+    --gold: 43 74% 39%; /* #B8860B - DarkGoldenrod - WCAG AA compliant */
+    --gold-rgb: 184, 134, 11;
   }
 
   .dark {
