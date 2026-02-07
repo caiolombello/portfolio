@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import siteJson from '@/config/site.json';
 
 export interface SiteConfig {
   site: {
@@ -35,41 +36,36 @@ export interface SiteConfig {
 
 const defaultConfig: SiteConfig = {
   site: {
-    name: "Portfolio Template",
-    title: "Your Name - Professional Portfolio",
-    shortName: "Your Name",
-    description: "Professional portfolio and blog showcasing projects, skills and experience",
-    url: "https://yoursite.com",
-    author: "Your Name",
-    email: "your.email@example.com",
-    phone: "+1 (555) 123-4567",
-    location: "Your City, State/Country",
-    profileImage: "/images/profile/profile.jpg"
+    name: siteJson.site.name,
+    title: siteJson.site.title,
+    shortName: siteJson.site.shortName,
+    description: siteJson.site.description,
+    url: siteJson.site.url,
+    author: siteJson.site.author,
+    email: siteJson.site.email,
+    phone: siteJson.site.phone,
+    location: siteJson.site.location,
+    profileImage: (siteJson.site.profileImage as any)?.source
+      || String(siteJson.site.profileImage),
   },
   social: {
-    github: "https://github.com/yourusername",
-    linkedin: "https://linkedin.com/in/yourprofile",
-    twitter: "https://twitter.com/yourusername",
-    website: "https://yoursite.com",
-    calendarUrl: undefined,
+    github: siteJson.social.github,
+    linkedin: siteJson.social.linkedin,
+    twitter: siteJson.social.twitter,
+    website: siteJson.social.website,
+    calendarUrl: siteJson.social.calendarUrl || undefined,
   },
   integrations: {
-    credlyUsername: "your-credly-username",
-    twitterHandle: "@yourusername"
+    credlyUsername: siteJson.integrations.credlyUsername,
+    twitterHandle: siteJson.integrations.twitterHandle,
   },
   seo: {
-    keywords: [
-      "your profession",
-      "your skills",
-      "your location",
-      "web development",
-      "portfolio"
-    ]
+    keywords: siteJson.seo.keywords,
   },
   og: {
-    strategy: 'dynamic',
-    image: ''
-  }
+    strategy: siteJson.og.strategy as 'static' | 'dynamic',
+    image: siteJson.og.image,
+  },
 };
 
 export function useSiteConfig() {

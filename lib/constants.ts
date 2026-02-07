@@ -1,14 +1,3 @@
-export const SITE_CONFIG = {
-  name: "Caio Barbieri Portfolio",
-  description: "Professional portfolio showcasing my work and experience",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  ogImage: "/og-image.png",
-  links: {
-    github: "https://github.com/caiolombello",
-    linkedin: "https://linkedin.com/in/caiolvbarbieri",
-  },
-} as const;
-
 export const CONTENT_PATHS = {
   posts: "content/posts",
   projects: "content/projects",

@@ -1,54 +1,6 @@
 import { Metadata } from "next";
-import { SITE_CONFIG } from "./constants";
 import { getSiteConfig, type SiteConfig } from "./config-server";
-import { buildOgImageUrl } from "./seo";
 import { getProfileData } from "./data";
-
-interface GenerateMetadataOptions {
-  title?: string;
-  description?: string;
-  image?: string;
-  noIndex?: boolean;
-  alternates?: {
-    canonical?: string;
-    languages?: Record<string, string>;
-  };
-}
-
-export function generateMetadata({
-  title,
-  description = SITE_CONFIG.description,
-  image = SITE_CONFIG.ogImage,
-  noIndex = false,
-  alternates,
-}: GenerateMetadataOptions = {}): Metadata {
-  const finalTitle = title
-    ? `${title} | ${SITE_CONFIG.name}`
-    : SITE_CONFIG.name;
-
-  return {
-    title: finalTitle,
-    description,
-    openGraph: {
-      title: finalTitle,
-      description,
-      images: [{ url: image }],
-      type: "website",
-      siteName: SITE_CONFIG.name,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: finalTitle,
-      description,
-      images: [image],
-    },
-    robots: {
-      index: !noIndex,
-      follow: !noIndex,
-    },
-    alternates,
-  };
-}
 
 export function generateJsonLd(data: Record<string, unknown>) {
   return {
@@ -57,12 +9,13 @@ export function generateJsonLd(data: Record<string, unknown>) {
 }
 
 export function generatePersonJsonLd() {
+  const config = getSiteConfig();
   return {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "Caio Barbieri",
-    url: SITE_CONFIG.url,
-    sameAs: [SITE_CONFIG.links.github, SITE_CONFIG.links.linkedin],
+    name: config.site.author,
+    url: config.site.url,
+    sameAs: [config.social.github, config.social.linkedin],
   };
 }
 
@@ -86,7 +39,7 @@ export function generateBlogPostJsonLd({
     "@type": "BlogPosting",
     headline: title,
     description,
-    image: image || SITE_CONFIG.ogImage,
+    ...(image ? { image } : {}),
     datePublished: publishDate,
     dateModified: updateDate || publishDate,
     author: generatePersonJsonLd(),
@@ -104,7 +57,11 @@ export async function generateSiteMetadata(): Promise<Metadata> {
   const profile = await getProfileData();
 
   const siteTitle = profile?.pt?.title ? `${profile.pt.name} - ${profile.pt.title}` : config.site.title;
-  const siteDescription = profile?.pt?.about || config.site.description;
+  const fullDescription = profile?.pt?.about || config.site.description;
+  // Truncate description for SEO (max ~155 chars for SERP display)
+  const siteDescription = fullDescription.length > 155
+    ? fullDescription.substring(0, 152) + "..."
+    : fullDescription;
 
   return {
     title: {
@@ -132,11 +89,6 @@ export async function generateSiteMetadata(): Promise<Metadata> {
     },
     alternates: {
       canonical: config.site.url,
-      languages: {
-        "pt-BR": `${config.site.url}/pt`,
-        "en-US": `${config.site.url}/en`,
-        "es-ES": `${config.site.url}/es`,
-      },
     },
     openGraph: {
       type: "website",
@@ -145,14 +97,6 @@ export async function generateSiteMetadata(): Promise<Metadata> {
       title: siteTitle,
       description: siteDescription,
       siteName: config.site.shortName,
-      images: [
-        {
-          url: buildOgImageUrl({ title: config.site.shortName }),
-          width: 1200,
-          height: 630,
-          alt: config.site.shortName,
-        },
-      ],
     },
     twitter: {
       card: "summary_large_image",
@@ -160,9 +104,8 @@ export async function generateSiteMetadata(): Promise<Metadata> {
       description: siteDescription,
       site: config.integrations.twitterHandle,
       creator: config.integrations.twitterHandle,
-      images: [buildOgImageUrl({ title: config.site.shortName })],
     },
-    manifest: `${config.site.url}/api/webmanifest`,
+    manifest: "/api/webmanifest",
   };
 }
 
@@ -176,7 +119,17 @@ export async function generatePageMetadata(
   const config = getSiteConfig();
   const profile = await getProfileData();
   const pageDescription = description || profile?.pt?.about || config.site.description;
-  const pageImage = image || buildOgImageUrl({ title });
+
+  let pageImage: string;
+  if (image) {
+    pageImage = image.startsWith('http') ? image : `${config.site.url}${image}`;
+  } else if (config.og?.strategy === 'static' && config.og.image) {
+    pageImage = `${config.site.url}${config.og.image}`;
+  } else {
+    const ogUrl = new URL("/api/og", config.site.url);
+    ogUrl.searchParams.set("title", title);
+    pageImage = ogUrl.toString();
+  }
 
   return {
     title,
@@ -222,10 +175,6 @@ export async function generateStructuredData() {
     name: profile?.pt?.name || config.site.author,
     url: config.site.url,
     jobTitle: profile?.pt?.title || config.site.title.split(" - ")[1] || "Professional",
-    worksFor: {
-      "@type": "Organization",
-      name: config.site.shortName,
-    },
     sameAs: [
       config.social.github,
       config.social.linkedin,
