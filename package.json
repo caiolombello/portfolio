@@ -13,7 +13,9 @@
     "test:coverage": "vitest run --coverage",
     "analyze": "cross-env ANALYZE=true next build",
     "optimize-images": "node scripts/optimize-images.mjs",
-    "prebuild": "npm run optimize-images && ./scripts/build-resume.sh"
+    "sync-linkedin": "npx tsx scripts/sync-linkedin.ts",
+    "prebuild": "npm run optimize-images && ./scripts/build-resume.sh && npm run sync-linkedin",
+    "setup": "bash scripts/setup.sh"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.787.0",
