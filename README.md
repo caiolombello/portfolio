@@ -1,46 +1,26 @@
-# 🚀 Modern Portfolio Template
+# Modern Portfolio Template
 
 A modern, responsive, and fully configurable portfolio template built with Next.js 16, TypeScript, and Tailwind CSS. Perfect for developers, designers, and professionals who want to showcase their work beautifully.
 
 ![Portfolio Preview](public/images/Portfolio.png)
 
-## ✨ Features
+## Features
 
-### 🎨 **Modern Design**
-- Clean, professional interface with dark/light mode support
-- Responsive design that works on all devices
-- Beautiful animations and transitions
-- Optimized for performance and accessibility
+- **Dark/Light mode** with smooth transitions and WCAG-compliant colors
+- **Multilingual** (EN, PT, ES) with automatic content fallbacks
+- **File-based CMS** — edit JSON and Markdown, no database needed
+- **Blog** with Markdown, syntax highlighting, and RSS feed
+- **Project showcase** with images, technologies, and links
+- **Resume/CV** with PDF generation (LaTeX) and interactive timeline
+- **Company & institution logos** on experience/education items with graceful fallback
+- **LinkedIn sync** — optionally pull experience and education data during build
+- **Dynamic Open Graph images** per page (blog posts, projects, resume, contact)
+- **Credly certifications** displayed automatically from your username
+- **SEO optimized** — sitemaps, structured data, meta tags, `metadataBase`
+- **Vercel Analytics & Speed Insights** built-in
+- **Interactive setup wizard** (`npm run setup`)
 
-### 📝 **Content Management**
-- **File-based CMS**: No complex setup, just edit JSON and Markdown files
-- **Multilingual support**: English, Portuguese, and Spanish out of the box
-- **Blog system**: Write posts in Markdown with full syntax highlighting
-- **Project showcase**: Display your work with images, technologies, and links
-- **Resume/CV**: Professional resume with PDF export capability
-
-### 🔧 **Easy Configuration**
-- **Single config file**: All site settings in one place (`config/site.json`)
-- **Interactive setup**: Run `npm run setup` to configure everything
-- **Template system**: Copy and customize for your own use
-- **Comprehensive documentation**: Detailed setup guide
-
-### 🚀 **Performance & SEO**
-- **Next.js 16**: Latest features with App Router
-- **Static generation**: Fast loading times
-- **SEO optimized**: Meta tags, sitemaps, structured data
-- **Image optimization**: Automatic image processing
-- **Analytics ready**: Vercel Analytics integration
-- **Social media previews**: Dynamic Open Graph images with profile photo
-
-### 🛠 **Developer Experience**
-- **TypeScript**: Full type safety
-- **Tailwind CSS**: Utility-first styling
-- **ESLint & Prettier**: Code quality tools
-- **Vitest**: Testing framework
-- **Hot reload**: Instant development feedback
-
-## 🏁 Quick Start
+## Quick Start
 
 ### 1. Fork & Clone
 
@@ -58,7 +38,7 @@ npm install
 npm run setup
 ```
 
-This will prompt you for your name, email, GitHub username, etc. and generate `config/site.json` and `content/profile/profile.json` automatically.
+This prompts for your name, email, GitHub username, etc. and generates `config/site.json` and `content/profile/profile.json`.
 
 **Or configure manually:**
 
@@ -70,74 +50,77 @@ cp content/profile/profile.json.template content/profile/profile.json
 
 ### 3. Add Your Content
 
-```bash
-# Add your work experience
-content/experience/
-
-# Add your projects
-content/projects/
-
-# Write blog posts (Markdown)
-content/posts/
-
-# Add your education
-content/education/
+```
+content/
+├── experience/       # Work experience (JSON)
+├── education/        # Education (JSON)
+├── projects/         # Portfolio projects (JSON)
+├── posts/            # Blog posts (Markdown)
+├── skills/           # Skills list (JSON)
+├── profile/          # Personal info (JSON)
+└── testimonials.json # Testimonials
 ```
 
 See [CONFIG.md](CONFIG.md) for content file formats and examples.
 
-### 4. Run Development Server
+### 4. Environment Variables (optional)
+
+```bash
+cp .env.example .env.local
+```
+
+Available integrations: Google Search Console, AWS S3, Vercel Blob, Giscus comments, and LinkedIn sync. All are optional.
+
+### 5. Run Development Server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see your portfolio!
+Open [http://localhost:3000](http://localhost:3000) to see your portfolio.
 
-## 📋 After Forking Checklist
-
-After forking or using this template, make sure to:
+## After Forking Checklist
 
 - [ ] Run `npm run setup` or manually create `config/site.json` from the template
 - [ ] Update `content/profile/profile.json` with your bio
 - [ ] Replace example content in `content/experience/`, `content/projects/`, `content/education/`
 - [ ] Update `content/skills/skills.json` with your skills
-- [ ] (Optional) Update `LICENSE` with your name
-- [ ] (Optional) Add blog posts to `content/posts/`
+- [ ] Copy `.env.example` to `.env.local` and configure integrations
 - [ ] (Optional) Add your profile photo to `public/images/profile/`
-- [ ] (Optional) Update resume files in `public/` (`resume.md`, `curriculo.md`)
-- [ ] (Optional) Copy `.env.example` to `.env.local` and configure integrations
+- [ ] (Optional) Add blog posts to `content/posts/`
+- [ ] (Optional) Set up LinkedIn sync for automatic experience/education updates
+- [ ] (Optional) Update `LICENSE` with your name
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 portfolio/
 ├── app/                    # Next.js 16 App Router
-│   ├── [lang]/            # Internationalization routes
 │   ├── api/               # API routes
-│   └── components/        # Page components
-├── components/            # Reusable UI components
-├── content/              # Your content (JSON/Markdown)
-│   ├── posts/            # Blog posts (Markdown)
-│   ├── projects/         # Portfolio projects (JSON)
-│   ├── experience/       # Work experience (JSON)
-│   ├── education/        # Education (JSON)
-│   ├── skills/           # Skills list (JSON)
-│   └── profile/          # Personal info (JSON)
-├── config/               # Site configuration
-│   ├── site.json         # Main config file
+│   ├── blog/              # Blog pages + OG images
+│   ├── contact/           # Contact page + OG image
+│   ├── portfolio/         # Portfolio pages + OG images
+│   └── resume/            # Resume page + OG image
+├── components/            # React components
+├── config/                # Site configuration
+│   ├── site.json          # Main config file
 │   └── site.json.template # Template for new users
-├── hooks/                # Custom React hooks
-├── lib/                  # Utility functions
-├── public/               # Static assets
-└── types/                # TypeScript definitions
+├── content/               # Your content (JSON/Markdown)
+├── hooks/                 # Custom React hooks
+├── lib/                   # Utility functions
+├── proxy.ts               # Request proxy (redirects)
+├── scripts/               # Build & automation scripts
+│   ├── setup.sh           # Interactive setup wizard
+│   ├── sync-linkedin.ts   # LinkedIn experience/education sync
+│   ├── build-resume.sh    # LaTeX PDF resume builder
+│   └── optimize-images.mjs # Image optimization (WebP/AVIF)
+├── public/                # Static assets & generated PDFs
+└── types/                 # TypeScript definitions
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 ### Site Configuration (`config/site.json`)
-
-The main configuration file controls all aspects of your portfolio:
 
 ```json
 {
@@ -149,7 +132,6 @@ The main configuration file controls all aspects of your portfolio:
     "url": "https://yourdomain.com",
     "author": "Your Full Name",
     "email": "your.email@example.com",
-    "phone": "+1 (555) 123-4567",
     "location": "Your Location"
   },
   "social": {
@@ -167,25 +149,41 @@ The main configuration file controls all aspects of your portfolio:
 
 For detailed configuration instructions, see [CONFIG.md](CONFIG.md).
 
-## 🎨 Customization
+### LinkedIn Sync (optional)
+
+Automatically syncs experience and education data from LinkedIn during build. The script updates metadata (titles, dates, logos, URLs) while preserving your manual content (responsibilities, translations, descriptions).
+
+1. Get your `li_at` cookie from browser DevTools (LinkedIn > Application > Cookies)
+2. Add to `.env.local`:
+   ```
+   LINKEDIN_COOKIE=your-li_at-cookie-value
+   LINKEDIN_USERNAME=your-linkedin-username
+   ```
+3. The sync runs automatically during `npm run build` (prebuild step). It's non-fatal — if the cookie expires or is missing, the build continues with existing data.
+
+You can also run it manually: `npm run sync-linkedin`
+
+## Customization
 
 ### Styling
-- **Colors**: Edit `tailwind.config.ts`
+- **Colors**: Edit CSS variables in `app/globals.css` (gold accent uses WCAG AA compliant values)
 - **Fonts**: Modify `app/layout.tsx`
 - **Components**: Customize in `/components`
 
-### Content
-- **Blog posts**: Add Markdown files to `content/posts/`
-- **Projects**: Add JSON files to `content/projects/`
-- **Experience**: Add JSON files to `content/experience/`
-- **Skills**: Edit `content/skills/skills.json`
-
 ### Images
-- **Profile**: `/public/images/profile/`
-- **Projects**: `/public/images/projects/`
-- **Blog**: `/public/images/blog/`
+- **Profile**: `public/images/profile/`
+- **Projects**: `public/images/projects/`
+- **Blog**: `public/images/posts/`
 
-## 🚀 Deployment
+## Build Pipeline
+
+The `prebuild` step runs automatically before `next build`:
+
+1. **Image optimization** — generates WebP and AVIF variants with responsive sizes
+2. **Resume generation** — compiles LaTeX templates into PDF (requires Docker or local pdflatex)
+3. **LinkedIn sync** — pulls latest experience/education data (optional, non-fatal)
+
+## Deployment
 
 ### Vercel (Recommended)
 
@@ -195,13 +193,25 @@ For detailed configuration instructions, see [CONFIG.md](CONFIG.md).
 
 ### Other Platforms
 
-The portfolio works on any platform that supports Next.js:
-- Netlify
-- Railway
-- AWS Amplify
-- Self-hosted
+Works on any platform that supports Next.js: Netlify, Railway, AWS Amplify, or self-hosted.
 
-## 🌐 Internationalization
+## Scripts
+
+```bash
+npm run setup           # Interactive setup wizard
+npm run dev             # Start dev server (Turbopack)
+npm run build           # Build for production (includes prebuild pipeline)
+npm run start           # Start production server
+npm run lint            # Run ESLint
+npm run test            # Run tests (Vitest)
+npm run test:watch      # Run tests in watch mode
+npm run test:coverage   # Run tests with coverage
+npm run analyze         # Bundle analysis
+npm run sync-linkedin   # Sync experience/education from LinkedIn
+npm run optimize-images # Optimize images (WebP/AVIF)
+```
+
+## Internationalization
 
 Built-in support for multiple languages:
 
@@ -211,45 +221,17 @@ Built-in support for multiple languages:
 
 Language switching via header controls, with automatic content fallbacks.
 
-## 📊 Analytics & Monitoring
-
-- **Vercel Analytics**: Built-in performance monitoring
-- **Health endpoint**: `/api/health` for uptime monitoring
-- **SEO optimization**: Automatic sitemaps and meta tags
-
-## 🔌 Integrations
-
-### Credly Certifications
-Display your professional certifications automatically by setting your Credly username in the config.
-
-### Social Links
-Automatically generates social media links and contact information throughout the site.
-
-## 🧪 Testing
+## Testing
 
 ```bash
-# Run tests
-npm test
-
-# Run tests in watch mode
-npm run test:watch
+npm test              # Run all tests
+npm run test:watch    # Watch mode
+npm run test:coverage # Coverage report
 ```
 
-## 📦 Scripts
+## Contributing
 
-```bash
-npm run setup        # Interactive setup wizard
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
-npm run test         # Run tests
-./scripts/build-resume.sh # Build PDF resumes (requires pdflatex or Docker)
-```
-
-## 🤝 Contributing
-
-We welcome contributions! Whether you're fixing bugs, adding features, or improving documentation.
+Contributions are welcome! Whether you're fixing bugs, adding features, or improving documentation.
 
 1. Fork the repository
 2. Create a feature branch
@@ -257,24 +239,16 @@ We welcome contributions! Whether you're fixing bugs, adding features, or improv
 4. Add tests if needed
 5. Submit a pull request
 
-## 📄 License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).
 
-## 🆘 Support
+## Support
 
-Need help setting up your portfolio?
-
-- 📖 Read the [Configuration Guide](CONFIG.md)
-- 🐛 [Report issues](https://github.com/caiolombello/portfolio/issues)
-- 💬 [Start a discussion](https://github.com/caiolombello/portfolio/discussions)
-
-## 🌟 Showcase
-
-Built with this template? We'd love to see your portfolio! Share it by opening an issue with the "showcase" label.
+- [Configuration Guide](CONFIG.md)
+- [Report issues](https://github.com/caiolombello/portfolio/issues)
+- [Start a discussion](https://github.com/caiolombello/portfolio/discussions)
 
 ---
 
-**Built with ❤️ for the developer community**
-
-Give it a ⭐ if this template helped you build your portfolio!
+Give it a star if this template helped you build your portfolio!
