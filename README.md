@@ -1,6 +1,6 @@
 # 🚀 Modern Portfolio Template
 
-A modern, responsive, and fully configurable portfolio template built with Next.js 15, TypeScript, and Tailwind CSS. Perfect for developers, designers, and professionals who want to showcase their work beautifully.
+A modern, responsive, and fully configurable portfolio template built with Next.js 16, TypeScript, and Tailwind CSS. Perfect for developers, designers, and professionals who want to showcase their work beautifully.
 
 ![Portfolio Preview](public/images/Portfolio.png)
 
@@ -20,13 +20,13 @@ A modern, responsive, and fully configurable portfolio template built with Next.
 - **Resume/CV**: Professional resume with PDF export capability
 
 ### 🔧 **Easy Configuration**
-- **Single config file**: All site settings in one place
+- **Single config file**: All site settings in one place (`config/site.json`)
+- **Interactive setup**: Run `npm run setup` to configure everything
 - **Template system**: Copy and customize for your own use
-- **No hardcoded data**: Everything is configurable
 - **Comprehensive documentation**: Detailed setup guide
 
 ### 🚀 **Performance & SEO**
-- **Next.js 14**: Latest features with App Router
+- **Next.js 16**: Latest features with App Router
 - **Static generation**: Fast loading times
 - **SEO optimized**: Meta tags, sitemaps, structured data
 - **Image optimization**: Automatic image processing
@@ -42,39 +42,49 @@ A modern, responsive, and fully configurable portfolio template built with Next.
 
 ## 🏁 Quick Start
 
-### 1. Clone & Install
+### 1. Fork & Clone
+
+Click **"Use this template"** or **"Fork"** on GitHub, then:
 
 ```bash
-git clone https://github.com/caiolombello/portfolio.git
+git clone https://github.com/YOUR_USERNAME/portfolio.git
 cd portfolio
 npm install
 ```
 
-### 2. Configure Your Site
+### 2. Run Interactive Setup
 
 ```bash
-# Copy the configuration template
-cp config/site.json.template config/site.json
+npm run setup
+```
 
-# Edit with your information
-nano config/site.json
+This will prompt you for your name, email, GitHub username, etc. and generate `config/site.json` and `content/profile/profile.json` automatically.
+
+**Or configure manually:**
+
+```bash
+cp config/site.json.template config/site.json
+cp content/profile/profile.json.template content/profile/profile.json
+# Edit both files with your information
 ```
 
 ### 3. Add Your Content
 
 ```bash
-# Update profile information
-nano content/profile/profile.json
+# Add your work experience
+content/experience/
 
 # Add your projects
-ls content/projects/
+content/projects/
 
-# Write blog posts
-ls content/posts/
+# Write blog posts (Markdown)
+content/posts/
 
-# Add your experience
-ls content/experience/
+# Add your education
+content/education/
 ```
+
+See [CONFIG.md](CONFIG.md) for content file formats and examples.
 
 ### 4. Run Development Server
 
@@ -84,11 +94,25 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to see your portfolio!
 
+## 📋 After Forking Checklist
+
+After forking or using this template, make sure to:
+
+- [ ] Run `npm run setup` or manually create `config/site.json` from the template
+- [ ] Update `content/profile/profile.json` with your bio
+- [ ] Replace example content in `content/experience/`, `content/projects/`, `content/education/`
+- [ ] Update `content/skills/skills.json` with your skills
+- [ ] (Optional) Update `LICENSE` with your name
+- [ ] (Optional) Add blog posts to `content/posts/`
+- [ ] (Optional) Add your profile photo to `public/images/profile/`
+- [ ] (Optional) Update resume files in `public/` (`resume.md`, `curriculo.md`)
+- [ ] (Optional) Copy `.env.example` to `.env.local` and configure integrations
+
 ## 📁 Project Structure
 
 ```
 portfolio/
-├── app/                    # Next.js 14 App Router
+├── app/                    # Next.js 16 App Router
 │   ├── [lang]/            # Internationalization routes
 │   ├── api/               # API routes
 │   └── components/        # Page components
@@ -214,13 +238,12 @@ npm run test:watch
 ## 📦 Scripts
 
 ```bash
+npm run setup        # Interactive setup wizard
 npm run dev          # Start development server
 npm run build        # Build for production
 npm run start        # Start production server
 npm run lint         # Run ESLint
 npm run test         # Run tests
-npm run test         # Run tests
-npm run type-check   # TypeScript type checking
 ./scripts/build-resume.sh # Build PDF resumes (requires pdflatex or Docker)
 ```
 

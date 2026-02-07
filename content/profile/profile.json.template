@@ -1,0 +1,23 @@
+{
+  "pt": {
+    "name": "Seu Nome",
+    "title": "Seu Título Profissional",
+    "location": "Sua Cidade, Estado, País",
+    "about": "Uma breve descrição sobre você e sua experiência profissional em português."
+  },
+  "en": {
+    "name": "Your Name",
+    "title": "Your Professional Title",
+    "location": "Your City, State, Country",
+    "about": "A brief description about you and your professional experience in English."
+  },
+  "email": "your.email@example.com",
+  "phone": "+1 (555) 123-4567",
+  "socialLinks": {
+    "linkedin": "https://linkedin.com/in/yourprofile",
+    "github": "https://github.com/yourusername",
+    "twitter": "https://twitter.com/yourusername",
+    "website": "https://yoursite.com",
+    "whatsapp": "https://wa.me/15551234567"
+  }
+}
