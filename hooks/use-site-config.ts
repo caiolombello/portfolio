@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import siteJson from '@/config/site.json';
+import siteJson from "../config/site.json";
 
 export interface SiteConfig {
   site: {
@@ -25,12 +24,11 @@ export interface SiteConfig {
     credlyUsername: string;
     twitterHandle: string;
   };
+  features?: {
+    portfolio?: boolean;
+  };
   seo: {
     keywords: string[];
-  };
-  og: {
-    strategy: 'static' | 'dynamic';
-    image: string;
   };
 }
 
@@ -45,8 +43,10 @@ const defaultConfig: SiteConfig = {
     email: siteJson.site.email,
     phone: siteJson.site.phone,
     location: siteJson.site.location,
-    profileImage: (siteJson.site.profileImage as any)?.source
-      || String(siteJson.site.profileImage),
+    profileImage:
+      typeof siteJson.site.profileImage === "string"
+        ? siteJson.site.profileImage
+        : siteJson.site.profileImage.source,
   },
   social: {
     github: siteJson.social.github,
@@ -59,36 +59,14 @@ const defaultConfig: SiteConfig = {
     credlyUsername: siteJson.integrations.credlyUsername,
     twitterHandle: siteJson.integrations.twitterHandle,
   },
+  features: {
+    portfolio: siteJson.features?.portfolio ?? true,
+  },
   seo: {
     keywords: siteJson.seo.keywords,
-  },
-  og: {
-    strategy: siteJson.og.strategy as 'static' | 'dynamic',
-    image: siteJson.og.image,
   },
 };
 
 export function useSiteConfig() {
-  const [config, setConfig] = useState<SiteConfig>(defaultConfig);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadConfig() {
-      try {
-        const response = await fetch('/api/config/site');
-        if (response.ok) {
-          const data = await response.json();
-          setConfig(data);
-        }
-      } catch (error) {
-        console.warn('Failed to load site config, using defaults:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadConfig();
-  }, []);
-
-  return { config, loading };
+  return { config: defaultConfig, loading: false } as const;
 }

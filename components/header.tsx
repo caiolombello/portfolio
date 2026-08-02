@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import MobileMenu from "./mobile-menu";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import LanguageSwitcher from "./language-switcher";
@@ -10,156 +9,103 @@ import { useSiteConfig } from "@/hooks/use-site-config";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-
-interface LocalizedProfile {
-  name: string;
-  title: string;
-  location: string;
-  about: string;
-}
-
-interface ProfileData {
-  pt: LocalizedProfile;
-  en: LocalizedProfile;
-  email: string;
-  phone: string;
-  socialLinks: {
-    linkedin?: string;
-    github?: string;
-    twitter?: string;
-    website?: string;
-    whatsapp?: string;
-  };
-}
+import { getMainNavigationItems } from "@/lib/navigation";
+import { isPortfolioEnabled } from "@/lib/site-features";
+import { useProfile } from "@/contexts/profile-context";
 
 export default function Header() {
   const { t, language } = useLanguage();
-  const { config, loading: configLoading } = useSiteConfig();
+  const { config } = useSiteConfig();
+  const profile = useProfile();
   const pathname = usePathname();
-  // Esconder a imagem na navbar quando estiver na home ou na página de contato
-  const hideNavbarImage = pathname === "/" || pathname === "/contact";
 
-  const [profile, setProfile] = useState<ProfileData>({
-    pt: {
-      name: config?.site?.shortName || "Your Name",
-      title: config?.site?.title?.split(' - ')[1] || "Engenheiro DevOps",
-      location: config?.site?.location || "São Paulo, Brasil",
-      about: "",
-    },
-    en: {
-      name: config?.site?.shortName || "Your Name",
-      title: config?.site?.title?.split(' - ')[1] || "DevOps Engineer",
-      location: config?.site?.location || "São Paulo, Brazil",
-      about: "",
-    },
-    email: config?.site?.email || "",
-    phone: config?.site?.phone || "",
-    socialLinks: config?.social || {},
-  });
+  const portfolioEnabled = isPortfolioEnabled(config);
+  const navItems = getMainNavigationItems(
+    t,
+    { portfolioEnabled },
+    language === "en" ? "en" : "pt",
+  );
 
-  useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const response = await fetch("/api/public/profile");
-
-        if (response.ok) {
-          const data = await response.json();
-          setProfile(data);
-        }
-      } catch (error) {
-        console.error("Erro ao buscar dados do perfil:", error);
-      }
-    }
-
-    fetchProfile();
-  }, []);
-
-  const navItems = [
-    { href: "/", label: t("nav.about") },
-    { href: "/resume", label: t("nav.resume") },
-    { href: "/portfolio", label: t("nav.projects") },
-    { href: "/blog", label: t("nav.blog") },
-    { href: "/contact", label: t("nav.contact") },
-  ];
-
-  if (configLoading) {
-    return (
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center" />
-      </header>
-    );
-  }
+  const currentProfile = profile?.[language === "en" ? "en" : "pt"] ?? {
+    name: config.site.shortName,
+    title:
+      config.site.title.split(" - ")[1] ||
+      (language === "en" ? "DevOps Engineer" : "Engenheiro DevOps"),
+    location: config.site.location,
+    about: config.site.description,
+  };
+  const navigationLabel =
+    language === "en" ? "Main navigation" : "Navegação principal";
+  const utilityLabel =
+    language === "en" ? "Utility navigation" : "Navegação auxiliar";
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            {/* Mostrar a imagem na navbar apenas quando NÃO estiver na home ou na página de contato */}
-            {!hideNavbarImage && (
-              <div className="relative h-8 w-8 overflow-hidden rounded-full">
-                <Image
-                  src="/api/profile-image"
-                  alt={
-                    profile[language as keyof Pick<ProfileData, "pt" | "en">]
-                      .name
-                  }
-                  fill
-                  className="object-cover"
-                  sizes="32px"
-                  priority
-                />
-              </div>
-            )}
-            <span className="font-bold" suppressHydrationWarning>
-              {profile[language as keyof Pick<ProfileData, "pt" | "en">].name}
-            </span>
-            <span className="text-sm text-muted-foreground" suppressHydrationWarning>
-              |{" "}
-              {profile[language as keyof Pick<ProfileData, "pt" | "en">].title}
-            </span>
-          </Link>
-          <nav
-            className="flex items-center space-x-6 text-sm font-medium"
-            role="navigation"
-            aria-label="Main navigation"
-          >
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "transition-colors hover:text-gold",
-                  pathname === item.href
-                    ? "text-foreground font-bold"
-                    : "text-muted-foreground",
-                )}
-                aria-current={pathname === item.href ? "page" : undefined}
-                suppressHydrationWarning
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
+    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/70">
+      <div className="container flex min-h-14 items-center gap-2 sm:min-h-16 sm:gap-4">
         <MobileMenu
-          name={profile[language as keyof Pick<ProfileData, "pt" | "en">].name}
-          title={
-            profile[language as keyof Pick<ProfileData, "pt" | "en">].title
-          }
+          name={currentProfile.name}
+          title={currentProfile.title}
           imageUrl="/api/profile-image"
-          showImage={!hideNavbarImage}
+          showImage
+          portfolioEnabled={portfolioEnabled}
         />
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
-            <div className="hidden md:block">
-              {/* Espaço para busca ou outros elementos */}
-            </div>
+
+        <Link
+          href={language === "en" ? "/en" : "/"}
+          className="group flex min-w-0 items-center gap-2 sm:gap-3"
+          aria-label={currentProfile.name}
+        >
+          <div className="relative hidden h-9 w-9 shrink-0 overflow-hidden rounded-full border border-gold/40 bg-secondary sm:block">
+            <Image
+              src="/api/profile-image"
+              alt=""
+              fill
+              className="object-cover"
+              sizes="36px"
+              priority
+            />
           </div>
+          <span
+            className="max-w-28 truncate text-sm font-semibold tracking-tight transition-colors group-hover:text-gold sm:max-w-none"
+            suppressHydrationWarning
+          >
+            {currentProfile.name}
+          </span>
+          <span
+            className="hidden truncate text-xs text-muted-foreground lg:block"
+            suppressHydrationWarning
+          >
+            {currentProfile.title}
+          </span>
+        </Link>
+
+        <nav
+          className="ml-auto hidden items-center gap-6 text-sm font-medium md:flex"
+          role="navigation"
+          aria-label={navigationLabel}
+        >
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "relative py-2 text-muted-foreground transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-gold after:transition-transform hover:text-foreground hover:after:scale-x-100",
+                pathname === item.href &&
+                  "font-semibold text-foreground after:scale-x-100",
+              )}
+              aria-current={pathname === item.href ? "page" : undefined}
+              suppressHydrationWarning
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="ml-auto flex shrink-0 items-center gap-0.5 sm:gap-1 md:ml-6">
           <nav
             className="flex items-center gap-2"
             role="navigation"
-            aria-label="Utility navigation"
+            aria-label={utilityLabel}
             suppressHydrationWarning
           >
             <LanguageSwitcher />

@@ -10,6 +10,8 @@ export interface SocialLinks {
   linkedin?: string;
   github?: string;
   twitter?: string;
+  website?: string;
+  whatsapp?: string;
 }
 
 export interface Profile {

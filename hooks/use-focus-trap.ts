@@ -9,7 +9,7 @@ interface UseFocusTrapOptions {
 
 export function useFocusTrap<T extends HTMLElement>(
   options: UseFocusTrapOptions = {},
-): RefObject<T> {
+): RefObject<T | null> {
   const { enabled = true, onEscape } = options;
   const containerRef = useRef<T>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);

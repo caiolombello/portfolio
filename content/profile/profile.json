@@ -3,13 +3,13 @@
     "name": "Caio Barbieri",
     "title": "Engenheiro DevOps Sênior",
     "location": "Campinas, São Paulo, Brasil",
-    "about": "Engenheiro DevOps especializado em Cloud Native, Observabilidade e Automação de Infraestrutura. Experiência sólida em criar pipelines GitOps e DevSecOps de ponta a ponta, com foco em segurança, escalabilidade e eficiência operacional. Integro Inteligência Artificial a operações para antecipar falhas, otimizar recursos e acelerar decisões. Domínio avançado de Python, Golang e Kubernetes para entregar soluções robustas, performáticas e resilientes. Atuação voltada à inovação contínua e redução de desperdícios operacionais, com mindset orientado a resultados."
+    "about": "Engenheiro DevOps Sênior e SRE com atuação hands-on em arquitetura e operação de plataformas AWS para ambientes críticos. Desenho e evoluo soluções com Kubernetes/EKS, ECS, Terraform, CloudFormation e GitOps, cobrindo redes multi-account, observabilidade, segurança e resposta a incidentes. Tenho experiência em migrações, hardening de IAM e redes, desenho de arquiteturas resilientes e automação operacional. Utilizo Python, Go e IA como ferramentas de apoio para reduzir trabalho manual e acelerar decisões técnicas."
   },
   "en": {
     "name": "Caio Barbieri",
     "title": "Senior DevOps Engineer",
     "location": "Campinas, São Paulo, Brazil",
-    "about": "DevOps Engineer specializing in Cloud Native, Observability, and Infrastructure Automation. Solid experience creating end-to-end GitOps and DevSecOps pipelines, focusing on security, scalability, and operational efficiency. I integrate Artificial Intelligence into operations to anticipate failures, optimize resources, and accelerate decisions. Advanced proficiency in Python, Golang, and Kubernetes to deliver robust, high-performance, and resilient solutions. My work is geared towards continuous innovation and reducing operational waste, with a results-oriented mindset."
+    "about": "Senior DevOps Engineer and SRE with hands-on experience designing and operating AWS platforms for critical environments. I build and evolve solutions with Kubernetes/EKS, ECS, Terraform, CloudFormation and GitOps across multi-account networking, observability, security and incident response. My work includes migrations, IAM and network hardening, resilient architecture design and operational automation. I use Python, Go and AI as supporting tools to reduce manual work and accelerate technical decisions."
   },
   "email": "caio@lombello.com",
   "phone": "+55 (19) 99753-6692",

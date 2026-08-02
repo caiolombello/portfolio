@@ -2,147 +2,157 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Mail,
-  Phone,
-  Github,
-  Linkedin,
-  MessageCircle,
-  CalendarPlus,
-} from "lucide-react";
-import SkillsList from "./skill-bar";
-import { Button } from "@/components/ui/button";
+import { ArrowUpRight, Mail } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
-import { useSiteConfig } from "@/hooks/use-site-config";
-import { motion } from "framer-motion";
-
-interface ProfileLanguage {
-  name: string;
-  title: string;
-  about: string;
-}
-
-interface Profile {
-  [key: string]: ProfileLanguage | string;
-  imageUrl: string;
-  email: string;
-  phone: string;
-}
+import { Reveal } from "@/components/motion/reveal";
+import { getLocalizedInstitutionalPath } from "@/lib/navigation";
+import type { Profile } from "@/types/profile";
 
 interface AboutProps {
   profile: Profile | null;
 }
 
 export default function About({ profile }: AboutProps) {
-  const { language, t } = useLanguage();
-  const { config } = useSiteConfig();
+  const { language } = useLanguage();
 
   if (!profile) return null;
 
-  const currentProfile = (profile[language] || profile["pt"]) as ProfileLanguage;
-  const profileImageUrl = "/api/profile-image";
-  const githubUsername = config.social.github?.split("/").pop() || "";
-  const linkedinUsername = config.social.linkedin?.split("/").pop() || "";
+  const currentProfile = profile[language === "en" ? "en" : "pt"];
+  const isEnglish = language === "en";
+  const copy = isEnglish
+    ? {
+        eyebrow: "Profile",
+        title: "A platform mindset, from the first commit to production.",
+        capabilities: "What I bring",
+        contact: "Contact details",
+        capabilityItems: [
+          ["Cloud platforms", "AWS, Oracle Cloud and multi-cloud foundations"],
+          [
+            "Platform engineering",
+            "Kubernetes, IaC, GitOps and reusable paths",
+          ],
+          [
+            "Reliability",
+            "Observability, incident readiness and secure defaults",
+          ],
+          ["Automation", "Python, Go and AI-assisted operations"],
+        ],
+      }
+    : {
+        eyebrow: "Perfil",
+        title: "Mentalidade de plataforma, do primeiro commit à produção.",
+        capabilities: "O que eu entrego",
+        contact: "Contato direto",
+        capabilityItems: [
+          ["Cloud platforms", "AWS, Oracle Cloud e fundações multi-cloud"],
+          [
+            "Platform engineering",
+            "Kubernetes, IaC, GitOps e caminhos reutilizáveis",
+          ],
+          [
+            "Confiabilidade",
+            "Observabilidade, prontidão para incidentes e segurança",
+          ],
+          ["Automação", "Python, Go e operações assistidas por IA"],
+        ],
+      };
 
   return (
-    <section id="about" className="container py-16 md:py-24" suppressHydrationWarning>
-      <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
-        {/* Coluna Esquerda - Informações Pessoais */}
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col items-center text-center md:items-start md:text-left"
-        >
-          <div className="relative mb-6 h-48 w-48 sm:h-64 sm:w-64 overflow-hidden rounded-full border-4 border-gold shadow-lg shadow-gold/10 transition-transform duration-500 hover:scale-105">
-            <Image
-              src={profileImageUrl || "/placeholder.svg"}
-              alt={currentProfile.name}
-              fill
-              sizes="(max-width: 768px) 100vw, 400px"
-              className="object-cover"
-              priority
-              suppressHydrationWarning
-            />
-          </div>
+    <section
+      id="about"
+      className="container relative border-b border-border/70 py-14 [--timeline-content:3rem] [--timeline-padding:1rem] [--timeline-rail:3rem] sm:py-24 sm:[--timeline-content:5rem] sm:[--timeline-rail:3.5rem]"
+      aria-labelledby="about-title"
+    >
+      <div
+        className="timeline-rail absolute bottom-0 left-[var(--timeline-rail)] top-[5.5rem] sm:top-[8.5rem]"
+        aria-hidden="true"
+      />
 
-          <h2 className="mb-2 text-3xl font-bold text-gold md:text-4xl">
+      <Reveal className="relative flex items-center gap-4 sm:gap-5" offset={14}>
+        <div className="group relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-gold/35 bg-secondary sm:h-20 sm:w-20">
+          <Image
+            src="/api/profile-image"
+            alt=""
+            fill
+            sizes="80px"
+            className="object-cover grayscale-[0.1] contrast-[1.04] transition-transform duration-500 group-hover:scale-[1.04]"
+          />
+        </div>
+        <div className="min-w-0">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">
+            {copy.eyebrow}
+          </p>
+          <p className="mt-2 truncate text-sm font-semibold text-foreground">
             {currentProfile.name}
-          </h2>
-
-          <h2 className="mb-6 text-xl text-muted-foreground" suppressHydrationWarning>
+          </p>
+          <p className="mt-1 truncate text-xs text-muted-foreground">
             {currentProfile.title}
-          </h2>
+          </p>
+        </div>
+      </Reveal>
 
-          <div className="w-full flex flex-col items-center md:items-start gap-3" suppressHydrationWarning>
-            <Button variant="outline" asChild className="w-full max-w-xs justify-start gap-3">
-              <Link href={`mailto:${profile.email}`}>
-                <Mail className="h-4 w-4" suppressHydrationWarning />
-                <span>{profile.email}</span>
-              </Link>
-            </Button>
-            <Button variant="outline" asChild className="w-full max-w-xs justify-start gap-3">
-              <Link href={`tel:${profile.phone}`}>
-                <Phone className="h-4 w-4" suppressHydrationWarning />
-                <span>{profile.phone}</span>
-              </Link>
-            </Button>
-            <Button variant="outline" asChild className="w-full max-w-xs justify-start gap-3">
-              <Link href={config.social.github} target="_blank" rel="noopener noreferrer">
-                <Github className="h-4 w-4" suppressHydrationWarning />
-                <span>{githubUsername}</span>
-              </Link>
-            </Button>
-            <Button variant="outline" asChild className="w-full max-w-xs justify-start gap-3">
-              <Link href={config.social.linkedin} target="_blank" rel="noopener noreferrer">
-                <Linkedin className="h-4 w-4" suppressHydrationWarning />
-                <span>{linkedinUsername}</span>
-              </Link>
-            </Button>
+      <div className="pl-[var(--timeline-content)]">
+        <div className="mt-7 grid gap-10 sm:mt-10 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-20">
+          <Reveal>
+            <h2
+              id="about-title"
+              className="max-w-3xl text-[1.75rem] font-semibold leading-tight tracking-[-0.03em] sm:text-4xl"
+            >
+              {copy.title}
+            </h2>
+            <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
+              {currentProfile.about}
+            </p>
 
-            <div className="w-full max-w-xs pt-2 flex flex-col gap-3">
-              <Button asChild variant="outline" className="w-full justify-center gap-2 border-gold/20 hover:bg-gold/5">
-                <Link href={`https://wa.me/${String(profile.phone || '').replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="h-4 w-4" suppressHydrationWarning />
-                  WhatsApp
-                </Link>
-              </Button>
+            <div className="mt-9 flex flex-wrap items-center gap-4 border-t border-border/70 pt-6">
+              <span className="text-sm font-medium text-muted-foreground">
+                {copy.contact}
+              </span>
+              <Link
+                className="inline-flex items-center gap-2 text-sm font-medium text-gold transition-colors hover:text-foreground"
+                href={`mailto:${profile.email}`}
+              >
+                <Mail className="h-4 w-4" aria-hidden="true" />
+                {profile.email}
+              </Link>
+              <Link
+                className="group inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-gold"
+                href={getLocalizedInstitutionalPath(
+                  "/resume",
+                  isEnglish ? "en" : "pt",
+                )}
+              >
+                {isEnglish ? "Read the full resume" : "Ver currículo completo"}
+                <ArrowUpRight
+                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
+            </div>
+          </Reveal>
 
-              {config?.social?.calendarUrl && (
-                <Button asChild variant="outline" className="w-full justify-center gap-2 border-gold/20 hover:bg-gold/5">
-                  <Link href={config.social.calendarUrl} target="_blank" rel="noopener noreferrer">
-                    <CalendarPlus className="h-4 w-4" suppressHydrationWarning />
-                    <span>
-                      {language === 'pt' ? 'Agendar reunião' : 'Schedule meeting'}
-                    </span>
-                  </Link>
-                </Button>
-              )}
+          <div className="lg:pt-1">
+            <Reveal delay={0.08} offset={14}>
+              <p className="text-sm font-semibold uppercase tracking-[0.14em] text-foreground">
+                {copy.capabilities}
+              </p>
+            </Reveal>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              {copy.capabilityItems.map(([label, description], index) => (
+                <Reveal key={label} delay={index * 0.06} offset={14}>
+                  <div className="surface-motion rounded-xl border border-border/70 bg-card/50 p-4">
+                    <p className="text-sm font-semibold text-foreground">
+                      {label}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                      {description}
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
             </div>
           </div>
-        </motion.div>
-
-        {/* Coluna Direita - Sobre e Habilidades */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col"
-        >
-          <h2 className="mb-4 text-2xl font-bold text-gold" suppressHydrationWarning>
-            {t("about.title") || "Sobre"}
-          </h2>
-
-          <p className="mb-8 text-muted-foreground" suppressHydrationWarning>{currentProfile.about}</p>
-
-          <h2 className="mb-6 text-2xl font-bold text-gold" suppressHydrationWarning>
-            {t("about.skills") || "Principais Habilidades"}
-          </h2>
-
-          <SkillsList />
-        </motion.div>
+        </div>
       </div>
     </section>
   );

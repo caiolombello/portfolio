@@ -12,14 +12,16 @@ export interface SiteConfig {
     email: string;
     phone: string;
     location: string;
-    profileImage: string | {
-      type: 'local' | 'github' | 'external';
-      source: string;
-      fallbacks?: {
-        type: 'local' | 'github' | 'external';
-        source: string;
-      }[];
-    };
+    profileImage:
+      | string
+      | {
+          type: "local" | "github" | "external";
+          source: string;
+          fallbacks?: {
+            type: "local" | "github" | "external";
+            source: string;
+          }[];
+        };
   };
   social: {
     github: string;
@@ -32,12 +34,11 @@ export interface SiteConfig {
     credlyUsername: string;
     twitterHandle: string;
   };
+  features?: {
+    portfolio?: boolean;
+  };
   seo: {
     keywords: string[];
-  };
-  og?: {
-    strategy: 'static' | 'dynamic';
-    image: string;
   };
 }
 
@@ -47,7 +48,8 @@ function getDefaultConfig(): SiteConfig {
       name: "Portfolio Template",
       title: "Your Name - Professional Portfolio",
       shortName: "Your Name",
-      description: "Professional portfolio and blog showcasing projects, skills and experience",
+      description:
+        "Professional portfolio and blog showcasing projects, skills and experience",
       url: "https://yoursite.com",
       author: "Your Name",
       email: "your.email@example.com",
@@ -66,18 +68,17 @@ function getDefaultConfig(): SiteConfig {
       credlyUsername: "your-credly-username",
       twitterHandle: "@yourusername",
     },
+    features: {
+      portfolio: true,
+    },
     seo: {
       keywords: [
         "your profession",
         "your skills",
         "your location",
         "web development",
-        "portfolio"
+        "portfolio",
       ],
-    },
-    og: {
-      strategy: "dynamic",
-      image: "",
     },
   };
 }

@@ -49,33 +49,7 @@ import OptimizedImage from '@/components/ui/optimized-image';
 />
 ```
 
-### 3. **API de Otimização Dinâmica**
-
-**Endpoint**: `/api/images/optimize`
-
-#### Parâmetros:
-- `path`: Caminho da imagem (obrigatório)
-- `w`: Largura desejada
-- `h`: Altura desejada  
-- `q`: Qualidade (1-100, padrão: 85)
-- `f`: Formato (webp, avif, jpeg, png)
-- `fit`: Método de ajuste (cover, contain, fill, inside, outside)
-
-#### Exemplo:
-```
-/api/images/optimize?path=/images/project.jpg&w=800&h=600&q=90&f=webp&fit=cover
-```
-
-#### Headers de Resposta:
-```
-X-Image-Optimized: true
-X-Original-Size: 1024000
-X-Optimized-Size: 512000
-X-Compression-Ratio: 50.00%
-Cache-Control: public, max-age=31536000, immutable
-```
-
-### 4. **Script de Otimização Automática**
+### 3. **Script de Otimização Automática**
 
 **Script**: `scripts/optimize-images.mjs`
 
@@ -269,4 +243,4 @@ Com essas otimizações, seu portfólio oferece:
 - 📱 **Experiência mobile otimizada**  
 - 🎯 **SEO melhorado**
 - 💾 **Economia de banda**
-- 🏆 **Web Vitals excelentes** 
+- 🏆 **Web Vitals excelentes**

@@ -1,191 +1,81 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import {
-  EnvelopeIcon,
-  PhoneIcon,
-  MapPinIcon,
-} from "@heroicons/react/24/outline";
+import { motion } from "framer-motion";
+import { ArrowUpRight, Github, Linkedin, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import ContactForm from "./contact-form";
 import { useLanguage } from "@/contexts/language-context";
 import { useSiteConfig } from "@/hooks/use-site-config";
-import { useEffect, useState } from "react";
-import { ContactSkeleton } from "@/components/loading-skeleton";
+import type { Profile } from "@/types/profile";
 
-interface ProfileData {
-  name: string;
-  title: string;
-  imageUrl?: string;
-  socialLinks: {
-    github: string;
-    linkedin: string;
-    twitter: string;
-    website: string;
-  };
-  email?: string;
-  phone?: string;
-  location?: string;
+interface ContactProps {
+  profile: Profile | null;
 }
 
-export default function Contact() {
-  const { t, language } = useLanguage();
-  const { config, loading: configLoading } = useSiteConfig();
-  const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<ProfileData>({
-    name: config?.site.author || "",
-    title: config?.site.title?.split(' - ')[1] || "",
-    imageUrl: "/api/profile-image",
-    socialLinks: {
-      github: config?.social.github || "",
-      linkedin: config?.social.linkedin || "",
-      twitter: config?.social.twitter || "",
-      website: config?.social.website || "",
-    },
-    email: config?.site.email,
-    phone: config?.site.phone,
-    location: config?.site.location,
-  });
+export default function Contact({ profile }: ContactProps) {
+  const { language } = useLanguage();
+  const { config } = useSiteConfig();
+  const isEnglish = language === "en";
+  const currentProfile = profile?.[language] || profile?.pt;
+  const email = profile?.email || config.site.email;
+  const phone = profile?.phone || config.site.phone;
+  const location = currentProfile?.location || config.site.location;
+  const socialLinks = {
+    ...config.social,
+    ...(profile?.socialLinks || {}),
+  } as { github?: string; linkedin?: string; whatsapp?: string };
 
-  useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const response = await fetch("/api/public/profile");
-
-        if (response.ok) {
-          const data = await response.json();
-          if (data) {
-            const fullName =
-              data[language]?.name || config?.site.author || "";
-            const fullTitle = data[language]?.title || "";
-            const mainTitle = fullTitle.split("|")[0].trim();
-
-            // Get the location directly from the profile data for the current language
-            const profileLocation = data[language]?.location;
-
-            setProfile({
-              name: fullName,
-              title: mainTitle,
-              imageUrl: "/api/profile-image",
-              socialLinks: {
-                github:
-                  data.socialLinks?.github || config?.social.github || "",
-                linkedin:
-                  data.socialLinks?.linkedin || config?.social.linkedin || "",
-                twitter:
-                  data.socialLinks?.twitter || config?.social.twitter || "",
-                website:
-                  data.socialLinks?.website || config?.social.website || "",
-              },
-              email: data.email || config?.site.email || "",
-              phone: data.phone || config?.site.phone || "",
-              location: profileLocation || config?.site.location || "",
-            });
-          }
-        }
-      } catch (error) {
-        console.error("Erro ao buscar dados do perfil:", error);
+  const copy = isEnglish
+    ? {
+        eyebrow: "Contact",
+        title: "Let's make the next delivery path clearer.",
+        description: "Whether you are hiring for a platform challenge or need a second pair of eyes on reliability, send a note with the context and I will get back to you.",
+        info: "Direct channels",
+        email: "Email",
+        phone: "Phone / WhatsApp",
+        location: "Location",
+        form: "Send a message",
+        formDescription: "A short context is enough to start.",
       }
-    }
-
-    fetchProfile();
-  }, [language, config]);
+    : {
+        eyebrow: "Contato",
+        title: "Vamos deixar o próximo caminho de entrega mais claro.",
+        description: "Se você está contratando para um desafio de plataforma ou precisa de uma segunda visão sobre confiabilidade, envie o contexto e eu retorno.",
+        info: "Canais diretos",
+        email: "Email",
+        phone: "Telefone / WhatsApp",
+        location: "Localização",
+        form: "Enviar mensagem",
+        formDescription: "Um pouco de contexto já é suficiente para começar.",
+      };
 
   return (
-    <div className="container py-12">
-      {/* Header Section */}
-      <div className="mb-16 flex flex-col items-center text-center">
-        <div className="relative mb-8 h-40 w-40 overflow-hidden rounded-full ring-4 ring-gold/20">
-          <Image
-            src={profile.imageUrl || "/placeholder.svg"}
-            alt={profile.name}
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
-        <h1 className="mb-3 text-4xl font-bold text-gold">{profile.name}</h1>
-        <p className="text-xl text-muted-foreground">{profile.title}</p>
-      </div>
+    <div className="container py-12 sm:py-20">
+      <motion.header animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }} className="max-w-3xl">
+        <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">{copy.eyebrow}</p>
+        <h1 className="mt-4 text-3xl font-semibold leading-tight tracking-[-0.035em] sm:text-6xl">{copy.title}</h1>
+        <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">{copy.description}</p>
+      </motion.header>
 
-      <div className="mx-auto max-w-5xl grid grid-cols-1 gap-12 md:grid-cols-2">
-        {/* Contact Information */}
-        <div className="space-y-8 rounded-lg border border-border/40 bg-card p-8 shadow-md">
-          <h2 className="text-2xl font-bold text-gold mb-8">
-            {t("contact.info")}
-          </h2>
-
-          <div className="space-y-6">
-            {/* Email */}
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-gold shadow-sm transition-transform duration-200 hover:scale-110">
-                <EnvelopeIcon className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">
-                  {t("contact.email")}
-                </p>
-                <Link
-                  href={`mailto:${profile.email || config?.site.email || ""}`}
-                  className="text-foreground hover:text-gold transition-colors duration-200"
-                >
-                  {profile.email || config?.site.email || ""}
-                </Link>
-              </div>
-            </div>
-
-            {/* Phone */}
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-gold shadow-sm transition-transform duration-200 hover:scale-110">
-                <PhoneIcon className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">
-                  {t("contact.phone")}
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <Link
-                    href={`tel:${profile.phone || config?.site.phone || ""}`}
-                    className="text-foreground hover:text-gold transition-colors duration-200"
-                  >
-                    {profile.phone || config?.site.phone || ""}
-                  </Link>
-                  <Link
-                    href={`https://wa.me/${profile.phone?.replace(/\D/g, '') || config?.site.phone?.replace(/\D/g, '') || ""}`}
-                    className="text-foreground hover:text-gold transition-colors duration-200"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    WhatsApp
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Location */}
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-gold shadow-sm transition-transform duration-200 hover:scale-110">
-                <MapPinIcon className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">
-                  {t("contact.location")}
-                </p>
-                <p className="text-foreground">
-                  {profile.location || config?.site.location || ""}
-                </p>
-              </div>
-            </div>
+      <div className="mt-10 grid gap-5 sm:mt-12 sm:gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:gap-10">
+        <motion.aside animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.05 }} className="rounded-2xl border border-border/80 bg-card/50 p-5 sm:p-8">
+          <p className="font-mono text-xs uppercase tracking-[0.16em] text-gold">{copy.info}</p>
+          <div className="mt-8 space-y-6">
+            <div className="flex items-start gap-4"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-gold/30 bg-gold/10 text-gold"><Mail className="h-4 w-4" aria-hidden="true" /></span><div><p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">{copy.email}</p><Link href={`mailto:${email}`} className="mt-1 block break-all text-sm font-medium text-foreground transition-colors hover:text-gold">{email}</Link></div></div>
+            <div className="flex items-start gap-4"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-gold/30 bg-gold/10 text-gold"><Phone className="h-4 w-4" aria-hidden="true" /></span><div><p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">{copy.phone}</p><div className="mt-1 flex flex-wrap gap-3 text-sm font-medium"><Link href={`tel:${phone}`} className="text-foreground transition-colors hover:text-gold">{phone}</Link><Link href={`https://wa.me/${phone.replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-gold hover:text-foreground">WhatsApp <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" /></Link></div></div></div>
+            <div className="flex items-start gap-4"><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-gold/30 bg-gold/10 text-gold"><MapPin className="h-4 w-4" aria-hidden="true" /></span><div><p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">{copy.location}</p><p className="mt-1 text-sm font-medium text-foreground">{location}</p></div></div>
           </div>
-        </div>
+          <div className="mt-10 flex gap-2 border-t border-border/70 pt-6">
+            {socialLinks.github && <Link href={socialLinks.github} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/80 text-muted-foreground transition-colors hover:border-gold/50 hover:text-gold" aria-label="GitHub"><Github className="h-4 w-4" aria-hidden="true" /></Link>}
+            {socialLinks.linkedin && <Link href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/80 text-muted-foreground transition-colors hover:border-gold/50 hover:text-gold" aria-label="LinkedIn"><Linkedin className="h-4 w-4" aria-hidden="true" /></Link>}
+            {socialLinks.whatsapp && <Link href={socialLinks.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/80 text-muted-foreground transition-colors hover:border-gold/50 hover:text-gold" aria-label="WhatsApp"><MessageCircle className="h-4 w-4" aria-hidden="true" /></Link>}
+          </div>
+        </motion.aside>
 
-        {/* Contact Form */}
-        <div className="rounded-lg border border-border/40 bg-card p-8 shadow-md">
-          <h2 className="mb-8 text-2xl font-bold text-gold">
-            {t("contact.send")}
-          </h2>
+        <motion.div animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.1 }} className="rounded-2xl border border-border/80 bg-card/50 p-5 sm:p-8">
+          <div className="mb-8"><p className="font-mono text-xs uppercase tracking-[0.16em] text-gold">{copy.form}</p><p className="mt-3 text-sm text-muted-foreground">{copy.formDescription}</p></div>
           <ContactForm />
-        </div>
+        </motion.div>
       </div>
     </div>
   );

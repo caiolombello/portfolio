@@ -1,338 +1,316 @@
 ---
-title: "Kubernetes HPA: Custom Metrics for Effective CPU & Memory Scaling"
+title: "Kubernetes HPA with Custom Metrics: Prometheus Adapter in Practice"
 date: "2023-03-18"
-description: "Unlock the Full Potential of Horizontal Pod Autoscaling in Kubernetes. Learn how to use custom metrics for more effective scaling."
+description: "A practical guide to exposing Prometheus metrics to Kubernetes and configuring a predictable, observable, and safe HPA v2."
 author: "Caio Barbieri"
-tags: ["Kubernetes", "HPA", "Prometheus", "DevOps", "Autoscaling"]
+category: "Kubernetes"
+tags: ["Kubernetes", "HPA", "Prometheus", "SRE", "Autoscaling"]
 coverImage: "/images/posts/kubernetes-hpa.webp"
+published: true
+updatedAt: "2026-08-01"
 ---
 
-## Introduction and Summary
+The Horizontal Pod Autoscaler looks simple: observe a metric, compare it with a target, and change the replica count. In practice, the outcome depends more on signal quality, declared `requests`, and application behavior than on the HPA manifest itself.
 
-Kubernetes has become the de facto standard for container orchestration, providing a powerful platform for managing containerized applications at scale. One essential feature of Kubernetes is its autoscaling capabilities, which allows applications to scale up or down based on workload and performance metrics. In this article, we will explore the Horizontal Pod Autoscaler (HPA), a key component of Kubernetes autoscaling. We will delve into the basics of HPA, how it works, and how you can enhance its performance using custom metrics and resource limits. By the end of this article, you’ll have a solid understanding of HPA and how to configure it to optimize your Kubernetes deployments.
+This guide builds the complete path from Prometheus to `autoscaling/v2`, using a per-pod ratio as an example. The same architecture supports better business or SLO signals such as backlog, concurrency, and latency.
 
-## Autoscaling in Kubernetes
+> **In short:** start with request-based CPU when it represents load. Add custom metrics when a signal closer to demand exists, and treat limit-based scaling as a diagnostic tool rather than a universal default.
 
-Autoscaling is a critical feature of modern container orchestration systems, enabling applications to automatically adjust their resources based on demand and performance metrics. This dynamic scaling allows systems to maintain optimal performance and efficiency while minimizing operational costs.
+## Before using a custom metric
 
-In Kubernetes, autoscaling can be implemented at different levels:
+HPA consumes aggregated metrics APIs:
 
-*   **Cluster Autoscaler**: This component scales the entire Kubernetes cluster by adding or removing nodes from the cluster based on resource utilization and demand.
-*   **Horizontal Pod Autoscaler (HPA)**: The HPA adjusts the number of replicas for a specific deployment or stateful set based on pre-defined performance metrics such as CPU utilization, memory usage, or custom metrics.
-*   **Vertical Pod Autoscaler (VPA)**: The VPA automatically adjusts the CPU and memory requests and limits of individual containers within a pod, based on historical usage patterns and current resource demands.
+- `metrics.k8s.io`: CPU and memory, usually provided by Metrics Server;
+- `custom.metrics.k8s.io`: metrics associated with Kubernetes objects;
+- `external.metrics.k8s.io`: metrics not directly associated with a cluster object.
 
-### The importance of autoscaling
+For a resource metric with `target.type: Utilization`, the percentage is calculated against the resource `request`, not the `limit`. Without `requests.cpu` on the relevant containers, the controller cannot calculate CPU utilization for that metric.
 
-Autoscaling provides numerous benefits in maintaining an efficient and resilient system, including:
+A reasonable starting point is:
 
-*   **Resource optimization**: Autoscaling ensures that your application uses the right amount of resources to meet its performance requirements, reducing the risk of over-provisioning or under-provisioning.
-*   **Cost efficiency**: By automatically adjusting the resources according to the workload, you can minimize infrastructure costs, as you only pay for the resources you actually need.
-*   **Improved reliability**: Autoscaling helps maintain the availability and performance of your applications by scaling out during periods of high demand and scaling in when demand decreases, preventing potential bottlenecks or system failures.
-*   **Enhanced user experience**: By ensuring that your applications have the necessary resources to handle varying workloads, autoscaling can improve the overall user experience by reducing latency and maintaining consistent performance.
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: checkout-api
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: checkout-api
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 65
+```
 
-## Horizontal Pod Autoscaler (HPA) in Kubernetes
+Before replacing that signal, confirm that application CPU grows with demand and that the cluster can schedule the additional pods.
 
-The basic working mechanism of the Horizontal Pod Autoscaler (HPA) in Kubernetes involves monitoring, scaling policies, and the Kubernetes Metrics Server. Let’s break down each component:
+## When a custom metric helps
 
-### 1. Monitoring
+CPU and memory are indirect signals. An application may build a queue without raising CPU, or use memory for caching without benefiting from more replicas. Prefer, when available:
 
-HPA continuously monitors the metrics of the deployed pods in a Kubernetes cluster. By default, HPA monitors CPU utilization but can also be configured to monitor memory usage, custom metrics, or other per-pod metrics.
+- pending items per consumer;
+- concurrent requests per pod;
+- queue wait time;
+- work rate per replica;
+- a saturation indicator related to the SLO.
 
-For per-pod resource metrics like CPU, HPA fetches metrics from the resource metrics API for each targeted pod. Based on target utilization or raw values, the controller computes a scaling ratio from the average of these values across all targeted pods. If some containers lack relevant resource requests, CPU utilization won’t be defined, and autoscaling won’t occur for that metric.
+This example uses CPU and memory relative to their limits to demonstrate the integration. The signal can reveal proximity to throttling or OOM, but it has limitations: not every workload defines limits, memory may not fall when replicas are added, and a poorly sized limit produces a misleading metric.
 
-For per-pod custom metrics, the controller operates similarly but uses raw values instead of utilization values.
+## Architecture
 
-For object and external metrics, HPA fetches a single metric describing the object, compares it to the target value, and generates a scaling ratio. In the autoscaling/v2 API version, this value can be divided by the number of pods before comparison.
+```text
+kubelet / application
+        ↓ scrape
+    Prometheus
+        ↓ recording rules
+Prometheus Adapter
+        ↓ custom.metrics.k8s.io
+ HPA controller
+        ↓ scale
+    Deployment
+```
 
-These metrics are collected and reported by the Kubernetes Metrics Server, which aggregates resource usage data from the kubelet running on each node.
+HPA does not query Prometheus directly. Prometheus Adapter registers an aggregated API and translates Kubernetes requests into PromQL.
 
-### 2. Scaling Policies
+## 1. Produce stable Prometheus series
 
-When configuring HPA, you define scaling policies that determine how the autoscaler should react to changes in metrics. These policies include:
+Recording rules reduce query cost and keep long PromQL expressions out of the Adapter configuration. The following output is a decimal ratio per `namespace` and `pod`, where `0.8` means 80%.
 
-*   **Target metric value**: This is the desired value for the metric you want HPA to maintain. For example, you might set a target CPU utilization of 50% to ensure that your pods are neither overburdened nor underutilized.
-*   **Min and max replicas**: These values define the minimum and maximum number of replicas HPA can scale your deployment to. This prevents excessive scaling, which could lead to overloading the cluster or consuming too many resources.
-
-### 3. Scaling Decisions
-
-HPA uses the collected metrics and the defined scaling policies to make scaling decisions. If the monitored metric exceeds the target value, HPA will increase the number of replicas in the deployment or stateful set to distribute the load more evenly. Conversely, if the metric falls below the target value, HPA will reduce the number of replicas to save resources.
-
-### 4. Kubernetes Metrics Server
-
-The Kubernetes Metrics Server is a cluster-wide aggregator of resource usage data. It collects data from the kubelet on each node and provides metrics to the HPA and other components that require resource usage information. The Metrics Server is an essential component for enabling autoscaling and other features that rely on real-time metrics in Kubernetes.
-
-In summary, the Horizontal Pod Autoscaler in Kubernetes works by continuously monitoring pod metrics, applying scaling policies based on target values and replica limits, and making scaling decisions to maintain optimal resource utilization. The Kubernetes Metrics Server plays a crucial role in providing the necessary data for HPA to make informed decisions.
-
-## Custom Metrics in HPA
-
-Custom metrics are user-defined performance indicators that extend the default resource metrics (e.g., CPU and memory) supported by the Horizontal Pod Autoscaler (HPA) in Kubernetes. By default, HPA bases its scaling decisions on pod resource requests, which represent the minimum resources required for the pod to run. However, this approach might not be ideal for optimal performance. Instead, it’s often more beneficial to scale based on resource limits, as this ensures your application doesn’t reach its maximum resource constraints. Custom metrics enable more granular and application-specific autoscaling decisions, leading to better resource utilization and system performance.
-
-### Why Custom Metrics Are Necessary
-
-While the default metrics provided by Kubernetes, such as CPU and memory usage based on resource requests, are useful for many scenarios, they may not be sufficient for all applications. Scaling based on resource limits ensures that your application can handle varying workloads without hitting its maximum allowed resources. Custom metrics allow you to tailor the HPA’s scaling behavior based on your application’s specific needs, enabling more precise and efficient autoscaling.
-
-### Using Custom Metrics in HPA
-
-To use custom metrics in HPA, you need to:
-
-1.  Ensure your cluster is set up to support custom metrics. This typically involves deploying a custom metrics API server and configuring the necessary monitoring tools, such as Prometheus.
-2.  Define custom metrics in your application code, if needed, and expose them through an appropriate endpoint.
-3.  Configure HPA to use the custom metrics by specifying them in the HPA manifest.
-
-### Examples of Custom Metrics and Their Use Cases
-
-1.  **Request rate**: For applications where the number of incoming requests has a significant impact on resource consumption, you can define a custom metric based on request rate. This enables HPA to scale the number of replicas based on the actual workload rather than just CPU or memory usage.
-    *   *Use case*: An API gateway that needs to handle varying levels of incoming traffic.
-
-2.  **Queue length**: For applications that process tasks from a queue, you can create a custom metric based on the queue length. This allows HPA to scale the application based on the backlog of tasks, ensuring that processing capacity matches the workload.
-    *   *Use case*: A background job processing service that consumes tasks from a message queue.
-
-3.  **Application-specific metrics**: You may have unique performance indicators specific to your application, such as the number of active user sessions or the rate of database transactions. Creating custom metrics based on these indicators can help HPA make more informed scaling decisions tailored to your application’s behavior.
-    *   *Use case*: An e-commerce platform that experiences fluctuations in user activity and needs to scale its services accordingly.
-
-In summary, custom metrics in HPA enable more precise and application-specific autoscaling by extending the default resource metrics supported by Kubernetes. By leveraging custom metrics, you can optimize resource utilization and performance for a wider range of applications and use cases.
-
-## Configuring HPA with CPU and Memory Limits
-
-Setting CPU and memory limits for your application is crucial for several reasons:
-
-*   **Resource management**: By specifying resource limits, you prevent individual pods or containers from consuming excessive resources, which could affect other workloads running on the same cluster.
-*   **Predictable performance**: Setting limits ensures that your application has enough resources to perform optimally under varying workloads, minimizing the chances of performance degradation.
-*   **Cost optimization**: By limiting resource usage, you can avoid unnecessary expenses on cloud resources or on-premises hardware.
-*   **Efficient autoscaling**: Properly configured resource limits enable the Horizontal Pod Autoscaler (HPA) to make better scaling decisions, ensuring that your application scales up or down based on actual resource needs.
-
-### Step-by-Step Guide on Configuring HPA with Custom Metrics and Resource Limits
-
-1.  **Set up Prometheus**. My recommendation is using the `kube-prometheus-stack` Helm Chart, which deploys cAdvisor and other necessary components.
-
-2.  **Create custom metrics in Prometheus** to monitor CPU and memory usage based on resource limits. Add the following examples to your Prometheus configuration:
-
-    **CPU Usage Limits custom metric example:**
-
-    ```yaml
-    - record: pod:cpu_usage_percentage:ratio
-      expr: |
-        sum by (pod, namespace) (
-          node_namespace_pod_container:container_cpu_usage_seconds_total:sum_irate{cluster="",namespace!="",pod!=""}
-        )
-        /
-        sum by (pod, namespace) (
-          kube_pod_container_resource_limits{cluster="",job="kube-state-metrics",namespace!="",pod!="",resource="cpu"}
-        ) * 100
-    ```
-
-    **Memory Usage Limits custom metric example:**
-
-    ```yaml
-    - record: pod:memory_usage_percentage:ratio
-      expr: |
-        sum by (pod, namespace) (
-          container_memory_working_set_bytes{cluster="",container!="",image!="",job="kubelet",metrics_path="/metrics/cadvisor",namespace!="",pod!=""}
-        )
-        /
-        sum by (pod, namespace) (
-          kube_pod_container_resource_limits{cluster="",job="kube-state-metrics",namespace!="",pod!="",resource="memory"}
-        ) * 100
-    ```
-
-3.  **Configure the Prometheus Adapter Chart** that will replace the default Kubernetes Metrics-Server.
-
-4.  **Configure the Prometheus Adapter** to use Prometheus metrics:
-
-    ```yaml
-    prometheus:
-      url: http://prometheus.monitoring.svc
-      port: 9090
-    ```
-
-5.  **Add custom metrics to the Prometheus Adapter** (these metrics will be found in Prometheus):
-
-    ```yaml
+```yaml
+groups:
+  - name: kubernetes-autoscaling
+    interval: 30s
     rules:
-      default: true
-      custom:
-        - seriesQuery: 'pod:memory_usage_percentage:ratio{namespace!="",pod!=""}'
-          resources:
-            overrides:
-              namespace: {resource: "namespace"}
-              pod: {resource: "pod"}
-          metricsQuery: '<<.Series>>{<<.LabelMatchers>>} / 100'
-
-        - seriesQuery: 'pod:cpu_usage_percentage:ratio{namespace!="",pod!=""}'
-          resources:
-            overrides:
-              namespace: {resource: "namespace"}
-              pod: {resource: "pod"}
-          metricsQuery: '<<.Series>>{<<.LabelMatchers>>} / 100'
-    ```
-
-    You can find more information about Prometheus Adapter rules in official documentation.
-
-6.  **For resource metrics**, you can customize queries to collect CPU and memory:
-
-    ```yaml
-    resource:
-      cpu:
-        containerQuery: |
-          sum by (<<.GroupBy>>) (
-            rate(container_cpu_usage_seconds_total{container!="",<<.LabelMatchers>>}[3m])
+      - record: pod_cpu_limit_saturation_ratio
+        expr: |
+          sum by (namespace, pod) (
+            rate(container_cpu_usage_seconds_total{
+              container!="", image!=""
+            }[5m])
           )
-        nodeQuery: |
-          sum  by (<<.GroupBy>>) (
-            rate(node_cpu_seconds_total{mode!="idle",mode!="iowait",mode!="steal",<<.LabelMatchers>>}[3m])
+          /
+          clamp_min(
+            sum by (namespace, pod) (
+              container_spec_cpu_quota{
+                container!="", image!=""
+              }
+              /
+              container_spec_cpu_period{
+                container!="", image!=""
+              }
+            ),
+            0.001
           )
-        resources:
-          overrides:
-            node:
-              resource: node
-            namespace:
-              resource: namespace
-            pod:
-              resource: pod
-        containerLabel: container
-      memory:
-        containerQuery: |
-          sum by (<<.GroupBy>>) (
-            avg_over_time(container_memory_working_set_bytes{container!="",<<.LabelMatchers>>}[3m])
+
+      - record: pod_memory_limit_saturation_ratio
+        expr: |
+          sum by (namespace, pod) (
+            container_memory_working_set_bytes{
+              container!="", image!=""
+            }
           )
-        nodeQuery: |
-          sum by (<<.GroupBy>>) (
-            avg_over_time(node_memory_MemTotal_bytes{<<.LabelMatchers>>}[3m])
-            -
-            avg_over_time(node_memory_MemAvailable_bytes{<<.LabelMatchers>>}[3m])
+          /
+          clamp_min(
+            sum by (namespace, pod) (
+              container_spec_memory_limit_bytes{
+                container!="", image!=""
+              } > 0
+            ),
+            1
           )
-        resources:
-          overrides:
-            node:
-              resource: node
-            namespace:
-              resource: namespace
-            pod:
-              resource: pod
-        containerLabel: container
-      window: 3m
-    ```
+```
 
-7.  **Deploy Prometheus Adapter**
+Available names and labels vary with container runtime, kubelet version, and scrape configuration. Inspect the actual series before copying the rule:
 
-    ```bash
-    helm repo add --force-update prometheus-community https://prometheus-community.github.io/helm-charts
+```promql
+count by (job) (container_cpu_usage_seconds_total)
+```
 
-    helm upgrade --install -n monitoring \
-    prometheus-adapter prometheus-community/prometheus-adapter --version 4.1.1 -f metrics-server.yaml
-    ```
+Also exclude sidecars when they do not represent scalable application capacity.
 
-8.  **Checking if the custom metric was successful applied**
+## 2. Expose the series through Prometheus Adapter
 
-    ```bash
-    kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/" | jq
-    ```
+An Adapter rule discovers the series, maps labels to Kubernetes resources, and defines the returned query.
 
-9.  **For demonstration, deploy NGINX with resource limits and requests defined:**
+```yaml
+rules:
+  default: false
+  custom:
+    - seriesQuery: 'pod_cpu_limit_saturation_ratio{namespace!="",pod!=""}'
+      resources:
+        overrides:
+          namespace: { resource: "namespace" }
+          pod: { resource: "pod" }
+      name:
+        matches: "^(.*)$"
+        as: "${1}"
+      metricsQuery: 'avg(<<.Series>>{<<.LabelMatchers>>}) by (<<.GroupBy>>)'
 
-    ```bash
-    helm repo add --force-update bitnami https://charts.bitnami.com/bitnami
+    - seriesQuery: 'pod_memory_limit_saturation_ratio{namespace!="",pod!=""}'
+      resources:
+        overrides:
+          namespace: { resource: "namespace" }
+          pod: { resource: "pod" }
+      name:
+        matches: "^(.*)$"
+        as: "${1}"
+      metricsQuery: 'avg(<<.Series>>{<<.LabelMatchers>>}) by (<<.GroupBy>>)'
+```
 
-    helm upgrade --install \
-    --set resources.limits.cpu=100m \
-    --set resources.limits.memory=128Mi \
-    --set resources.requests.cpu=50m \
-    --set resources.requests.memory=64Mi \
-    nginx bitnami/nginx --version 13.2.29
-    ```
+After installation, validate discovery before creating the HPA:
 
-10. **Apply HPA with Custom Metrics**
+```bash
+kubectl get --raw '/apis/custom.metrics.k8s.io/v1beta1' | jq
 
-    ```yaml
-    apiVersion: autoscaling/v2
-    kind: HorizontalPodAutoscaler
-    metadata:
-      name: nginx-hpa
-    spec:
-      scaleTargetRef:
-        apiVersion: apps/v1
-        kind: Deployment
-        name: nginx
-      minReplicas: 1
-      maxReplicas: 10
-      metrics:
-      - type: Pods
-        pods:
-          metric:
-            name: pod:memory_usage_percentage:ratio
-          target:
-            type: Utilization
-            averageValue: 0.8 # 80%
-      - type: Pods
-        pods:
-          metric:
-            name: pod:cpu_usage_percentage:ratio
-          target:
-            type: Utilization
-            averageValue: 0.8 # 80%
-    ```
+kubectl get --raw \
+  '/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/pod_cpu_limit_saturation_ratio' \
+  | jq
+```
 
-    ```bash
-    kubectl apply -f demo/nginx-hpa.yaml
-    ```
+If the API is missing, inspect the `APIService`, certificates, Prometheus connectivity, and Adapter logs. If the metric exists without values, investigate the `seriesQuery` and labels first.
 
-    In Helm Chart, an HPA template would look like this:
-    `templates/hpa.yaml`
+## 3. Configure HPA v2
 
-    ```yaml
-    {{- if .Values.autoscaling.enabled }}
-    apiVersion: autoscaling/v2
-    kind: HorizontalPodAutoscaler
-    metadata:
-      name: {{ include "app.fullname" . }}
-      labels:
-        {{- include "app.labels" . | nindent 4 }}
-    spec:
-      scaleTargetRef:
-        apiVersion: apps/v1
-        kind: Deployment
-        name: {{ include "app.fullname" . }}
-      minReplicas: {{ .Values.autoscaling.minReplicas }}
-      maxReplicas: {{ .Values.autoscaling.maxReplicas }}
-      metrics:
-        {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
+Because the series has one value per pod, use `type: Pods` with `AverageValue`. Kubernetes quantities do not use plain floating point; `800m` represents `0.8`.
+
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: checkout-api
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: checkout-api
+  minReplicas: 3
+  maxReplicas: 20
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 60
         - type: Pods
-          pods:
-            metric:
-              name: pod:cpu_usage_percentage:ratio
-              averageValue: {{- div .Values.autoscaling.targetCPUUtilizationPercentage 100 -}}
-          {{- end }}
-          {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
-        - type: Pods
-          pods:
-            metric:
-              name: pod:memory_usage_percentage:ratio
-              averageValue: {{- div .Values.autoscaling.targetMemoryUtilizationPercentage 100 -}}
-        {{- end }}
+          value: 4
+          periodSeconds: 60
+      selectPolicy: Max
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 25
+          periodSeconds: 60
+  metrics:
+    - type: Pods
+      pods:
+        metric:
+          name: pod_cpu_limit_saturation_ratio
+        target:
+          type: AverageValue
+          averageValue: "700m"
+    - type: Pods
+      pods:
+        metric:
+          name: pod_memory_limit_saturation_ratio
+        target:
+          type: AverageValue
+          averageValue: "800m"
+```
+
+With multiple metrics, the controller calculates a recommendation for each and selects the largest. If one metric fails while the others recommend scaling down, scale-down may be skipped; scale-up may still happen.
+
+## A valid Helm template
+
+Keep the template small and validate the rendered manifest. The important structure is `pods.target`, not a `targetAverageValue` field beside the metric.
+
+```yaml
+{{- if .Values.autoscaling.enabled }}
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "checkout.fullname" . }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "checkout.fullname" . }}
+  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  metrics:
+    {{- range .Values.autoscaling.podMetrics }}
+    - type: Pods
+      pods:
+        metric:
+          name: {{ .name }}
+        target:
+          type: AverageValue
+          averageValue: {{ .averageValue | quote }}
     {{- end }}
-    ```
+{{- end }}
+```
 
-    `values.yaml`
+```yaml
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 20
+  podMetrics:
+    - name: pod_cpu_limit_saturation_ratio
+      averageValue: 700m
+    - name: pod_memory_limit_saturation_ratio
+      averageValue: 800m
+```
 
-    ```yaml
-    autoscaling:
-      enabled: true
-      minReplicas: 1
-      maxReplicas: 2
-      targetCPUUtilizationPercentage: 80
-      targetMemoryUtilizationPercentage: 80
-    ```
+## Validation and operations
 
-11. **Check if HPA is working:**
+Do not consider the work complete when the YAML is accepted. Validate every layer:
 
-    ```bash
-    kubectl get hpa nginx-hpa
-    ```
+```bash
+helm template checkout ./chart > /tmp/checkout-rendered.yaml
+kubectl apply --dry-run=server -f /tmp/checkout-rendered.yaml
+
+kubectl get hpa checkout-api --watch
+kubectl describe hpa checkout-api
+kubectl get hpa checkout-api -o jsonpath='{.status.conditions}' | jq
+```
+
+During a controlled load test, observe:
+
+1. whether the metric rises before user-visible degradation;
+2. the delay between decision, scheduling, and pod readiness;
+3. whether node capacity or a compatible cluster autoscaler exists;
+4. oscillation, throttling, OOM kills, and backlog during scale-down;
+5. cost and stability after changing targets.
+
+Avoid targets too close to a hard limit. The system needs headroom for spikes, collection delays, and startup time.
+
+## Common failures
+
+- **`<unknown>` in HPA:** the custom API did not answer or found no series for the selected pods.
+- **Metric without pods:** `namespace` and `pod` labels were removed or not mapped by the Adapter.
+- **HPA does not scale on CPU:** containers lack `requests.cpu` while the metric uses `Utilization`.
+- **Scaling has no effect:** the bottleneck is a database, queue, lock, I/O, or external dependency.
+- **Flapping:** the signal is noisy, targets are too tight, or scale-down stabilization is missing.
+- **Pending pods:** increasing replicas does not create cluster capacity by itself.
 
 ## Conclusion
 
-In this article, we have explored the importance of Kubernetes Horizontal Pod Autoscaler (HPA) for effectively managing the resources and scalability of your applications. We discussed the limitations of the default HPA, which relies on pod resource requests, and the benefits of using custom metrics based on resource limits for better performance.
+The best HPA is not the one with the most metrics; it is the one reacting to a causal and operable signal. Request-based CPU is a good starting point. Prometheus Adapter expands the options when queue depth, concurrency, latency, or saturation better describes demand.
 
-By setting up Prometheus and the Prometheus Adapter, we have demonstrated how to create custom metrics for CPU and memory usage, and configure HPA to use these metrics for more precise autoscaling. Following the step-by-step guide, you can implement these concepts and techniques to optimize the resource usage of your applications and improve their overall performance.
+Treat recording rules, Adapter, HPA, and cluster capacity as one system. Validate the API before the manifest, test with realistic load, and tune `behavior` according to application response time.
 
-I encourage you to apply these principles and techniques to your Kubernetes deployments, and experience the advantages of efficient and resilient autoscaling based on custom metrics. Happy scaling!
+## References
+
+- [Horizontal Pod Autoscaling — Kubernetes](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+- [Resource metrics pipeline — Kubernetes](https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/)
+- [Kubernetes Metrics APIs](https://kubernetes.io/docs/reference/external-api/metrics.v1beta1/)
+- [Prometheus Adapter](https://github.com/kubernetes-sigs/prometheus-adapter)

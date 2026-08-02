@@ -20,5 +20,21 @@
   "liveUrl": "https://caio.lombello.com",
   "featured": true,
   "createdAt": "2025-01-15",
-  "updatedAt": "2025-06-08"
-} 
+  "updatedAt": "2025-06-08",
+  "caseStudy": {
+    "role_pt": "Concepção, desenvolvimento e manutenção do produto e da sua base de conteúdo.",
+    "role_en": "Product design, development and maintenance of the site and its content foundation.",
+    "challenge_pt": "Apresentar experiência, projetos, artigos e currículo em uma única experiência clara e fácil de atualizar.",
+    "challenge_en": "Bring experience, projects, writing and resume content together in one clear, maintainable experience.",
+    "approach_pt": "Next.js com App Router, conteúdo file-based, internacionalização, imagens otimizadas, páginas de projeto e blog com Markdown.",
+    "approach_en": "Next.js App Router, file-based content, internationalization, optimized images, project pages and a Markdown blog.",
+    "outcomes_pt": [
+      "Uma base única para publicar projetos, artigos, currículo e contato.",
+      "Conteúdo separado da interface para permitir atualização contínua sem banco de dados."
+    ],
+    "outcomes_en": [
+      "A single foundation for publishing projects, articles, resume and contact information.",
+      "Content kept separate from the interface so it can evolve without a database."
+    ]
+  }
+}

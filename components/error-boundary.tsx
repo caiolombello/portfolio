@@ -18,13 +18,14 @@ export default function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
   }, [error]);
 
   return (
-    <div className="flex min-h-[400px] flex-col items-center justify-center text-center">
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold tracking-tight">
-          Something went wrong!
+    <div className="container flex min-h-[400px] flex-col items-center justify-center py-16 text-center">
+      <div className="max-w-lg space-y-4 rounded-2xl border border-destructive/30 bg-destructive/5 p-8">
+        <p className="font-mono text-xs uppercase tracking-[0.16em] text-destructive">Unexpected error</p>
+        <h2 className="text-2xl font-semibold tracking-tight">
+          Something went wrong
         </h2>
         <p className="text-muted-foreground">
-          {error.message || "An unexpected error occurred"}
+          An unexpected error occurred. Please try again.
         </p>
         {error.digest && (
           <p className="text-sm text-muted-foreground">

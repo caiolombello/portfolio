@@ -6,12 +6,15 @@ import Footer from "@/components/footer";
 import ScrollToTop from "@/components/scroll-to-top";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/contexts/language-context";
-import DynamicTitle from "@/components/dynamic-title";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
-import { generateSiteMetadata, generateStructuredData, getSiteConfig } from "@/lib/site-metadata";
+import { generateJsonLd, generateSiteMetadata, generateStructuredData, getSiteConfig } from "@/lib/site-metadata";
+import { SkipLink } from "@/components/ui/skip-link";
+import { getCurrentRequestLocale } from "@/lib/request-locale-server";
+import { getProfileData } from "@/lib/data";
+import { ProfileProvider } from "@/contexts/profile-context";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,13 +23,13 @@ const inter = Inter({
 });
 
 export const viewport = {
-  themeColor: "#121212",
+  themeColor: "#0d1117",
   colorScheme: "dark",
 };
 
 // Gerar metadata dinamicamente
 export async function generateMetadata(): Promise<Metadata> {
-  return generateSiteMetadata();
+  return generateSiteMetadata(await getCurrentRequestLocale());
 }
 
 interface RootLayoutProps {
@@ -34,21 +37,20 @@ interface RootLayoutProps {
 }
 
 import { getDictionary } from "@/app/i18n";
-import { cookies } from "next/headers";
 
 export default async function RootLayout({ children }: RootLayoutProps) {
   const config = getSiteConfig();
-  const structuredData = await generateStructuredData();
+  const profile = await getProfileData();
+  const structuredData = await generateStructuredData(profile);
 
-  const cookieStore = await cookies();
-  const lang = cookieStore.get("NEXT_LOCALE")?.value || "pt";
+  const lang = await getCurrentRequestLocale();
   const initialDictionary = await getDictionary(lang);
 
   return (
-    <html lang={lang} suppressHydrationWarning>
+    <html lang={lang} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
-        <meta name="msapplication-TileColor" content="#121212" />
-        <meta name="theme-color" content="#121212" />
+        <meta name="msapplication-TileColor" content="#0d1117" />
+        <meta name="theme-color" content="#0d1117" />
         <link rel="apple-touch-icon" sizes="180x180" href="/api/favicon?size=180&format=png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/api/favicon?size=32&format=png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/api/favicon?size=16&format=png" />
@@ -68,9 +70,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         <link rel="alternate" type="application/rss+xml" title={`${config.site.shortName} - RSS Feed`} href="/feed.xml" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData),
-          }}
+          dangerouslySetInnerHTML={generateJsonLd(structuredData)}
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -84,19 +84,26 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
-          <LanguageProvider initialDictionary={initialDictionary} initialLanguage={lang as any}>
-            <DynamicTitle />
-            <div className="flex min-h-screen flex-col">
-              <Navbar />
-              <main className="flex-1">{children}</main>
-              <Footer />
-              <ScrollToTop />
-            </div>
-            <Toaster />
+          <LanguageProvider initialDictionary={initialDictionary} initialLanguage={lang}>
+            <ProfileProvider profile={profile}>
+              <div className="flex min-h-screen flex-col">
+                <SkipLink
+                  contentId="main-content"
+                  label={lang === "en" ? "Skip to main content" : "Pular para o conteúdo principal"}
+                />
+                <Navbar />
+                <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+                  {children}
+                </main>
+                <Footer />
+                <ScrollToTop />
+              </div>
+              <Toaster />
+            </ProfileProvider>
           </LanguageProvider>
         </ThemeProvider>
         <Analytics />

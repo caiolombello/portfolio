@@ -6,6 +6,26 @@
       "level": "Avançado"
     },
     {
+      "name": "AWS Networking",
+      "category": "Cloud/Infra",
+      "level": "Experiente"
+    },
+    {
+      "name": "AWS CloudFormation",
+      "category": "Cloud/Infra",
+      "level": "Experiente"
+    },
+    {
+      "name": "Amazon EKS",
+      "category": "Cloud/Infra",
+      "level": "Experiente"
+    },
+    {
+      "name": "Amazon ECS",
+      "category": "Cloud/Infra",
+      "level": "Experiente"
+    },
+    {
       "name": "Oracle Cloud",
       "category": "Cloud/Infra",
       "level": "Experiente"
@@ -101,6 +121,11 @@
       "level": "Experiente"
     },
     {
+      "name": "IAM and Cloud Security",
+      "category": "Segurança",
+      "level": "Experiente"
+    },
+    {
       "name": "Keycloak",
       "category": "Segurança",
       "level": "Experiente"
@@ -114,6 +139,11 @@
       "name": "LLMs",
       "category": "Automação",
       "level": "Avançado"
+    },
+    {
+      "name": "Incident Response",
+      "category": "Outros",
+      "level": "Experiente"
     }
   ]
 }

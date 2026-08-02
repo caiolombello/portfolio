@@ -14,4 +14,5 @@ export interface Experience {
   responsibilities_en: ResponsibilityItem[];
   responsibilities_es?: ResponsibilityItem[];
   startDate?: string;
+  endDate?: string;
 }

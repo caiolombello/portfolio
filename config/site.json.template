@@ -34,6 +34,9 @@
     "credlyUsername": "your-credly-username",
     "twitterHandle": "@yourusername"
   },
+  "features": {
+    "portfolio": true
+  },
   "seo": {
     "keywords": [
       "your profession",
@@ -43,4 +46,4 @@
       "portfolio"
     ]
   }
-} 
+}

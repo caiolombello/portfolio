@@ -1,7 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import {
+  Award,
+  Briefcase,
+  Download,
+  GraduationCap,
+  Mail,
+  MapPin,
+  Wrench,
+} from "lucide-react";
+import Link from "next/link";
 import SectionHeading from "./section-heading";
 import ExperienceItem from "./experience-item";
 import EducationItem from "./education-item";
@@ -9,220 +18,171 @@ import ResumeDownload from "./resume-download";
 import SkillsList from "./skill-bar";
 import CredlyCertifications from "./credly-certifications";
 import { useLanguage } from "@/contexts/language-context";
-import { fetchCredlyBadges } from "@/lib/credly";
 import { useSiteConfig } from "@/hooks/use-site-config";
-import { Briefcase, GraduationCap, Award, Wrench } from "lucide-react";
-import type { Skill } from "@/types/skill";
-import type { Profile } from "@/types/profile";
+import type { ResumeModels } from "@/lib/resume/model";
 
-interface Experience {
-  title: string;
-  company: string;
-  period: string;
-  responsibilities: string[];
+interface ResumeProps {
+  models: ResumeModels;
 }
 
-interface Education {
-  degree: string;
-  institution: string;
-  logo?: string;
-  institutionUrl?: string;
-  period: string;
-  description?: string;
-}
-
-interface CredlyBadge {
-  badge_template: {
-    name: string;
-  };
-}
-
-export default function Resume() {
+export default function Resume({ models }: ResumeProps) {
   const { language } = useLanguage();
   const { config, loading: configLoading } = useSiteConfig();
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [experiences, setExperiences] = useState<Experience[]>([]);
-  const [educations, setEducations] = useState<Education[]>([]);
-  const [skills, setSkills] = useState<Skill[]>([]);
-  const [credlyCertifications, setCredlyCertifications] = useState<string[]>([]);
-  const [hasCredly, setHasCredly] = useState(false);
-
-  useEffect(() => {
-    async function fetchData() {
-      const [expRes, eduRes, skillsRes, profileRes] = await Promise.all([
-        fetch("/api/public/experience"),
-        fetch("/api/public/education"),
-        fetch("/api/skills"),
-        fetch("/api/public/profile"),
-      ]);
-
-      const expData = expRes.ok ? await expRes.json() : {};
-      const eduData = eduRes.ok ? await eduRes.json() : {};
-      const skillsData = skillsRes.ok
-        ? await skillsRes.json()
-        : { skills_list: [] };
-      const profileData = profileRes.ok ? await profileRes.json() : null;
-
-      setExperiences(expData[language] || []);
-      setEducations(eduData[language] || []);
-      setSkills(skillsData.skills_list || []);
-      setProfile(profileData);
-    }
-    fetchData();
-  }, [language]);
-
-  useEffect(() => {
-    async function loadCredlyCertifications() {
-      const username = config.integrations.credlyUsername;
-      if (!username || username === "your-credly-username") {
-        return;
-      }
-
-      try {
-        const badges = await fetchCredlyBadges(username);
-        const certificationNames = badges.map(
-          (badge: CredlyBadge) => badge.badge_template.name,
-        );
-        setCredlyCertifications(certificationNames);
-        setHasCredly(true);
-      } catch (error) {
-        console.error("Error fetching Credly badges:", error);
-      }
-    }
-
-    if (!configLoading) {
-      const username = config.integrations.credlyUsername;
-      if (username && username !== "your-credly-username") {
-        setHasCredly(true);
-      }
-      loadCredlyCertifications();
-    }
-  }, [config.integrations.credlyUsername, configLoading]);
-
-  const currentProfile = profile?.[language] || {
-    name: "",
-    title: "",
-    location: "",
-    about: "",
-  };
-
-  const personalInfo = {
-    name: currentProfile.name || config.site.shortName,
-    title: currentProfile.title || config.site.author,
-    location: currentProfile.location || config.site.location,
-    email: config.site.email,
-    phone: config.site.phone,
-  };
-
-  const summary = currentProfile.about || config?.site?.description;
+  const isEnglish = language === "en";
+  const currentModel = models[isEnglish ? "en" : "pt"];
+  const { personalInfo, summary } = currentModel;
+  const hasCredly =
+    !configLoading &&
+    Boolean(
+      config.integrations.credlyUsername &&
+        config.integrations.credlyUsername !== "your-credly-username",
+    );
 
   return (
-    <div className="container py-16 md:py-24">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
+    <div className="container py-16 sm:py-20">
+      <motion.header
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col md:flex-row justify-between items-center mb-12"
+        transition={{ duration: 0.45 }}
+        className="flex flex-col justify-between gap-8 border-b border-border/70 pb-12 lg:flex-row lg:items-end"
       >
-        <h1 className="text-4xl font-bold text-gold text-center md:text-left mb-4 md:mb-0" suppressHydrationWarning>
-          {language === "pt" ? "Jornada Profissional" : "Professional Journey"}
-        </h1>
-        <ResumeDownload
-          resumeData={{
-            personalInfo,
-            summary,
-            experiences,
-            education: educations,
-            certifications: credlyCertifications,
-            skills,
-          }}
-          certificationsCredly={credlyCertifications}
-        />
-      </motion.div>
-
-      {/* Experience */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="mb-16"
-      >
-        <SectionHeading
-          title={language === "pt" ? "Experiência" : "Experience"}
-          icon={Briefcase}
-        />
-        {experiences.length > 0 ? (
-          <div className="relative space-y-8">
-            {experiences.map((experience, index) => (
-              <ExperienceItem key={index} {...experience} index={index} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted-foreground text-center py-8">
-            {language === "pt"
-              ? "Adicione suas experiências em content/experience/"
-              : "Add your experiences in content/experience/"}
+        <div className="max-w-3xl">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">
+            {isEnglish ? "Resume" : "Currículo"}
           </p>
-        )}
-      </motion.section>
-
-      {/* Education */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="mb-16"
-      >
-        <SectionHeading title={language === "pt" ? "Educação" : "Education"} icon={GraduationCap} />
-        {educations.length > 0 ? (
-          <div className="relative space-y-8">
-            {educations.map((education, index) => (
-              <EducationItem key={index} {...education} index={index} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted-foreground text-center py-8">
-            {language === "pt"
-              ? "Adicione sua formação em content/education/"
-              : "Add your education in content/education/"}
+          <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-6xl">
+            {isEnglish
+              ? "A clear view of how I build."
+              : "Uma visão clara de como eu construo."}
+          </h1>
+          <p className="mt-5 text-lg leading-8 text-muted-foreground">
+            {summary}
           </p>
-        )}
-      </motion.section>
+        </div>
+        <ResumeDownload />
+      </motion.header>
 
-      {/* Certifications (Credly) — only shown when configured */}
-      {hasCredly && (
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-16"
-        >
-          <SectionHeading
-            title={
-              language === "pt"
-                ? "Certificações Profissionais"
-                : "Professional Certifications"
-            }
-            icon={Award}
-          />
-          <CredlyCertifications />
-        </motion.section>
-      )}
+      <div className="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-16">
+        <div>
+          <motion.section
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            className="mb-16"
+          >
+            <SectionHeading
+              title={isEnglish ? "Experience" : "Experiência"}
+              icon={Briefcase}
+            />
+            {currentModel.experiences.length > 0 ? (
+              <div className="relative space-y-7">
+                {currentModel.experiences.map((experience, index) => (
+                  <ExperienceItem
+                    key={`${experience.company}-${experience.period}`}
+                    {...experience}
+                    index={index}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="rounded-xl border border-dashed border-border/80 p-8 text-center text-sm text-muted-foreground">
+                {isEnglish
+                  ? "No experience published yet."
+                  : "Nenhuma experiência publicada ainda."}
+              </p>
+            )}
+          </motion.section>
 
-      {/* Skills */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="mb-16"
-      >
-        <SectionHeading title={language === "pt" ? "Habilidades" : "Skills"} icon={Wrench} />
-        <SkillsList />
-      </motion.section>
+          <motion.section
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            className="mb-16"
+          >
+            <SectionHeading
+              title={isEnglish ? "Education" : "Educação"}
+              icon={GraduationCap}
+            />
+            {currentModel.education.length > 0 ? (
+              <div className="relative space-y-7">
+                {currentModel.education.map((item, index) => (
+                  <EducationItem
+                    key={`${item.institution}-${item.period}`}
+                    {...item}
+                    index={index}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="rounded-xl border border-dashed border-border/80 p-8 text-center text-sm text-muted-foreground">
+                {isEnglish
+                  ? "No education published yet."
+                  : "Nenhuma formação publicada ainda."}
+              </p>
+            )}
+          </motion.section>
+
+          {hasCredly && (
+            <motion.section
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              className="mb-16"
+            >
+              <SectionHeading
+                title={isEnglish ? "Certifications" : "Certificações"}
+                icon={Award}
+              />
+              <CredlyCertifications />
+            </motion.section>
+          )}
+
+          <motion.section
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+          >
+            <SectionHeading
+              title={isEnglish ? "Skills" : "Habilidades"}
+              icon={Wrench}
+            />
+            <SkillsList initialSkills={currentModel.skills} />
+          </motion.section>
+        </div>
+
+        <aside className="h-fit lg:sticky lg:top-24">
+          <div className="rounded-2xl border border-border/80 bg-card/50 p-5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-gold">
+              {isEnglish ? "Contact" : "Contato"}
+            </p>
+            <p className="mt-4 text-lg font-semibold">{personalInfo.name}</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {personalInfo.title}
+            </p>
+            <div className="mt-6 space-y-3 border-t border-border/70 pt-5 text-sm">
+              <p className="flex items-start gap-2 text-muted-foreground">
+                <MapPin
+                  className="mt-0.5 h-4 w-4 shrink-0 text-gold"
+                  aria-hidden="true"
+                />
+                {personalInfo.location}
+              </p>
+              <Link
+                href={`mailto:${personalInfo.email}`}
+                className="flex items-start gap-2 break-all text-muted-foreground transition-colors hover:text-gold"
+              >
+                <Mail
+                  className="mt-0.5 h-4 w-4 shrink-0 text-gold"
+                  aria-hidden="true"
+                />
+                {personalInfo.email}
+              </Link>
+            </div>
+          </div>
+          <Link
+            href={isEnglish ? "/en/contact" : "/contact"}
+            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-gold px-4 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-gold/90"
+          >
+            {isEnglish ? "Get in touch" : "Entrar em contato"}
+            <Download className="h-4 w-4 rotate-[-90deg]" aria-hidden="true" />
+          </Link>
+        </aside>
+      </div>
     </div>
   );
 }

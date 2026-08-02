@@ -7,5 +7,6 @@ export interface Education {
   period: string;
   description_pt?: string;
   description_en?: string;
+  startDate?: string;
   endDate?: string;
 }

@@ -11,7 +11,7 @@ A modern, responsive, and fully configurable portfolio template built with Next.
 - **File-based CMS** — edit JSON and Markdown, no database needed
 - **Blog** with Markdown, syntax highlighting, and RSS feed
 - **Project showcase** with images, technologies, and links
-- **Resume/CV** with PDF generation (LaTeX) and interactive timeline
+- **Resume/CV** with PDF and Markdown generation in TypeScript and an interactive timeline
 - **Company & institution logos** on experience/education items with graceful fallback
 - **LinkedIn sync** — optionally pull experience and education data during build
 - **Dynamic Open Graph images** per page (blog posts, projects, resume, contact)
@@ -112,7 +112,7 @@ portfolio/
 ├── scripts/               # Build & automation scripts
 │   ├── setup.sh           # Interactive setup wizard
 │   ├── sync-linkedin.ts   # LinkedIn experience/education sync
-│   ├── build-resume.sh    # LaTeX PDF resume builder
+│   ├── generate-resumes.ts # PDF/Markdown resume generator
 │   └── optimize-images.mjs # Image optimization (WebP/AVIF)
 ├── public/                # Static assets & generated PDFs
 └── types/                 # TypeScript definitions
@@ -166,22 +166,24 @@ You can also run it manually: `npm run sync-linkedin`
 ## Customization
 
 ### Styling
+
 - **Colors**: Edit CSS variables in `app/globals.css` (gold accent uses WCAG AA compliant values)
 - **Fonts**: Modify `app/layout.tsx`
 - **Components**: Customize in `/components`
 
 ### Images
+
 - **Profile**: `public/images/profile/`
 - **Projects**: `public/images/projects/`
 - **Blog**: `public/images/posts/`
 
 ## Build Pipeline
 
-The `prebuild` step runs automatically before `next build`:
+The deterministic `prebuild` step runs automatically before `next build`:
 
-1. **Image optimization** — generates WebP and AVIF variants with responsive sizes
-2. **Resume generation** — compiles LaTeX templates into PDF (requires Docker or local pdflatex)
-3. **LinkedIn sync** — pulls latest experience/education data (optional, non-fatal)
+1. **Resume generation** — creates the Portuguese and English PDF/Markdown files directly from `content/`
+
+The generator is pure TypeScript and needs no Docker, LaTeX installation, browser, or serverless function. Image optimization and LinkedIn synchronization remain explicit commands so an external service cannot make the deployment build nondeterministic.
 
 ## Deployment
 
@@ -207,6 +209,7 @@ npm run test            # Run tests (Vitest)
 npm run test:watch      # Run tests in watch mode
 npm run test:coverage   # Run tests with coverage
 npm run analyze         # Bundle analysis
+npm run resume:generate # Generate PT/EN PDF and Markdown resumes
 npm run sync-linkedin   # Sync experience/education from LinkedIn
 npm run optimize-images # Optimize images (WebP/AVIF)
 ```

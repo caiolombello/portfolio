@@ -20,6 +20,9 @@ interface SiteConfig {
     twitter: string;
     website: string;
   };
+  features?: {
+    portfolio?: boolean;
+  };
 }
 
 interface Project {
@@ -72,7 +75,10 @@ async function loadSiteConfig(): Promise<SiteConfig> {
 // Função para carregar perfil
 async function loadProfile() {
   try {
-    const profilePath = path.join(process.cwd(), "content/profile/profile.json");
+    const profilePath = path.join(
+      process.cwd(),
+      "content/profile/profile.json",
+    );
     const profileData = await fs.readFile(profilePath, "utf-8");
     return JSON.parse(profileData);
   } catch (error) {
@@ -119,7 +125,7 @@ async function loadPosts(): Promise<Post[]> {
         const postPath = path.join(postsDir, file);
         const postContent = await fs.readFile(postPath, "utf-8");
         const { data } = matter(postContent);
-        
+
         if (data.published !== false) {
           posts.push({
             slug: file.replace(".md", ""),
@@ -154,7 +160,8 @@ async function generateLlmsTxt() {
     // Carregar dados necessários
     const config = await loadSiteConfig();
     const profile = await loadProfile();
-    const projects = await loadProjects();
+    const portfolioEnabled = config.features?.portfolio !== false;
+    const projects = portfolioEnabled ? await loadProjects() : [];
     const posts = await loadPosts();
     const skills = await loadSkills();
 
@@ -164,9 +171,17 @@ async function generateLlmsTxt() {
     const authorAbout = profile?.pt?.about || config.site.description;
 
     // Gerar o conteúdo do llms.txt
+    const projectsSection = portfolioEnabled
+      ? `## Projects
+
+- [Portfolio Projects](${baseUrl}/portfolio/): Overview of all developed projects
+${projects.map((project: Project) => `- [${project.title}](${baseUrl}/portfolio/${project.id}/): ${project.shortDescription}`).join("\n")}
+
+`
+      : "";
     const content = `# ${authorName} - Professional Portfolio
 
-> Professional portfolio website of ${authorName}, a ${authorTitle}. The site showcases professional experience, projects, technical articles, and contact information.
+> Professional portfolio website of ${authorName}, a ${authorTitle}. The site showcases professional experience, technical articles, and contact information.
 
 This site is built with Next.js and Tailwind CSS, featuring a modern dark theme with responsive design. The site is available in multiple languages (Portuguese, English, and Spanish).
 
@@ -183,12 +198,7 @@ This site is built with Next.js and Tailwind CSS, featuring a modern dark theme 
 - Twitter: ${config.social.twitter}
 - Website: ${config.social.website}
 
-## Projects
-
-- [Portfolio Projects](${baseUrl}/portfolio/): Overview of all developed projects
-${projects.map((project: Project) => `- [${project.title}](${baseUrl}/portfolio/${project.id}/): ${project.shortDescription}`).join("\n")}
-
-## Blog
+${projectsSection}## Blog
 
 - [Blog](${baseUrl}/blog/): Technical articles about development, DevOps, cloud technologies, and software engineering
 ${posts.map((post: Post) => `- [${post.title}](${baseUrl}/blog/${post.slug}/): ${post.description}`).join("\n")}

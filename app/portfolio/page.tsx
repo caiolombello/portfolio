@@ -1,109 +1,37 @@
-"use client";
+import { getProjectsData } from "@/lib/data";
+import PortfolioBrowser from "@/components/portfolio/portfolio-browser";
+import PortfolioPageHeader from "@/components/portfolio/portfolio-page-header";
+import { generatePageMetadata } from "@/lib/site-metadata";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getSiteConfig } from "@/lib/config-server";
+import { isPortfolioEnabled } from "@/lib/site-features";
+import { getCurrentRequestLocale } from "@/lib/request-locale-server";
 
-import { Suspense, useEffect, useState } from "react";
-import { PortfolioGrid } from "@/components/portfolio-grid";
-import { TechFilter } from "@/components/portfolio/tech-filter";
-import { PortfolioStats } from "@/components/portfolio/portfolio-stats";
-import { ProjectSkeleton } from "@/components/ui/loading-skeleton";
-import { useLanguage } from "@/contexts/language-context";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import type { Project } from "@/types";
-
-function PortfolioContent({ projects }: { projects: Project[] }) {
-  const { t } = useLanguage();
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
-  const projectsPerPage = 9;
-  const displayedProjects = filteredProjects.slice(0, projectsPerPage);
-  const hasMoreProjects = filteredProjects.length > projectsPerPage;
-
-  // Atualizar projetos filtrados quando projects mudam
-  useEffect(() => {
-    setFilteredProjects(projects);
-  }, [projects]);
-
-  const handleFilteredProjectsChange = (newFilteredProjects: Project[]) => {
-    setFilteredProjects(newFilteredProjects);
-  };
-
-  const isFiltered = filteredProjects.length !== projects.length;
-  const featuredCount = projects.filter(p => p.featured).length;
-
-  return (
-    <>
-      <TechFilter 
-        projects={projects} 
-        onFilteredProjectsChange={handleFilteredProjectsChange}
-      />
-      
-      <PortfolioStats
-        totalProjects={projects.length}
-        filteredProjects={filteredProjects.length}
-        isFiltered={isFiltered}
-        featuredCount={featuredCount}
-      />
-      
-      {filteredProjects.length === 0 ? (
-        <div className="text-center py-12">
-          <h2 className="text-xl font-medium text-muted-foreground mb-2">
-            {t("projects.noProjectsWithFilters")}
-          </h2>
-          <p className="text-muted-foreground">
-            {t("projects.tryDifferentFilters")}
-          </p>
-        </div>
-      ) : (
-        <>
-          <PortfolioGrid projects={displayedProjects} />
-          
-          {hasMoreProjects && (
-            <div className="mt-8 text-center">
-              <Button asChild variant="outline">
-                <Link href="/portfolio/page/2">
-                  {t("projects.viewMore")}
-                </Link>
-              </Button>
-            </div>
-          )}
-        </>
-      )}
-    </>
-  );
+export async function generateMetadata(): Promise<Metadata> {
+  const enabled = isPortfolioEnabled(getSiteConfig());
+  const locale = await getCurrentRequestLocale();
+  return generatePageMetadata({
+    path: "/portfolio",
+    locale,
+    title: locale === "pt" ? "Projetos" : "Projects",
+    description:
+      locale === "pt"
+        ? "Projetos selecionados de infraestrutura cloud, automação e engenharia de plataformas."
+        : "Selected cloud infrastructure, automation, and platform engineering projects.",
+    noIndex: !enabled,
+  });
 }
 
-export default function PortfolioPage() {
-  const { t } = useLanguage();
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+export default async function PortfolioPage() {
+  if (!isPortfolioEnabled(getSiteConfig())) notFound();
 
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch("/api/public/projects");
-        const { projects: projectsData } = await response.json();
-        setProjects(projectsData || []);
-      } catch (error) {
-        console.error("Error loading projects:", error);
-        setProjects([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
+  const projects = await getProjectsData();
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-4xl font-bold text-center mb-8">
-        {t("projects.title")}
-      </h1>
-      
-      {loading ? (
-        <ProjectSkeleton />
-      ) : (
-        <PortfolioContent projects={projects} />
-      )}
+    <div className="container py-16 sm:py-20">
+      <PortfolioPageHeader />
+      <PortfolioBrowser projects={projects} />
     </div>
   );
 }

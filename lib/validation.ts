@@ -13,6 +13,8 @@ export const SocialLinksSchema = z.object({
   linkedin: z.string().url().optional(),
   github: z.string().url().optional(),
   twitter: z.string().url().optional(),
+  website: z.string().url().optional(),
+  whatsapp: z.string().url().optional(),
 });
 
 export const ProfileSchema = z.object({
@@ -30,6 +32,9 @@ export const SkillCategorySchema = z.enum([
   "Cloud/Infra",
   "CI/CD",
   "Observabilidade",
+  "Containerização",
+  "Segurança",
+  "Automação",
   "Frontend",
   "Backend",
   "Banco de Dados",
@@ -62,6 +67,8 @@ export const ResponsibilityItemSchema = z.object({
 
 export const ExperienceSchema = z.object({
   company: z.string(),
+  logo: z.string().url().optional(),
+  companyUrl: z.string().url().optional(),
   title_pt: z.string(),
   title_en: z.string(),
   title_es: z.string().optional(),
@@ -70,16 +77,20 @@ export const ExperienceSchema = z.object({
   responsibilities_en: z.array(ResponsibilityItemSchema),
   responsibilities_es: z.array(ResponsibilityItemSchema).optional(),
   startDate: z.string().optional(),
+  endDate: z.string().optional(),
 });
 
 // Education Schema
 export const EducationSchema = z.object({
   institution: z.string(),
+  logo: z.string().url().optional(),
+  institutionUrl: z.string().url().optional(),
   degree_pt: z.string(),
   degree_en: z.string(),
   period: z.string(),
   description_pt: z.string().optional(),
   description_en: z.string().optional(),
+  startDate: z.string().optional(),
   endDate: z.string().optional(),
 });
 
@@ -95,6 +106,17 @@ export const CertificationSchema = z.object({
 // Project Schemas
 export const TechnologySchema = z.object({
   tech: z.string(),
+});
+
+export const ProjectCaseStudySchema = z.object({
+  role_pt: z.string().optional(),
+  role_en: z.string().optional(),
+  challenge_pt: z.string().optional(),
+  challenge_en: z.string().optional(),
+  approach_pt: z.string().optional(),
+  approach_en: z.string().optional(),
+  outcomes_pt: z.array(z.string()).optional(),
+  outcomes_en: z.array(z.string()).optional(),
 });
 
 export const ProjectSchema = z.object({
@@ -113,6 +135,7 @@ export const ProjectSchema = z.object({
   featured: z.boolean().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
+  caseStudy: ProjectCaseStudySchema.optional(),
 });
 
 // Blog Post Schemas

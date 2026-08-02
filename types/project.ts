@@ -2,6 +2,17 @@ export interface Technology {
   tech: string;
 }
 
+export interface ProjectCaseStudy {
+  role_pt?: string;
+  role_en?: string;
+  challenge_pt?: string;
+  challenge_en?: string;
+  approach_pt?: string;
+  approach_en?: string;
+  outcomes_pt?: string[];
+  outcomes_en?: string[];
+}
+
 export interface Project {
   id: string;
   title_pt: string;
@@ -18,4 +29,5 @@ export interface Project {
   featured?: boolean;
   createdAt?: string;
   updatedAt?: string;
+  caseStudy?: ProjectCaseStudy;
 }

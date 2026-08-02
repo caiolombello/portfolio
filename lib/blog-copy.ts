@@ -1,0 +1,66 @@
+import type { SiteLocale } from "./request-locale";
+
+const copy = {
+  en: {
+    articlePlural: "articles",
+    articleSingular: "article",
+    back: "Back to blog",
+    categoryFallback: "Engineering notes",
+    clearFilters: "Clear filters",
+    copied: "Link copied",
+    copyFailed: "Could not copy the link",
+    copyLink: "Copy article link",
+    empty: "New technical notes are on the way.",
+    filterByTag: "Filter by tag",
+    filteredResults: "Filtered results",
+    noResults: "No articles match this search.",
+    of: "of",
+    pageDescription:
+      "Practical writing on Kubernetes, observability, automation and delivery.",
+    pageTitle: "Notes from the platform layer.",
+    newerArticle: "Newer article",
+    olderArticle: "Older article",
+    readArticle: "Read article",
+    readingTime: "min read",
+    search: "Search articles",
+    share: "Share",
+    shareLinkedIn: "Share on LinkedIn",
+    shareX: "Share on X",
+    showMore: "Show more articles",
+    showing: "Showing",
+    total: "total",
+  },
+  pt: {
+    articlePlural: "artigos",
+    articleSingular: "artigo",
+    back: "Voltar para o blog",
+    categoryFallback: "Notas de engenharia",
+    clearFilters: "Limpar filtros",
+    copied: "Link copiado",
+    copyFailed: "Não foi possível copiar o link",
+    copyLink: "Copiar link do artigo",
+    empty: "Novas notas técnicas serão publicadas em breve.",
+    filterByTag: "Filtrar por tag",
+    filteredResults: "Resultados filtrados",
+    noResults: "Nenhum artigo corresponde a esta busca.",
+    of: "de",
+    pageDescription:
+      "Textos práticos sobre Kubernetes, observabilidade, automação e entrega.",
+    pageTitle: "Notas da camada de plataforma.",
+    newerArticle: "Artigo mais recente",
+    olderArticle: "Artigo anterior",
+    readArticle: "Ler artigo",
+    readingTime: "min de leitura",
+    search: "Buscar artigos",
+    share: "Compartilhar",
+    shareLinkedIn: "Compartilhar no LinkedIn",
+    shareX: "Compartilhar no X",
+    showMore: "Mostrar mais artigos",
+    showing: "Mostrando",
+    total: "no total",
+  },
+} as const;
+
+export function getBlogCopy(language: SiteLocale) {
+  return copy[language];
+}

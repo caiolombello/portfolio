@@ -37,10 +37,13 @@ export interface Post {
   body_es?: string;
   coverImage?: string;
   publicationDate: string;
-  author?: Author;
+  author?: Author | string;
   category?: string;
+  category_en?: string;
+  category_pt?: string;
   tags?: string[];
   tags_en?: string[];
   tags_pt?: string[];
   published?: boolean;
+  updatedAt?: string;
 }

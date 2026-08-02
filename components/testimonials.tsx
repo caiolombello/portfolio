@@ -1,10 +1,10 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight, Quote } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
-import { motion } from "framer-motion";
-import { Quote } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
 
 interface Testimonial {
   id: string;
@@ -20,52 +20,89 @@ interface TestimonialsProps {
   testimonials: Testimonial[];
 }
 
-export default function Testimonials({ testimonials }: TestimonialsProps) {
+export default function Testimonials({ testimonials = [] }: TestimonialsProps) {
   const { language } = useLanguage();
+  const isEnglish = language === "en";
+
+  if (testimonials.length === 0) return null;
 
   return (
-    <section className="container py-16 md:py-24 bg-muted/30" suppressHydrationWarning>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="text-center text-3xl font-bold text-gold mb-12" suppressHydrationWarning>
-          {language === "en" ? "Recommendations" : "Recomendações"}
-        </h2>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <Card className="h-full border-border/40 bg-card/50 backdrop-blur-sm transition-all duration-300 hover:border-gold/40 hover:shadow-lg hover:shadow-gold/10 hover:-translate-y-1">
-                <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                  <Avatar>
-                    <AvatarImage src={testimonial.image} alt={testimonial.name} />
-                    <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div className="flex flex-col">
-                    <p className="text-sm font-medium leading-none">{testimonial.name}</p>
-                    <p className="text-xs text-muted-foreground">{testimonial.role}</p>
-                  </div>
-                </CardHeader>
-                <CardContent suppressHydrationWarning>
-                  <Quote className="mb-2 h-4 w-4 text-gold/50" />
-                  <p className="text-sm text-muted-foreground">
-                    {language === "en" ? testimonial.content : testimonial.content_pt}
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+    <section
+      className="container border-b border-border/70 py-14 sm:py-24"
+      aria-labelledby="recommendations-title"
+    >
+      <Reveal className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+        <div>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">
+            {isEnglish ? "Recommendations" : "Recomendações"}
+          </p>
+          <h2
+            id="recommendations-title"
+            className="mt-4 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl"
+          >
+            {isEnglish
+              ? "The way I work matters too."
+              : "A forma de trabalhar também importa."}
+          </h2>
         </div>
-      </motion.div>
+        <p className="max-w-md text-sm leading-6 text-muted-foreground">
+          {isEnglish
+            ? "A few words from people who have seen the work up close."
+            : "Algumas palavras de quem acompanhou o trabalho de perto."}
+        </p>
+      </Reveal>
+
+      <Reveal
+        className="mt-8 grid min-w-0 gap-4 sm:mt-10 sm:gap-5 lg:grid-cols-2"
+        delay={0.08}
+      >
+        {testimonials.map((testimonial) => (
+          <article
+            key={testimonial.id}
+            className="surface-motion group min-w-0 rounded-2xl border border-border/80 bg-card/50 p-5 sm:p-8"
+          >
+            <Quote
+              className="h-7 w-7 text-gold/70 transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105"
+              aria-hidden="true"
+            />
+            <p className="mt-5 text-base leading-7 text-foreground">
+              {isEnglish ? testimonial.content : testimonial.content_pt}
+            </p>
+            <div className="mt-8 flex flex-col items-start gap-4 border-t border-border/70 pt-5 min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between">
+              <div className="flex w-full min-w-0 items-center gap-3 min-[420px]:w-auto">
+                <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-border/80 bg-secondary">
+                  <Image
+                    src={testimonial.image}
+                    alt=""
+                    fill
+                    sizes="40px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-foreground">
+                    {testimonial.name}
+                  </p>
+                  <p className="line-clamp-2 text-xs leading-5 text-muted-foreground min-[420px]:truncate">
+                    {testimonial.role}
+                  </p>
+                </div>
+              </div>
+              {testimonial.linkedin && (
+                <Link
+                  href={testimonial.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-muted-foreground transition-colors hover:text-gold"
+                >
+                  LinkedIn{" "}
+                  <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </Link>
+              )}
+            </div>
+          </article>
+        ))}
+      </Reveal>
     </section>
   );
 }

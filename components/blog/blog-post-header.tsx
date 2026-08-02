@@ -1,158 +1,52 @@
 "use client";
 
 import type { Post } from "@/types/blog";
-import type { Dictionary } from "@/app/i18n/dictionaries";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Clock,
-  Linkedin,
-  Twitter,
-  Copy,
-  Calendar,
-  Tag,
-} from "lucide-react";
+import { Calendar, Clock, Copy, Linkedin, Tag, Twitter } from "lucide-react";
+import { formatBlogDate } from "@/lib/blog-date";
+import { getBlogCopy } from "@/lib/blog-copy";
+import { calculateReadingTime, getLocalizedPost } from "@/lib/blog-post";
+import { useToast } from "@/hooks/use-toast";
 
 interface BlogPostHeaderProps {
   post: Post;
-  dictionary: Dictionary;
-  lang: string;
+  lang: "pt" | "en";
   siteUrl: string;
 }
 
-// Função para calcular o tempo de leitura
-const calculateReadingTime = (text: string, wordsPerMinute = 200) => {
-  const words = text.split(/\s+/).length;
-  const minutes = Math.ceil(words / wordsPerMinute);
-  return minutes;
-};
-
-export default function BlogPostHeader({
-  post,
-  dictionary,
-  lang,
-  siteUrl,
-}: BlogPostHeaderProps) {
-  const {
-    title_pt,
-    title_en,
-    summary_pt,
-    summary_en,
-    body_pt,
-    body_en,
-    author,
-    tags_en,
-    tags_pt,
-    publicationDate,
-    slug_pt,
-    slug_en,
-  } = post;
-
-  const title = lang === "en" ? title_en : title_pt;
-  const content = lang === "en" ? body_en : body_pt;
-  const slug = lang === "en" ? slug_en : slug_pt;
-  const tags = lang === "en" ? tags_en : tags_pt;
-  const readingTime = calculateReadingTime(content ?? "");
+export default function BlogPostHeader({ post, lang, siteUrl }: BlogPostHeaderProps) {
+  const copy = getBlogCopy(lang);
+  const { body, category, slug, tags, title } = getLocalizedPost(post, lang);
+  const { toast } = useToast();
   const postUrl = `${siteUrl}/blog/${slug}`;
-
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString(
-      lang === "en" ? "en-US" : "pt-BR",
-      {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      },
-    );
-  };
+  const authorName = typeof post.author === "object" ? post.author?.name : post.author;
+  const authorAvatar = typeof post.author === "object" ? post.author?.avatar : undefined;
 
   return (
-    <header className="mb-8">
-      {/* Título e Subtítulo */}
-      <h1 className="mb-4 text-3xl font-extrabold tracking-tight text-gold md:text-5xl">
-        {title}
-      </h1>
-
-      {/* Meta do Post */}
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-4 text-muted-foreground">
-        {/* Autor */}
-        {author && (
-          <div className="flex items-center gap-2">
-            <Image
-              src={(typeof author === 'object' ? author.avatar : null) ?? "/api/profile-image"}
-              alt={typeof author === 'object' ? author.name : author}
-              width={32}
-              height={32}
-              className="h-8 w-8 rounded-full object-cover"
-            />
-            <span className="font-medium">
-              {typeof author === 'object' ? author.name : author}
-            </span>
-          </div>
-        )}
-
-        {/* Data de Publicação */}
-        <div className="flex items-center gap-2">
-          <Calendar size={16} />
-          <time dateTime={publicationDate}>
-            {formatDate(publicationDate ?? new Date().toISOString())}
-          </time>
-        </div>
-
-        {/* Tempo de Leitura */}
-        <div className="flex items-center gap-2">
-          <Clock size={16} />
-          <span>
-            {readingTime} {dictionary.blog.readingTime}
-          </span>
-        </div>
+    <header className="mb-8 max-w-4xl sm:mb-10">
+      <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">{category || copy.categoryFallback}</p>
+      <h1 className="mt-4 text-3xl font-semibold leading-[1.1] tracking-[-0.035em] sm:text-5xl lg:text-6xl">{title}</h1>
+      <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-muted-foreground sm:mt-7">
+        {authorName && <span className="inline-flex items-center gap-2"><Image src={authorAvatar || "/api/profile-image"} alt="" width={28} height={28} className="h-7 w-7 rounded-full object-cover" />{authorName}</span>}
+        <span className="inline-flex items-center gap-2"><Calendar className="h-4 w-4 text-gold" aria-hidden="true" /><time dateTime={post.publicationDate}>{formatBlogDate(post.publicationDate, lang)}</time></span>
+        <span className="inline-flex items-center gap-2"><Clock className="h-4 w-4 text-gold" aria-hidden="true" />{calculateReadingTime(body)} {copy.readingTime}</span>
       </div>
 
-      {/* Tags */}
-      {tags && tags.length > 0 && (
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          <Tag size={16} className="text-muted-foreground" />
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-md bg-secondary px-2 py-1 text-xs font-medium text-secondary-foreground"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
+      {tags && tags.length > 0 && <div className="mt-5 flex flex-wrap items-center gap-2"><Tag className="h-4 w-4 text-gold" aria-hidden="true" />{tags.map((tag) => <span key={tag} className="rounded-full border border-border/80 bg-secondary/60 px-2.5 py-1 text-xs text-muted-foreground">{tag}</span>)}</div>}
 
-      {/* Ações de Compartilhamento */}
-      <div className="mt-6 flex items-center gap-4">
-        <span className="text-sm font-semibold text-muted-foreground">
-          {dictionary.blog.share}:
-        </span>
-        <div className="flex gap-2">
-          <Link
-            href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(postUrl)}&title=${encodeURIComponent(title ?? "")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-secondary p-2 transition-colors hover:bg-primary"
-          >
-            <Linkedin size={20} />
-          </Link>
-          <Link
-            href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(postUrl)}&text=${encodeURIComponent(title ?? "")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-secondary p-2 transition-colors hover:bg-primary"
-          >
-            <Twitter size={20} />
-          </Link>
-          <button
-            onClick={() => navigator.clipboard.writeText(postUrl)}
-            className="rounded-full bg-secondary p-2 transition-colors hover:bg-primary"
-            aria-label="Copiar link"
-          >
-            <Copy size={20} />
-          </button>
-        </div>
+      <div className="mt-6 flex flex-wrap items-center gap-2.5 border-t border-border/70 pt-5 sm:mt-7 sm:gap-3">
+        <span className="mr-1 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">{copy.share}</span>
+        <Link href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/80 text-muted-foreground transition-colors hover:border-gold/50 hover:text-gold" aria-label={copy.shareLinkedIn}><Linkedin className="h-4 w-4" aria-hidden="true" /></Link>
+        <Link href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(postUrl)}&text=${encodeURIComponent(title)}`} target="_blank" rel="noopener noreferrer" className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/80 text-muted-foreground transition-colors hover:border-gold/50 hover:text-gold" aria-label={copy.shareX}><Twitter className="h-4 w-4" aria-hidden="true" /></Link>
+        <button type="button" onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(postUrl);
+            toast({ title: copy.copied });
+          } catch {
+            toast({ title: copy.copyFailed, variant: "destructive" });
+          }
+        }} className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/80 text-muted-foreground transition-colors hover:border-gold/50 hover:text-gold" aria-label={copy.copyLink}><Copy className="h-4 w-4" aria-hidden="true" /></button>
       </div>
     </header>
   );

@@ -8,7 +8,9 @@ import {
   type ReactNode,
 } from "react";
 import { getDictionary } from "../app/i18n";
-import { locales, type Locale } from "../app/i18n/settings";
+import type { Locale } from "../app/i18n/settings";
+
+type TranslationDictionary = Awaited<ReturnType<typeof getDictionary>>;
 
 // Tipos
 export type Language = "pt" | "en" | "es";
@@ -26,73 +28,56 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
   undefined,
 );
 
-function detectUserLanguage(): Locale {
-  // Check localStorage first
-  const savedLanguage = localStorage.getItem("language") as Locale;
-  if (savedLanguage && locales.includes(savedLanguage)) {
-    return savedLanguage;
-  }
-
-  // Then check browser language
-  const browserLang = navigator.language.split("-")[0];
-  if (locales.includes(browserLang as Locale)) {
-    return browserLang as Locale;
-  }
-
-  // If no match found, use the first supported locale
-  return locales[0];
-}
-
 export function LanguageProvider({
   children,
   initialDictionary,
   initialLanguage = "pt"
 }: {
   children: ReactNode;
-  initialDictionary?: any;
+  initialDictionary?: TranslationDictionary;
   initialLanguage?: Locale;
 }) {
   const [language, setLanguage] = useState<Locale>(initialLanguage);
-  const [dictionary, setDictionary] = useState<any>(initialDictionary);
+  const [dictionary, setDictionary] = useState<
+    TranslationDictionary | undefined
+  >(initialDictionary);
+  const [loadedLanguage, setLoadedLanguage] = useState<Locale | undefined>(
+    initialDictionary ? initialLanguage : undefined,
+  );
   const [loading, setLoading] = useState(false);
   const [alternateLinks, setAlternateLinks] = useState<Record<string, string>>({});
 
-  // Initialize language after mount, checking localStorage first, then browser language
+  // The URL-selected locale is authoritative for indexable pages.
   useEffect(() => {
-    const savedLanguage = localStorage.getItem("language") as Locale;
-    if (savedLanguage && locales.includes(savedLanguage)) {
-      if (savedLanguage !== language) {
-        setLanguage(savedLanguage);
-      }
-    } else {
-      // If no saved language, detect from browser
-      const browserLang = navigator.language.split("-")[0];
-      if (locales.includes(browserLang as Locale) && browserLang !== language) {
-        setLanguage(browserLang as Locale);
-      }
-    }
-    document.documentElement.lang = language;
-  }, []);
+    document.documentElement.lang = initialLanguage;
+  }, [initialLanguage]);
 
   // Load dictionary when language changes
   useEffect(() => {
+    let active = true;
+
     const load = async () => {
-      // Only load if language is different from initial or if we don't have dictionary
-      if (language === initialLanguage && dictionary) return;
+      if (loadedLanguage === language && dictionary) return;
 
       setLoading(true);
       try {
         const dict = await getDictionary(language);
-        setDictionary(dict);
+        if (active) {
+          setDictionary(dict);
+          setLoadedLanguage(language);
+        }
       } catch (e) {
         console.error("Failed to load dictionary:", e);
-        // Keep previous dictionary or null
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     };
     load();
-  }, [language]);
+
+    return () => {
+      active = false;
+    };
+  }, [dictionary, language, loadedLanguage]);
 
   const changeLanguage = (lang: Locale) => {
     setLanguage(lang);
@@ -105,10 +90,10 @@ export function LanguageProvider({
   const t = (key: string): string => {
     if (!dictionary) return key;
     const keys = key.split(".");
-    let result: any = dictionary;
+    let result: unknown = dictionary;
     for (const k of keys) {
-      if (result && result[k] !== undefined) {
-        result = result[k];
+      if (typeof result === "object" && result !== null && k in result) {
+        result = (result as Record<string, unknown>)[k];
       } else {
         return key;
       }

@@ -21,7 +21,7 @@ Personal information with multilingual support:
     "about": "Sua bio em português..."
   },
   "en": {
-    "name": "Caio Barbieri", 
+    "name": "Caio Barbieri",
     "title": "Mid-level DevOps Engineer",
     "location": "Campinas, São Paulo, Brazil",
     "about": "Your bio in English..."
@@ -60,6 +60,7 @@ Technical skills organized by category:
 ```
 
 **Available Categories:**
+
 - Linguagens
 - Frontend
 - Backend
@@ -69,6 +70,7 @@ Technical skills organized by category:
 - Databases
 
 **Available Levels:**
+
 - Avançado
 - Experiente
 - Proficiente
@@ -125,12 +127,14 @@ Individual JSON files for each educational entry with multilingual support:
 ```
 
 **Required Fields:**
+
 - `institution`: Name of the educational institution
 - `degree_pt`: Degree name in Portuguese
-- `degree_en`: Degree name in English  
+- `degree_en`: Degree name in English
 - `period`: Period of study (e.g., "2023 - 2025")
 
 **Optional Fields:**
+
 - `description_pt`: Description in Portuguese
 - `description_en`: Description in English
 - `endDate`: Expected or actual end date (ISO format)
@@ -175,7 +179,7 @@ Markdown files with frontmatter:
 
 **File naming:** `post-slug.md` (e.g., `introducao-devops.md`)
 
-```markdown
+````markdown
 ---
 title: "Introdução ao DevOps"
 description: "Conceitos fundamentais sobre DevOps e sua importância."
@@ -201,8 +205,9 @@ function example() {
   return "Hello World";
 }
 ```
+````
 
-```
+````
 
 ## Editing Workflow
 
@@ -214,17 +219,17 @@ git clone https://github.com/caiolombello/portfolio.git
 cd portfolio
 
 # Install dependencies
-pnpm install
+npm install
 
 # Start development server
-pnpm dev
-```
+npm run dev
+````
 
 ### 2. Making Changes
 
 1. **Edit files directly** in `/content` directory
 2. **Preview changes** at `http://localhost:3000`
-3. **Test the build** with `pnpm build`
+3. **Test the build** with `npm run build`
 4. **Commit changes** to Git
 
 ### 3. Deployment
@@ -245,23 +250,27 @@ Changes are **automatically deployed** via Vercel when pushed to the main branch
 ## Best Practices
 
 ### 1. File Organization
+
 - Use descriptive file names
 - Follow naming conventions (`kebab-case`)
 - Keep files organized in appropriate directories
 
 ### 2. Content Quality
+
 - **Bilingual support**: Provide both PT and EN content where applicable
 - **Consistent formatting**: Follow JSON structure exactly
 - **Valid syntax**: Validate JSON before committing
 - **SEO optimization**: Use descriptive titles and descriptions
 
 ### 3. Images
+
 - Store in `/public/images/`
 - Use optimized formats (WebP, AVIF)
 - Include descriptive alt text
 - Maximum size: 2MB
 
 ### 4. Markdown Guidelines
+
 - Use proper heading hierarchy (`#` → `##` → `###`)
 - Include language tags in code blocks
 - Add alt text to images: `![Alt text](image.jpg)`
@@ -270,6 +279,7 @@ Changes are **automatically deployed** via Vercel when pushed to the main branch
 ## Validation
 
 The system automatically validates:
+
 - JSON syntax and structure
 - Required fields presence
 - Data types and formats
@@ -310,16 +320,19 @@ The system automatically validates:
 ## Troubleshooting
 
 ### Build Errors
+
 - Check JSON syntax with online validator
 - Verify all required fields are present
 - Ensure file names follow conventions
 
 ### Missing Content
+
 - Check file paths are correct
 - Verify JSON structure matches schema
 - Ensure proper encoding (UTF-8)
 
 ### Images Not Loading
+
 - Verify images exist in `/public/images/`
 - Check file paths in content files
 - Ensure proper image formats
@@ -334,6 +347,7 @@ The system automatically validates:
 ## Content Backup
 
 All content is automatically backed up through:
+
 - **Git version control**: Full history of changes
 - **GitHub repository**: Cloud backup
 - **Vercel deployments**: Deployment history
@@ -341,6 +355,7 @@ All content is automatically backed up through:
 ## Advanced Features
 
 ### Custom Components
+
 Blog posts support custom React components:
 
 ```markdown
@@ -348,6 +363,7 @@ Blog posts support custom React components:
 ```
 
 ### SEO Optimization
+
 - Automatic sitemap generation
 - Open Graph meta tags
 - Structured data for blog posts

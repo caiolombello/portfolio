@@ -217,5 +217,13 @@ export const es = {
   sending: "Enviando...",
   successMessage: "¡Tu mensaje ha sido enviado con éxito!",
   errorMessage: "Ocurrió un error. Por favor, inténtalo de nuevo.",
+  rateLimitMessage: "Se enviaron demasiados mensajes en poco tiempo. Espera un minuto e inténtalo de nuevo.",
   nameRequired: "El nombre es obligatorio.",
+  privacyNotice: "Tus datos solo se utilizarán para responder al contacto y serán procesados por Formspree.",
+  privacyPolicy: "Política de privacidad",
+  turnstilePrompt: "Completa la verificación de seguridad para habilitar el envío.",
+  turnstileVerified: "Verificación completada. Ya puedes enviar el mensaje.",
+  turnstileRequired: "Completa la verificación de seguridad antes de enviar.",
+  turnstileError: "La verificación de seguridad falló. Inténtalo de nuevo.",
+  turnstileLoadError: "No fue posible cargar la verificación de seguridad.",
 };

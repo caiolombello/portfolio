@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/contexts/language-context";
+import { getBlogCopy } from "@/lib/blog-copy";
 import type { Post } from "@/types";
 
 interface BlogStatsProps {
@@ -11,6 +12,9 @@ interface BlogStatsProps {
 
 export function BlogStats({ totalPosts, filteredPosts, isFiltered }: BlogStatsProps) {
   const { language } = useLanguage();
+  const copy = getBlogCopy(language === "en" ? "en" : "pt");
+  const articleLabel = (count: number) =>
+    count === 1 ? copy.articleSingular : copy.articlePlural;
 
   if (totalPosts === 0) return null;
 
@@ -18,35 +22,25 @@ export function BlogStats({ totalPosts, filteredPosts, isFiltered }: BlogStatsPr
     <div className="flex items-center justify-between mb-6 text-sm text-muted-foreground">
       <div>
         {isFiltered ? (
-          language === "en" ? (
-            <>
-              Showing <span className="font-medium text-gold">{filteredPosts}</span> of{" "}
-              <span className="font-medium">{totalPosts}</span> posts
-            </>
-          ) : (
-            <>
-              Mostrando <span className="font-medium text-gold">{filteredPosts}</span> de{" "}
-              <span className="font-medium">{totalPosts}</span> posts
-            </>
-          )
+          <>
+            {copy.showing}{" "}
+            <span className="font-medium text-gold">{filteredPosts}</span>{" "}
+            {articleLabel(filteredPosts)} {copy.of}{" "}
+            <span className="font-medium">{totalPosts}</span>
+          </>
         ) : (
-          language === "en" ? (
-            <>
-              <span className="font-medium">{totalPosts}</span> posts total
-            </>
-          ) : (
-            <>
-              <span className="font-medium">{totalPosts}</span> posts no total
-            </>
-          )
+          <>
+            <span className="font-medium">{totalPosts}</span>{" "}
+            {articleLabel(totalPosts)} {copy.total}
+          </>
         )}
       </div>
       
       {isFiltered && (
         <div className="text-xs">
-          {language === "en" ? "Filtered results" : "Resultados filtrados"}
+          {copy.filteredResults}
         </div>
       )}
     </div>
   );
-} 
+}

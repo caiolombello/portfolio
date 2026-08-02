@@ -15,5 +15,21 @@
   "githubUrl": "https://github.com/caiolombello/dotfiles",
   "featured": true,
   "createdAt": "2025-06-13",
-  "updatedAt": "2025-06-13"
+  "updatedAt": "2025-06-13",
+  "caseStudy": {
+    "role_pt": "Curadoria e manutenção do ambiente pessoal de desenvolvimento.",
+    "role_en": "Curation and maintenance of a personal development environment.",
+    "challenge_pt": "Manter shell, terminal e ferramentas consistentes entre sessões e máquinas Linux.",
+    "challenge_en": "Keep shell, terminal and system tooling consistent across Linux sessions and machines.",
+    "approach_pt": "Configurações versionadas e organizadas como um repositório reproduzível, com foco em produtividade e manutenção simples.",
+    "approach_en": "Versioned, organized configuration managed as a reproducible repository with a focus on productivity and simple maintenance.",
+    "outcomes_pt": [
+      "Ambiente de trabalho documentado e reproduzível.",
+      "Configurações centralizadas para evoluir junto com o fluxo de desenvolvimento."
+    ],
+    "outcomes_en": [
+      "A documented and reproducible work environment.",
+      "Centralized configuration that evolves with the development workflow."
+    ]
+  }
 }

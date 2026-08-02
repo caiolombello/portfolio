@@ -1,96 +1,293 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import Typewriter from "typewriter-effect";
-import { ArrowDown, FileText, Mail } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ArrowUpRight, MapPin } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { useLanguage } from "@/contexts/language-context";
-import { useSiteConfig } from "@/hooks/use-site-config";
+import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/motion/reveal";
+import { getLocalizedInstitutionalPath } from "@/lib/navigation";
 
-export default function Hero() {
-  const { language } = useLanguage();
-  const { config } = useSiteConfig();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const roles = [
-    "SRE | Cloud Engineer",
-    "DevOps Specialist",
-    "Platform Engineer",
-    "Automation Expert"
+function PlatformTopology() {
+  const shouldReduceMotion = useReducedMotion();
+  const nodes = [
+    [112, 278],
+    [245, 168],
+    [260, 392],
+    [398, 236],
+    [398, 474],
+    [548, 126],
+    [528, 414],
+    [672, 238],
   ];
 
   return (
-    <section className="relative flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center overflow-hidden py-12 text-center md:py-24">
-      {/* Background Elements */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-1/4 top-1/4 h-64 w-64 rounded-full bg-gold/5 blur-[100px]" />
-        <div className="absolute right-1/4 bottom-1/4 h-64 w-64 rounded-full bg-primary/5 blur-[100px]" />
+    <div
+      className="pointer-events-none absolute inset-y-0 right-0 hidden w-[56%] lg:block"
+      aria-hidden="true"
+    >
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.18)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.18)_1px,transparent_1px)] bg-[size:52px_52px] [mask-image:radial-gradient(ellipse_at_center,black_12%,transparent_72%)]" />
+      <motion.svg
+        viewBox="0 0 760 560"
+        className="absolute inset-0 h-full w-full opacity-75"
+        fill="none"
+        focusable="false"
+        animate={shouldReduceMotion ? undefined : { y: [-4, 4, -4] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <defs>
+          <linearGradient
+            id="topology-line"
+            x1="120"
+            y1="110"
+            x2="650"
+            y2="450"
+          >
+            <stop stopColor="hsl(var(--border))" stopOpacity="0.18" />
+            <stop
+              offset="0.5"
+              stopColor="hsl(var(--gold))"
+              stopOpacity="0.72"
+            />
+            <stop
+              offset="1"
+              stopColor="hsl(var(--border))"
+              stopOpacity="0.16"
+            />
+          </linearGradient>
+          <radialGradient id="topology-node">
+            <stop stopColor="hsl(var(--gold))" stopOpacity="0.36" />
+            <stop offset="1" stopColor="hsl(var(--gold))" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
+        <g stroke="url(#topology-line)" strokeWidth="1.25">
+          <path d="M112 278 245 168 398 236 548 126 672 238" />
+          <path d="M112 278 260 392 398 236 528 414 672 238" />
+          <path d="M245 168 260 392M548 126 528 414" strokeDasharray="5 9" />
+          <path d="M398 236 398 474" strokeDasharray="3 10" />
+        </g>
+
+        <motion.path
+          d="M112 278 245 168 398 236 548 126 672 238"
+          stroke="hsl(var(--gold))"
+          strokeWidth="1.5"
+          strokeDasharray="8 18"
+          strokeLinecap="round"
+          animate={
+            shouldReduceMotion ? undefined : { strokeDashoffset: [0, -104] }
+          }
+          transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.path
+          d="M112 278 260 392 398 236 528 414 672 238"
+          stroke="hsl(var(--gold))"
+          strokeWidth="1"
+          strokeDasharray="3 24"
+          strokeLinecap="round"
+          animate={
+            shouldReduceMotion ? undefined : { strokeDashoffset: [0, -108] }
+          }
+          transition={{ duration: 9, repeat: Infinity, ease: "linear" }}
+        />
+
+        {nodes.map(([cx, cy], index) => (
+          <g key={`${cx}-${cy}`}>
+            <motion.circle
+              cx={cx}
+              cy={cy}
+              r="34"
+              fill="url(#topology-node)"
+              animate={
+                shouldReduceMotion
+                  ? undefined
+                  : { opacity: [0.45, 0.9, 0.45], scale: [0.9, 1.08, 0.9] }
+              }
+              style={{ transformOrigin: `${cx}px ${cy}px` }}
+              transition={{
+                duration: 4.8,
+                delay: index * 0.24,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+            <circle
+              cx={cx}
+              cy={cy}
+              r="5"
+              fill="hsl(var(--background))"
+              stroke="hsl(var(--gold))"
+              strokeWidth="2"
+            />
+          </g>
+        ))}
+
+        <motion.circle
+          cx="112"
+          cy="278"
+          r="4"
+          fill="hsl(var(--gold))"
+          animate={
+            shouldReduceMotion
+              ? undefined
+              : {
+                  cx: [112, 245, 398, 548, 672],
+                  cy: [278, 168, 236, 126, 238],
+                }
+          }
+          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+        />
+
+        <g
+          fill="hsl(var(--muted-foreground))"
+          fillOpacity="0.54"
+          fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"
+          fontSize="11"
+          letterSpacing="1.6"
+        >
+          <text x="82" y="312">
+            COMMIT
+          </text>
+          <text x="364" y="210">
+            PLATFORM
+          </text>
+          <text x="630" y="272">
+            PRODUCTION
+          </text>
+          <text x="354" y="510">
+            OBSERVE
+          </text>
+        </g>
+      </motion.svg>
+    </div>
+  );
+}
+
+export default function Hero() {
+  const { language } = useLanguage();
+  const isEnglish = language === "en";
+  const locale = isEnglish ? "en" : "pt";
+
+  const copy = isEnglish
+    ? {
+        eyebrow: "Senior DevOps Engineer · SRE · Platform Engineering",
+        title: "Infrastructure that helps teams ship with confidence.",
+        description:
+          "I turn complex cloud environments into reliable, observable and automated platforms. Hands-on with AWS, Kubernetes, GitOps and DevSecOps.",
+        primary: "View experience",
+        secondary: "Let's talk",
+        location: "Campinas, Brazil · Remote",
+        capabilities: [
+          ["Cloud platforms", "AWS · multi-account"],
+          ["Orchestration", "Kubernetes · EKS"],
+          ["Infrastructure as code", "Terraform · GitOps"],
+          ["Reliability", "SRE · Observability"],
+        ],
+      }
+    : {
+        eyebrow: "Engenheiro DevOps Sênior · SRE · Platform Engineering",
+        title: "Infraestrutura que ajuda times a entregar com confiança.",
+        description:
+          "Transformo ambientes cloud complexos em plataformas confiáveis, observáveis e automatizadas. Atuação hands-on com AWS, Kubernetes, GitOps e DevSecOps.",
+        primary: "Ver experiência",
+        secondary: "Vamos conversar",
+        location: "Campinas, Brasil · Remoto",
+        capabilities: [
+          ["Cloud platforms", "AWS · multi-account"],
+          ["Orquestração", "Kubernetes · EKS"],
+          ["Infraestrutura como código", "Terraform · GitOps"],
+          ["Confiabilidade", "SRE · Observabilidade"],
+        ],
+      };
+
+  return (
+    <section
+      className="relative isolate overflow-hidden border-b border-border/70"
+      aria-labelledby="hero-title"
+    >
+      <div className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(circle_at_78%_28%,hsl(var(--gold)/0.12),transparent_31%),linear-gradient(to_bottom,hsl(var(--background)),hsl(var(--background)/0.94))]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
+      <PlatformTopology />
+
+      <div className="container relative py-14 sm:py-20 lg:py-24">
+        <div className="relative z-10 max-w-5xl">
+          <Reveal offset={12}>
+            <p className="mb-5 flex items-center gap-2 text-[11px] font-semibold uppercase leading-5 tracking-[0.16em] text-gold sm:mb-6 sm:text-xs sm:tracking-[0.18em]">
+              <span className="h-px w-8 bg-gold" aria-hidden="true" />
+              {copy.eyebrow}
+            </p>
+          </Reveal>
+          <Reveal delay={0.08} offset={20}>
+            <h1
+              id="hero-title"
+              className="max-w-[15ch] text-balance text-4xl font-semibold leading-[1.04] tracking-[-0.045em] text-foreground sm:max-w-[18ch] sm:text-5xl lg:max-w-[20ch] lg:text-6xl xl:text-7xl"
+            >
+              {copy.title}
+            </h1>
+          </Reveal>
+          <Reveal delay={0.16} offset={20}>
+            <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:mt-7 sm:text-xl sm:leading-8 lg:max-w-xl">
+              {copy.description}
+            </p>
+          </Reveal>
+
+          <Reveal
+            className="mt-8 grid gap-3 min-[480px]:flex min-[480px]:flex-wrap sm:mt-9"
+            delay={0.24}
+            offset={16}
+          >
+            <Button
+              asChild
+              size="lg"
+              className="group w-full bg-gold px-5 text-slate-950 shadow-lg shadow-gold/10 hover:bg-gold/90 min-[480px]:w-auto sm:px-8"
+            >
+              <Link href={getLocalizedInstitutionalPath("/resume", locale)}>
+                {copy.primary}
+                <ArrowUpRight
+                  className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  aria-hidden="true"
+                />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="w-full border-border/80 bg-background/40 min-[480px]:w-auto"
+            >
+              <Link href={getLocalizedInstitutionalPath("/contact", locale)}>
+                {copy.secondary}
+              </Link>
+            </Button>
+          </Reveal>
+
+          <Reveal
+            className="mt-8 text-sm text-muted-foreground sm:mt-10"
+            delay={0.3}
+            offset={12}
+          >
+            <span className="inline-flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-gold" aria-hidden="true" />
+              {copy.location}
+            </span>
+          </Reveal>
+        </div>
+
+        <div className="relative z-10 mt-12 grid gap-x-6 gap-y-6 border-t border-border/70 pt-7 min-[480px]:grid-cols-2 sm:mt-16 sm:pt-8 lg:grid-cols-4">
+          {copy.capabilities.map(([label, value], index) => (
+            <Reveal key={label} delay={0.08 * index} offset={14}>
+              <div className="border-l border-gold/35 pl-4">
+                <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+                  {label}
+                </p>
+                <p className="mt-2 text-sm font-medium text-foreground">
+                  {value}
+                </p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="container z-10 flex flex-col items-center gap-6"
-      >
-        <div className="inline-flex items-center rounded-full border border-gold/20 bg-gold/5 px-3 py-1 text-sm text-gold backdrop-blur-sm">
-          <span className="mr-2 h-2 w-2 rounded-full bg-gold animate-pulse" />
-          {language === 'en' ? 'Available for new opportunities' : 'Disponível para novos projetos'}
-        </div>
-
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-          {config.site.shortName}
-          <span className="block text-gold mt-2 h-[1.2em]">
-            {mounted && (
-              <Typewriter
-                options={{
-                  strings: roles,
-                  autoStart: true,
-                  loop: true,
-                  delay: 50,
-                  deleteSpeed: 30,
-                }}
-              />
-            )}
-          </span>
-        </h1>
-
-        <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-          {language === 'en'
-            ? "Transforming complex infrastructure into reliable, scalable, and automated systems. Specialized in AWS, Kubernetes, and Cloud Native technologies."
-            : "Transformando infraestrutura complexa em sistemas confiáveis, escaláveis e automatizados. Especializado em AWS, Kubernetes e tecnologias Cloud Native."}
-        </p>
-
-        <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
-          <Button asChild size="lg" className="bg-gold text-black hover:bg-gold/90 gap-2">
-            <Link href="/contact">
-              <Mail className="h-4 w-4" />
-              {language === 'en' ? 'Get in Touch' : 'Entre em Contato'}
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="lg" className="gap-2 border-gold/20 hover:bg-gold/5">
-            <Link href="/resume" target="_blank">
-              <FileText className="h-4 w-4" />
-              {language === 'en' ? 'View Resume' : 'Ver Currículo'}
-            </Link>
-          </Button>
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce"
-      >
-        <ArrowDown className="h-6 w-6 text-muted-foreground" />
-      </motion.div>
     </section>
   );
 }

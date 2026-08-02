@@ -2,15 +2,17 @@ import fs from "fs";
 import path from "path";
 import { loadSkills } from "@/lib/server/files";
 import testimonials from "@/content/testimonials.json";
+import { cache } from "react";
+import type { Profile } from "@/types/profile";
 
-export async function getProfileData() {
+export const getProfileData = cache(async (): Promise<Profile | null> => {
   const filePath = path.join(process.cwd(), "content/profile/profile.json");
   if (!fs.existsSync(filePath)) {
     return null;
   }
   const data = fs.readFileSync(filePath, "utf-8");
-  return JSON.parse(data);
-}
+  return JSON.parse(data) as Profile;
+});
 
 export async function getSkillsData() {
   try {

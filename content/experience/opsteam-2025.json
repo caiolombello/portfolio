@@ -7,24 +7,42 @@
   "period": "Aug 2025 - Present",
   "responsibilities_pt": [
     {
-      "item": "Prestar serviços especializados em Engenharia de Confiabilidade de Sites (SRE) e Cloud, com foco no gerenciamento de infraestrutura na AWS e outros provedores de nuvem."
+      "item": "Atuar em consultoria SRE e Cloud para múltiplos clientes, sustentando e evoluindo ambientes críticos na AWS com foco em confiabilidade, segurança e continuidade operacional."
     },
     {
-      "item": "Implementar práticas de confiabilidade, automação e observabilidade para garantir resiliência, segurança e eficiência."
+      "item": "Desenhar e implementar arquiteturas multi-account e hub-and-spoke, incluindo IPAM, VPC, Transit Gateway, peering, DNS e camadas de entrada com ALB/NLB, codificadas em Terraform e CloudFormation."
     },
     {
-      "item": "Apoiar iniciativas de DevOps e consultoria técnica para clientes, promovendo melhores práticas em arquitetura e governança em ambientes Cloud Native."
+      "item": "Conduzir migrações e modernizações em ECS, EKS/Kubernetes e plataformas de dados como RDS, Redis/Valkey, OpenSearch e MongoDB, utilizando GitOps, Argo CD e Helm."
+    },
+    {
+      "item": "Responder a incidentes e realizar troubleshooting de produção, investigando métricas, logs e eventos para restaurar serviços com recuperação controlada, rollback e testes de validação."
+    },
+    {
+      "item": "Evoluir segurança e governança com IAM de menor privilégio, WAF, Network Firewall, Vault, avaliações CSPM/CIS e rotação de credenciais."
+    },
+    {
+      "item": "Elaborar decisões arquiteturais, sizing e estimativas de custo para cenários de alta disponibilidade, além de ferramentas internas e workflows assistidos por IA."
     }
   ],
   "responsibilities_en": [
     {
-      "item": "Providing specialized services in Site Reliability Engineering (SRE) and Cloud, with a focus on managing infrastructure in AWS and other cloud providers."
+      "item": "Provide hands-on SRE and Cloud consulting across multiple clients, operating and evolving business-critical AWS environments with a focus on reliability, security and operational continuity."
     },
     {
-      "item": "Implementing reliability, automation, and observability practices to ensure resilience, security, and efficiency."
+      "item": "Design and implement multi-account and hub-and-spoke architectures spanning IPAM, VPC, Transit Gateway, peering, DNS and ALB/NLB ingress layers, codified with Terraform and CloudFormation."
     },
     {
-      "item": "Supporting DevOps initiatives and technical consulting for clients, promoting best practices in architecture and governance within Cloud Native environments."
+      "item": "Deliver migrations and modernization across ECS, EKS/Kubernetes and data platforms such as RDS, Redis/Valkey, OpenSearch and MongoDB, using GitOps, Argo CD and Helm."
+    },
+    {
+      "item": "Respond to production incidents and complex failures using metrics, logs and event evidence, restoring services through controlled recovery, rollback and validation tests."
+    },
+    {
+      "item": "Strengthen cloud security and governance through least-privilege IAM, WAF, Network Firewall, Vault, CSPM/CIS assessments and credential rotation."
+    },
+    {
+      "item": "Produce architecture decisions, sizing and cost estimates for highly available scenarios, and build internal tooling and AI-assisted workflows."
     }
   ],
   "startDate": "2025-08-01"

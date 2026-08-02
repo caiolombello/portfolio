@@ -1,53 +1,51 @@
-'use client';
+import { isValidElement, type ReactNode } from "react";
+import ReactMarkdown from "react-markdown";
+import rehypePrism from "rehype-prism-plus";
+import remarkGfm from "remark-gfm";
 
-import { useEffect } from 'react';
-import { marked } from 'marked';
-import Prism from 'prismjs';
-
-// Importar as linguagens necessárias para o Prism
-import 'prismjs/components/prism-typescript';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-json';
-import 'prismjs/components/prism-bash';
-import 'prismjs/components/prism-yaml';
-import 'prismjs/components/prism-docker';
-import 'prismjs/components/prism-markdown';
-
-// Estilos do Prism (escolha um tema)
-import 'prismjs/themes/prism-tomorrow.css'; // ou outro tema de sua preferência
+import CodeBlock from "./code-block";
+import type { SiteLocale } from "@/lib/request-locale";
 
 interface MarkdownRendererProps {
   content: string;
+  language?: SiteLocale;
 }
 
-// Configurar o 'marked' para usar o Prism para destaque de sintaxe
-marked.use({
-  renderer: {
-    code({ text, lang }) {
-      const language = lang || 'text';
-      if (Prism.languages[language]) {
-        return `<pre class="language-${language}"><code class="language-${language}">${Prism.highlight(text, Prism.languages[language], language)}</code></pre>`;
-      }
-      return `<pre class="language-text"><code class="language-text">${text}</code></pre>`;
-    }
+function getTextContent(node: ReactNode): string {
+  if (typeof node === "string" || typeof node === "number") {
+    return String(node);
   }
-});
+  if (Array.isArray(node)) {
+    return node.map(getTextContent).join("");
+  }
+  if (isValidElement<{ children?: ReactNode }>(node)) {
+    return getTextContent(node.props.children);
+  }
+  return "";
+}
 
-export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
-  useEffect(() => {
-    Prism.highlightAll();
-  }, [content]);
-
-  const getMarkdownText = () => {
-    const rawMarkup = marked.parse(content) as string;
-    return { __html: rawMarkup };
-  };
-
+export default function MarkdownRenderer({
+  content,
+  language = "pt",
+}: MarkdownRendererProps) {
   return (
-    <div
-      className="prose prose-invert max-w-none prose-headings:text-gold prose-a:text-gold prose-pre:bg-transparent prose-pre:p-0"
-      dangerouslySetInnerHTML={getMarkdownText()}
-      suppressHydrationWarning
-    />
+    <div className="prose prose-slate mx-auto max-w-4xl prose-headings:scroll-mt-24 prose-headings:tracking-[-0.02em] prose-headings:text-foreground prose-h2:mt-14 prose-h2:border-b prose-h2:border-border/70 prose-h2:pb-3 prose-a:font-medium prose-a:text-gold prose-a:decoration-gold/40 prose-a:underline-offset-4 prose-blockquote:border-gold prose-blockquote:bg-secondary/40 prose-blockquote:px-5 prose-blockquote:py-1 prose-blockquote:not-italic prose-li:marker:text-gold prose-p:leading-8 prose-pre:bg-[#0f141c] prose-pre:text-slate-100 dark:prose-invert">
+      <ReactMarkdown
+        components={{
+          pre: ({ children }) => (
+            <CodeBlock
+              code={getTextContent(children).replace(/\n$/, "")}
+              language={language}
+            >
+              {children}
+            </CodeBlock>
+          ),
+        }}
+        rehypePlugins={[[rehypePrism, { ignoreMissing: true }]]}
+        remarkPlugins={[remarkGfm]}
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
   );
 }

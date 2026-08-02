@@ -1,40 +1,47 @@
 import About from "@/components/about";
 import Hero from "@/components/hero";
-import { Suspense } from "react";
-import { AboutSkeleton } from "@/components/loading-skeleton";
 import Testimonials from "@/components/testimonials";
 import Portfolio from "@/components/portfolio";
 import Blog from "@/components/blog";
+import ExperienceSnapshot from "@/components/experience-snapshot";
+import HomeCta from "@/components/home-cta";
 
 import {
   getProfileData,
   getTestimonialsData,
   getProjectsData,
-  getPostsData
+  getPostsData,
+  getExperiencesData,
 } from "@/lib/data";
 
-import { cookies } from "next/headers";
+import { getSiteConfig } from "@/lib/config-server";
+import { isPortfolioEnabled } from "@/lib/site-features";
+import { getCurrentRequestLocale } from "@/lib/request-locale-server";
 
 export default async function Home() {
-  const cookieStore = await cookies();
-  const lang = cookieStore.get("NEXT_LOCALE")?.value || "pt";
+  const lang = await getCurrentRequestLocale();
+  const portfolioEnabled = isPortfolioEnabled(getSiteConfig());
 
-  const [profile, testimonials, projects, posts] = await Promise.all([
-    getProfileData(),
-    getTestimonialsData(),
-    getProjectsData(),
-    getPostsData(lang)
-  ]);
+  const [profile, testimonials, projects, posts, experiences] =
+    await Promise.all([
+      getProfileData(),
+      getTestimonialsData(),
+      portfolioEnabled ? getProjectsData() : Promise.resolve([]),
+      getPostsData(lang),
+      getExperiencesData(),
+    ]);
 
   return (
     <div className="flex flex-col">
       <Hero />
-      <Suspense fallback={<AboutSkeleton />}>
-        <About profile={profile} />
-      </Suspense>
-      <Portfolio projects={projects} limit={3} />
+      <About profile={profile} />
+      <ExperienceSnapshot experiences={experiences} />
+      {portfolioEnabled && projects.length > 0 && (
+        <Portfolio projects={projects} limit={3} />
+      )}
       <Blog posts={posts} limit={3} />
       <Testimonials testimonials={testimonials} />
+      <HomeCta />
     </div>
   );
 }

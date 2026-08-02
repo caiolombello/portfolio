@@ -17,9 +17,9 @@ const CATEGORY_LABELS: Record<string, Record<string, string>> = {
     "Cloud/Infra": "Cloud/Infra",
     "CI/CD": "CI/CD",
     Observabilidade: "Observabilidade",
-    "Containerização": "Containerização",
-    "Segurança": "Segurança",
-    "Automação": "Automação",
+    Containerização: "Containerização",
+    Segurança: "Segurança",
+    Automação: "Automação",
     Frontend: "Frontend",
     Backend: "Backend",
     "Banco de Dados": "Banco de Dados",
@@ -31,9 +31,9 @@ const CATEGORY_LABELS: Record<string, Record<string, string>> = {
     "Cloud/Infra": "Cloud/Infra",
     "CI/CD": "CI/CD",
     Observabilidade: "Observability",
-    "Containerização": "Containerization",
-    "Segurança": "Security",
-    "Automação": "Automation",
+    Containerização: "Containerization",
+    Segurança: "Security",
+    Automação: "Automation",
     Frontend: "Frontend",
     Backend: "Backend",
     "Banco de Dados": "Databases",
@@ -44,19 +44,24 @@ const CATEGORY_LABELS: Record<string, Record<string, string>> = {
 
 const LEVEL_LABELS: Record<string, Record<string, string>> = {
   pt: {
-    Avançado: "Avançado",
-    Experiente: "Experiente",
-    Proficiente: "Proficiente",
-    Familiarizado: "Familiarizado",
-    Iniciante: "Iniciante",
+    Avançado: "Principal",
+    Experiente: "Uso recorrente",
+    Proficiente: "Uso prático",
+    Familiarizado: "Familiaridade",
+    Iniciante: "Em aprendizado",
   },
   en: {
-    Avançado: "Advanced",
-    Experiente: "Experienced",
-    Proficiente: "Proficient",
+    Avançado: "Core",
+    Experiente: "Regular use",
+    Proficiente: "Working knowledge",
     Familiarizado: "Familiar",
-    Iniciante: "Beginner",
+    Iniciante: "Learning",
   },
+};
+
+const LEVEL_HELP: Record<"pt" | "en", string> = {
+  pt: "Níveis baseados na profundidade e na frequência de uso em projetos reais.",
+  en: "Levels reflect depth and frequency of use in real projects.",
 };
 
 // Ordem de prioridade dos niveis (menor = mais avancado)
@@ -120,34 +125,67 @@ const ICON_MAPPING: Record<string, string> = {
 
 const LEVEL_STYLES: Record<
   SkillLevel,
-  { bg: string; text: string; border: string }
+  {
+    bg: string;
+    text: string;
+    border: string;
+    marker: string;
+    strength: number;
+  }
 > = {
   Avançado: {
-    bg: "bg-emerald-100 dark:bg-emerald-900/30",
-    text: "text-emerald-900 dark:text-emerald-300",
-    border: "border-emerald-200 dark:border-emerald-800",
+    bg: "bg-gold/15",
+    text: "text-foreground dark:text-gold",
+    border: "border-gold/50",
+    marker: "bg-gold",
+    strength: 5,
   },
   Experiente: {
-    bg: "bg-blue-100 dark:bg-blue-900/30",
-    text: "text-blue-900 dark:text-blue-300",
-    border: "border-blue-200 dark:border-blue-800",
+    bg: "bg-gold/5",
+    text: "text-foreground",
+    border: "border-gold/30",
+    marker: "bg-gold/65",
+    strength: 4,
   },
   Proficiente: {
-    bg: "bg-violet-100 dark:bg-violet-900/30",
-    text: "text-violet-900 dark:text-violet-300",
-    border: "border-violet-200 dark:border-violet-800",
+    bg: "bg-secondary",
+    text: "text-foreground",
+    border: "border-border",
+    marker: "bg-muted-foreground/75",
+    strength: 3,
   },
   Familiarizado: {
-    bg: "bg-gray-100 dark:bg-gray-900/30",
-    text: "text-gray-900 dark:text-gray-300",
-    border: "border-gray-200 dark:border-gray-800",
+    bg: "bg-transparent",
+    text: "text-muted-foreground",
+    border: "border-dashed border-border",
+    marker: "bg-muted-foreground/45",
+    strength: 2,
   },
   Iniciante: {
-    bg: "bg-gray-100 dark:bg-gray-900/30",
-    text: "text-gray-900 dark:text-gray-300",
-    border: "border-gray-200 dark:border-gray-800",
+    bg: "bg-transparent",
+    text: "text-muted-foreground",
+    border: "border-dashed border-border/70",
+    marker: "bg-muted-foreground/30",
+    strength: 1,
   },
 };
+
+function LevelSignal({ level }: { level: SkillLevel }) {
+  const style = LEVEL_STYLES[level];
+
+  return (
+    <span className="flex items-center gap-0.5" aria-hidden="true">
+      {Array.from({ length: 5 }, (_, index) => (
+        <span
+          key={index}
+          className={`h-1.5 w-1.5 rounded-full ${
+            index < style.strength ? style.marker : "bg-border/80"
+          }`}
+        />
+      ))}
+    </span>
+  );
+}
 
 interface SiIconsType {
   [key: string]: IconType;
@@ -159,22 +197,26 @@ function findIcon(skillName: string): IconType | null {
     return (SiIcons as SiIconsType)[`Si${mappedName}`];
   }
 
-  const cleanName = skillName
-    .replace(/[^a-zA-Z0-9]/g, "")
-    .replace(/\s+/g, "");
+  const cleanName = skillName.replace(/[^a-zA-Z0-9]/g, "").replace(/\s+/g, "");
 
   const iconName = `Si${cleanName}`;
   return (SiIcons as SiIconsType)[iconName] || null;
 }
 
-export default function SkillsList() {
+interface SkillsListProps {
+  initialSkills?: Skill[];
+}
+
+export default function SkillsList({ initialSkills }: SkillsListProps = {}) {
   const { language } = useLanguage();
   const safeLang = (
     language === "pt" || language === "en" ? language : "en"
   ) as "pt" | "en";
-  const [skills, setSkills] = useState<Skill[]>([]);
+  const [skills, setSkills] = useState<Skill[]>(initialSkills || []);
 
   useEffect(() => {
+    if (initialSkills) return;
+
     async function fetchSkills() {
       try {
         const response = await fetch("/api/skills");
@@ -187,7 +229,7 @@ export default function SkillsList() {
       }
     }
     fetchSkills();
-  }, []);
+  }, [initialSkills]);
 
   // Agrupar por categoria e ordenar por nivel
   const grouped: GroupedSkills = skills.reduce((acc, skill) => {
@@ -204,51 +246,27 @@ export default function SkillsList() {
   }
 
   const categories = Object.entries(grouped);
+  const visibleLevels = (Object.keys(LEVEL_STYLES) as SkillLevel[]).filter(
+    (level) => skills.some((skill) => skill.level === level),
+  );
 
   return (
     <div>
-      {/* Legenda */}
-      <div className="mb-8 flex flex-wrap gap-4" suppressHydrationWarning>
-        {(
-          [
-            {
-              level: "Avançado" as const,
-              color:
-                "bg-emerald-100 dark:bg-emerald-900/30 border-emerald-200 dark:border-emerald-800",
-              textColor: "text-emerald-900 dark:text-emerald-300",
-            },
-            {
-              level: "Experiente" as const,
-              color:
-                "bg-blue-100 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800",
-              textColor: "text-blue-900 dark:text-blue-300",
-            },
-            {
-              level: "Proficiente" as const,
-              color:
-                "bg-violet-100 dark:bg-violet-900/30 border-violet-200 dark:border-violet-800",
-              textColor: "text-violet-900 dark:text-violet-300",
-            },
-            {
-              level: "Familiarizado" as const,
-              color:
-                "bg-gray-100 dark:bg-gray-900/30 border-gray-200 dark:border-gray-800",
-              textColor: "text-gray-900 dark:text-gray-300",
-            },
-          ] as const
-        ).map(({ level, color, textColor }) => (
-          <div key={level} className="flex items-center gap-2">
-            <div
-              className={`h-3 w-3 rounded-full border ${color}`}
-            />
-            <span
-              className={`text-sm ${textColor}`}
-              suppressHydrationWarning
+      <div className="mb-8" suppressHydrationWarning>
+        <p className="text-xs leading-5 text-muted-foreground">
+          {LEVEL_HELP[safeLang]}
+        </p>
+        <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+          {visibleLevels.map((level) => (
+            <li
+              key={level}
+              className="flex items-center gap-2 text-xs text-muted-foreground"
             >
-              {LEVEL_LABELS[safeLang][level] || level}
-            </span>
-          </div>
-        ))}
+              <LevelSignal level={level} />
+              <span>{LEVEL_LABELS[safeLang][level] || level}</span>
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* Grid de categorias */}
@@ -256,16 +274,15 @@ export default function SkillsList() {
         {categories.map(([category, categorySkills], index) => (
           <motion.div
             key={category}
-            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: index * 0.08 }}
-            className="rounded-lg border border-border/40 bg-card p-5 transition-all duration-300 hover:border-gold/40 hover:shadow-lg hover:shadow-gold/10"
+            className="rounded-xl border border-border/70 bg-card/40 p-5 transition-colors duration-300 hover:border-gold/40"
           >
             {/* Header da categoria */}
             <div className="flex items-center justify-between mb-3">
               <h3
-                className="font-bold text-gold"
+                className="text-sm font-semibold text-foreground"
                 suppressHydrationWarning
               >
                 {CATEGORY_LABELS[safeLang]?.[category] || category}
@@ -287,12 +304,14 @@ export default function SkillsList() {
                   <li
                     key={skill.name}
                     title={levelLabel}
-                    className={`group relative flex items-center gap-2 px-3 py-1.5 rounded-full border transition-colors duration-200 cursor-default
+                    aria-label={`${skill.name}: ${levelLabel}`}
+                    className={`group relative flex cursor-default items-center gap-2 rounded-full border px-3 py-1.5 transition-colors duration-200
                       ${levelStyle.bg} ${levelStyle.text} ${levelStyle.border}
                       hover:border-gold`}
                   >
-                    {Icon && <Icon size={14} />}
+                    {Icon && <Icon size={14} aria-hidden="true" />}
                     <span className="text-sm">{skill.name}</span>
+                    <LevelSignal level={skill.level} />
                   </li>
                 );
               })}

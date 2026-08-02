@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import ProjectCard from "./project-card";
-import CategoryFilter from "./category-filter";
 import type { Project } from "@/types";
 import { useLanguage } from "@/contexts/language-context";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
+import { getLocalizedInstitutionalPath } from "@/lib/navigation";
 
 interface PortfolioProps {
   projects: Project[];
@@ -17,122 +16,96 @@ interface PortfolioProps {
 
 export default function Portfolio({ projects = [], limit }: PortfolioProps) {
   const { language } = useLanguage();
-  const [categories, setCategories] = useState<string[]>([
-    language === "en" ? "All" : "Todos",
-  ]);
-  const [activeCategory, setActiveCategory] = useState(
-    language === "en" ? "All" : "Todos",
-  );
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>(
-    () => {
-      const safe = Array.isArray(projects) ? projects : [];
-      return limit && limit > 0 ? safe.slice(0, limit) : safe;
-    }
-  );
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  // Ensure projects is always an array
-  const safeProjects = useMemo(
-    () => (Array.isArray(projects) ? projects : []),
-    [projects]
-  );
-
-  useEffect(() => {
-    // Extract unique categories and filter out undefined values
-    const uniqueCategories = [
-      language === "en" ? "All" : "Todos",
-      ...new Set(
-        safeProjects
-          .map((project) => project.category)
-          .filter((category): category is string => category !== undefined),
-      ),
-    ];
-    setCategories(uniqueCategories);
-  }, [safeProjects, language]);
-
-  useEffect(() => {
-    setIsAnimating(true);
-
-    const timer = setTimeout(() => {
-      let result = activeCategory === (language === "en" ? "All" : "Todos")
-        ? safeProjects
-        : safeProjects.filter((project) => project.category === activeCategory);
-
-      // Apply limit if provided
-      if (limit && limit > 0) {
-        result = result.slice(0, limit);
-      }
-
-      setFilteredProjects(result);
-      setIsAnimating(false);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [activeCategory, safeProjects, language, limit]);
-
-  // Update active category when language changes
-  useEffect(() => {
-    if (activeCategory === "All" || activeCategory === "Todos") {
-      setActiveCategory(language === "en" ? "All" : "Todos");
-    }
-  }, [language, activeCategory]);
+  const isEnglish = language === "en";
+  const displayedProjects =
+    limit && limit > 0 ? projects.slice(0, limit) : projects;
 
   return (
-    <section id="portfolio" className="container py-16 md:py-24" suppressHydrationWarning>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="flex flex-col items-center mb-12">
-          <h2 className="text-3xl font-bold text-gold mb-4" suppressHydrationWarning>
-            {language === "en" ? "My Projects" : "Meus Projetos"}
-          </h2>
-          {limit && (
-            <p className="text-muted-foreground text-center max-w-2xl">
-              {language === "en"
-                ? "Here are some of my recent projects. View the full portfolio for more."
-                : "Aqui estão alguns dos meus projetos recentes. Veja o portfólio completo para mais."}
+    <section
+      id="portfolio"
+      className="container border-b border-border/70 py-14 sm:py-24"
+      aria-labelledby="portfolio-title"
+    >
+      <div>
+        <Reveal className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">
+              {isEnglish ? "Selected work" : "Trabalhos selecionados"}
             </p>
+            <h2
+              id="portfolio-title"
+              className="mt-4 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl"
+            >
+              {isEnglish
+                ? "Systems, tools and platforms built to last."
+                : "Sistemas, ferramentas e plataformas feitos para durar."}
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+              {isEnglish
+                ? "A small selection of work across cloud infrastructure, developer experience and automation."
+                : "Uma seleção de trabalhos em infraestrutura cloud, experiência de desenvolvimento e automação."}
+            </p>
+          </div>
+          {limit && (
+            <Link
+              href={getLocalizedInstitutionalPath(
+                "/portfolio",
+                isEnglish ? "en" : "pt",
+              )}
+              className="group inline-flex shrink-0 items-center gap-2 text-sm font-medium text-gold transition-colors hover:text-foreground"
+            >
+              {isEnglish ? "View all projects" : "Ver todos os projetos"}
+              <ArrowUpRight
+                className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              />
+            </Link>
           )}
-        </div>
+        </Reveal>
 
-        {!limit && (
-          <CategoryFilter
-            categories={categories}
-            activeCategory={activeCategory}
-            onCategoryChange={setActiveCategory}
-          />
-        )}
-
-        {filteredProjects.length === 0 ? (
-          <div className="mt-12 text-center text-muted-foreground" suppressHydrationWarning>
-            {language === "en"
-              ? "No projects found in this category."
-              : "Nenhum projeto encontrado nesta categoria."}
-          </div>
+        {displayedProjects.length === 0 ? (
+          <Reveal delay={0.08}>
+            <div className="mt-10 rounded-xl border border-dashed border-border/80 p-8 text-center text-sm text-muted-foreground">
+              {isEnglish
+                ? "Projects will appear here soon."
+                : "Novos projetos aparecerão aqui em breve."}
+            </div>
+          </Reveal>
         ) : (
-          <div
-            className={`grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 transition-opacity duration-300 ${isAnimating ? "opacity-0" : "opacity-100"}`}
+          <Reveal
+            className="mt-8 grid gap-4 sm:mt-10 sm:gap-5 md:grid-cols-2"
+            delay={0.08}
           >
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+            {displayedProjects.map((project, index) => (
+              <div
+                key={project.id}
+                className={
+                  index === 0 && displayedProjects.length > 2
+                    ? "md:row-span-2"
+                    : undefined
+                }
+              >
+                <ProjectCard project={project} featured={index === 0} />
+              </div>
             ))}
-          </div>
+          </Reveal>
         )}
 
-        {limit && (
-          <div className="mt-12 text-center">
-            <Button asChild size="lg" className="group">
-              <Link href="/portfolio">
-                {language === "en" ? "View All Projects" : "Ver Todos os Projetos"}
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+        {limit && displayedProjects.length > 0 && (
+          <div className="mt-10 sm:hidden">
+            <Button asChild variant="outline" className="w-full">
+              <Link
+                href={getLocalizedInstitutionalPath(
+                  "/portfolio",
+                  isEnglish ? "en" : "pt",
+                )}
+              >
+                {isEnglish ? "View all projects" : "Ver todos os projetos"}
               </Link>
             </Button>
           </div>
         )}
-      </motion.div>
+      </div>
     </section>
   );
 }

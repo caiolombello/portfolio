@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/contexts/language-context";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";
 import {
@@ -10,16 +10,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getLocalizedInstitutionalPath } from "@/lib/navigation";
 
 export default function LanguageSwitcher() {
   const { language, changeLanguage, alternateLinks } = useLanguage();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLanguageChange = (lang: "pt" | "en") => {
     changeLanguage(lang);
-    if (alternateLinks && alternateLinks[lang]) {
-      router.push(alternateLinks[lang]);
-    }
+    const destination =
+      alternateLinks?.[lang] ?? getLocalizedInstitutionalPath(pathname, lang);
+    if (destination !== pathname) router.push(destination);
   };
 
   return (
@@ -27,11 +29,12 @@ export default function LanguageSwitcher() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          size="icon"
-          className="text-foreground hover:text-gold transition-colors"
+          size="sm"
+          className="h-10 min-w-10 gap-1.5 px-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground hover:text-gold"
+          aria-label={language === "en" ? "Change language" : "Mudar idioma"}
         >
-          <Globe size={20} />
-          <span className="sr-only">Mudar idioma</span>
+          <Globe size={16} aria-hidden="true" />
+          <span className="hidden min-[360px]:inline">{language}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

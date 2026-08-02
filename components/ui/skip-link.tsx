@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { cn } from "@/lib/utils";
 
 interface SkipLinkProps {
@@ -14,14 +14,16 @@ export function SkipLink({
   className,
   label = "Skip to main content",
 }: SkipLinkProps) {
-  const [isFocused, setIsFocused] = useState(false);
-
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
       const element = document.getElementById(contentId);
       element?.focus();
-      element?.scrollIntoView({ behavior: "smooth" });
+      element?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+      });
     },
     [contentId],
   );
@@ -30,11 +32,8 @@ export function SkipLink({
     <a
       href={`#${contentId}`}
       onClick={handleClick}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
       className={cn(
-        "fixed left-4 top-4 z-50 -translate-y-full transform rounded-md bg-primary px-4 py-2 text-primary-foreground transition-transform focus:translate-y-0",
-        isFocused && "translate-y-0",
+        "fixed left-1/2 top-0 z-[100] -translate-x-1/2 -translate-y-[calc(100%+0.75rem)] whitespace-nowrap rounded-md border border-gold/30 bg-background px-4 py-2.5 text-sm font-semibold text-foreground shadow-xl transition-transform focus:-translate-x-1/2 focus:translate-y-3 motion-reduce:transition-none",
         className,
       )}
     >

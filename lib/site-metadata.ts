@@ -1,10 +1,15 @@
 import { Metadata } from "next";
 import { getSiteConfig, type SiteConfig } from "./config-server";
 import { getProfileData } from "./data";
+import type { SiteLocale } from "./request-locale";
+import { buildPageMetadata } from "./seo-metadata";
+import { serializeJsonLd } from "./json-ld";
+import { getLocalizedInstitutionalPath } from "./navigation";
+import type { Profile } from "@/types/profile";
 
 export function generateJsonLd(data: Record<string, unknown>) {
   return {
-    __html: JSON.stringify(data),
+    __html: serializeJsonLd(data),
   };
 }
 
@@ -34,12 +39,15 @@ export function generateBlogPostJsonLd({
   image?: string;
   url: string;
 }) {
+  const config = getSiteConfig();
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: title,
     description,
-    ...(image ? { image } : {}),
+    ...(image
+      ? { image: new URL(image, `${config.site.url}/`).toString() }
+      : {}),
     datePublished: publishDate,
     dateModified: updateDate || publishDate,
     author: generatePersonJsonLd(),
@@ -52,16 +60,20 @@ export function generateBlogPostJsonLd({
 }
 
 // Função para gerar metadata base dinâmico
-export async function generateSiteMetadata(): Promise<Metadata> {
+export async function generateSiteMetadata(locale: SiteLocale = "pt"): Promise<Metadata> {
   const config = getSiteConfig();
   const profile = await getProfileData();
+  const currentProfile = profile?.[locale] || profile?.pt;
 
-  const siteTitle = profile?.pt?.title ? `${profile.pt.name} - ${profile.pt.title}` : config.site.title;
-  const fullDescription = profile?.pt?.about || config.site.description;
+  const siteTitle = currentProfile?.title
+    ? `${currentProfile.name} - ${currentProfile.title}`
+    : config.site.title;
+  const fullDescription = currentProfile?.about || config.site.description;
   // Truncate description for SEO (max ~155 chars for SERP display)
   const siteDescription = fullDescription.length > 155
     ? fullDescription.substring(0, 152) + "..."
     : fullDescription;
+  const localizedHomePath = getLocalizedInstitutionalPath("/", locale);
 
   return {
     metadataBase: new URL(config.site.url),
@@ -89,12 +101,17 @@ export async function generateSiteMetadata(): Promise<Metadata> {
       google: process.env.GOOGLE_SITE_VERIFICATION,
     },
     alternates: {
-      canonical: config.site.url,
+      canonical: localizedHomePath,
+      languages: {
+        "pt-BR": "/",
+        "en-US": "/en",
+      },
     },
     openGraph: {
       type: "website",
-      locale: "pt_BR",
-      url: config.site.url,
+      locale: locale === "pt" ? "pt_BR" : "en_US",
+      alternateLocale: [locale === "pt" ? "en_US" : "pt_BR"],
+      url: localizedHomePath,
       title: siteTitle,
       description: siteDescription,
       siteName: config.site.shortName,
@@ -112,63 +129,22 @@ export async function generateSiteMetadata(): Promise<Metadata> {
 
 // Função para gerar metadata de página específica
 export async function generatePageMetadata(
-  title: string,
-  description?: string,
-  image?: string,
-  noIndex?: boolean
+  options: {
+    title: string;
+    description: string;
+    path: string;
+    locale: SiteLocale;
+    noIndex?: boolean;
+  },
 ): Promise<Metadata> {
   const config = getSiteConfig();
-  const profile = await getProfileData();
-  const pageDescription = description || profile?.pt?.about || config.site.description;
-
-  let pageImage: string;
-  if (image) {
-    pageImage = image.startsWith('http') ? image : `${config.site.url}${image}`;
-  } else if (config.og?.strategy === 'static' && config.og.image) {
-    pageImage = `${config.site.url}${config.og.image}`;
-  } else {
-    const ogUrl = new URL("/api/og", config.site.url);
-    ogUrl.searchParams.set("title", title);
-    pageImage = ogUrl.toString();
-  }
-
-  return {
-    title,
-    description: pageDescription,
-    keywords: config.seo.keywords,
-    authors: [{ name: config.site.author, url: config.site.url }],
-    robots: noIndex ? "noindex,nofollow" : undefined,
-    openGraph: {
-      title,
-      description: pageDescription,
-      url: config.site.url,
-      siteName: config.site.shortName,
-      images: [
-        {
-          url: pageImage,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
-      locale: "pt_BR",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description: pageDescription,
-      site: config.integrations.twitterHandle,
-      creator: config.integrations.twitterHandle,
-      images: [pageImage],
-    },
-  };
+  return buildPageMetadata({ config, ...options });
 }
 
 // Função para gerar structured data
-export async function generateStructuredData() {
+export async function generateStructuredData(profileData?: Profile | null) {
   const config = getSiteConfig();
-  const profile = await getProfileData();
+  const profile = profileData === undefined ? await getProfileData() : profileData;
 
   return {
     "@context": "https://schema.org",

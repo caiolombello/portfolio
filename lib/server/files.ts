@@ -1,6 +1,30 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { z } from "zod";
+import type { Post } from "@/types/blog";
+import { parseBlogDate } from "@/lib/blog-date";
+
+const postFrontmatterSchema = z
+  .object({
+    author: z.string().trim().min(1),
+    category: z.string().trim().min(1),
+    coverImage: z.string().trim().min(1).optional(),
+    date: z.string().optional(),
+    description: z.string().trim().min(1),
+    publicationDate: z.string().optional(),
+    published: z.boolean().default(true),
+    tags: z.array(z.string().trim().min(1)).default([]),
+    title: z.string().trim().min(1),
+    updatedAt: z.string().optional(),
+  })
+  .refine((data) => Boolean(data.date || data.publicationDate), {
+    message: "date is required",
+  });
+
+interface PostDraft extends Omit<Post, "publicationDate"> {
+  date: string;
+}
 
 export function ensureDirectoryExists(dirPath: string) {
   if (!fs.existsSync(dirPath)) {
@@ -9,27 +33,51 @@ export function ensureDirectoryExists(dirPath: string) {
 }
 
 export function loadPosts() {
-  try {
-    const postsDir = path.join(process.cwd(), "content/posts");
-    ensureDirectoryExists(postsDir);
+  const postsDir = path.join(process.cwd(), "content/posts");
+  return loadPostsFromDirectory(postsDir);
+}
 
+export function loadPostsFromDirectory(postsDir: string) {
+  try {
     if (!fs.existsSync(postsDir)) {
-      return [];
+      throw new Error(`Posts directory is missing: ${postsDir}`);
     }
 
-    const files = fs.readdirSync(postsDir).filter(file => file.endsWith(".md"));
-    const postsMap = new Map<string, any>();
+    const files = fs
+      .readdirSync(postsDir)
+      .filter((file) => file.endsWith(".md"))
+      .sort();
+    const postsMap = new Map<string, PostDraft>();
+    const publicationStateMap = new Map<string, boolean>();
 
     files.forEach(filename => {
       const filePath = path.join(postsDir, filename);
       const fileContents = fs.readFileSync(filePath, "utf8");
       const { data, content } = matter(fileContents);
 
-      // Extract base slug and language
-      // Format: name.lang.md (e.g., hello-world.en.md)
-      const parts = filename.split('.');
-      const lang = parts.length > 2 ? parts[parts.length - 2] : 'en'; // default to en if no lang
-      const baseSlug = filename.replace(`.${lang}.md`, "").replace(".md", "");
+      const filenameMatch = /^(.+)\.(en|pt)\.md$/.exec(filename);
+      if (!filenameMatch) {
+        throw new Error(`Invalid post filename: ${filename}`);
+      }
+
+      const [, baseSlug, lang] = filenameMatch;
+      const parsedFrontmatter = postFrontmatterSchema.safeParse(data);
+      if (!parsedFrontmatter.success) {
+        throw new Error(
+          `Post "${baseSlug}" has invalid frontmatter: ${parsedFrontmatter.error.issues.map((issue) => issue.message).join(", ")}`,
+        );
+      }
+      const metadata = parsedFrontmatter.data;
+
+      if (
+        publicationStateMap.has(baseSlug) &&
+        publicationStateMap.get(baseSlug) !== metadata.published
+      ) {
+        throw new Error(
+          `Post "${baseSlug}" has inconsistent publication state`,
+        );
+      }
+      publicationStateMap.set(baseSlug, metadata.published);
 
       if (!postsMap.has(baseSlug)) {
         postsMap.set(baseSlug, {
@@ -43,55 +91,76 @@ export function loadPosts() {
           body_pt: "",
           date: "",
           author: "Anonymous",
+          published: true,
           tags: [],
-          coverImage: null,
+          coverImage: undefined,
         });
       }
 
       const post = postsMap.get(baseSlug);
+      if (!post) return;
 
       // Common metadata (take from the first file encountered or prefer one language?)
       // Usually date, author, tags, coverImage are shared or similar.
       // We'll update them from the current file, so the last one processed wins for shared fields.
-      if (data.publicationDate || data.date) post.date = data.publicationDate || data.date;
-      if (data.author) post.author = data.author;
-      if (data.tags) post.tags = data.tags;
-      if (data.coverImage) post.coverImage = data.coverImage;
+      if (metadata.publicationDate || metadata.date) {
+        const publicationDate = metadata.publicationDate || metadata.date;
+        if (!publicationDate) return;
+        parseBlogDate(publicationDate);
+        if (post.date && post.date !== publicationDate) {
+          throw new Error(
+            `Post "${baseSlug}" has inconsistent publication metadata`,
+          );
+        }
+        post.date = publicationDate;
+      }
+      post.author = metadata.author;
+      post.tags = metadata.tags;
+      if (metadata.coverImage) post.coverImage = metadata.coverImage;
+      post.published = metadata.published;
+      if (metadata.updatedAt) {
+        parseBlogDate(metadata.updatedAt);
+        post.updatedAt = metadata.updatedAt;
+      }
 
       // Language specific fields
       if (lang === 'pt') {
-        post.title_pt = data.title;
-        post.summary_pt = data.summary || data.description || "";
+        post.title_pt = metadata.title;
+        post.summary_pt = metadata.description;
         post.body_pt = content;
         post.slug_pt = `${baseSlug}.pt`; // Ensure explicit slug
-        post.tags_pt = data.tags || [];
+        post.tags_pt = metadata.tags;
+        post.category_pt = metadata.category;
       } else {
-        post.title_en = data.title;
-        post.summary_en = data.summary || data.description || "";
+        post.title_en = metadata.title;
+        post.summary_en = metadata.description;
         post.body_en = content;
         post.slug_en = `${baseSlug}.en`; // Ensure explicit slug
-        post.tags_en = data.tags || [];
+        post.tags_en = metadata.tags;
+        post.category_en = metadata.category;
       }
     });
 
-    const posts = Array.from(postsMap.values()).map(post => ({
-      ...post,
-      // Ensure fallbacks if one language is missing
-      title_en: post.title_en || post.title_pt,
-      title_pt: post.title_pt || post.title_en,
-      summary_en: post.summary_en || post.summary_pt,
-      summary_pt: post.summary_pt || post.summary_en,
-      body_en: post.body_en || post.body_pt,
-      body_pt: post.body_pt || post.body_en,
-      tags_en: post.tags_en || post.tags_pt || [],
-      tags_pt: post.tags_pt || post.tags_en || [],
-      publicationDate: post.date, // Map date to publicationDate to match type
-    }));
+    const posts = Array.from(postsMap.entries())
+      .filter(([, post]) => post.published !== false)
+      .map(([baseSlug, post]) => {
+        if (!post.title_en || !post.title_pt || !post.body_en || !post.body_pt) {
+          throw new Error(`Post "${baseSlug}" is missing a translation`);
+        }
 
-    return posts.sort((a, b) => new Date(b.publicationDate).getTime() - new Date(a.publicationDate).getTime());
+        return {
+          ...post,
+          tags_en: post.tags_en || [],
+          tags_pt: post.tags_pt || [],
+          publicationDate: post.date,
+        };
+      });
+
+    return posts
+      .sort((a, b) => new Date(b.publicationDate).getTime() - new Date(a.publicationDate).getTime());
   } catch (error) {
     console.error("Error loading posts:", error);
-    return [];
+    throw error;
   }
 }
 
@@ -127,6 +196,7 @@ export function loadProjects() {
         featured: data.featured || false,
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,
+        caseStudy: data.caseStudy,
       };
     });
 

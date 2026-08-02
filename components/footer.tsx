@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
   Github,
   Linkedin,
@@ -13,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
 import { useSiteConfig } from "@/hooks/use-site-config";
+import { useProfile } from "@/contexts/profile-context";
 
 interface SocialLinks {
   github?: string;
@@ -23,24 +23,20 @@ interface SocialLinks {
   whatsapp?: string;
 }
 
-interface ProfileLanguageData {
-  name: string;
-  title: string;
-  about: string;
-}
-
-interface ProfileData {
-  pt: ProfileLanguageData;
-  en: ProfileLanguageData;
-  socialLinks: SocialLinks;
-}
-
 export default function Footer() {
   const { language } = useLanguage();
   const { config } = useSiteConfig();
-  const [profileName, setProfileName] = useState(config.site.shortName);
-  const [socialLinks, setSocialLinks] = useState<SocialLinks>(config.social);
+  const profile = useProfile();
   const currentYear = new Date().getFullYear();
+  const fullName =
+    profile?.[language === "en" ? "en" : "pt"]?.name ??
+    config.site.shortName;
+  const nameParts = fullName.split(" ");
+  const profileName =
+    nameParts.length > 1
+      ? `${nameParts[0]} ${nameParts[nameParts.length - 1]}`
+      : fullName;
+  const socialLinks: SocialLinks = profile?.socialLinks ?? config.social;
 
   const rightsText =
     language === "pt"
@@ -49,45 +45,20 @@ export default function Footer() {
         ? "Todos los derechos reservados"
         : "All rights reserved";
 
-  useEffect(() => {
-    async function fetchProfile() {
-      try {
-        const response = await fetch("/api/public/profile");
-        if (response.ok) {
-          const data = await response.json();
-          if (data) {
-            const fullName = data[language]?.name || config.site.shortName;
-            const nameParts = fullName.split(" ");
-            const shortName =
-              nameParts.length > 1
-                ? `${nameParts[0]} ${nameParts[nameParts.length - 1]}`
-                : fullName;
-            setProfileName(shortName);
-            // Apenas define os links que existem no profile.json
-            setSocialLinks(data.socialLinks || {});
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    }
-    fetchProfile();
-  }, [language]);
-
   return (
-    <footer className="border-t py-6 md:py-8" role="contentinfo">
-      <div className="container flex flex-col items-center justify-between gap-6 md:flex-row">
-        <div className="flex flex-col items-center gap-2 md:items-start">
-          <p className="text-center text-sm text-muted-foreground md:text-left" suppressHydrationWarning>
+    <footer className="border-t border-border/70 py-8 md:py-10" role="contentinfo">
+      <div className="container flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+        <div className="flex flex-col items-start gap-2">
+          <p className="text-left text-sm text-muted-foreground" suppressHydrationWarning>
             &copy; {currentYear} {profileName}
           </p>
-          <p className="text-center text-sm text-muted-foreground md:text-left" suppressHydrationWarning>
+          <p className="text-left text-xs text-muted-foreground" suppressHydrationWarning>
             {rightsText}
           </p>
         </div>
 
         <div
-          className="flex items-center gap-4"
+          className="flex flex-wrap items-center gap-1"
           role="navigation"
           aria-label="Social links"
           suppressHydrationWarning

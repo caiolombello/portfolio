@@ -217,5 +217,13 @@ export const pt = {
   sending: "Enviando...",
   successMessage: "Sua mensagem foi enviada com sucesso!",
   errorMessage: "Ocorreu um erro. Por favor, tente novamente.",
+  rateLimitMessage: "Muitas mensagens foram enviadas em pouco tempo. Aguarde um minuto e tente novamente.",
   nameRequired: "Nome é obrigatório.",
+  privacyNotice: "Seus dados serão usados somente para responder ao contato e processados pelo Formspree.",
+  privacyPolicy: "Política de privacidade",
+  turnstilePrompt: "Conclua a verificação de segurança para habilitar o envio.",
+  turnstileVerified: "Verificação concluída. A mensagem já pode ser enviada.",
+  turnstileRequired: "Conclua a verificação de segurança antes de enviar.",
+  turnstileError: "A verificação de segurança falhou. Tente novamente.",
+  turnstileLoadError: "Não foi possível carregar a verificação de segurança.",
 };

@@ -21,18 +21,18 @@ export function PortfolioStats({
   if (totalProjects === 0) return null;
 
   return (
-    <div className="flex items-center justify-between mb-6 text-sm text-muted-foreground">
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
       <div className="flex items-center gap-4">
         <div>
           {isFiltered ? (
             language === "en" ? (
               <>
-                Showing <span className="font-medium text-blue-600">{filteredProjects}</span> of{" "}
+                Showing <span className="font-medium text-gold">{filteredProjects}</span> of{" "}
                 <span className="font-medium">{totalProjects}</span> projects
               </>
             ) : (
               <>
-                Mostrando <span className="font-medium text-blue-600">{filteredProjects}</span> de{" "}
+                Mostrando <span className="font-medium text-gold">{filteredProjects}</span> de{" "}
                 <span className="font-medium">{totalProjects}</span> projetos
               </>
             )
@@ -50,8 +50,8 @@ export function PortfolioStats({
         </div>
         
         {!isFiltered && featuredCount > 0 && (
-          <div className="text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 px-2 py-1 rounded-full">
-            ⭐ {featuredCount} {language === "en" ? "featured" : "destaque"}
+          <div className="rounded-full border border-gold/30 bg-gold/10 px-2.5 py-1 text-xs text-gold">
+            {featuredCount} {language === "en" ? "featured" : "em destaque"}
           </div>
         )}
       </div>
@@ -63,4 +63,4 @@ export function PortfolioStats({
       )}
     </div>
   );
-} 
+}

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Badge } from "@/components/ui/badge";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Filter, Search, X } from "lucide-react";
+import { useLanguage } from "@/contexts/language-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { X, Filter, Search } from "lucide-react";
-import { useLanguage } from "@/contexts/language-context";
 import type { Post } from "@/types";
+import { getBlogCopy } from "@/lib/blog-copy";
+import { getLocalizedPost } from "@/lib/blog-post";
 
 interface TagFilterProps {
   posts: Post[];
@@ -15,139 +16,52 @@ interface TagFilterProps {
 
 export function TagFilter({ posts, onFilteredPostsChange }: TagFilterProps) {
   const { language } = useLanguage();
+  const locale = language === "en" ? "en" : "pt";
+  const copy = getBlogCopy(locale);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const callbackRef = useRef(onFilteredPostsChange);
+  callbackRef.current = onFilteredPostsChange;
 
-  // Extrair todas as tags únicas dos posts
-  const allTags = Array.from(
-    new Set(
-      posts.flatMap(post => post.tags || [])
-    )
-  ).sort();
+  const allTags = useMemo(() => Array.from(new Set(posts.flatMap((post) => getLocalizedPost(post, locale).tags))).sort(), [locale, posts]);
+  const filteredPosts = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return posts.filter((post) => {
+      const localizedPost = getLocalizedPost(post, locale);
+      const matchesTag = selectedTags.length === 0 || selectedTags.some((tag) => localizedPost.tags.includes(tag));
+      if (!matchesTag) return false;
+      if (!query) return true;
+      return `${localizedPost.title} ${localizedPost.summary} ${localizedPost.tags.join(" ")}`.toLowerCase().includes(query);
+    });
+  }, [locale, posts, searchQuery, selectedTags]);
 
-  // Filtrar posts com base nas tags selecionadas e busca
   useEffect(() => {
-    let filtered = posts;
+    callbackRef.current(filteredPosts);
+  }, [filteredPosts]);
 
-    // Filtro por tags
-    if (selectedTags.length > 0) {
-      filtered = filtered.filter(post =>
-        selectedTags.some(tag => post.tags?.includes(tag))
-      );
-    }
+  if (allTags.length === 0 || posts.length < 2) return null;
 
-    // Filtro por busca de texto
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(post => {
-        const title = language === "en" ? post.title_en : post.title_pt;
-        const desc = language === "en" ? post.summary_en : post.summary_pt;
-        return (
-          title.toLowerCase().includes(query) ||
-          desc.toLowerCase().includes(query)
-        );
-      });
-    }
-
-    onFilteredPostsChange(filtered);
-  }, [selectedTags, searchQuery, posts, onFilteredPostsChange, language]);
-
-  const toggleTag = (tag: string) => {
-    setSelectedTags(prev =>
-      prev.includes(tag)
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag]
-    );
-  };
-
-  const clearFilters = () => {
-    setSelectedTags([]);
-    setSearchQuery("");
-  };
-
-  if (allTags.length === 0) {
-    return null; // Não mostrar filtro se não há tags
-  }
+  const hasFilters = selectedTags.length > 0 || searchQuery.trim().length > 0;
+  const clearFilters = () => { setSelectedTags([]); setSearchQuery(""); };
 
   return (
-    <div className="mb-8 space-y-6 rounded-lg border bg-card p-6">
-      {/* Search Input */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          type="text"
-          placeholder={language === "en" ? "Search posts..." : "Buscar posts..."}
-          className="pl-10"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          aria-label={language === "en" ? "Search posts" : "Buscar posts"}
-        />
-      </div>
-
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-muted-foreground" />
-            <h3 className="text-sm font-medium text-muted-foreground">
-              {language === "en" ? "Filter by tags" : "Filtrar por tags"}
-            </h3>
-            <span className="text-xs text-muted-foreground bg-secondary px-2 py-1 rounded-full">
-              {allTags.length} {language === "en" ? "tags" : "tags"}
-            </span>
-          </div>
-          {(selectedTags.length > 0 || searchQuery) && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={clearFilters}
-              className="h-auto p-1 text-xs text-muted-foreground hover:text-foreground"
-            >
-              <X className="h-3 w-3 mr-1" />
-              {language === "en" ? "Clear all" : "Limpar tudo"}
-            </Button>
-          )}
+    <div className="mb-8 rounded-2xl border border-border/70 bg-card/40 p-4 sm:p-5">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
+        <div className="relative flex-1">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+          <Input type="search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder={copy.search} aria-label={copy.search} className="h-11 border-border/80 bg-background/50 pl-10" />
         </div>
-
-        <div className="flex flex-wrap gap-2">
-          {allTags.map(tag => {
-            const isSelected = selectedTags.includes(tag);
-            const postCount = posts.filter(post => post.tags?.includes(tag)).length;
-
-            return (
-              <Badge
-                key={tag}
-                variant={isSelected ? "default" : "secondary"}
-                className={`cursor-pointer transition-all duration-200 hover:scale-105 ${isSelected
-                  ? "bg-gold text-gold-foreground shadow-md"
-                  : "hover:bg-gold/20"
-                  }`}
-                onClick={() => toggleTag(tag)}
-              >
-                {tag}
-                <span className="ml-1 text-xs opacity-75">
-                  ({postCount})
-                </span>
-              </Badge>
-            );
+        {hasFilters && <Button type="button" variant="ghost" size="sm" onClick={clearFilters} className="self-start text-muted-foreground hover:text-foreground lg:self-auto"><X className="h-4 w-4" aria-hidden="true" />{copy.clearFilters}</Button>}
+      </div>
+      <fieldset className="mt-5">
+        <legend className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground"><Filter className="h-4 w-4 text-gold" aria-hidden="true" />{copy.filterByTag}</legend>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {allTags.map((tag) => {
+            const selected = selectedTags.includes(tag);
+            return <button key={tag} type="button" aria-pressed={selected} onClick={() => setSelectedTags((current) => selected ? current.filter((item) => item !== tag) : [...current, tag])} className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${selected ? "border-gold bg-gold text-slate-950" : "border-border/80 bg-secondary/60 text-muted-foreground hover:border-gold/50 hover:text-foreground"}`}>{tag}</button>;
           })}
         </div>
-
-        {selectedTags.length > 0 && (
-          <div className="text-sm text-muted-foreground bg-gold/5 rounded-md p-3">
-            <div className="font-medium text-foreground mb-1">
-              {language === "en" ? "Active filters:" : "Filtros ativos:"}
-            </div>
-            <div className="flex flex-wrap gap-1">
-              {selectedTags.map((tag, index) => (
-                <span key={tag}>
-                  {index > 0 && <span className="text-muted-foreground">, </span>}
-                  <span className="text-gold font-medium">{tag}</span>
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+      </fieldset>
     </div>
   );
 }
