@@ -22,6 +22,8 @@ const content = {
       "DevOps, SRE, AWS, Kubernetes, observabilidade e IA — filtrados pelo impacto operacional, sustentados por fontes primárias e fechados com uma ação concreta.",
     cadence: "Sexta-feira · leitura de 5 minutos",
     signupEyebrow: "Radar de Produção",
+    signupStatusOpen: "Inscrições abertas",
+    signupStatusPreparing: "Em preparação",
     signupTitle: "Receba o sinal, não o ruído.",
     signupDescription:
       "Uma edição curta para decidir o que revisar, testar ou acompanhar na próxima semana.",
@@ -60,6 +62,8 @@ const content = {
       "DevOps, SRE, AWS, Kubernetes, observability, and AI — filtered by operational impact, grounded in primary sources, and closed with one concrete action.",
     cadence: "Friday · 5-minute read · written in Portuguese",
     signupEyebrow: "Radar de Produção",
+    signupStatusOpen: "Signup open",
+    signupStatusPreparing: "In preparation",
     signupTitle: "Get the signal, not the noise.",
     signupDescription:
       "A concise issue to decide what to review, test, or monitor during the next week.",
@@ -108,6 +112,7 @@ interface NewsletterLandingProps {
   apiUrl: string;
   issues: NewsletterIssueSummary[];
   archiveAvailable: boolean;
+  signupEnabled: boolean;
 }
 
 export default function NewsletterLanding({
@@ -115,6 +120,7 @@ export default function NewsletterLanding({
   apiUrl,
   issues,
   archiveAvailable,
+  signupEnabled,
 }: NewsletterLandingProps) {
   const copy = content[locale];
 
@@ -162,12 +168,20 @@ export default function NewsletterLanding({
                   {copy.signupEyebrow}
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  signal_status: ready
+                  {signupEnabled
+                    ? copy.signupStatusOpen
+                    : copy.signupStatusPreparing}
                 </p>
               </div>
-              <span className="relative flex h-3 w-3" aria-hidden="true">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-gold opacity-40 motion-reduce:animate-none" />
-                <span className="relative inline-flex h-3 w-3 rounded-full bg-gold" />
+              <span
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/20 bg-gold/5 text-gold"
+                aria-hidden="true"
+              >
+                {signupEnabled ? (
+                  <Activity className="h-4 w-4" />
+                ) : (
+                  <CalendarDays className="h-4 w-4" />
+                )}
               </span>
             </div>
             <h2 className="text-2xl font-semibold tracking-tight">
@@ -176,7 +190,11 @@ export default function NewsletterLanding({
             <p className="mb-6 mt-3 text-sm leading-6 text-muted-foreground">
               {copy.signupDescription}
             </p>
-            <NewsletterSignupForm locale={locale} apiUrl={apiUrl} />
+            <NewsletterSignupForm
+              locale={locale}
+              apiUrl={apiUrl}
+              signupEnabled={signupEnabled}
+            />
           </aside>
         </div>
       </section>

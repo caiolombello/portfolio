@@ -18,6 +18,27 @@ afterEach(() => {
 });
 
 describe("NewsletterSignupForm", () => {
+  it("keeps signup closed without loading verification or calling the API", () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+
+    render(
+      <NewsletterSignupForm
+        locale="pt"
+        apiUrl="https://example.execute-api.us-east-1.amazonaws.com"
+        signupEnabled={false}
+      />,
+    );
+
+    expect(screen.queryByRole("button", { name: "Verify challenge" })).toBeNull();
+    expect(
+      (screen.getByRole("button", {
+        name: "Inscrições em breve",
+      }) as HTMLButtonElement).disabled,
+    ).toBe(true);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
   it("sends one validated request and prevents duplicate submission", async () => {
     let resolveRequest: ((response: Response) => void) | undefined;
     const fetchMock = vi.fn(
