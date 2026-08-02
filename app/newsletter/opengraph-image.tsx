@@ -1,16 +1,15 @@
 import { createOgImage } from "@/lib/og-image";
+import { getNewsletterSeoCopy } from "@/lib/newsletter-seo";
 
-export const alt = "Radar de Produção — newsletter de DevOps, SRE e Cloud";
+const copy = getNewsletterSeoCopy("pt");
+
+export const alt = copy.image.alt;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default function Image() {
   return createOgImage({
-    eyebrow: "Radar de Produção",
-    title: "O sinal que importa quando o software encontra produção.",
-    description:
-      "DevOps, SRE, AWS, Kubernetes, observabilidade e IA — com impacto, evidência e uma ação concreta.",
-    tags: ["AWS", "Kubernetes", "SRE", "Observabilidade"],
+    ...copy.image,
     path: "/newsletter",
   });
 }
