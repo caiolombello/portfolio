@@ -13,6 +13,7 @@ const localizedInstitutionalPages = new Set([
   "/",
   "/resume",
   "/blog",
+  "/newsletter",
   "/contact",
   "/portfolio",
 ]);
@@ -50,6 +51,7 @@ export function getMainNavigationItems(
       ? [{ href: "/portfolio", label: translate("nav.projects") }]
       : []),
     { href: "/blog", label: translate("nav.blog") },
+    { href: "/newsletter", label: translate("nav.newsletter") },
     { href: "/contact", label: translate("nav.contact") },
   ].map((item) => ({
     ...item,

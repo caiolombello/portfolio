@@ -4,6 +4,7 @@ export const en = {
     about: "About",
     projects: "Projects",
     blog: "Blog",
+    newsletter: "Radar",
     contact: "Contact",
     resume: "Resume",
   },
@@ -215,9 +216,11 @@ export const en = {
   sending: "Sending...",
   successMessage: "Your message has been sent successfully!",
   errorMessage: "An error occurred. Please try again.",
-  rateLimitMessage: "Too many messages were sent in a short period. Wait a minute and try again.",
+  rateLimitMessage:
+    "Too many messages were sent in a short period. Wait a minute and try again.",
   nameRequired: "Name is required.",
-  privacyNotice: "Your data will only be used to reply to your message and will be processed by Formspree.",
+  privacyNotice:
+    "Your data will only be used to reply to your message and will be processed by Formspree.",
   privacyPolicy: "Privacy policy",
   turnstilePrompt: "Complete the security check to enable submission.",
   turnstileVerified: "Verification complete. Your message can now be sent.",

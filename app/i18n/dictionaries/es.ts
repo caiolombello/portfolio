@@ -4,6 +4,7 @@ export const es = {
     about: "Sobre mí",
     projects: "Proyectos",
     blog: "Blog",
+    newsletter: "Radar",
     contact: "Contacto",
     resume: "Currículum",
   },
@@ -34,8 +35,10 @@ export const es = {
     githubRepo: "Repositorio GitHub",
     project: "proyecto",
     noProjects: "No hay proyectos encontrados.",
-    noProjectsWithFilters: "No hay proyectos encontrados con los filtros seleccionados.",
-    tryDifferentFilters: "Prueba con filtros diferentes o limpia los filtros actuales.",
+    noProjectsWithFilters:
+      "No hay proyectos encontrados con los filtros seleccionados.",
+    tryDifferentFilters:
+      "Prueba con filtros diferentes o limpia los filtros actuales.",
     viewMore: "Ver Más Proyectos",
     pagination: {
       previous: "Anterior",
@@ -51,8 +54,10 @@ export const es = {
     viewAll: "Ver Todos los Posts",
     publishedOn: "Publicado el",
     noPosts: "No hay posts encontrados.",
-    noPostsWithFilters: "No hay posts encontrados con los filtros seleccionados.",
-    tryDifferentFilters: "Prueba con filtros diferentes o limpia los filtros actuales.",
+    noPostsWithFilters:
+      "No hay posts encontrados con los filtros seleccionados.",
+    tryDifferentFilters:
+      "Prueba con filtros diferentes o limpia los filtros actuales.",
     viewMore: "Ver Más Publicaciones",
     pagination: {
       previous: "Anterior",
@@ -217,11 +222,14 @@ export const es = {
   sending: "Enviando...",
   successMessage: "¡Tu mensaje ha sido enviado con éxito!",
   errorMessage: "Ocurrió un error. Por favor, inténtalo de nuevo.",
-  rateLimitMessage: "Se enviaron demasiados mensajes en poco tiempo. Espera un minuto e inténtalo de nuevo.",
+  rateLimitMessage:
+    "Se enviaron demasiados mensajes en poco tiempo. Espera un minuto e inténtalo de nuevo.",
   nameRequired: "El nombre es obligatorio.",
-  privacyNotice: "Tus datos solo se utilizarán para responder al contacto y serán procesados por Formspree.",
+  privacyNotice:
+    "Tus datos solo se utilizarán para responder al contacto y serán procesados por Formspree.",
   privacyPolicy: "Política de privacidad",
-  turnstilePrompt: "Completa la verificación de seguridad para habilitar el envío.",
+  turnstilePrompt:
+    "Completa la verificación de seguridad para habilitar el envío.",
   turnstileVerified: "Verificación completada. Ya puedes enviar el mensaje.",
   turnstileRequired: "Completa la verificación de seguridad antes de enviar.",
   turnstileError: "La verificación de seguridad falló. Inténtalo de nuevo.",

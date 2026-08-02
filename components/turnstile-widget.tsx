@@ -13,6 +13,7 @@ interface TurnstileApi {
       sitekey: string;
       theme: "dark";
       size: "flexible";
+      action?: string;
       callback: (token: string) => void;
       "expired-callback": () => void;
       "error-callback": () => void;
@@ -75,6 +76,7 @@ interface TurnstileWidgetProps {
   onVerify: (token: string) => void;
   onExpire: () => void;
   onError: () => void;
+  action?: string;
 }
 
 export function TurnstileWidget({
@@ -84,6 +86,7 @@ export function TurnstileWidget({
   onVerify,
   onExpire,
   onError,
+  action,
 }: TurnstileWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | undefined>(undefined);
@@ -101,6 +104,7 @@ export function TurnstileWidget({
           sitekey: siteKey,
           theme: "dark",
           size: "flexible",
+          ...(action ? { action } : {}),
           callback: onVerify,
           "expired-callback": onExpire,
           "error-callback": onError,
@@ -120,7 +124,7 @@ export function TurnstileWidget({
         widgetIdRef.current = undefined;
       }
     };
-  }, [onError, onExpire, onVerify, siteKey]);
+  }, [action, onError, onExpire, onVerify, siteKey]);
 
   useEffect(() => {
     if (widgetIdRef.current && apiRef.current) {
