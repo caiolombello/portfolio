@@ -41,10 +41,12 @@ export function buildSitemap({
     { url: pageUrl(baseUrl, "/") },
     { url: pageUrl(baseUrl, "/resume") },
     { url: pageUrl(baseUrl, "/blog") },
+    { url: pageUrl(baseUrl, "/newsletter") },
     { url: pageUrl(baseUrl, "/contact") },
     { url: pageUrl(baseUrl, "/en") },
     { url: pageUrl(baseUrl, "/en/resume") },
     { url: pageUrl(baseUrl, "/en/blog") },
+    { url: pageUrl(baseUrl, "/en/newsletter") },
     { url: pageUrl(baseUrl, "/en/contact") },
   ];
 
@@ -63,9 +65,7 @@ export function buildSitemap({
     : [];
 
   const postPages = posts.flatMap((post) => {
-    const lastModified = parseBlogDate(
-      post.updatedAt || post.publicationDate,
-    );
+    const lastModified = parseBlogDate(post.updatedAt || post.publicationDate);
     return [
       ...(post.slug_pt
         ? [

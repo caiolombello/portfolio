@@ -16,6 +16,7 @@ describe("getMainNavigationItems", () => {
       "/",
       "/resume",
       "/blog",
+      "/newsletter",
       "/contact",
     ]);
   });
@@ -39,6 +40,7 @@ describe("getMainNavigationItems", () => {
       "/en",
       "/en/resume",
       "/en/blog",
+      "/en/newsletter",
       "/en/contact",
     ]);
   });
@@ -46,18 +48,17 @@ describe("getMainNavigationItems", () => {
 
 describe("getLocalizedInstitutionalPath", () => {
   it("switches between the Portuguese and English institutional URLs", () => {
-    expect(getLocalizedInstitutionalPath("/resume", "en")).toBe(
-      "/en/resume",
-    );
-    expect(getLocalizedInstitutionalPath("/en/contact", "pt")).toBe(
-      "/contact",
-    );
+    expect(getLocalizedInstitutionalPath("/resume", "en")).toBe("/en/resume");
+    expect(getLocalizedInstitutionalPath("/en/contact", "pt")).toBe("/contact");
     expect(getLocalizedInstitutionalPath("/en", "pt")).toBe("/");
+    expect(getLocalizedInstitutionalPath("/newsletter", "en")).toBe(
+      "/en/newsletter",
+    );
   });
 
   it("keeps localized blog post slugs unchanged", () => {
-    expect(
-      getLocalizedInstitutionalPath("/blog/kubernetes-hpa.en", "en"),
-    ).toBe("/blog/kubernetes-hpa.en");
+    expect(getLocalizedInstitutionalPath("/blog/kubernetes-hpa.en", "en")).toBe(
+      "/blog/kubernetes-hpa.en",
+    );
   });
 });

@@ -4,6 +4,7 @@ export const pt = {
     about: "Sobre",
     projects: "Projetos",
     blog: "Blog",
+    newsletter: "Radar",
     contact: "Contato",
     resume: "Currículo",
   },
@@ -34,7 +35,8 @@ export const pt = {
     githubRepo: "Repositório GitHub",
     project: "projeto",
     noProjects: "Nenhum projeto encontrado.",
-    noProjectsWithFilters: "Nenhum projeto encontrado com os filtros selecionados.",
+    noProjectsWithFilters:
+      "Nenhum projeto encontrado com os filtros selecionados.",
     tryDifferentFilters: "Tente filtros diferentes ou limpe os filtros atuais.",
     viewMore: "Ver Mais Projetos",
     pagination: {
@@ -217,9 +219,11 @@ export const pt = {
   sending: "Enviando...",
   successMessage: "Sua mensagem foi enviada com sucesso!",
   errorMessage: "Ocorreu um erro. Por favor, tente novamente.",
-  rateLimitMessage: "Muitas mensagens foram enviadas em pouco tempo. Aguarde um minuto e tente novamente.",
+  rateLimitMessage:
+    "Muitas mensagens foram enviadas em pouco tempo. Aguarde um minuto e tente novamente.",
   nameRequired: "Nome é obrigatório.",
-  privacyNotice: "Seus dados serão usados somente para responder ao contato e processados pelo Formspree.",
+  privacyNotice:
+    "Seus dados serão usados somente para responder ao contato e processados pelo Formspree.",
   privacyPolicy: "Política de privacidade",
   turnstilePrompt: "Conclua a verificação de segurança para habilitar o envio.",
   turnstileVerified: "Verificação concluída. A mensagem já pode ser enviada.",

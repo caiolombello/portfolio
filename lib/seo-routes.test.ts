@@ -5,7 +5,9 @@ import { buildRobots, buildSitemap } from "./seo-routes";
 describe("SEO metadata routes", () => {
   it("allows crawlers to fetch Next.js rendering assets", () => {
     const metadata = buildRobots("https://caio.lombello.com");
-    const rules = Array.isArray(metadata.rules) ? metadata.rules : [metadata.rules];
+    const rules = Array.isArray(metadata.rules)
+      ? metadata.rules
+      : [metadata.rules];
     const disallowed = rules.flatMap((rule) =>
       Array.isArray(rule.disallow) ? rule.disallow : [rule.disallow],
     );
@@ -39,6 +41,8 @@ describe("SEO metadata routes", () => {
         "https://caio.lombello.com/en",
         "https://caio.lombello.com/en/resume",
         "https://caio.lombello.com/en/blog",
+        "https://caio.lombello.com/newsletter",
+        "https://caio.lombello.com/en/newsletter",
         "https://caio.lombello.com/en/contact",
       ]),
     );
