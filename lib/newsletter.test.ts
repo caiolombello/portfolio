@@ -4,6 +4,7 @@ import {
   buildNewsletterApiEndpoint,
   parseNewsletterArchive,
   parseNewsletterIssue,
+  parseNewsletterStatus,
 } from "./newsletter";
 
 describe("newsletter API contracts", () => {
@@ -34,6 +35,13 @@ describe("newsletter API contracts", () => {
         issues: [{ issue_id: "week-31", title: "Invalid" }],
       }),
     ).toThrow();
+  });
+
+  it("fails closed when the API reports whether signup is available", () => {
+    expect(parseNewsletterStatus({ signup_enabled: true })).toEqual({
+      signup_enabled: true,
+    });
+    expect(() => parseNewsletterStatus({ signup_enabled: "yes" })).toThrow();
   });
 
   it("accepts only HTTPS source links in a published issue", () => {

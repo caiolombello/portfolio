@@ -56,8 +56,13 @@ const archiveSchema = z.object({
   issues: z.array(issueSummarySchema).max(20),
 });
 
+const newsletterStatusSchema = z.object({
+  signup_enabled: z.boolean(),
+});
+
 export type NewsletterIssueSummary = z.infer<typeof issueSummarySchema>;
 export type NewsletterIssue = z.infer<typeof newsletterIssueSchema>;
+export type NewsletterStatus = z.infer<typeof newsletterStatusSchema>;
 
 export function getNewsletterApiUrl(): string {
   const configuredUrl =
@@ -97,6 +102,10 @@ export function parseNewsletterIssue(value: unknown): NewsletterIssue {
   return newsletterIssueSchema.parse(value);
 }
 
+export function parseNewsletterStatus(value: unknown): NewsletterStatus {
+  return newsletterStatusSchema.parse(value);
+}
+
 export async function loadNewsletterArchive(): Promise<
   NewsletterIssueSummary[]
 > {
@@ -109,6 +118,18 @@ export async function loadNewsletterArchive(): Promise<
   );
   if (!response.ok) throw new Error("Newsletter archive is unavailable");
   return parseNewsletterArchive(await response.json());
+}
+
+export async function loadNewsletterStatus(): Promise<NewsletterStatus> {
+  const response = await fetch(
+    buildNewsletterApiEndpoint(getNewsletterApiUrl(), "/status"),
+    {
+      headers: { accept: "application/json" },
+      next: { revalidate: 60 },
+    },
+  );
+  if (!response.ok) throw new Error("Newsletter status is unavailable");
+  return parseNewsletterStatus(await response.json());
 }
 
 export async function loadNewsletterIssue(

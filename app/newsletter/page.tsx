@@ -6,6 +6,7 @@ import { generatePageMetadata } from "@/lib/site-metadata";
 import {
   getNewsletterApiUrl,
   loadNewsletterArchive,
+  loadNewsletterStatus,
   type NewsletterIssueSummary,
 } from "@/lib/newsletter";
 
@@ -24,13 +25,15 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function NewsletterPage() {
   const locale = await getCurrentRequestLocale();
-  let issues: NewsletterIssueSummary[] = [];
-  let archiveAvailable = true;
-  try {
-    issues = await loadNewsletterArchive();
-  } catch {
-    archiveAvailable = false;
-  }
+  const [archiveResult, statusResult] = await Promise.allSettled([
+    loadNewsletterArchive(),
+    loadNewsletterStatus(),
+  ]);
+  const issues: NewsletterIssueSummary[] =
+    archiveResult.status === "fulfilled" ? archiveResult.value : [];
+  const archiveAvailable = archiveResult.status === "fulfilled";
+  const signupEnabled =
+    statusResult.status === "fulfilled" && statusResult.value.signup_enabled;
 
   return (
     <NewsletterLanding
@@ -38,6 +41,7 @@ export default async function NewsletterPage() {
       apiUrl={getNewsletterApiUrl()}
       issues={issues}
       archiveAvailable={archiveAvailable}
+      signupEnabled={signupEnabled}
     />
   );
 }
