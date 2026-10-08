@@ -22,6 +22,18 @@ export const PROJECT_THEMES: Record<string, CoverTheme> = {
     accent: "#86d8ec",
     text: "#e7eef5",
   },
+  perigauge: {
+    bg: "#0e1124",
+    panel: "#151a33",
+    accent: "#a9b4ff",
+    text: "#f2f4ff",
+  },
+  delexpress: {
+    bg: "#0f172a",
+    panel: "#1e293b",
+    accent: "#f87171",
+    text: "#f1f5f9",
+  },
   skills: {
     bg: "#110e1b",
     panel: "#1c1733",
@@ -712,6 +724,449 @@ function DotfilesMotif({ t }: MotifProps) {
   );
 }
 
+function PeriGaugeMotif({ t }: MotifProps) {
+  const row = (y: number, name: string, via: string) => (
+    <g>
+      <text x="176" y={y - 4} fontSize="15" fontWeight="600" fill={t.text}>
+        {name}
+      </text>
+      <text
+        x="176"
+        y={y + 16}
+        fontSize="12"
+        fill={t.text}
+        fillOpacity="0.5"
+        style={MONO}
+      >
+        {via}
+      </text>
+    </g>
+  );
+  const gauge = (
+    cx: number,
+    cy: number,
+    r: number,
+    value: number,
+    color: string,
+    label: string,
+  ) => (
+    <g>
+      <circle
+        cx={cx}
+        cy={cy}
+        r={r}
+        fill="none"
+        stroke={t.text}
+        strokeOpacity="0.12"
+        strokeWidth="4"
+      />
+      <circle
+        {...ring(cx, cy, r, value)}
+        fill="none"
+        stroke={color}
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      <text
+        x={cx}
+        y={cy + 4}
+        fontSize="11"
+        textAnchor="middle"
+        fill={t.text}
+        style={MONO}
+      >
+        {label}
+      </text>
+    </g>
+  );
+  const buds = [
+    { cx: 470, label: "L", value: 0.64, color: OK },
+    { cx: 530, label: "R", value: 0.61, color: OK },
+    { cx: 590, label: "case", value: 0.18, color: WARN },
+  ];
+
+  return (
+    <g>
+      <rect
+        x="150"
+        y="58"
+        width="500"
+        height="318"
+        rx="18"
+        fill={t.panel}
+        stroke={t.accent}
+        strokeOpacity="0.3"
+      />
+      <text
+        x="176"
+        y="93"
+        fontSize="12"
+        letterSpacing="1.5"
+        fill={t.accent}
+        style={MONO}
+      >
+        PERIGAUGE
+      </text>
+      <rect
+        x="520"
+        y="76"
+        width="104"
+        height="24"
+        rx="12"
+        fill="none"
+        stroke={t.text}
+        strokeOpacity="0.2"
+      />
+      <rect
+        x="522"
+        y="78"
+        width="50"
+        height="20"
+        rx="10"
+        fill={t.accent}
+        fillOpacity="0.2"
+      />
+      <circle
+        cx="547"
+        cy="88"
+        r="5.5"
+        fill="none"
+        stroke={t.accent}
+        strokeWidth="2"
+      />
+      <rect
+        x="586"
+        y="84.5"
+        width="24"
+        height="7"
+        rx="3.5"
+        fill="none"
+        stroke={t.text}
+        strokeOpacity="0.5"
+        strokeWidth="1.5"
+      />
+      <line
+        x1="150"
+        x2="650"
+        y1="112"
+        y2="112"
+        stroke={t.text}
+        strokeOpacity="0.08"
+      />
+
+      {row(156, "Keychron M6", "ultra-link 8k")}
+      {gauge(590, 152, 19, 0.72, OK, "72")}
+
+      {row(226, "Galaxy Buds3 Pro", "bluetooth · spp")}
+      {buds.map((bud) => (
+        <g key={bud.label}>
+          {gauge(bud.cx, 216, 16, bud.value, bud.color, "")}
+          <text
+            x={bud.cx}
+            y="252"
+            fontSize="11"
+            textAnchor="middle"
+            fill={t.text}
+            fillOpacity="0.55"
+            style={MONO}
+          >
+            {bud.label}
+          </text>
+        </g>
+      ))}
+
+      {row(310, "MX Master 3S", "hid++ · bolt")}
+      <rect
+        x="470"
+        y="300"
+        width="110"
+        height="12"
+        rx="6"
+        fill={t.text}
+        fillOpacity="0.12"
+      />
+      <rect x="470" y="300" width="14" height="12" rx="6" fill={BAD} />
+      <text
+        x="624"
+        y="311"
+        fontSize="14"
+        textAnchor="end"
+        fill={BAD}
+        style={MONO}
+      >
+        9%
+      </text>
+
+      <path d="M 584 376 L 596 390 L 608 376 Z" fill={t.panel} />
+      <rect width="800" height="64" y="408" fill="#090b18" />
+      <line
+        x1="0"
+        x2="800"
+        y1="408"
+        y2="408"
+        stroke={t.accent}
+        strokeOpacity="0.18"
+      />
+      <rect
+        x="580"
+        y="420"
+        width="32"
+        height="32"
+        rx="8"
+        fill={t.accent}
+        fillOpacity="0.14"
+      />
+      {[
+        { cx: 556, color: OK, value: 0.72 },
+        { cx: 596, color: WARN, value: 0.18 },
+        { cx: 636, color: BAD, value: 0.09 },
+      ].map((item) => (
+        <g key={item.cx}>
+          <circle
+            cx={item.cx}
+            cy="436"
+            r="9"
+            fill="none"
+            stroke={t.text}
+            strokeOpacity="0.15"
+            strokeWidth="3"
+          />
+          <circle
+            {...ring(item.cx, 436, 9, item.value)}
+            fill="none"
+            stroke={item.color}
+            strokeWidth="3"
+          />
+        </g>
+      ))}
+      <text
+        x="706"
+        y="441"
+        fontSize="14"
+        fill={t.text}
+        fillOpacity="0.7"
+        style={MONO}
+      >
+        12:48
+      </text>
+    </g>
+  );
+}
+
+function DelExpressMotif({ t }: MotifProps) {
+  const orders = [
+    { id: "#1042", chip: "card", width: 120, state: "done" },
+    { id: "#1043", chip: "cash", width: 138, state: "route" },
+    { id: "#1044", chip: "paid", width: 104, state: "next" },
+  ];
+  const stops = [
+    [470, 292],
+    [556, 260],
+    [600, 196],
+    [664, 150],
+  ];
+
+  return (
+    <g>
+      <rect
+        x="120"
+        y="40"
+        width="230"
+        height="420"
+        rx="32"
+        fill={t.panel}
+        stroke={t.text}
+        strokeOpacity="0.14"
+        strokeWidth="1.5"
+      />
+      <rect x="205" y="54" width="60" height="8" rx="4" fill={t.bg} />
+      <text
+        x="142"
+        y="98"
+        fontSize="12"
+        fill={t.text}
+        fillOpacity="0.55"
+        style={MONO}
+      >
+        shift · 6 deliveries
+      </text>
+      {orders.map((order, index) => {
+        const y = 112 + index * 76;
+        return (
+          <g key={order.id}>
+            <rect
+              x="140"
+              y={y}
+              width="190"
+              height="64"
+              rx="12"
+              fill={t.bg}
+              stroke={t.text}
+              strokeOpacity="0.08"
+            />
+            <text x="156" y={y + 23} fontSize="13" fill={t.accent} style={MONO}>
+              {order.id}
+            </text>
+            {order.state === "done" ? (
+              <path
+                d={`M 304 ${y + 18} l 5 5 l 9 -10`}
+                fill="none"
+                stroke={OK}
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            ) : (
+              <circle
+                cx="312"
+                cy={y + 18}
+                r="5"
+                fill={order.state === "route" ? t.accent : t.text}
+                fillOpacity={order.state === "route" ? 1 : 0.25}
+              />
+            )}
+            <rect
+              x="156"
+              y={y + 33}
+              width={order.width}
+              height="7"
+              rx="3.5"
+              fill={t.text}
+              fillOpacity="0.4"
+            />
+            <rect
+              x="156"
+              y={y + 45}
+              width="40"
+              height="13"
+              rx="6.5"
+              fill={t.accent}
+              fillOpacity="0.14"
+            />
+            <text
+              x="176"
+              y={y + 54.5}
+              fontSize="9.5"
+              textAnchor="middle"
+              fill={t.accent}
+              style={MONO}
+            >
+              {order.chip}
+            </text>
+          </g>
+        );
+      })}
+      <rect
+        x="140"
+        y="350"
+        width="190"
+        height="88"
+        rx="14"
+        fill={t.accent}
+        fillOpacity="0.1"
+        stroke={t.accent}
+        strokeOpacity="0.35"
+      />
+      <text
+        x="156"
+        y="374"
+        fontSize="11"
+        letterSpacing="1.5"
+        fill={t.accent}
+        style={MONO}
+      >
+        SETTLEMENT
+      </text>
+      <text
+        x="156"
+        y="396"
+        fontSize="12"
+        fill={t.text}
+        fillOpacity="0.6"
+        style={MONO}
+      >
+        collect
+      </text>
+      <text
+        x="156"
+        y="426"
+        fontSize="26"
+        fontWeight="600"
+        fill={OK}
+        style={MONO}
+      >
+        $12.40
+      </text>
+
+      <rect
+        x="390"
+        y="60"
+        width="320"
+        height="380"
+        rx="18"
+        fill="#111b30"
+        stroke={t.accent}
+        strokeOpacity="0.2"
+      />
+      <g stroke={t.text} strokeOpacity="0.06" strokeWidth="14">
+        <line x1="390" x2="710" y1="150" y2="150" />
+        <line x1="390" x2="710" y1="260" y2="260" />
+        <line x1="390" x2="710" y1="360" y2="360" />
+        <line x1="470" x2="470" y1="60" y2="440" />
+        <line x1="600" x2="600" y1="60" y2="440" />
+      </g>
+      <path
+        d="M 440 360 L 470 360 L 470 260 L 600 260 L 600 150 L 664 150"
+        fill="none"
+        stroke={t.accent}
+        strokeWidth="5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <rect x="426" y="346" width="28" height="28" rx="7" fill={t.text} />
+      <rect x="426" y="346" width="28" height="9" rx="4" fill={t.accent} />
+      {stops.map(([x, y], index) => (
+        <g key={`${x}-${y}`}>
+          <circle cx={x} cy={y} r="13" fill={t.accent} />
+          <text
+            x={x}
+            y={y + 4.5}
+            fontSize="13"
+            fontWeight="700"
+            textAnchor="middle"
+            fill={t.bg}
+            style={MONO}
+          >
+            {index + 1}
+          </text>
+        </g>
+      ))}
+      <rect
+        x="410"
+        y="80"
+        width="138"
+        height="26"
+        rx="13"
+        fill={t.bg}
+        fillOpacity="0.85"
+        stroke={t.accent}
+        strokeOpacity="0.35"
+      />
+      <text
+        x="479"
+        y="97"
+        fontSize="11.5"
+        textAnchor="middle"
+        fill={t.text}
+        fillOpacity="0.85"
+        style={MONO}
+      >
+        2-opt · 4 stops
+      </text>
+    </g>
+  );
+}
+
 function PortfolioMotif({ t }: MotifProps) {
   const cards = [
     PROJECT_THEMES.falatrace,
@@ -901,6 +1356,8 @@ function PortfolioMotif({ t }: MotifProps) {
 const MOTIFS: Record<string, (props: MotifProps) => ReactNode> = {
   falatrace: FalaTraceMotif,
   quotalantern: QuotaLanternMotif,
+  perigauge: PeriGaugeMotif,
+  delexpress: DelExpressMotif,
   skills: SkillsMotif,
   "radar-de-producao": RadarMotif,
   dotfiles: DotfilesMotif,

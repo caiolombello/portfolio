@@ -98,11 +98,16 @@ async function loadProjects(): Promise<Project[]> {
         const projectPath = path.join(projectsDir, file);
         const projectData = await fs.readFile(projectPath, "utf-8");
         const project = JSON.parse(projectData);
+        // Project files are localized (title_en/title_pt); this document is in English
         projects.push({
           id: project.id,
-          title: project.title,
-          description: project.description,
-          shortDescription: project.shortDescription || project.description,
+          title: project.title_en || project.title_pt || project.id,
+          description: project.description_en || project.description_pt || "",
+          shortDescription:
+            project.shortDescription_en ||
+            project.shortDescription_pt ||
+            project.description_en ||
+            "",
         });
       }
     }

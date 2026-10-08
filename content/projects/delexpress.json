@@ -1,0 +1,61 @@
+{
+  "id": "delexpress",
+  "title_pt": "DelExpress",
+  "title_en": "DelExpress",
+  "tagline_pt": "As entregas do turno e o acerto do dia, no bolso do entregador.",
+  "tagline_en": "The shift's deliveries and the day's settlement, in the courier's pocket.",
+  "shortDescription_pt": "PWA mobile-first para entregadores de restaurante: registra entregas, pagamentos e gorjetas, lê a nota por foto com IA, monta a rota e calcula quanto pagar ou receber no fim do dia — mesmo offline.",
+  "shortDescription_en": "A mobile-first PWA for restaurant couriers: it logs deliveries, payments and tips, reads the order ticket from a photo with AI, plans the route and works out what to pay or collect at the end of the day — even offline.",
+  "description_pt": "O DelExpress foi feito para um entregador de restaurante fechar as contas do turno sem planilha. Cada entrega registra a forma de pagamento — dinheiro, cartão, já paga ou dividida — e a gorjeta, em dinheiro ou no cartão, de forma independente. No fim do dia, o acerto mostra quanto deve sobrar no bolso e se o entregador paga ou recebe do restaurante, com a regra coberta por testes.\n\nUma foto da nota preenche pedido, endereço, valor e horário: um modelo multimodal (Gemini, com fallback para a OpenAI) devolve JSON e prefere deixar um campo vazio a inventar, e o entregador confere antes de salvar. A rota sai como link para Google Maps, Waze ou Apple Maps, com a ordem otimizada pela Google Routes API e um 2-opt local como reserva, num mapa interativo com Leaflet e OpenStreetMap. Os dados ficam no aparelho, em IndexedDB, e o app se instala como PWA.",
+  "description_en": "DelExpress was built so a restaurant courier can settle the shift without a spreadsheet. Each delivery records the payment method — cash, card, already paid or split — and the tip, in cash or on card, independently. At the end of the day, the settlement shows how much cash should be left in hand and whether the courier pays or collects from the restaurant, with the rule covered by tests.\n\nA photo of the ticket fills in the order number, address, amount and time: a multimodal model (Gemini, falling back to OpenAI) returns JSON and leaves a field empty rather than guess, and the courier reviews it before saving. The route opens in Google Maps, Waze or Apple Maps, ordered by the Google Routes API with a local 2-opt fallback, on an interactive Leaflet and OpenStreetMap map. Data stays on the device, in IndexedDB, and the app installs as a PWA.",
+  "highlights_pt": [
+    "Acerto do turno que combina dinheiro, cartão, conta dividida e gorjetas em uma única regra, coberta por testes.",
+    "Leitura da nota por foto com Gemini e fallback para a OpenAI: saída em JSON, campos vazios em vez de palpites e revisão antes de salvar.",
+    "Rotas otimizadas pela Google Routes API com 2-opt local de reserva, mapa em Leaflet/OpenStreetMap e links para Google Maps, Waze e Apple Maps.",
+    "Offline-first: dados em IndexedDB (Dexie), PWA instalável, backup e restauração em JSON e tela que não apaga durante o turno.",
+    "Endpoints em Cloudflare Pages Functions com limite de requisições por IP (KV), teto de tamanho de imagem e cabeçalhos de segurança.",
+    "Interface em português e inglês; 59 testes (Vitest) e build no CI a cada push, com deploy automático no Cloudflare Pages."
+  ],
+  "highlights_en": [
+    "Shift settlement that combines cash, card, split bills and tips under one rule, covered by tests.",
+    "Ticket reading from a photo with Gemini and an OpenAI fallback: JSON output, empty fields instead of guesses and review before saving.",
+    "Routes ordered by the Google Routes API with a local 2-opt fallback, a Leaflet/OpenStreetMap map and links to Google Maps, Waze and Apple Maps.",
+    "Offline-first: data in IndexedDB (Dexie), an installable PWA, JSON backup and restore, and a screen that stays on during the shift.",
+    "Cloudflare Pages Functions endpoints with per-IP rate limiting (KV), an image size cap and security headers.",
+    "Portuguese and English interface; 59 tests (Vitest) and a build in CI on every push, with automatic deploys to Cloudflare Pages."
+  ],
+  "category": "web",
+  "status": "private",
+  "year": 2026,
+  "technologies": [
+    {
+      "tech": "React"
+    },
+    {
+      "tech": "TypeScript"
+    },
+    {
+      "tech": "Vite"
+    },
+    {
+      "tech": "Tailwind CSS"
+    },
+    {
+      "tech": "Dexie"
+    },
+    {
+      "tech": "Leaflet"
+    },
+    {
+      "tech": "Cloudflare Pages"
+    },
+    {
+      "tech": "Gemini API"
+    }
+  ],
+  "liveUrl": "https://delexpress.lombello.com",
+  "featured": true,
+  "order": 4,
+  "createdAt": "2026-06-01",
+  "updatedAt": "2026-06-14"
+}

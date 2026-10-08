@@ -41,7 +41,7 @@ export default async function Home() {
   ]);
 
   const role = person.role;
-  const featured = projects.filter((project) => project.featured).slice(0, 5);
+  const featured = projects.filter((project) => project.featured).slice(0, 7);
   const building = projects.filter((project) => project.status === "alpha");
 
   return (
