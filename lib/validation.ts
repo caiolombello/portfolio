@@ -147,6 +147,10 @@ export const ProjectCaseStudySchema = z.object({
   outcomes_en: z.array(z.string()).optional(),
 });
 
+const ProjectLiveUrlSchema = z
+  .union([z.string().url(), z.string().regex(/^\/(?!\/)[^\s\\]*$/)])
+  .optional();
+
 export const ProjectSchema = z.object({
   id: z.string(),
   title_pt: z.string(),
@@ -167,9 +171,9 @@ export const ProjectSchema = z.object({
   category: z.string().optional(),
   technologies: z.array(TechnologySchema).optional(),
   githubUrl: z.string().url().optional(),
-  liveUrl: z
-    .union([z.string().url(), z.string().regex(/^\/(?!\/)[^\s\\]*$/)])
-    .optional(),
+  liveUrl: ProjectLiveUrlSchema,
+  liveUrl_pt: ProjectLiveUrlSchema,
+  liveUrl_en: ProjectLiveUrlSchema,
   featured: z.boolean().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),

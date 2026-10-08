@@ -53,7 +53,9 @@
       "tech": "Gemini API"
     }
   ],
-  "liveUrl": "https://delexpress.lombello.com",
+  "liveUrl": "https://delexpress.lombello.com/sobre",
+  "liveUrl_pt": "https://delexpress.lombello.com/sobre",
+  "liveUrl_en": "https://delexpress.lombello.com/about",
   "featured": true,
   "order": 4,
   "createdAt": "2026-06-01",

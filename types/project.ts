@@ -34,6 +34,8 @@ export interface Project {
   technologies?: Technology[];
   githubUrl?: string;
   liveUrl?: string;
+  liveUrl_pt?: string;
+  liveUrl_en?: string;
   featured?: boolean;
   createdAt?: string;
   updatedAt?: string;
