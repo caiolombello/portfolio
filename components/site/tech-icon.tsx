@@ -1,0 +1,157 @@
+import type { ComponentType, SVGProps } from "react";
+import {
+  SiAmazonaws,
+  SiAmazondynamodb,
+  SiAmazonsimpleemailservice,
+  SiAmazoncloudwatch,
+  SiArgo,
+  SiAwslambda,
+  SiBackstage,
+  SiBun,
+  SiConsul,
+  SiDigitalocean,
+  SiDocker,
+  SiFfmpeg,
+  SiGit,
+  SiGithubactions,
+  SiGitlab,
+  SiGnubash,
+  SiGo,
+  SiGrafana,
+  SiGtk,
+  SiHelm,
+  SiKubernetes,
+  SiLatex,
+  SiLinux,
+  SiMarkdown,
+  SiNextdotjs,
+  SiNixos,
+  SiOpenai,
+  SiOpentelemetry,
+  SiOracle,
+  SiPrometheus,
+  SiPython,
+  SiQt,
+  SiReact,
+  SiTailwindcss,
+  SiTerraform,
+  SiTypescript,
+  SiVault,
+  SiVercel,
+} from "react-icons/si";
+import {
+  Activity,
+  AudioWaveform,
+  Bell,
+  Bot,
+  Boxes,
+  Cpu,
+  GitBranch,
+  KeyRound,
+  Network,
+  PlugZap,
+  ShieldCheck,
+  Siren,
+  Sparkles,
+  TerminalSquare,
+  Workflow,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+
+type IconComponent = ComponentType<
+  SVGProps<SVGSVGElement> & { className?: string }
+>;
+
+const ICONS: Record<string, IconComponent> = {
+  aws: SiAmazonaws,
+  "amazon ses": SiAmazonsimpleemailservice,
+  "aws lambda": SiAwslambda,
+  "step functions": SiAmazonaws,
+  dynamodb: SiAmazondynamodb,
+  "oracle cloud": SiOracle,
+  kubernetes: SiKubernetes,
+  terraform: SiTerraform,
+  "hashicorp consul": SiConsul,
+  "hashicorp vault": SiVault,
+  docker: SiDocker,
+  helm: SiHelm,
+  argocd: SiArgo,
+  "argo cd": SiArgo,
+  "github actions": SiGithubactions,
+  "gitlab ci": SiGitlab,
+  digitalocean: SiDigitalocean,
+  karpenter: Boxes as IconComponent,
+  victoriametrics: Activity as IconComponent,
+  cloudwatch: SiAmazoncloudwatch,
+  iam: KeyRound as IconComponent,
+  oidc: KeyRound as IconComponent,
+  sso: KeyRound as IconComponent,
+  "segmentação de rede": Network as IconComponent,
+  "network segmentation": Network as IconComponent,
+  "resposta a incidentes": Siren as IconComponent,
+  "incident response": Siren as IconComponent,
+  "bash / shell": SiGnubash,
+  gitops: SiGit,
+  git: SiGit,
+  devsecops: ShieldCheck as IconComponent,
+  python: SiPython,
+  golang: SiGo,
+  go: SiGo,
+  typescript: SiTypescript,
+  bun: SiBun,
+  "qt/qml": SiQt,
+  "gtk 3": SiGtk,
+  prometheus: SiPrometheus,
+  alertmanager: SiPrometheus,
+  grafana: SiGrafana,
+  loki: SiGrafana,
+  tempo: SiGrafana,
+  thanos: Activity as IconComponent,
+  opentelemetry: SiOpentelemetry,
+  keycloak: ShieldCheck as IconComponent,
+  backstage: SiBackstage,
+  llms: Sparkles as IconComponent,
+  "openai api": SiOpenai,
+  "codex cli": SiOpenai,
+  "claude code": TerminalSquare as IconComponent,
+  opencode: TerminalSquare as IconComponent,
+  kiro: Bot as IconComponent,
+  mcp: PlugZap as IconComponent,
+  ollama: Cpu as IconComponent,
+  "whisper.cpp": AudioWaveform as IconComponent,
+  ffmpeg: SiFfmpeg,
+  markdown: SiMarkdown,
+  shell: SiGnubash,
+  zsh: SiGnubash,
+  nix: SiNixos,
+  linux: SiLinux,
+  appindicator: Boxes as IconComponent,
+  libnotify: Bell as IconComponent,
+  "next.js": SiNextdotjs,
+  react: SiReact,
+  "tailwind css": SiTailwindcss,
+  latex: SiLatex,
+  vercel: SiVercel,
+  "ci/cd": Workflow as IconComponent,
+};
+
+export function TechIcon({
+  name,
+  className,
+}: {
+  name: string;
+  className?: string;
+}) {
+  const key = name.toLowerCase();
+  // "Go (Golang)" → also try "go"
+  const Icon =
+    ICONS[key] ??
+    ICONS[key.replace(/\s*\(.*\)$/, "")] ??
+    (GitBranch as IconComponent);
+  return (
+    <Icon
+      className={cn("h-3.5 w-3.5 shrink-0", className)}
+      aria-hidden="true"
+    />
+  );
+}

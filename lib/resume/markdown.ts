@@ -44,5 +44,31 @@ export function renderResumeMarkdown(model: ResumeModel): string {
     lines.push("");
   }
 
+  for (const [label, credentials] of [
+    [model.labels.certifications, model.certifications],
+    [model.labels.trainingBadges, model.trainingBadges],
+  ] as const) {
+    if (!credentials.length) continue;
+    lines.push(`## ${label}`, "");
+    for (const credential of credentials) {
+      const name = credential.url
+        ? `[${credential.name}](${credential.url})`
+        : credential.name;
+      const details = [credential.issuer, credential.issuedAt?.slice(0, 4)]
+        .filter(Boolean)
+        .join(" · ");
+      lines.push(`- ${name} — ${details}`);
+    }
+    lines.push("");
+  }
+
+  if (model.languages.length) {
+    lines.push(`## ${model.labels.languages}`, "");
+    for (const language of model.languages) {
+      lines.push(`- ${language.name}: ${language.level}`);
+    }
+    lines.push("");
+  }
+
   return `${lines.join("\n").trim()}\n`;
 }

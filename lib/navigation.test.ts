@@ -61,4 +61,13 @@ describe("getLocalizedInstitutionalPath", () => {
       "/blog/kubernetes-hpa.en",
     );
   });
+
+  it("localizes project detail URLs for direct visits and language switches", () => {
+    expect(getLocalizedInstitutionalPath("/portfolio/falatrace", "en")).toBe(
+      "/en/portfolio/falatrace",
+    );
+    expect(getLocalizedInstitutionalPath("/en/portfolio/falatrace", "pt")).toBe(
+      "/portfolio/falatrace",
+    );
+  });
 });

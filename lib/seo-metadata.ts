@@ -14,6 +14,31 @@ function absoluteUrl(baseUrl: string, path: string): string {
   return new URL(path, `${baseUrl.replace(/\/$/, "")}/`).toString();
 }
 
+/** Paginated collections share their section image; utility pages use home. */
+function pageImagePath(localizedPath: string): string {
+  const sectionPath = localizedPath.replace(/\/page\/\d+$/, "");
+  if (
+    /^\/(?:en\/)?(?:resume|contact|portfolio|blog|newsletter)$/.test(
+      sectionPath,
+    ) ||
+    /^\/(?:en\/)?portfolio\/[^/]+$/.test(sectionPath)
+  ) {
+    return `${sectionPath}/opengraph-image`;
+  }
+  return localizedPath === "/en" || localizedPath.startsWith("/en/")
+    ? "/en/opengraph-image"
+    : "/opengraph-image";
+}
+
+function socialImage(baseUrl: string, imagePath: string, alt: string) {
+  return {
+    url: absoluteUrl(baseUrl, imagePath),
+    width: 1200,
+    height: 630,
+    alt,
+  };
+}
+
 interface PageMetadataOptions {
   config: SiteConfig;
   path: string;
@@ -33,6 +58,11 @@ export function buildPageMetadata({
 }: PageMetadataOptions): Metadata {
   const localizedPath = getLocalizedInstitutionalPath(path, locale);
   const url = absoluteUrl(config.site.url, localizedPath);
+  const image = socialImage(
+    config.site.url,
+    pageImagePath(localizedPath),
+    title,
+  );
   const languages = {
     "pt-BR": absoluteUrl(
       config.site.url,
@@ -57,10 +87,13 @@ export function buildPageMetadata({
       url,
       siteName: config.site.shortName,
       locale: openGraphLocale[locale],
+      alternateLocale: [openGraphLocale[locale === "pt" ? "en" : "pt"]],
+      images: [image],
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
+      images: [image],
       title,
       description,
       site: config.integrations.twitterHandle,
@@ -94,6 +127,11 @@ export function buildBlogPostMetadata({
   const title = locale === "pt" ? post.title_pt : post.title_en;
   const description = locale === "pt" ? post.summary_pt : post.summary_en;
   const url = absoluteUrl(config.site.url, `/blog/${slug}`);
+  const image = socialImage(
+    config.site.url,
+    `/blog/${slug}/opengraph-image`,
+    title,
+  );
   const languages = {
     "pt-BR": absoluteUrl(config.site.url, `/blog/${post.slug_pt}`),
     "en-US": absoluteUrl(config.site.url, `/blog/${post.slug_en}`),
@@ -113,6 +151,7 @@ export function buildBlogPostMetadata({
       siteName: config.site.shortName,
       locale: openGraphLocale[locale],
       alternateLocale: [openGraphLocale[locale === "pt" ? "en" : "pt"]],
+      images: [image],
       type: "article",
       publishedTime: post.publicationDate,
       modifiedTime: post.updatedAt || post.publicationDate,
@@ -120,6 +159,7 @@ export function buildBlogPostMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      images: [image],
       title,
       description,
       site: config.integrations.twitterHandle,

@@ -12,11 +12,21 @@ export const resumeLocales = ["pt", "en"] as const;
 
 export type ResumeLocale = (typeof resumeLocales)[number];
 
+const ResumeCredentialSchema = z.object({
+  name: z.string().min(1),
+  issuer: z.string().min(1),
+  issuedAt: z.string().optional(),
+  expiresAt: z.string().optional(),
+  url: z.string().url().optional(),
+});
+
 const ResumeSourceSchema = z.object({
   profile: ProfileSchema,
   experiences: z.array(ExperienceSchema),
   education: z.array(EducationSchema),
   skills: z.array(SkillSchema),
+  certifications: z.array(ResumeCredentialSchema).default([]),
+  trainingBadges: z.array(ResumeCredentialSchema).default([]),
 });
 
 export type ResumeSource = z.input<typeof ResumeSourceSchema>;
@@ -54,6 +64,13 @@ export interface ResumeSkillGroup {
   items: string[];
 }
 
+export type ResumeCredential = z.infer<typeof ResumeCredentialSchema>;
+
+export interface ResumeLanguage {
+  name: string;
+  level: string;
+}
+
 export interface ResumeModel {
   locale: ResumeLocale;
   personalInfo: ResumePersonalInfo;
@@ -62,11 +79,17 @@ export interface ResumeModel {
   education: ResumeEducation[];
   skills: Skill[];
   skillGroups: ResumeSkillGroup[];
+  certifications: ResumeCredential[];
+  trainingBadges: ResumeCredential[];
+  languages: ResumeLanguage[];
   labels: {
     about: string;
     experience: string;
     education: string;
     skills: string;
+    certifications: string;
+    trainingBadges: string;
+    languages: string;
   };
 }
 
@@ -78,12 +101,18 @@ const labels: Record<ResumeLocale, ResumeModel["labels"]> = {
     experience: "Experiência Profissional",
     education: "Educação",
     skills: "Habilidades",
+    certifications: "Certificações",
+    trainingBadges: "Cursos e badges",
+    languages: "Idiomas",
   },
   en: {
     about: "About",
     experience: "Professional Experience",
     education: "Education",
     skills: "Skills",
+    certifications: "Certifications",
+    trainingBadges: "Training badges",
+    languages: "Languages",
   },
 };
 
@@ -100,6 +129,9 @@ const englishCategoryLabels: Record<string, string> = {
   "Banco de Dados": "Databases",
   Ferramentas: "Tools",
   Outros: "Others",
+  "Cloud e infraestrutura": "Cloud and infrastructure",
+  "Containers e IaC": "Containers and IaC",
+  "Entrega e plataformas": "Delivery and platforms",
 };
 
 function timestamp(value?: string): number {
@@ -120,7 +152,7 @@ function buildSkillGroups(
         ? englishCategoryLabels[skill.category] || skill.category
         : skill.category;
     const items = groups.get(category) || [];
-    items.push(skill.name);
+    items.push(locale === "en" ? skill.name_en || skill.name : skill.name);
     groups.set(category, items);
   }
 
@@ -183,6 +215,12 @@ export function buildResumeModels(input: unknown): ResumeModels {
         })),
         skills: source.skills,
         skillGroups: buildSkillGroups(source.skills, locale),
+        certifications: source.certifications,
+        trainingBadges: source.trainingBadges,
+        languages: (source.profile.languages || []).map((language) => ({
+          name: locale === "pt" ? language.name_pt : language.name_en,
+          level: locale === "pt" ? language.level_pt : language.level_en,
+        })),
         labels: labels[locale],
       };
 

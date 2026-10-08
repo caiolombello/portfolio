@@ -1,0 +1,63 @@
+{
+  "id": "falatrace",
+  "title_pt": "FalaTrace",
+  "title_en": "FalaTrace",
+  "tagline_pt": "Lembre o que foi decidido. Confira onde foi dito.",
+  "tagline_en": "Remember what was decided. Check where it was said.",
+  "shortDescription_pt": "Grava e transcreve chamadas no Linux, liga cada ponto do resumo ao trecho exato da gravação e entrega contexto com fonte para agentes de IA.",
+  "shortDescription_en": "Records and transcribes calls on Linux, links every summary point to the exact moment in the recording and gives AI agents context with a verifiable source.",
+  "description_pt": "O FalaTrace é um conjunto de ferramentas open source para Linux que grava as chamadas que você autorizar, transcreve com processamento local por padrão (Whisper.cpp e Ollama) e gera resumos em que cada decisão aponta para o segmento, o horário e o hash SHA-256 da gravação original. Referências aproximadas ou incertas aparecem sinalizadas para revisão.\n\nQuando um agente precisa de contexto — Claude Code, Codex ou Gemini CLI —, ele consulta o histórico pela CLI ou por um servidor MCP local e recebe só trechos limitados, marcados como dado não confiável e dentro das permissões concedidas por gravação. O FalaTrace Studio, um app desktop em Qt/QML, reúne biblioteca, vídeo, transcrição, revisão de falantes, resumo e configurações em um só lugar.",
+  "description_en": "FalaTrace is a set of open-source Linux tools that records the calls you authorize, transcribes them locally by default (Whisper.cpp and Ollama) and produces summaries in which every decision points to the segment, timestamp and SHA-256 hash of the original recording. Approximate or uncertain references are flagged for review.\n\nWhen an agent needs context — Claude Code, Codex or Gemini CLI — it queries the history through the CLI or a local MCP server and receives only bounded excerpts, labeled as untrusted data and limited to the permissions granted per recording. FalaTrace Studio, a Qt/QML desktop app, brings the library, video, transcript, speaker review, summary and settings together in one place.",
+  "highlights_pt": [
+    "Resumos rastreáveis: cada item cita segmento, horário e SHA-256 da gravação original.",
+    "Local por padrão com Whisper.cpp e Ollama; OpenAI e Gemini só entram se você configurar.",
+    "Contexto para agentes via CLI e servidor MCP local, com autorização por gravação, saldo persistente e revogação.",
+    "Detecção automática de chamadas (opt-in) para Slack, Zoom, Teams e navegadores como Chromium e Firefox.",
+    "Studio em Qt/QML com assistente de primeiro uso, revisão com desfazer e exportação em JSON, Markdown, SRT e WebVTT.",
+    "931 testes offline com mídia sintética e jornadas do Studio renderizadas no CI."
+  ],
+  "highlights_en": [
+    "Traceable summaries: every item cites the segment, timestamp and SHA-256 of the original recording.",
+    "Local by default with Whisper.cpp and Ollama; OpenAI and Gemini only when you configure them.",
+    "Context for agents through the CLI and a local MCP server, with per-recording grants, a persistent budget and revocation.",
+    "Opt-in automatic call detection for Slack, Zoom, Teams and browsers such as Chromium and Firefox.",
+    "Qt/QML Studio with a first-run assistant, undoable review and export to JSON, Markdown, SRT and WebVTT.",
+    "931 offline tests with synthetic media, plus Studio journeys rendered in CI."
+  ],
+  "category": "ai-tooling",
+  "status": "alpha",
+  "year": 2026,
+  "license": "MIT",
+  "technologies": [
+    {
+      "tech": "TypeScript"
+    },
+    {
+      "tech": "Bun"
+    },
+    {
+      "tech": "Qt/QML"
+    },
+    {
+      "tech": "Python"
+    },
+    {
+      "tech": "Whisper.cpp"
+    },
+    {
+      "tech": "Ollama"
+    },
+    {
+      "tech": "FFmpeg"
+    },
+    {
+      "tech": "MCP"
+    }
+  ],
+  "githubUrl": "https://github.com/caiolombello/falatrace",
+  "liveUrl": "https://caiolombello.github.io/falatrace/",
+  "featured": true,
+  "order": 1,
+  "createdAt": "2026-09-30",
+  "updatedAt": "2026-10-07"
+}

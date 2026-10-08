@@ -1,0 +1,44 @@
+{
+  "certifications": [
+    {
+      "name": "AWS Certified Security – Specialty",
+      "issuer": "Amazon Web Services",
+      "issuedAt": "2026-07-27",
+      "expiresAt": "2029-07-27",
+      "image": "https://images.credly.com/images/53acdae5-d69f-4dda-b650-d02ed7a50dd7/image.png",
+      "url": "https://www.credly.com/badges/28a2cfc2-c793-45e4-8c73-e0c3db78994c"
+    },
+    {
+      "name": "AWS Certified Solutions Architect – Associate",
+      "issuer": "Amazon Web Services",
+      "issuedAt": "2025-10-06",
+      "expiresAt": "2028-10-06",
+      "image": "https://images.credly.com/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png",
+      "url": "https://www.credly.com/badges/f601b3dc-72cc-4ff0-91be-c73a87008988"
+    },
+    {
+      "name": "AWS Certified Cloud Practitioner",
+      "issuer": "Amazon Web Services",
+      "issuedAt": "2022-09-24",
+      "expiresAt": "2028-10-06",
+      "image": "https://images.credly.com/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png",
+      "url": "https://www.credly.com/badges/4198477d-41d3-4d27-bb23-a0d81d881627"
+    }
+  ],
+  "trainingBadges": [
+    {
+      "name": "AWS Knowledge: Amazon EKS",
+      "issuer": "Amazon Web Services",
+      "issuedAt": "2024-01-09",
+      "image": "https://images.credly.com/images/f5efafe6-ebdc-485c-9ffa-3a05533e634b/blob",
+      "url": "https://www.credly.com/badges/5ee3bee2-e647-41d6-a59c-bc0fa35ae26d"
+    },
+    {
+      "name": "LFS169: Introduction to GitOps",
+      "issuer": "The Linux Foundation",
+      "issuedAt": "2023-08-17",
+      "image": "https://images.credly.com/images/032a65da-a036-4d05-ad80-8fc1274363ab/blob",
+      "url": "https://www.credly.com/badges/9957c6eb-c97a-4aed-bfb2-bd9be8e2d228"
+    }
+  ]
+}

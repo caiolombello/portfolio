@@ -1,13 +1,13 @@
 {
   "site": {
     "name": "Caio Barbieri Portfolio",
-    "title": "Caio Barbieri - Senior DevOps Engineer & SRE",
+    "title": "Caio Barbieri - Senior SRE | Cloud & Platform Engineering",
     "shortName": "Caio Barbieri",
-    "description": "Portfólio de Caio Barbieri, Engenheiro DevOps Sênior e SRE especializado em AWS, Kubernetes, Terraform, GitOps, confiabilidade e segurança de plataformas.",
+    "description": "Portfólio de Caio Barbieri, SRE sênior com foco em AWS, Kubernetes, GitOps, observabilidade, segurança em nuvem e resposta a incidentes.",
     "url": "https://caio.lombello.com",
     "author": "Caio Barbieri",
     "email": "caio@lombello.com",
-    "phone": "+55 (19) 99753-6692",
+    "phone": "+55 (19) 99615-3687",
     "location": "Campinas, São Paulo, Brasil",
     "profileImage": {
       "type": "local",
@@ -32,23 +32,21 @@
     "twitterHandle": "@caiolombello"
   },
   "features": {
-    "portfolio": false
+    "portfolio": true
   },
   "seo": {
     "keywords": [
-      "DevOps",
       "SRE",
-      "Cloud Native",
-      "Kubernetes",
+      "Site Reliability Engineering",
+      "Platform Engineering",
+      "Cloud",
       "AWS",
+      "Kubernetes",
       "Terraform",
-      "CloudFormation",
-      "AWS Networking",
-      "CI/CD",
-      "Automação",
-      "Infraestrutura",
-      "Cloud Security",
-      "Incident Response",
+      "GitOps",
+      "Observabilidade",
+      "Segurança em nuvem",
+      "DevOps",
       "Campinas"
     ]
   }

@@ -24,6 +24,9 @@ function createModel(locale: ResumeLocale): ResumeModel {
     summary: isPortuguese ? "Resumo profissional." : "Professional summary.",
     experiences: [],
     education: [],
+    certifications: [],
+    trainingBadges: [],
+    languages: [],
     skills: [],
     skillGroups: [],
     labels: {
@@ -33,6 +36,9 @@ function createModel(locale: ResumeLocale): ResumeModel {
         : "Professional Experience",
       education: isPortuguese ? "Educação" : "Education",
       skills: isPortuguese ? "Habilidades" : "Skills",
+      certifications: isPortuguese ? "Certificações" : "Certifications",
+      trainingBadges: isPortuguese ? "Cursos e badges" : "Training badges",
+      languages: isPortuguese ? "Idiomas" : "Languages",
     },
   };
 }

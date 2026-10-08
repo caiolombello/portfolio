@@ -4,6 +4,18 @@ import { z } from "zod";
 export const ProfileLocaleSchema = z.object({
   name: z.string(),
   title: z.string(),
+  role: z.string().optional(),
+  headline: z.array(z.string()).optional(),
+  intro: z.string().optional(),
+  focus: z
+    .array(
+      z.object({
+        icon: z.string(),
+        title: z.string(),
+        description: z.string(),
+      }),
+    )
+    .optional(),
   location: z.string().optional(),
   birthDate: z.string().optional(),
   about: z.string(),
@@ -24,6 +36,16 @@ export const ProfileSchema = z.object({
   phone: z.string().optional(),
   avatar: z.string().optional(),
   socialLinks: SocialLinksSchema.optional(),
+  languages: z
+    .array(
+      z.object({
+        name_pt: z.string(),
+        name_en: z.string(),
+        level_pt: z.string(),
+        level_en: z.string(),
+      }),
+    )
+    .optional(),
 });
 
 // Skills Schemas
@@ -40,6 +62,9 @@ export const SkillCategorySchema = z.enum([
   "Banco de Dados",
   "Ferramentas",
   "Outros",
+  "Cloud e infraestrutura",
+  "Containers e IaC",
+  "Entrega e plataformas",
 ]);
 
 export const SkillLevelSchema = z.enum([
@@ -52,8 +77,9 @@ export const SkillLevelSchema = z.enum([
 
 export const SkillSchema = z.object({
   name: z.string(),
+  name_en: z.string().optional(),
   category: SkillCategorySchema,
-  level: SkillLevelSchema,
+  level: SkillLevelSchema.optional(),
 });
 
 export const SkillsDataSchema = z.object({
@@ -73,6 +99,8 @@ export const ExperienceSchema = z.object({
   title_en: z.string(),
   title_es: z.string().optional(),
   period: z.string(),
+  summary_pt: z.string().optional(),
+  summary_en: z.string().optional(),
   responsibilities_pt: z.array(ResponsibilityItemSchema),
   responsibilities_en: z.array(ResponsibilityItemSchema),
   responsibilities_es: z.array(ResponsibilityItemSchema).optional(),
@@ -127,11 +155,21 @@ export const ProjectSchema = z.object({
   shortDescription_en: z.string(),
   description_pt: z.string(),
   description_en: z.string(),
+  tagline_pt: z.string().optional(),
+  tagline_en: z.string().optional(),
+  highlights_pt: z.array(z.string()).optional(),
+  highlights_en: z.array(z.string()).optional(),
+  status: z.string().optional(),
+  year: z.number().optional(),
+  license: z.string().optional(),
+  order: z.number().optional(),
   imageUrl: z.string().optional(),
   category: z.string().optional(),
   technologies: z.array(TechnologySchema).optional(),
   githubUrl: z.string().url().optional(),
-  liveUrl: z.string().url().optional(),
+  liveUrl: z
+    .union([z.string().url(), z.string().regex(/^\/(?!\/)[^\s\\]*$/)])
+    .optional(),
   featured: z.boolean().optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),

@@ -1,0 +1,57 @@
+{
+  "id": "skills",
+  "title_pt": "Skills para agentes",
+  "title_en": "Agent Skills",
+  "tagline_pt": "Disciplina de engenharia, empacotada para qualquer agente.",
+  "tagline_en": "Engineering discipline, packaged for any coding agent.",
+  "shortDescription_pt": "Biblioteca agnóstica de provedor com 70 skills para agentes de código — usadas no dia a dia com Claude Code, Codex CLI, OpenCode e Kiro.",
+  "shortDescription_en": "A provider-agnostic library of 70 skills for coding agents — used daily with Claude Code, Codex CLI, OpenCode and Kiro.",
+  "description_pt": "Uma skill é uma pasta com um SKILL.md — frontmatter YAML mais instruções — e, opcionalmente, scripts e referências, no formato da especificação Open Agent Skills. O agente carrega só o nome e a descrição no início da sessão e lê o conteúdo completo quando a tarefa pede.\n\nA maioria das coleções públicas assume recursos exclusivos de um único agente. Estas skills removem essas suposições e foram escritas para disparar de forma confiável entre provedores, cobrindo o ciclo inteiro: planejamento, TDD, revisão de código, git, Terraform, Kubernetes, AWS, segurança, observabilidade, resposta a incidentes e design de interfaces.",
+  "description_en": "A skill is a folder with a SKILL.md — YAML frontmatter plus instructions — and optional scripts and references, following the Open Agent Skills specification. The agent loads only the name and description at session start and reads the full body when a task calls for it.\n\nMost public collections assume features that only one agent has. These skills drop those assumptions and are written to trigger reliably across providers, covering the whole lifecycle: planning, TDD, code review, git, Terraform, Kubernetes, AWS, security, observability, incident response and interface design.",
+  "highlights_pt": [
+    "70 skills independentes de fluxo de código, git, infraestrutura, SRE, segurança e produto.",
+    "Instalador em Python com prévia por padrão, manifestos por perfil, detecção de atualizações, backup e rollback.",
+    "Catálogo pensado para o orçamento de contexto dos agentes, evitando descrições truncadas e skills omitidas.",
+    "Script de poda que remove só links órfãos apontando para o repositório, preservando instalações externas.",
+    "Compatível com Claude Code, Codex CLI, OpenCode, Kiro, Gemini e qualquer agente que leia SKILL.md."
+  ],
+  "highlights_en": [
+    "70 independent skills covering coding workflow, git, infrastructure, SRE, security and product.",
+    "Python installer that previews by default, with per-profile manifests, update detection, backup and rollback.",
+    "Catalog designed around agents' context budgets, avoiding truncated descriptions and dropped skills.",
+    "Prune script that removes only stale links pointing into the repo, preserving external installs.",
+    "Works with Claude Code, Codex CLI, OpenCode, Kiro, Gemini and any agent that reads SKILL.md."
+  ],
+  "category": "ai-tooling",
+  "status": "active",
+  "year": 2026,
+  "license": "MIT",
+  "technologies": [
+    {
+      "tech": "Markdown"
+    },
+    {
+      "tech": "Python"
+    },
+    {
+      "tech": "Shell"
+    },
+    {
+      "tech": "Claude Code"
+    },
+    {
+      "tech": "Codex CLI"
+    },
+    {
+      "tech": "OpenCode"
+    },
+    {
+      "tech": "Kiro"
+    }
+  ],
+  "githubUrl": "https://github.com/caiolombello/skills",
+  "featured": true,
+  "order": 3,
+  "createdAt": "2026-05-09",
+  "updatedAt": "2026-10-02"
+}

@@ -184,6 +184,14 @@ export function loadProjects() {
         id: data.id || filename.replace(".json", ""),
         title_pt: data.title_pt || data.title || "Untitled Project",
         title_en: data.title_en || data.title || "Untitled Project",
+        tagline_pt: data.tagline_pt,
+        tagline_en: data.tagline_en,
+        highlights_pt: data.highlights_pt,
+        highlights_en: data.highlights_en,
+        status: data.status,
+        year: data.year,
+        license: data.license,
+        order: data.order,
         shortDescription_pt: data.shortDescription_pt || "",
         shortDescription_en: data.shortDescription_en || "",
         description_pt: data.description_pt || data.description || "",
@@ -203,7 +211,7 @@ export function loadProjects() {
     return projects.sort((a, b) => {
       if (a.featured && !b.featured) return -1;
       if (!a.featured && b.featured) return 1;
-      return 0;
+      return (a.order ?? 99) - (b.order ?? 99);
     });
   } catch (error) {
     console.error("Error loading projects:", error);

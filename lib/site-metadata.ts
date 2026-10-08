@@ -74,6 +74,10 @@ export async function generateSiteMetadata(locale: SiteLocale = "pt"): Promise<M
     ? fullDescription.substring(0, 152) + "..."
     : fullDescription;
   const localizedHomePath = getLocalizedInstitutionalPath("/", locale);
+  const socialImage = {
+    url: new URL(`${localizedHomePath === "/" ? "" : localizedHomePath}/opengraph-image`, config.site.url).toString(),
+    width: 1200, height: 630, alt: siteTitle,
+  };
 
   return {
     metadataBase: new URL(config.site.url),
@@ -109,6 +113,7 @@ export async function generateSiteMetadata(locale: SiteLocale = "pt"): Promise<M
     },
     openGraph: {
       type: "website",
+      images: [socialImage],
       locale: locale === "pt" ? "pt_BR" : "en_US",
       alternateLocale: [locale === "pt" ? "en_US" : "pt_BR"],
       url: localizedHomePath,
@@ -118,6 +123,7 @@ export async function generateSiteMetadata(locale: SiteLocale = "pt"): Promise<M
     },
     twitter: {
       card: "summary_large_image",
+      images: [socialImage],
       title: siteTitle,
       description: siteDescription,
       site: config.integrations.twitterHandle,

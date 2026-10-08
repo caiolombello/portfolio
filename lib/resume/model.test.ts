@@ -59,6 +59,83 @@ const source = {
 };
 
 describe("buildResumeModels", () => {
+  it("includes localized languages and keeps certifications separate from training badges", () => {
+    const models = buildResumeModels({
+      ...source,
+      profile: {
+        ...source.profile,
+        languages: [
+          {
+            name_pt: "Inglês",
+            name_en: "English",
+            level_pt: "Proficiência profissional",
+            level_en: "Professional proficiency",
+          },
+        ],
+      },
+      certifications: [
+        {
+          name: "AWS Certified Security – Specialty",
+          issuer: "Amazon Web Services",
+          issuedAt: "2026-07-27",
+          url: "https://example.com/security",
+        },
+      ],
+      trainingBadges: [
+        {
+          name: "Introduction to GitOps",
+          issuer: "The Linux Foundation",
+          issuedAt: "2023-08-17",
+        },
+      ],
+    });
+
+    expect(models.pt.languages).toEqual([
+      { name: "Inglês", level: "Proficiência profissional" },
+    ]);
+    expect(models.en.languages).toEqual([
+      { name: "English", level: "Professional proficiency" },
+    ]);
+    expect(models.en.certifications.map((item) => item.name)).toEqual([
+      "AWS Certified Security – Specialty",
+    ]);
+    expect(models.pt.trainingBadges.map((item) => item.name)).toEqual([
+      "Introduction to GitOps",
+    ]);
+    expect(models.en.labels.certifications).toBe("Certifications");
+  });
+
+  it("translates the approved skill categories and names without requiring proficiency levels", () => {
+    const models = buildResumeModels({
+      ...source,
+      skills: [
+        { name: "AWS", category: "Cloud e infraestrutura" },
+        { name: "Kubernetes", category: "Containers e IaC" },
+        { name: "GitOps", category: "Entrega e plataformas" },
+        {
+          name: "Segmentação de rede",
+          name_en: "Network segmentation",
+          category: "Segurança",
+        },
+      ],
+    });
+
+    expect(models.en.skillGroups).toEqual([
+      { category: "Cloud and infrastructure", items: ["AWS"] },
+      { category: "Containers and IaC", items: ["Kubernetes"] },
+      { category: "Delivery and platforms", items: ["GitOps"] },
+      { category: "Security", items: ["Network segmentation"] },
+    ]);
+    expect(models.pt.skillGroups[3].items).toEqual(["Segmentação de rede"]);
+  });
+
+  it("accepts existing sources without credentials or languages", () => {
+    const models = buildResumeModels(source);
+    expect(models.pt.certifications).toEqual([]);
+    expect(models.en.trainingBadges).toEqual([]);
+    expect(models.pt.languages).toEqual([]);
+  });
+
   it("builds sorted and localized resumes from one validated source", () => {
     const models = buildResumeModels(source);
 

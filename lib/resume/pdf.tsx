@@ -214,6 +214,58 @@ function ResumePdfDocument({ model }: { model: ResumeModel }) {
           ))}
         </View>
 
+        {[
+          {
+            label: model.labels.certifications,
+            credentials: model.certifications,
+          },
+          {
+            label: model.labels.trainingBadges,
+            credentials: model.trainingBadges,
+          },
+        ].map(
+          ({ label, credentials }) =>
+            credentials.length > 0 && (
+              <View key={label} style={styles.section}>
+                <Text style={styles.sectionTitle} minPresenceAhead={28}>
+                  {label}
+                </Text>
+                {credentials.map((credential) => (
+                  <View key={credential.name} style={styles.entry} wrap={false}>
+                    {credential.url ? (
+                      <Link
+                        src={credential.url}
+                        style={[styles.entryHeading, styles.contactLink]}
+                      >
+                        {credential.name}
+                      </Link>
+                    ) : (
+                      <Text style={styles.entryHeading}>{credential.name}</Text>
+                    )}
+                    <Text style={styles.period}>
+                      {[credential.issuer, credential.issuedAt?.slice(0, 4)]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            ),
+        )}
+
+        {model.languages.length > 0 && (
+          <View style={styles.section} wrap={false}>
+            <Text style={styles.sectionTitle} minPresenceAhead={28}>
+              {model.labels.languages}
+            </Text>
+            {model.languages.map((language) => (
+              <Text key={language.name} style={styles.skillGroup}>
+                {language.name}: {language.level}
+              </Text>
+            ))}
+          </View>
+        )}
+
         <Text
           fixed
           style={styles.footer}

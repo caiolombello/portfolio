@@ -10,7 +10,10 @@ export type SkillCategory =
   | "Backend"
   | "Banco de Dados"
   | "Ferramentas"
-  | "Outros";
+  | "Outros"
+  | "Cloud e infraestrutura"
+  | "Containers e IaC"
+  | "Entrega e plataformas";
 
 export type SkillLevel =
   | "Avançado"
@@ -22,8 +25,9 @@ export type SkillLevel =
 export interface Skill {
   id?: string;
   name: string;
+  name_en?: string;
   category: SkillCategory;
-  level: SkillLevel;
+  level?: SkillLevel;
 }
 
 export interface SkillsData {

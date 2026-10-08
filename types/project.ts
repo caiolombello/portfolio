@@ -21,6 +21,14 @@ export interface Project {
   shortDescription_en: string;
   description_pt: string;
   description_en: string;
+  tagline_pt?: string;
+  tagline_en?: string;
+  highlights_pt?: string[];
+  highlights_en?: string[];
+  status?: string;
+  year?: number;
+  license?: string;
+  order?: number;
   imageUrl?: string;
   category?: string;
   technologies?: Technology[];

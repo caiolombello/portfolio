@@ -1,0 +1,58 @@
+{
+  "id": "radar-de-producao",
+  "title_pt": "Radar de Produção",
+  "title_en": "Radar de Produção",
+  "tagline_pt": "Uma newsletter que só sai se cada afirmação tiver fonte.",
+  "tagline_en": "A newsletter that only ships when every claim has a source.",
+  "shortDescription_pt": "Pipeline serverless na AWS que coleta, classifica e redige uma newsletter de engenharia de produção — e bloqueia a edição se qualquer verificação de qualidade falhar.",
+  "shortDescription_en": "A serverless AWS pipeline that collects, classifies and drafts a production-engineering newsletter — and blocks the issue if any quality gate fails.",
+  "description_pt": "O Radar de Produção acompanha 96 fontes oficiais — AWS, Kubernetes, CNCF, OpenTelemetry, Prometheus, Grafana, HashiCorp, OpenAI, Anthropic e blogs de engenharia — em cinco frentes: cloud, Kubernetes e cloud native, observabilidade e SRE, segurança e depreciações, e IA aplicada a operações.\n\nO pipeline é fail-closed. Um modelo de linguagem classifica e redige com saída JSON estruturada, mas a edição só é publicada se todas as verificações passarem: cada afirmação precisa de trecho de evidência e fonte, números precisam aparecer na evidência, links são checados, itens duplicados são barrados e a taxa de falha das fontes não pode passar de 20%. As inscrições usam confirmação dupla, descadastro por token e tratamento de bounces e reclamações do SES.",
+  "description_en": "Radar de Produção (“Production Radar”) follows 96 official sources — AWS, Kubernetes, CNCF, OpenTelemetry, Prometheus, Grafana, HashiCorp, OpenAI, Anthropic and engineering blogs — across five tracks: cloud, Kubernetes and cloud native, observability and SRE, security and deprecations, and AI for operations.\n\nThe pipeline is fail-closed. A language model classifies and drafts with structured JSON output, but an issue is only published when every check passes: each claim needs an evidence excerpt and a source, numbers must appear in the evidence, links are checked, duplicates are blocked and the source failure rate cannot exceed 20%. Subscriptions use double opt-in, token-based unsubscribe and SES bounce and complaint handling.",
+  "highlights_pt": [
+    "Ingestão a cada 6 horas e edição semanal orquestrada por Step Functions, com retry e catch em cada etapa.",
+    "Gates de qualidade: evidência por afirmação, números conferidos na fonte, links válidos, deduplicação e mínimo de itens.",
+    "Funções Lambda em Python 3.12 com pyright em modo estrito, ruff e suíte de testes automatizados.",
+    "Entrega por SES v2 com configuration set, MAIL FROM próprio e eventos de bounce e reclamação via SNS.",
+    "Estado em DynamoDB, artefatos em S3 versionado e criptografado e filas SQS com dead-letter queue.",
+    "Infraestrutura 100% em Terraform: alarmes no CloudWatch, OIDC para o GitHub sem chaves estáticas e SCP restringindo regiões."
+  ],
+  "highlights_en": [
+    "Ingestion every 6 hours and a weekly issue orchestrated by Step Functions, with retry and catch at every step.",
+    "Quality gates: evidence for every claim, numbers checked against the source, valid links, deduplication and a minimum item count.",
+    "Python 3.12 Lambda functions with pyright in strict mode, ruff and an automated test suite.",
+    "Delivery through SES v2 with a configuration set, custom MAIL FROM and bounce and complaint events via SNS.",
+    "State in DynamoDB, artifacts in versioned, encrypted S3 and SQS queues with a dead-letter queue.",
+    "Infrastructure fully in Terraform: CloudWatch alarms, GitHub OIDC with no static keys and an SCP restricting regions."
+  ],
+  "category": "cloud-automation",
+  "status": "private",
+  "year": 2026,
+  "technologies": [
+    {
+      "tech": "Python"
+    },
+    {
+      "tech": "AWS Lambda"
+    },
+    {
+      "tech": "Step Functions"
+    },
+    {
+      "tech": "Amazon SES"
+    },
+    {
+      "tech": "DynamoDB"
+    },
+    {
+      "tech": "Terraform"
+    },
+    {
+      "tech": "OpenAI API"
+    }
+  ],
+  "liveUrl": "/newsletter",
+  "featured": true,
+  "order": 4,
+  "createdAt": "2026-08-02",
+  "updatedAt": "2026-08-28"
+}

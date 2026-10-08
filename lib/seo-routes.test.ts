@@ -3,6 +3,16 @@ import { describe, expect, it } from "vitest";
 import { buildRobots, buildSitemap } from "./seo-routes";
 
 describe("SEO metadata routes", () => {
+  it("lists both localized project detail URLs", () => {
+    const urls = buildSitemap({
+      baseUrl: "https://caio.lombello.com",
+      portfolioEnabled: true,
+      posts: [],
+      projects: [{ id: "falatrace" }],
+    }).map(({ url }) => url);
+    expect(urls).toContain("https://caio.lombello.com/portfolio/falatrace");
+    expect(urls).toContain("https://caio.lombello.com/en/portfolio/falatrace");
+  });
   it("allows crawlers to fetch Next.js rendering assets", () => {
     const metadata = buildRobots("https://caio.lombello.com");
     const rules = Array.isArray(metadata.rules)

@@ -17,4 +17,13 @@ describe("detectRequestLocale", () => {
     expect(detectRequestLocale("/resume", "en")).toBe("pt");
     expect(detectRequestLocale("/resume", "es")).toBe("pt");
   });
+
+  it("uses project detail URLs as the source of truth even without a locale cookie", () => {
+    expect(detectRequestLocale("/portfolio/falatrace", "en")).toBe("pt");
+    expect(detectRequestLocale("/portfolio/falatrace", "pt")).toBe("pt");
+    expect(detectRequestLocale("/en/portfolio/falatrace")).toBe("en");
+    expect(detectRequestLocale("/en/portfolio/falatrace", "pt")).toBe("en");
+    expect(detectRequestLocale("/portfolio", "en")).toBe("pt");
+    expect(detectRequestLocale("/en/portfolio", "pt")).toBe("en");
+  });
 });
