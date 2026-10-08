@@ -29,6 +29,18 @@ const model: ResumeModel = {
       period: "2022 - 2025",
     },
   ],
+  certifications: [
+    {
+      name: "AWS Certified Security – Specialty",
+      issuer: "Amazon Web Services",
+      issuedAt: "2026-07-27",
+      url: "https://example.com/security",
+    },
+  ],
+  trainingBadges: [
+    { name: "Introduction to GitOps", issuer: "The Linux Foundation" },
+  ],
+  languages: [{ name: "Português", level: "Nativo" }],
   skills: [],
   skillGroups: [{ category: "Cloud/Infra", items: ["AWS", "Kubernetes"] }],
   labels: {
@@ -36,6 +48,9 @@ const model: ResumeModel = {
     experience: "Experiência Profissional",
     education: "Educação",
     skills: "Habilidades",
+    certifications: "Certificações",
+    trainingBadges: "Cursos e badges",
+    languages: "Idiomas",
   },
 };
 

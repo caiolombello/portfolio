@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { SiteConfig } from "./config-server";
-import {
-  buildBlogPostMetadata,
-  buildPageMetadata,
-} from "./seo-metadata";
+import { buildBlogPostMetadata, buildPageMetadata } from "./seo-metadata";
 
 const config: SiteConfig = {
   site: {
@@ -45,9 +42,7 @@ describe("buildPageMetadata", () => {
     expect(metadata.alternates?.canonical).toBe(
       "https://caio.lombello.com/resume",
     );
-    expect(metadata.openGraph?.url).toBe(
-      "https://caio.lombello.com/resume",
-    );
+    expect(metadata.openGraph?.url).toBe("https://caio.lombello.com/resume");
     expect(metadata.openGraph?.locale).toBe("pt_BR");
     expect(metadata.alternates?.languages).toEqual({
       "pt-BR": "https://caio.lombello.com/resume",
@@ -67,10 +62,52 @@ describe("buildPageMetadata", () => {
     expect(metadata.alternates?.canonical).toBe(
       "https://caio.lombello.com/en/resume",
     );
-    expect(metadata.openGraph?.url).toBe(
-      "https://caio.lombello.com/en/resume",
-    );
+    expect(metadata.openGraph?.url).toBe("https://caio.lombello.com/en/resume");
     expect(metadata.openGraph?.locale).toBe("en_US");
+  });
+});
+
+describe("social images", () => {
+  it.each([
+    ["/portfolio", "pt", "/portfolio/opengraph-image"],
+    ["/portfolio", "en", "/en/portfolio/opengraph-image"],
+    ["/newsletter", "en", "/en/newsletter/opengraph-image"],
+    ["/blog/page/2", "en", "/en/blog/opengraph-image"],
+    ["/portfolio/falatrace", "pt", "/portfolio/falatrace/opengraph-image"],
+    ["/portfolio/falatrace", "en", "/en/portfolio/falatrace/opengraph-image"],
+  ] as const)(
+    "uses the correct social image for %s in %s",
+    (path, locale, imagePath) => {
+      const metadata = buildPageMetadata({
+        config,
+        path,
+        locale,
+        title: "Title",
+        description: "Description",
+      });
+      const expected = [
+        {
+          url: `https://caio.lombello.com${imagePath}`,
+          width: 1200,
+          height: 630,
+          alt: "Title",
+        },
+      ];
+      expect(metadata.openGraph?.images).toEqual(expected);
+      expect(metadata.twitter?.images).toEqual(expected);
+    },
+  );
+
+  it("preserves noindex on newsletter utility pages", () => {
+    const metadata = buildPageMetadata({
+      config,
+      path: "/newsletter/confirm",
+      locale: "pt",
+      title: "Confirmar",
+      description: "Confirmação",
+      noIndex: true,
+    });
+    expect(metadata.robots).toEqual({ index: false, follow: false });
   });
 });
 
@@ -97,6 +134,14 @@ describe("buildBlogPostMetadata", () => {
     });
 
     expect(metadata.description).toBe(post.summary_en);
+    expect(metadata.twitter?.images).toEqual([
+      {
+        url: "https://caio.lombello.com/blog/kubernetes-hpa.en/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: post.title_en,
+      },
+    ]);
     expect(metadata.alternates?.canonical).toBe(
       "https://caio.lombello.com/blog/kubernetes-hpa.en",
     );

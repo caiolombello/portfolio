@@ -7,24 +7,18 @@
   "period": "Sep 2024 - Jul 2025",
   "responsibilities_pt": [
     {
-      "item": "Desenvolvi soluções de automação de infraestrutura e pipelines CI/CD para diversos clientes."
+      "item": "Desenvolvi automações de infraestrutura e pipelines CI/CD para clientes, além de templates, plugins e customizações na plataforma interna VeeCode."
     },
     {
-      "item": "Liderei iniciativas de automação baseadas em IA e contribuí ativamente para a plataforma VeeCode, criando templates, plugins e funcionalidades customizadas."
-    },
-    {
-      "item": "Implementei soluções de observabilidade e ofereci consultoria contínua em DevOps para apoiar a transformação digital e capacitação das equipes."
+      "item": "Implementei soluções de observabilidade e ferramentas com IA para fluxos operacionais, com atuação em consultoria DevOps."
     }
   ],
   "responsibilities_en": [
     {
-      "item": "Developed infrastructure automation solutions and CI/CD pipelines for various clients."
+      "item": "Built infrastructure automation and CI/CD pipelines for clients, plus templates, plugins and customizations for the internal VeeCode platform."
     },
     {
-      "item": "Led AI-based automation initiatives and actively contributed to the VeeCode platform by creating templates, plugins, and custom features."
-    },
-    {
-      "item": "Implemented observability solutions and provided ongoing DevOps consulting to support digital transformation and team enablement."
+      "item": "Implemented observability solutions and AI-powered tools for operational workflows, while working in DevOps consulting."
     }
   ],
   "startDate": "2024-09-01",

@@ -1,6 +1,10 @@
 export interface ProfileLocale {
   name: string;
   title: string;
+  role?: string;
+  headline?: string[];
+  intro?: string;
+  focus?: { icon: string; title: string; description: string }[];
   location?: string;
   birthDate?: string;
   about: string;
@@ -22,4 +26,10 @@ export interface Profile {
   phone?: string;
   avatar?: string;
   socialLinks?: SocialLinks;
+  languages?: {
+    name_pt: string;
+    name_en: string;
+    level_pt: string;
+    level_en: string;
+  }[];
 }

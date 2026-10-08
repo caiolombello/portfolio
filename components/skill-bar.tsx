@@ -241,7 +241,9 @@ export default function SkillsList({ initialSkills }: SkillsListProps = {}) {
   // Ordenar skills dentro de cada categoria por nivel
   for (const category in grouped) {
     grouped[category].sort(
-      (a, b) => LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level],
+      (a, b) =>
+        (a.level ? LEVEL_ORDER[a.level] : 99) -
+        (b.level ? LEVEL_ORDER[b.level] : 99),
     );
   }
 
@@ -252,22 +254,24 @@ export default function SkillsList({ initialSkills }: SkillsListProps = {}) {
 
   return (
     <div>
-      <div className="mb-8" suppressHydrationWarning>
-        <p className="text-xs leading-5 text-muted-foreground">
-          {LEVEL_HELP[safeLang]}
-        </p>
-        <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
-          {visibleLevels.map((level) => (
-            <li
-              key={level}
-              className="flex items-center gap-2 text-xs text-muted-foreground"
-            >
-              <LevelSignal level={level} />
-              <span>{LEVEL_LABELS[safeLang][level] || level}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      {visibleLevels.length > 0 && (
+        <div className="mb-8" suppressHydrationWarning>
+          <p className="text-xs leading-5 text-muted-foreground">
+            {LEVEL_HELP[safeLang]}
+          </p>
+          <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+            {visibleLevels.map((level) => (
+              <li
+                key={level}
+                className="flex items-center gap-2 text-xs text-muted-foreground"
+              >
+                <LevelSignal level={level} />
+                <span>{LEVEL_LABELS[safeLang][level] || level}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Grid de categorias */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -296,22 +300,31 @@ export default function SkillsList({ initialSkills }: SkillsListProps = {}) {
             <ul className="flex flex-wrap gap-2">
               {categorySkills.map((skill) => {
                 const Icon = findIcon(skill.name);
-                const levelStyle = LEVEL_STYLES[skill.level];
-                const levelLabel =
-                  LEVEL_LABELS[safeLang][skill.level] || skill.level;
+                const levelStyle = skill.level
+                  ? LEVEL_STYLES[skill.level]
+                  : {
+                      bg: "bg-transparent",
+                      text: "text-foreground",
+                      border: "border-border",
+                    };
+                const levelLabel = skill.level
+                  ? LEVEL_LABELS[safeLang][skill.level] || skill.level
+                  : undefined;
 
                 return (
                   <li
                     key={skill.name}
                     title={levelLabel}
-                    aria-label={`${skill.name}: ${levelLabel}`}
+                    aria-label={
+                      levelLabel ? `${skill.name}: ${levelLabel}` : skill.name
+                    }
                     className={`group relative flex cursor-default items-center gap-2 rounded-full border px-3 py-1.5 transition-colors duration-200
                       ${levelStyle.bg} ${levelStyle.text} ${levelStyle.border}
                       hover:border-gold`}
                   >
                     {Icon && <Icon size={14} aria-hidden="true" />}
                     <span className="text-sm">{skill.name}</span>
-                    <LevelSignal level={skill.level} />
+                    {skill.level && <LevelSignal level={skill.level} />}
                   </li>
                 );
               })}

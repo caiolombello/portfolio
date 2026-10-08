@@ -6,14 +6,20 @@
   "title_en": "DevOps Intern",
   "period": "Feb 2022 - Oct 2022",
   "responsibilities_pt": [
-    { "item": "Implementei o GitLab em cluster DigitalOcean usando Helm e Kubernetes." },
-    { "item": "Automatizei a migração de mais de 200 repositórios via Python e API do GitLab." },
-    { "item": "Otimizei templates Helm, pipelines CI/CD e contêinerizei aplicações para acelerar o ciclo de desenvolvimento." }
+    {
+      "item": "Automatizei a migração de mais de 200 repositórios do GitLab.com para GitLab self-hosted em aproximadamente uma hora, usando Python e a API do GitLab."
+    },
+    {
+      "item": "Implantei GitLab no Kubernetes da DigitalOcean com Helm, customizei templates de implantação, desenvolvi pipelines CI/CD e realizei a conteinerização de aplicações."
+    }
   ],
   "responsibilities_en": [
-    { "item": "Implemented GitLab on a DigitalOcean cluster using Helm and Kubernetes." },
-    { "item": "Automated the migration of over 200 repositories via Python and the GitLab API." },
-    { "item": "Optimized Helm templates, CI/CD pipelines, and containerized applications to accelerate the development cycle." }
+    {
+      "item": "Automated the migration of 200+ repositories from GitLab.com to self-hosted GitLab in about an hour, using Python and the GitLab API."
+    },
+    {
+      "item": "Deployed GitLab on DigitalOcean Kubernetes with Helm, customized deployment templates, built CI/CD pipelines and containerized applications."
+    }
   ],
   "startDate": "2022-02-01",
   "endDate": "2022-10-01"

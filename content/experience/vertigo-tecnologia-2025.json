@@ -7,30 +7,18 @@
   "period": "Jun 2025 - Aug 2025",
   "responsibilities_pt": [
     {
-      "item": "Responsável por arquitetar e entregar toda a fundação de engenharia de plataforma para um cliente enterprise."
+      "item": "Liderei a entrega técnica de uma fundação de plataforma cloud-native, da arquitetura à implementação, com templates reutilizáveis de infraestrutura como código e Argo CD."
     },
     {
-      "item": "Criei templates e módulos reutilizáveis com IaC, pipelines DevSecOps usando ArgoCD, integração com Keycloak e Backstage, além da implantação de uma stack de observabilidade centralizada e multi-cluster."
-    },
-    {
-      "item": "Gerenciei ambientes Kubernetes em múltiplas nuvens (AWS e Oracle Cloud), garantindo operações seguras, escaláveis e padronizadas."
-    },
-    {
-      "item": "Liderei tecnicamente o projeto, executando todas as implementações de forma hands-on."
+      "item": "Integrei Keycloak e Backstage e implementei observabilidade centralizada entre clusters Kubernetes em AWS e Oracle Cloud."
     }
   ],
   "responsibilities_en": [
     {
-      "item": "Responsible for architecting and delivering the entire platform engineering foundation for an enterprise client."
+      "item": "Led the technical delivery of a cloud-native platform foundation, from architecture to implementation, with reusable infrastructure-as-code templates and Argo CD."
     },
     {
-      "item": "Created reusable templates and modules with IaC, DevSecOps pipelines using ArgoCD, integration with Keycloak and Backstage, and deployed a centralized, multi-cluster observability stack."
-    },
-    {
-      "item": "Managed Kubernetes environments across multiple clouds (AWS and Oracle Cloud), ensuring secure, scalable, and standardized operations."
-    },
-    {
-      "item": "Technically led the project, executing all implementations hands-on."
+      "item": "Integrated Keycloak and Backstage and implemented centralized observability across Kubernetes clusters on AWS and Oracle Cloud."
     }
   ],
   "startDate": "2025-06-01",

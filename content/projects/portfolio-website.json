@@ -1,40 +1,58 @@
 {
   "id": "portfolio-website",
-  "title_pt": "Website Portfolio Pessoal",
-  "title_en": "Personal Portfolio Website",
-  "shortDescription_pt": "Website portfolio responsivo e moderno com Next.js",
-  "shortDescription_en": "Modern and responsive portfolio website with Next.js",
-  "description_pt": "Portfolio pessoal desenvolvido com Next.js 15, featuring sistema de blog integrado, internacionalização completa (PT/EN/ES), design responsivo com Tailwind CSS, e sistema de gerenciamento de conteúdo. Inclui páginas de projetos, blog com filtros por tags, e seção de contato funcional.",
-  "description_en": "Personal portfolio developed with Next.js 15, featuring integrated blog system, complete internationalization (PT/EN/ES), responsive design with Tailwind CSS, and content management system. Includes project pages, blog with tag filters, and functional contact section.",
+  "title_pt": "Este portfólio",
+  "title_en": "This portfolio",
+  "tagline_pt": "Conteúdo em arquivos, renderizado no servidor, em português e inglês.",
+  "tagline_en": "File-based content, server-rendered, in Portuguese and English.",
+  "shortDescription_pt": "Next.js 16 com React Server Components, conteúdo em JSON e Markdown, rotas em português e inglês, imagens Open Graph dinâmicas e currículo em PDF gerado dos mesmos dados.",
+  "shortDescription_en": "Next.js 16 with React Server Components, JSON and Markdown content, Portuguese and English routes, dynamic Open Graph images and a PDF resume generated from the same data.",
+  "description_pt": "Portfólio, blog e newsletter construídos com Next.js 16 (App Router) e React 19. Todo o conteúdo — perfil, projetos, experiências e posts — vive em arquivos JSON e Markdown versionados, sem banco de dados nem CMS externo. As páginas principais existem em português e em inglês (/en), renderizadas no servidor, com hreflang entre as versões, imagens Open Graph dinâmicas, sitemap, feed RSS e llms.txt.\n\nNo build, um script gera o currículo em PDF e Markdown a partir dos mesmos dados com React-PDF, mantendo site e currículo sempre sincronizados. As páginas da newsletter Radar de Produção consomem a API do pipeline, e as capas dos projetos são desenhadas em SVG no próprio código.",
+  "description_en": "Portfolio, blog and newsletter built with Next.js 16 (App Router) and React 19. All content — profile, projects, experience and posts — lives in versioned JSON and Markdown files, with no database or external CMS. The main pages exist in Portuguese and English (/en), rendered on the server, with hreflang between versions, dynamic Open Graph images, a sitemap, an RSS feed and llms.txt.\n\nAt build time, a script generates the resume as PDF and Markdown from the same data with React-PDF, keeping the site and the resume in sync. The Radar de Produção newsletter pages read from the pipeline's API, and project covers are drawn as SVG in code.",
+  "highlights_pt": [
+    "React Server Components: dados lidos no servidor e idioma definido pela URL, com hreflang entre as versões.",
+    "Conteúdo em JSON e Markdown, sem banco de dados nem CMS externo.",
+    "Currículo em PDF e Markdown (PT/EN) gerado do mesmo conteúdo com React-PDF a cada build.",
+    "Imagens Open Graph dinâmicas, feed RSS, sitemap, llms.txt e dados estruturados em JSON-LD.",
+    "Newsletter Radar de Produção integrada: arquivo de edições, inscrição com confirmação dupla e descadastro.",
+    "Tema claro e escuro, foco visível, movimento reduzido respeitado e capas de projeto em SVG."
+  ],
+  "highlights_en": [
+    "React Server Components: data read on the server and language set by the URL, with hreflang between versions.",
+    "Content in JSON and Markdown, with no database or external CMS.",
+    "PDF and Markdown resume (PT/EN) generated from the same content with React-PDF on every build.",
+    "Dynamic Open Graph images, RSS feed, sitemap, llms.txt and JSON-LD structured data.",
+    "Integrated Radar de Produção newsletter: issue archive, double opt-in signup and unsubscribe.",
+    "Light and dark themes, visible focus, reduced motion respected and SVG project covers."
+  ],
   "imageUrl": "/images/Portfolio.webp",
-  "category": "Web Development",
+  "category": "web",
+  "status": "active",
+  "year": 2025,
+  "license": "MIT",
   "technologies": [
-    { "tech": "Next.js" },
-    { "tech": "React" },
-    { "tech": "TypeScript" },
-    { "tech": "Tailwind CSS" },
-    { "tech": "shadcn/ui" },
-    { "tech": "Vercel" }
+    {
+      "tech": "Next.js"
+    },
+    {
+      "tech": "React"
+    },
+    {
+      "tech": "TypeScript"
+    },
+    {
+      "tech": "Tailwind CSS"
+    },
+    {
+      "tech": "React-PDF"
+    },
+    {
+      "tech": "Vercel"
+    }
   ],
   "githubUrl": "https://github.com/caiolombello/portfolio",
   "liveUrl": "https://caio.lombello.com",
-  "featured": true,
+  "featured": false,
+  "order": 6,
   "createdAt": "2025-01-15",
-  "updatedAt": "2025-06-08",
-  "caseStudy": {
-    "role_pt": "Concepção, desenvolvimento e manutenção do produto e da sua base de conteúdo.",
-    "role_en": "Product design, development and maintenance of the site and its content foundation.",
-    "challenge_pt": "Apresentar experiência, projetos, artigos e currículo em uma única experiência clara e fácil de atualizar.",
-    "challenge_en": "Bring experience, projects, writing and resume content together in one clear, maintainable experience.",
-    "approach_pt": "Next.js com App Router, conteúdo file-based, internacionalização, imagens otimizadas, páginas de projeto e blog com Markdown.",
-    "approach_en": "Next.js App Router, file-based content, internationalization, optimized images, project pages and a Markdown blog.",
-    "outcomes_pt": [
-      "Uma base única para publicar projetos, artigos, currículo e contato.",
-      "Conteúdo separado da interface para permitir atualização contínua sem banco de dados."
-    ],
-    "outcomes_en": [
-      "A single foundation for publishing projects, articles, resume and contact information.",
-      "Content kept separate from the interface so it can evolve without a database."
-    ]
-  }
+  "updatedAt": "2026-10-08"
 }

@@ -1,23 +1,77 @@
 {
   "pt": {
     "name": "Caio Barbieri",
-    "title": "Engenheiro DevOps Sênior",
+    "title": "Senior Site Reliability Engineer (SRE) | Cloud & Platform Engineering",
+    "role": "Senior SRE · Cloud & Platform",
     "location": "Campinas, São Paulo, Brasil",
-    "about": "Engenheiro DevOps Sênior e SRE com atuação hands-on em arquitetura e operação de plataformas AWS para ambientes críticos. Desenho e evoluo soluções com Kubernetes/EKS, ECS, Terraform, CloudFormation e GitOps, cobrindo redes multi-account, observabilidade, segurança e resposta a incidentes. Tenho experiência em migrações, hardening de IAM e redes, desenho de arquiteturas resilientes e automação operacional. Utilizo Python, Go e IA como ferramentas de apoio para reduzir trabalho manual e acelerar decisões técnicas."
+    "about": "Profissional de SRE / Cloud com mais de 4 anos de experiência em DevOps, Kubernetes e automação de infraestrutura. Atuação em plataformas AWS, GitOps e ferramentas para desenvolvedores, com experiência prática em observabilidade, segurança em nuvem e resposta a incidentes em ambientes de clientes. Certificações AWS Security - Specialty e Solutions Architect - Associate.",
+    "headline": ["Plataformas confiáveis na nuvem", "e as ferramentas para operá-las."],
+    "intro": "SRE sênior com foco em cloud e engenharia de plataforma, hoje na Opsteam. Cuido de plataformas AWS e Kubernetes, GitOps, observabilidade, segurança em nuvem e resposta a incidentes — e publico ferramentas open source para quem opera sistemas e agentes de IA.",
+    "focus": [
+      {
+        "icon": "layers",
+        "title": "Plataforma & Kubernetes",
+        "description": "Fundações AWS com Terraform e EKS, upgrades de clusters com Karpenter e módulos, Helm charts e templates Backstage reutilizáveis."
+      },
+      {
+        "icon": "workflow",
+        "title": "GitOps & CI/CD",
+        "description": "Fluxos com Argo CD, GitHub Actions e GitLab CI — incluindo a migração de GitLab self-hosted e runners para o Amazon EKS."
+      },
+      {
+        "icon": "activity",
+        "title": "Observabilidade",
+        "description": "Grafana, Prometheus, Loki, VictoriaMetrics, CloudWatch e Alertmanager: logs centralizados entre regiões, dashboards e alertas refinados."
+      },
+      {
+        "icon": "shield",
+        "title": "Segurança & incidentes",
+        "description": "IAM de menor privilégio, OIDC e SSO, Keycloak e Vault, segmentação de rede e resposta a incidentes com preservação de evidências."
+      }
+    ]
   },
   "en": {
     "name": "Caio Barbieri",
-    "title": "Senior DevOps Engineer",
+    "title": "Senior Site Reliability Engineer (SRE) | Cloud & Platform Engineering",
+    "role": "Senior SRE · Cloud & Platform",
     "location": "Campinas, São Paulo, Brazil",
-    "about": "Senior DevOps Engineer and SRE with hands-on experience designing and operating AWS platforms for critical environments. I build and evolve solutions with Kubernetes/EKS, ECS, Terraform, CloudFormation and GitOps across multi-account networking, observability, security and incident response. My work includes migrations, IAM and network hardening, resilient architecture design and operational automation. I use Python, Go and AI as supporting tools to reduce manual work and accelerate technical decisions."
+    "about": "SRE / Cloud professional with 4+ years of experience in DevOps, Kubernetes and infrastructure automation. Works across AWS platforms, GitOps and developer tooling, with hands-on experience in observability, cloud security and incident response in client environments. AWS Certified Security – Specialty and Solutions Architect – Associate.",
+    "headline": ["Reliable cloud platforms", "and the tools to run them."],
+    "intro": "Senior SRE focused on cloud and platform engineering, currently at Opsteam. I run AWS and Kubernetes platforms, GitOps, observability, cloud security and incident response — and I publish open-source tools for people who run systems and AI agents.",
+    "focus": [
+      {
+        "icon": "layers",
+        "title": "Platform & Kubernetes",
+        "description": "AWS foundations with Terraform and EKS, cluster upgrades with Karpenter, and reusable modules, Helm charts and Backstage templates."
+      },
+      {
+        "icon": "workflow",
+        "title": "GitOps & CI/CD",
+        "description": "Delivery flows with Argo CD, GitHub Actions and GitLab CI — including moving self-hosted GitLab and its runners to Amazon EKS."
+      },
+      {
+        "icon": "activity",
+        "title": "Observability",
+        "description": "Grafana, Prometheus, Loki, VictoriaMetrics, CloudWatch and Alertmanager: cross-region log centralization, dashboards and tuned alerts."
+      },
+      {
+        "icon": "shield",
+        "title": "Security & incidents",
+        "description": "Least-privilege IAM, OIDC and SSO, Keycloak and Vault, network segmentation and incident response with evidence preservation."
+      }
+    ]
   },
   "email": "caio@lombello.com",
-  "phone": "+55 (19) 99753-6692",
+  "phone": "+55 (19) 99615-3687",
+  "languages": [
+    { "name_pt": "Português", "name_en": "Portuguese", "level_pt": "Nativo", "level_en": "Native" },
+    { "name_pt": "Inglês", "name_en": "English", "level_pt": "Proficiência profissional", "level_en": "Professional proficiency" }
+  ],
   "socialLinks": {
     "linkedin": "https://linkedin.com/in/caiolvbarbieri",
     "github": "https://github.com/caiolombello",
     "twitter": "https://twitter.com/caiolombello",
     "website": "https://caio.lombello.com",
-    "whatsapp": "https://wa.me/5519997536692"
+    "whatsapp": "https://wa.me/5519996153687"
   }
 }

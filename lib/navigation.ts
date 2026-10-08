@@ -30,6 +30,7 @@ export function getLocalizedInstitutionalPath(
         : pathname;
   const isInstitutionalPage =
     localizedInstitutionalPages.has(pathWithoutEnglishPrefix) ||
+    /^\/portfolio\/[^/]+$/.test(pathWithoutEnglishPrefix) ||
     /^\/(?:blog|portfolio)\/page\/\d+$/.test(pathWithoutEnglishPrefix);
 
   if (!isInstitutionalPage) return pathname;

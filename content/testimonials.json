@@ -1,5 +1,13 @@
 [
   {
+    "id": "3",
+    "name": "Pablo Marques",
+    "role": "Senior DevOps Engineer | Site Reliability Engineer (SRE) | 4X AWS | Kubernetes | Terraform | GitOps | Platform Engineering",
+    "content": "I had the opportunity to work with Caio for more than a year at Opsteam, working together on most of our projects and day-to-day challenges.\n\nBesides being a very technically competent professional, he always stood out for the way he thinks and proposes solutions. He doesn't settle for the most obvious path: he is always looking for new approaches and bringing new technologies into the work, especially AI, which he already used in a very professional way to explore ideas, speed up analyses and find alternatives for different problems.\n\nThat way of working made for a great partnership throughout this period. There were many technical discussions, exchanges of ideas and problems solved together, always with plenty of openness to question, experiment and think outside the box.\n\nHe was an excellent colleague and someone with whom I had the pleasure of building a relationship that went beyond purely professional collaboration. I recommend him without a doubt as a professional who adds value both through his technical skills and through the way he thinks and collaborates with the team.",
+    "content_pt": "Tive a oportunidade de trabalhar com Caio por mais de um ano na Opsteam, atuando juntos em grande parte dos projetos e desafios do dia a dia.\n\nAlém de ser um profissional tecnicamente muito competente, sempre se destacou pela forma de pensar e propor soluções. É alguém que não se limita ao caminho mais óbvio, está sempre buscando novas abordagens e incorporando novas tecnologias ao trabalho, especialmente IA, que já utilizava de forma muito profissional para explorar ideias, acelerar análises e encontrar alternativas para diferentes problemas.\n\nEssa forma de trabalhar fez com que tivéssemos uma parceria muito boa ao longo desse período. Foram muitas discussões técnicas, trocas de ideias e problemas resolvidos em conjunto, sempre com bastante abertura para questionar, experimentar e pensar fora da caixa.\n\nFoi um excelente colega de trabalho e alguém com quem tive o prazer de construir uma relação que foi além da colaboração puramente profissional. Recomendo sem dúvidas como um profissional que agrega tanto pela capacidade técnica quanto pela forma de pensar e colaborar com o time.",
+    "image": "/testimonials/pablo-marques.jpg"
+  },
+  {
     "id": "1",
     "name": "Rodrigo Pontes",
     "role": "DevOps Engineer Senior | SRE | IA | DevSecOps",

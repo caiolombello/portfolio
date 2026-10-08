@@ -1,6 +1,9 @@
 import { loadProjectById } from "@/lib/data";
 import { createOgImage } from "@/lib/og-image";
-import type { Technology } from "@/types/project";
+import { projectTheme } from "@/components/site/project-cover";
+import { toProjectView } from "@/lib/site-data";
+import { getCurrentRequestLocale } from "@/lib/request-locale-server";
+import { getLocalizedInstitutionalPath } from "@/lib/navigation";
 
 export const alt = "Projeto de Caio Barbieri";
 export const size = { width: 1200, height: 630 };
@@ -12,21 +15,29 @@ interface Props {
 
 export default async function Image({ params }: Props) {
   const { id } = await params;
+  const locale = await getCurrentRequestLocale();
   const project = await loadProjectById(id);
 
   if (!project) {
     return createOgImage({
-      eyebrow: "Projeto",
-      title: "Projeto não encontrado.",
-      path: `/portfolio/${id}`,
+      locale,
+      eyebrow: locale === "pt" ? "Projeto" : "Project",
+      title: locale === "pt" ? "Projeto não encontrado." : "Project not found.",
+      path: getLocalizedInstitutionalPath(`/portfolio/${id}`, locale),
     });
   }
 
+  const view = toProjectView(project, locale);
+  const theme = projectTheme(project.id);
   return createOgImage({
-    eyebrow: project.category || "Projeto",
-    title: project.title_pt || project.title_en,
-    description: project.shortDescription_pt || project.shortDescription_en,
-    tags: project.technologies?.map((item: Technology) => item.tech),
-    path: `/portfolio/${id}`,
+    locale,
+    eyebrow:
+      [view.categoryLabel, view.statusLabel].filter(Boolean).join(" · ") ||
+      (locale === "pt" ? "Projeto" : "Project"),
+    title: view.title,
+    description: view.tagline || view.summary,
+    tags: view.technologies,
+    theme: { bg: theme.bg, accent: theme.accent },
+    path: getLocalizedInstitutionalPath(`/portfolio/${id}`, locale),
   });
 }

@@ -7,30 +7,24 @@
   "period": "Oct 2022 - Sep 2024",
   "responsibilities_pt": [
     {
-      "item": "Liderei iniciativas de transformação cultural Cloud Native, desenvolvi pipelines GitOps/DevSecOps com Bamboo e Shell Script e implementei stacks de monitoramento com Grafana, Prometheus, Loki e Alertmanager."
+      "item": "Implementei monitoramento com Grafana, Prometheus, Loki e Alertmanager, integrando alertas ao Microsoft Teams."
     },
     {
-      "item": "Gerenciei Redis, RabbitMQ, Helm Charts customizados, Dockerfiles e clusters locais com K3d."
+      "item": "Desenvolvi automações Terraform, Helm charts, Dockerfiles e pipelines Bamboo / Shell para aplicações Node.js."
     },
     {
-      "item": "Criei automações com Terraform e reforcei a segurança na AWS aplicando o princípio do menor privilégio."
-    },
-    {
-      "item": "Também gerenciei Vault e Consul da HashiCorp, garantindo segurança e resiliência na gestão de segredos e rede."
+      "item": "Administrei HashiCorp Vault, Consul, Redis e RabbitMQ e implementei controles de menor privilégio na AWS."
     }
   ],
   "responsibilities_en": [
     {
-      "item": "Led Cloud Native cultural transformation initiatives, developed GitOps/DevSecOps pipelines with Bamboo and Shell Script, and implemented monitoring stacks with Grafana, Prometheus, Loki, and Alertmanager."
+      "item": "Implemented monitoring with Grafana, Prometheus, Loki and Alertmanager, routing alerts to Microsoft Teams."
     },
     {
-      "item": "Managed Redis, RabbitMQ, custom Helm Charts, Dockerfiles, and local clusters with K3d."
+      "item": "Built Terraform automation, Helm charts, Dockerfiles and Bamboo / Shell pipelines for Node.js applications."
     },
     {
-      "item": "Created Terraform automations and reinforced AWS security by applying the principle of least privilege."
-    },
-    {
-      "item": "Also managed HashiCorp's Vault and Consul, ensuring security and resilience in secret and network management."
+      "item": "Administered HashiCorp Vault, Consul, Redis and RabbitMQ and implemented least-privilege controls on AWS."
     }
   ],
   "startDate": "2022-10-01",

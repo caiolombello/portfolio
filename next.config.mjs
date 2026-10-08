@@ -59,6 +59,17 @@ const nextConfig = {
     ],
   },
 
+  outputFileTracingIncludes: {
+    "/**/opengraph-image*": [
+      "./assets/fonts/*.ttf",
+      "./public/images/Profile.jpg",
+      "./config/site.json",
+      "./content/profile/profile.json",
+      "./content/projects/*.json",
+      "./content/posts/**/*",
+    ],
+  },
+
   // Image optimization configuration
   images: {
     remotePatterns: [

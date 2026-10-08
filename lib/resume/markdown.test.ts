@@ -29,6 +29,9 @@ const model: ResumeModel = {
       period: "2022 - 2025",
     },
   ],
+  certifications: [],
+  trainingBadges: [],
+  languages: [],
   skills: [],
   skillGroups: [
     { category: "Security", items: ["IAM & Cloud Security", "Vault"] },
@@ -38,10 +41,42 @@ const model: ResumeModel = {
     experience: "Professional Experience",
     education: "Education",
     skills: "Skills",
+    certifications: "Certifications",
+    trainingBadges: "Training badges",
+    languages: "Languages",
   },
 };
 
 describe("renderResumeMarkdown", () => {
+  it("renders credentials and languages in separate sections with verification links", () => {
+    const markdown = renderResumeMarkdown({
+      ...model,
+      certifications: [
+        {
+          name: "AWS Certified Security – Specialty",
+          issuer: "Amazon Web Services",
+          issuedAt: "2026-07-27",
+          url: "https://example.com/security",
+        },
+      ],
+      trainingBadges: [
+        { name: "Introduction to GitOps", issuer: "The Linux Foundation" },
+      ],
+      languages: [{ name: "English", level: "Professional proficiency" }],
+    });
+
+    expect(markdown).toContain(
+      "## Certifications\n\n- [AWS Certified Security – Specialty](https://example.com/security) — Amazon Web Services · 2026",
+    );
+    expect(markdown).toContain(
+      "## Training badges\n\n- Introduction to GitOps — The Linux Foundation",
+    );
+    expect(markdown).toContain(
+      "## Languages\n\n- English: Professional proficiency",
+    );
+    expect(renderResumeMarkdown(model)).not.toContain("## Certifications");
+  });
+
   it("renders an ATS-friendly document without HTML-escaping its content", () => {
     const markdown = renderResumeMarkdown(model);
 

@@ -2,34 +2,53 @@
   "id": "dotfiles",
   "title_pt": "Dotfiles",
   "title_en": "Dotfiles",
-  "shortDescription_pt": "Arquivos de configuração personalizados para Linux",
-  "shortDescription_en": "Custom configuration files for Linux",
-  "description_pt": "Conjunto de arquivos de configuração (dotfiles) para personalização do ambiente Linux, incluindo configurações de shell, terminal e ferramentas do sistema",
-  "description_en": "Collection of configuration files (dotfiles) for Linux environment customization, including shell, terminal and system tools settings",
+  "tagline_pt": "Um ambiente Linux reproduzível, do shell ao Nix.",
+  "tagline_en": "A reproducible Linux environment, from shell to Nix.",
+  "shortDescription_pt": "Configurações e scripts que recriam meu ambiente de desenvolvimento em Ubuntu, Pop!_OS e Fedora — com Zsh, Git multi-cliente e um perfil portátil com Nix e Home Manager.",
+  "shortDescription_en": "Configs and scripts that rebuild my development environment on Ubuntu, Pop!_OS and Fedora — with Zsh, multi-client Git and a portable Nix and Home Manager profile.",
+  "description_pt": "Repositório com os dotfiles e scripts de bootstrap que uso para montar e migrar meu ambiente: Zsh com aliases e funções para Git, Docker, kubectl e AWS; setup completo para Ubuntu e Pop!_OS; personalização do KDE Plasma 6 no Fedora; e configurações do VS Code.\n\nA identidade Git é separada por cliente com includeIf e aliases de SSH, sem misturar contas. O perfil portable-linux traz um setup transacional em Python — plan, doctor, apply, verify e rollback —, restauração ensaiada em um HOME temporário com manifesto SHA-256 e um módulo Home Manager avaliado no CI com Nix.",
+  "description_en": "The dotfiles and bootstrap scripts I use to set up and migrate my environment: Zsh with aliases and functions for Git, Docker, kubectl and AWS; a full setup for Ubuntu and Pop!_OS; KDE Plasma 6 customization on Fedora; and VS Code settings.\n\nGit identity is split per client with includeIf and SSH host aliases, so accounts never mix. The portable-linux profile adds a transactional Python setup — plan, doctor, apply, verify and rollback — rehearsed restores into a temporary HOME with a SHA-256 manifest, and a Home Manager module evaluated in CI with Nix.",
+  "highlights_pt": [
+    "Bootstrap para Ubuntu, Pop!_OS e Fedora, com diferenças de pacotes já tratadas (bat/batcat, fd/fdfind, exa/eza).",
+    "Git multi-cliente com includeIf e SSH por cliente, mantendo identidades isoladas.",
+    "Setup transacional em Python com plan, doctor, apply, verify e rollback.",
+    "Restauração ensaiada em HOME temporário, com manifesto de hashes SHA-256 que recusa drift.",
+    "Flake Nix com Home Manager avaliado para x86_64 e ARM64 no CI."
+  ],
+  "highlights_en": [
+    "Bootstrap for Ubuntu, Pop!_OS and Fedora, with package differences handled (bat/batcat, fd/fdfind, exa/eza).",
+    "Multi-client Git with includeIf and per-client SSH, keeping identities isolated.",
+    "Transactional Python setup with plan, doctor, apply, verify and rollback.",
+    "Rehearsed restores into a temporary HOME, with a SHA-256 manifest that refuses drift.",
+    "Nix flake with Home Manager evaluated for x86_64 and ARM64 in CI."
+  ],
   "imageUrl": "/images/dotfiles.webp",
-  "category": "System Configuration",
+  "category": "developer-environment",
+  "status": "active",
+  "year": 2025,
   "technologies": [
-    { "tech": "Linux" },
-    { "tech": "Shell" }
+    {
+      "tech": "Shell"
+    },
+    {
+      "tech": "Zsh"
+    },
+    {
+      "tech": "Python"
+    },
+    {
+      "tech": "Nix"
+    },
+    {
+      "tech": "Git"
+    },
+    {
+      "tech": "Linux"
+    }
   ],
   "githubUrl": "https://github.com/caiolombello/dotfiles",
   "featured": true,
-  "createdAt": "2025-06-13",
-  "updatedAt": "2025-06-13",
-  "caseStudy": {
-    "role_pt": "Curadoria e manutenção do ambiente pessoal de desenvolvimento.",
-    "role_en": "Curation and maintenance of a personal development environment.",
-    "challenge_pt": "Manter shell, terminal e ferramentas consistentes entre sessões e máquinas Linux.",
-    "challenge_en": "Keep shell, terminal and system tooling consistent across Linux sessions and machines.",
-    "approach_pt": "Configurações versionadas e organizadas como um repositório reproduzível, com foco em produtividade e manutenção simples.",
-    "approach_en": "Versioned, organized configuration managed as a reproducible repository with a focus on productivity and simple maintenance.",
-    "outcomes_pt": [
-      "Ambiente de trabalho documentado e reproduzível.",
-      "Configurações centralizadas para evoluir junto com o fluxo de desenvolvimento."
-    ],
-    "outcomes_en": [
-      "A documented and reproducible work environment.",
-      "Centralized configuration that evolves with the development workflow."
-    ]
-  }
+  "order": 5,
+  "createdAt": "2025-06-09",
+  "updatedAt": "2026-10-03"
 }

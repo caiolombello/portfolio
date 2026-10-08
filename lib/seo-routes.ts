@@ -56,12 +56,14 @@ export function buildSitemap({
   }
 
   const projectPages: MetadataRoute.Sitemap = portfolioEnabled
-    ? projects.map((project) => ({
-        url: pageUrl(baseUrl, `/portfolio/${project.id}`),
-        ...(project.updatedAt
-          ? { lastModified: new Date(project.updatedAt) }
-          : {}),
-      }))
+    ? projects.flatMap((project) =>
+        ["", "/en"].map((prefix) => ({
+          url: pageUrl(baseUrl, `${prefix}/portfolio/${project.id}`),
+          ...(project.updatedAt
+            ? { lastModified: new Date(project.updatedAt) }
+            : {}),
+        })),
+      )
     : [];
 
   const postPages = posts.flatMap((post) => {

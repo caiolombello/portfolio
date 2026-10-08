@@ -1,59 +1,49 @@
-"use client";
-
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Home, FileText } from "lucide-react";
-import { motion } from "framer-motion";
-import { useLanguage } from "@/contexts/language-context";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { getLocalizedInstitutionalPath } from "@/lib/navigation";
+import { getCopy } from "@/lib/locale/copy";
+import { getCurrentRequestLocale as getLocale } from "@/lib/request-locale-server";
 
-export default function NotFound() {
-  const { language } = useLanguage();
+export default async function NotFound() {
+  const locale = await getLocale();
+  const copy = getCopy(locale);
 
   return (
-    <div className="container flex min-h-[calc(100vh-10rem)] flex-col items-center justify-center py-20 text-center">
-      <motion.div
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="relative mb-8"
-      >
-        <h1 className="font-mono text-[clamp(7rem,22vw,12rem)] font-semibold leading-none tracking-[-0.08em] text-gold/20">
-          404
+    <div className="relative isolate overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="bg-grid mask-radial-top pointer-events-none absolute inset-0 -z-10"
+      />
+      <div className="container flex min-h-[70vh] flex-col items-start justify-center py-20">
+        <p className="font-mono text-sm text-muted-foreground">
+          <span className="text-brand">$</span> curl -I {"<this-page>"}
+        </p>
+        <p className="mt-2 font-mono text-sm text-muted-foreground">
+          HTTP/2 404
+        </p>
+        <h1 className="mt-8 text-balance text-5xl font-semibold tracking-[-0.04em] sm:text-7xl">
+          {copy.notFound.title}
         </h1>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-xl font-semibold text-foreground sm:text-3xl">
-            {language === "en" ? "Page Not Found" : "Página Não Encontrada"}
-          </span>
+        <p className="mt-5 max-w-xl text-pretty text-lg leading-relaxed text-muted-foreground">
+          {copy.notFound.description}
+        </p>
+        <div className="mt-10 flex flex-wrap gap-3">
+          <Link
+            href={getLocalizedInstitutionalPath("/", locale)}
+            className="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground transition-[filter] hover:brightness-105"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            {copy.notFound.home}
+          </Link>
+          <Link
+            href={getLocalizedInstitutionalPath("/portfolio", locale)}
+            className="inline-flex h-11 items-center gap-2 rounded-full border bg-card/70 px-5 text-sm font-semibold transition-colors hover:border-foreground/25"
+          >
+            {copy.notFound.projects}
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Link>
         </div>
-      </motion.div>
-
-      <motion.p
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.5 }}
-        className="mb-8 max-w-[500px] leading-7 text-muted-foreground"
-      >
-        {language === "en"
-          ? "Oops! The page you're looking for seems to have wandered off into the cloud. Let's get you back on track."
-          : "Ops! A página que você está procurando parece ter se perdido na nuvem. Vamos colocar você de volta no caminho certo."}
-      </motion.p>
-
-      <motion.div
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.5 }}
-        className="flex flex-wrap justify-center gap-4"
-      >
-        <Button asChild variant="default" className="gap-2 bg-gold text-black hover:bg-gold/90">
-          <Link href="/">
-            <Home size={16} />
-            {language === "en" ? "Back to Home" : "Voltar ao Início"}
-          </Link>
-        </Button>
-        <Button asChild variant="outline" className="gap-2">
-          <Link href="/blog">
-            <FileText size={16} />
-            {language === "en" ? "Read the Blog" : "Ler o Blog"}
-          </Link>
-        </Button>
-      </motion.div>
+      </div>
     </div>
   );
 }

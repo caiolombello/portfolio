@@ -15,8 +15,7 @@ import {
 } from "@/lib/contact-form";
 
 const TURNSTILE_SITE_KEY =
-  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ??
-  "0x4AAAAAAED3JUNqSRzUPVFs";
+  process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "0x4AAAAAAED3JUNqSRzUPVFs";
 
 type FormData = ContactSubmission;
 
@@ -118,9 +117,7 @@ export default function ContactForm() {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(
-          buildFormspreePayload(formData, turnstileToken),
-        ),
+        body: JSON.stringify(buildFormspreePayload(formData, turnstileToken)),
       });
 
       if (!response.ok) {
@@ -179,15 +176,15 @@ export default function ContactForm() {
           autoComplete="name"
           maxLength={CONTACT_FIELD_LIMITS.name}
           disabled={submitStatus === "submitting"}
-          className={`w-full rounded-md border ${
-            errors.name ? "border-red-500" : "border-border"
-          } bg-background px-4 py-2 text-foreground focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-colors disabled:opacity-70`}
+          className={`w-full rounded-xl border ${
+            errors.name ? "border-destructive" : "border-border"
+          } bg-background px-4 py-3 text-foreground focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-colors disabled:opacity-70`}
           placeholder={t("name")}
           aria-invalid={!!errors.name}
           aria-describedby={errors.name ? "name-error" : undefined}
         />
         {errors.name && (
-          <p id="name-error" className="mt-1 text-sm text-red-500">
+          <p id="name-error" className="mt-1 text-sm text-destructive">
             {errors.name}
           </p>
         )}
@@ -209,15 +206,15 @@ export default function ContactForm() {
           autoComplete="email"
           maxLength={CONTACT_FIELD_LIMITS.email}
           disabled={submitStatus === "submitting"}
-          className={`w-full rounded-md border ${
-            errors.email ? "border-red-500" : "border-border"
-          } bg-background px-4 py-2 text-foreground focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-colors disabled:opacity-70`}
+          className={`w-full rounded-xl border ${
+            errors.email ? "border-destructive" : "border-border"
+          } bg-background px-4 py-3 text-foreground focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-colors disabled:opacity-70`}
           placeholder={t("email")}
           aria-invalid={!!errors.email}
           aria-describedby={errors.email ? "email-error" : undefined}
         />
         {errors.email && (
-          <p id="email-error" className="mt-1 text-sm text-red-500">
+          <p id="email-error" className="mt-1 text-sm text-destructive">
             {errors.email}
           </p>
         )}
@@ -238,22 +235,22 @@ export default function ContactForm() {
           disabled={submitStatus === "submitting"}
           rows={5}
           maxLength={CONTACT_FIELD_LIMITS.message}
-          className={`w-full rounded-md border ${
-            errors.message ? "border-red-500" : "border-border"
-          } bg-background px-4 py-2 text-foreground focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-colors disabled:opacity-70`}
+          className={`w-full rounded-xl border ${
+            errors.message ? "border-destructive" : "border-border"
+          } bg-background px-4 py-3 text-foreground focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-colors disabled:opacity-70`}
           placeholder={t("message")}
           aria-invalid={!!errors.message}
           aria-describedby={errors.message ? "message-error" : undefined}
         />
         {errors.message && (
-          <p id="message-error" className="mt-1 text-sm text-red-500">
+          <p id="message-error" className="mt-1 text-sm text-destructive">
             {errors.message}
           </p>
         )}
       </div>
 
       <p className="text-xs leading-5 text-muted-foreground">
-        {t("privacyNotice")} {" "}
+        {t("privacyNotice")}{" "}
         <a
           href="https://formspree.io/legal/privacy-policy/"
           target="_blank"
@@ -280,7 +277,7 @@ export default function ContactForm() {
 
       <Button
         type="submit"
-        className="w-full"
+        className="h-11 w-full rounded-full font-semibold"
         disabled={submitStatus === "submitting" || !turnstileToken}
       >
         {submitStatus === "submitting" ? (
@@ -295,7 +292,7 @@ export default function ContactForm() {
 
       {submitStatus === "success" && (
         <div
-          className="rounded-md bg-green-900/20 p-4 text-center text-green-400 animate-in fade-in"
+          className="rounded-md bg-success/10 p-4 text-center text-success animate-in fade-in"
           role="alert"
           aria-live="polite"
         >
@@ -305,7 +302,7 @@ export default function ContactForm() {
 
       {submitStatus === "error" && (
         <div
-          className="rounded-md bg-red-900/20 p-4 text-center text-red-400 animate-in fade-in"
+          className="rounded-md bg-destructive/10 p-4 text-center text-destructive animate-in fade-in"
           role="alert"
           aria-live="assertive"
         >

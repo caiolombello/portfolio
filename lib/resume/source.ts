@@ -20,10 +20,17 @@ export function loadResumeModels(rootDirectory = process.cwd()) {
     path.join(contentDirectory, "skills", "skills.json"),
   ) as { skills_list?: unknown };
 
+  const certificationsPath = path.join(contentDirectory, "certifications.json");
+  const credentials = (
+    fs.existsSync(certificationsPath) ? readJson(certificationsPath) : {}
+  ) as { certifications?: unknown; trainingBadges?: unknown };
+
   return buildResumeModels({
     profile: readJson(path.join(contentDirectory, "profile", "profile.json")),
     experiences: readJsonDirectory(path.join(contentDirectory, "experience")),
     education: readJsonDirectory(path.join(contentDirectory, "education")),
     skills: skillsData.skills_list,
+    certifications: credentials.certifications,
+    trainingBadges: credentials.trainingBadges,
   });
 }

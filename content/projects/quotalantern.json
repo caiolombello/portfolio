@@ -1,0 +1,54 @@
+{
+  "id": "quotalantern",
+  "title_pt": "QuotaLantern",
+  "title_en": "QuotaLantern",
+  "tagline_pt": "Uma lanterna para as suas cotas de IA.",
+  "tagline_en": "A lantern for your AI quotas.",
+  "shortDescription_pt": "App de bandeja para Linux que mostra uso, limites, resets e custos das assinaturas de IA — e nunca transforma uma leitura ausente em zero.",
+  "shortDescription_en": "A Linux tray app that shows usage, limits, resets and costs of AI subscriptions — and never turns a missing reading into zero.",
+  "description_pt": "O QuotaLantern fica na bandeja do sistema e mostra quanto da janela mais cheia você já usou entre Codex, Claude, Gemini e outros provedores. O anel do ícone segue uma única janela recente e nomeada — nunca uma soma ou média — e cada estado tem uma forma própria: leituras desatualizadas aparecem tracejadas com um relógio e leituras ausentes, pontilhadas, em vez de 0%.\n\nA visão geral traz um cartão por provedor, com barras por janela, horário do próximo reset, origem do dado e idade da leitura. Custos de API aparecem em moeda e nunca alimentam o anel. Não há telemetria: cada adaptador lê a credencial onde o provedor já a guarda e o instalador não copia nenhuma. Inspirado no CodexBar, de Peter Steinberger.",
+  "description_en": "QuotaLantern sits in the system tray and shows how much of the fullest window you have used across Codex, Claude, Gemini and other providers. The icon's ring follows a single recent, named window — never a total or an average — and every state has its own shape: stale readings are dashed with a clock and missing ones are dotted, instead of showing 0%.\n\nThe overview has one card per provider, with a bar for each window, the next reset, where the data came from and how old the reading is. API costs are shown in currency and never feed the ring. There is no telemetry: each adapter reads its credential where the provider already keeps it, and the installer copies none. Inspired by Peter Steinberger's CodexBar.",
+  "highlights_pt": [
+    "Anel de uso legível a 16 px, com estados diferenciados pela forma — não só pela cor.",
+    "Adaptadores para Codex, Claude, Gemini, Kiro, Cursor, Grok, OpenCode Go e mais, com o nível de verificação de cada um documentado.",
+    "Leitura ausente é “desconhecida”, nunca zero; custo em moeda nunca é exibido como cota.",
+    "Instalador com --dry-run, autostart opcional e comando de rollback impresso ao final.",
+    "128 testes offline sintéticos no CI com Python 3.12 e 3.14, sem rede nem arquivos reais.",
+    "Testado no KDE Plasma com Wayland; site bilíngue sem cookies nem recursos de terceiros."
+  ],
+  "highlights_en": [
+    "Usage ring legible at 16 px, with states told apart by shape — not just by color.",
+    "Adapters for Codex, Claude, Gemini, Kiro, Cursor, Grok, OpenCode Go and more, with each one's verification level documented.",
+    "A missing reading is “unknown”, never zero; currency costs are never shown as quota.",
+    "Installer with --dry-run, opt-in autostart and a rollback command printed at the end.",
+    "128 synthetic offline tests in CI on Python 3.12 and 3.14, with no network or real files.",
+    "Tested on KDE Plasma with Wayland; bilingual website with no cookies or third-party assets."
+  ],
+  "category": "ai-tooling",
+  "status": "alpha",
+  "year": 2026,
+  "license": "MIT",
+  "technologies": [
+    {
+      "tech": "Python"
+    },
+    {
+      "tech": "GTK 3"
+    },
+    {
+      "tech": "AppIndicator"
+    },
+    {
+      "tech": "libnotify"
+    },
+    {
+      "tech": "Shell"
+    }
+  ],
+  "githubUrl": "https://github.com/caiolombello/quotalantern",
+  "liveUrl": "https://caiolombello.github.io/quotalantern/",
+  "featured": true,
+  "order": 2,
+  "createdAt": "2026-10-01",
+  "updatedAt": "2026-10-07"
+}

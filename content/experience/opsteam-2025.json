@@ -2,47 +2,61 @@
   "company": "Opsteam",
   "logo": "https://media.licdn.com/dms/image/v2/D4D0BAQHOG3MC7p5IPQ/company-logo_200_200/company-logo_200_200/0/1712165387331/opsteam_logo?e=1772064000&v=beta&t=WqfYLGzNNtFuGhO6f9YJQM3NDMDh4W2S1mHFRtnPr10",
   "companyUrl": "https://www.linkedin.com/company/opsteam/",
-  "title_pt": "SRE | Cloud Engineer",
-  "title_en": "SRE | Cloud Engineer",
+  "title_pt": "Site Reliability Engineer (SRE) | Cloud Engineer",
+  "title_en": "Site Reliability Engineer (SRE) | Cloud Engineer",
   "period": "Aug 2025 - Present",
+  "summary_pt": "Consultoria de SRE e cloud para ambientes de clientes, abrangendo infraestrutura, plataformas de desenvolvimento, observabilidade e segurança.",
+  "summary_en": "SRE and cloud consulting for client environments, covering infrastructure, developer platforms, observability and security.",
   "responsibilities_pt": [
     {
-      "item": "Atuar em consultoria SRE e Cloud para múltiplos clientes, sustentando e evoluindo ambientes críticos na AWS com foco em confiabilidade, segurança e continuidade operacional."
+      "item": "Migrei o GitLab self-hosted e os runners de CI para Amazon EKS, incluindo upgrades controlados, integração com S3 e validação de 131 projetos e pipelines de CI/CD após a migração."
     },
     {
-      "item": "Desenhar e implementar arquiteturas multi-account e hub-and-spoke, incluindo IPAM, VPC, Transit Gateway, peering, DNS e camadas de entrada com ALB/NLB, codificadas em Terraform e CloudFormation."
+      "item": "Atualizei 13 clusters Kubernetes em desenvolvimento, homologação, produção e serviços compartilhados, incluindo atualizações do Karpenter e dos node pools."
     },
     {
-      "item": "Conduzir migrações e modernizações em ECS, EKS/Kubernetes e plataformas de dados como RDS, Redis/Valkey, OpenSearch e MongoDB, utilizando GitOps, Argo CD e Helm."
+      "item": "Implementei fundações de plataforma AWS com Terraform e EKS, incluindo serviços compartilhados, conectividade privada e isolamento de ambientes."
     },
     {
-      "item": "Responder a incidentes e realizar troubleshooting de produção, investigando métricas, logs e eventos para restaurar serviços com recuperação controlada, rollback e testes de validação."
+      "item": "Desenvolvi módulos Terraform, Helm charts e templates Backstage reutilizáveis, com fluxos GitOps e CI/CD usando Argo CD, GitHub Actions e GitLab CI."
     },
     {
-      "item": "Evoluir segurança e governança com IAM de menor privilégio, WAF, Network Firewall, Vault, avaliações CSPM/CIS e rotação de credenciais."
+      "item": "Centralizei logs de 2 regiões AWS no Loki em EKS, integrando CloudWatch/Kinesis e ECS FireLens; migrei dashboards Grafana e refinei alertas."
     },
     {
-      "item": "Elaborar decisões arquiteturais, sizing e estimativas de custo para cenários de alta disponibilidade, além de ferramentas internas e workflows assistidos por IA."
+      "item": "Reforcei controles IAM de menor privilégio, acesso federado e autenticação CI/CD com OIDC. Investiguei e contive incidentes com análise de logs, isolamento de recursos e preservação de evidências."
+    },
+    {
+      "item": "Desenvolvi ferramentas internas para isolamento por tenant, governança de acesso e revisão de pull requests com IA; validei pilotos de acesso JIT e WebAuthn em desenvolvimento."
+    },
+    {
+      "item": "Implementei melhorias de eficiência com volumes EBS gp3 e remoção de infraestrutura sem uso; produzi avaliações de arquitetura e custos."
     }
   ],
   "responsibilities_en": [
     {
-      "item": "Provide hands-on SRE and Cloud consulting across multiple clients, operating and evolving business-critical AWS environments with a focus on reliability, security and operational continuity."
+      "item": "Migrated self-hosted GitLab and its CI runners to Amazon EKS, including controlled upgrades, S3 integration and post-migration validation of 131 projects and CI/CD pipelines."
     },
     {
-      "item": "Design and implement multi-account and hub-and-spoke architectures spanning IPAM, VPC, Transit Gateway, peering, DNS and ALB/NLB ingress layers, codified with Terraform and CloudFormation."
+      "item": "Upgraded 13 Kubernetes clusters across development, staging, production and shared services, including Karpenter and node pool updates."
     },
     {
-      "item": "Deliver migrations and modernization across ECS, EKS/Kubernetes and data platforms such as RDS, Redis/Valkey, OpenSearch and MongoDB, using GitOps, Argo CD and Helm."
+      "item": "Implemented AWS platform foundations with Terraform and EKS, including shared services, private connectivity and environment isolation."
     },
     {
-      "item": "Respond to production incidents and complex failures using metrics, logs and event evidence, restoring services through controlled recovery, rollback and validation tests."
+      "item": "Built reusable Terraform modules, Helm charts and Backstage templates, with GitOps and CI/CD workflows using Argo CD, GitHub Actions and GitLab CI."
     },
     {
-      "item": "Strengthen cloud security and governance through least-privilege IAM, WAF, Network Firewall, Vault, CSPM/CIS assessments and credential rotation."
+      "item": "Centralized logs from 2 AWS regions in Loki on EKS, integrating CloudWatch/Kinesis and ECS FireLens; migrated Grafana dashboards and tuned alerts."
     },
     {
-      "item": "Produce architecture decisions, sizing and cost estimates for highly available scenarios, and build internal tooling and AI-assisted workflows."
+      "item": "Strengthened least-privilege IAM controls, federated access and CI/CD authentication with OIDC. Investigated and contained incidents through log analysis, resource isolation and evidence preservation."
+    },
+    {
+      "item": "Built internal tools for tenant isolation, access governance and AI-assisted pull request review; validated JIT access and WebAuthn pilots in development."
+    },
+    {
+      "item": "Delivered efficiency improvements with gp3 EBS volumes and removal of unused infrastructure; produced architecture and cost assessments."
     }
   ],
   "startDate": "2025-08-01"

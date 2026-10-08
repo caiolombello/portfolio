@@ -1,15 +1,18 @@
-import { createOgImage } from "@/lib/og-image";
+import { createOgImage, OG_SIZE, OG_CONTENT_TYPE } from "@/lib/og-image";
+import { getPerson } from "@/lib/site-data";
 
-export const alt = "Caio Barbieri — DevOps, SRE e Platform Engineering";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const alt = "Caio Barbieri — Senior SRE · Cloud & Platform Engineering";
+export const size = OG_SIZE;
+export const contentType = OG_CONTENT_TYPE;
 
-export default function Image() {
+export default async function Image() {
+  const person = await getPerson("pt");
   return createOgImage({
-    eyebrow: "SRE · Platform Engineering",
-    title: "Infraestrutura que ajuda times a entregar com confiança.",
-    description:
-      "Plataformas cloud observáveis, resilientes e automatizadas — do primeiro commit à produção.",
+    locale: "pt",
+    eyebrow: "Portfólio · SRE & Cloud",
+    title: person.headline[0],
+    description: person.headline[1],
     tags: ["AWS", "Kubernetes", "Terraform", "GitOps"],
+    path: "/",
   });
 }

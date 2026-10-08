@@ -16,13 +16,15 @@ export default async function Image({ params }: Props) {
   if (!post) {
     return createOgImage({
       eyebrow: "Blog",
-      title: "Artigo não encontrado.",
+      locale: slug.endsWith(".en") ? "en" : "pt",
+      title: slug.endsWith(".en") ? "Article not found." : "Artigo não encontrado.",
       path: `/blog/${slug}`,
     });
   }
 
   const isPortuguese = post.slug_pt === slug;
   return createOgImage({
+    locale: isPortuguese ? "pt" : "en",
     eyebrow: isPortuguese ? "Artigo · Plataforma" : "Article · Platform",
     title: isPortuguese ? post.title_pt : post.title_en,
     description: isPortuguese ? post.summary_pt : post.summary_en,

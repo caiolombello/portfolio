@@ -1,15 +1,17 @@
-import { createOgImage } from "@/lib/og-image";
+import { createOgImage, OG_SIZE, OG_CONTENT_TYPE } from "@/lib/og-image";
+import { getPerson } from "@/lib/site-data";
 
-export const alt = "Caio Barbieri — DevOps, SRE and Platform Engineering";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const alt = "Caio Barbieri — Senior SRE · Cloud & Platform Engineering";
+export const size = OG_SIZE;
+export const contentType = OG_CONTENT_TYPE;
 
-export default function Image() {
+export default async function Image() {
+  const person = await getPerson("en");
   return createOgImage({
-    eyebrow: "SRE · Platform Engineering",
-    title: "Infrastructure that helps teams deliver with confidence.",
-    description:
-      "Observable, resilient and automated cloud platforms — from the first commit to production.",
+    locale: "en",
+    eyebrow: "Portfolio · SRE & Cloud",
+    title: person.headline[0],
+    description: person.headline[1],
     tags: ["AWS", "Kubernetes", "Terraform", "GitOps"],
     path: "/en",
   });
