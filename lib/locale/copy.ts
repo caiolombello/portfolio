@@ -41,7 +41,7 @@ const pt = {
       eyebrow: "01 — Projetos",
       title: "Projetos em destaque",
       description:
-        "Ferramentas open source que uso no dia a dia — de gravações com contexto rastreável a cotas de IA na bandeja do Linux — e a infraestrutura por trás delas.",
+        "Produtos e ferramentas que construí — de gravações com contexto rastreável e cotas de IA à bateria de periféricos no Linux e a um app para entregadores — e a infraestrutura por trás deles.",
       viewAll: "Ver todos os projetos",
     },
     about: {
@@ -88,7 +88,7 @@ const pt = {
   projects: {
     title: "Projetos",
     description:
-      "O que eu construo e mantenho fora do expediente: ferramentas para quem trabalha com IA, automação em nuvem e o ambiente em que eu trabalho.",
+      "O que eu construo e mantenho fora do expediente: ferramentas para quem trabalha com IA, utilitários para o desktop Linux, apps web, automação em nuvem e o ambiente em que eu trabalho.",
     all: "Todos",
     filterLabel: "Filtrar por categoria",
     empty: "Nenhum projeto nesta categoria.",
@@ -120,6 +120,7 @@ const pt = {
       "ai-tooling": "Ferramentas para IA",
       "cloud-automation": "Cloud & automação",
       "developer-environment": "Ambiente de desenvolvimento",
+      "linux-desktop": "Desktop Linux",
       web: "Web",
     } as Record<string, string>,
   },
@@ -248,7 +249,7 @@ const en: Copy = {
       eyebrow: "01 — Projects",
       title: "Featured projects",
       description:
-        "Open-source tools I use every day — from recordings with traceable context to AI quotas in the Linux tray — and the infrastructure behind them.",
+        "Products and tools I've built — from recordings with traceable context and AI quotas to peripheral battery on Linux and an app for couriers — and the infrastructure behind them.",
       viewAll: "View all projects",
     },
     about: {
@@ -295,7 +296,7 @@ const en: Copy = {
   projects: {
     title: "Projects",
     description:
-      "What I build and maintain after hours: tools for people who work with AI, cloud automation and the environment I work in.",
+      "What I build and maintain after hours: tools for people who work with AI, Linux desktop utilities, web apps, cloud automation and the environment I work in.",
     all: "All",
     filterLabel: "Filter by category",
     empty: "No projects in this category.",
@@ -327,6 +328,7 @@ const en: Copy = {
       "ai-tooling": "AI tooling",
       "cloud-automation": "Cloud & automation",
       "developer-environment": "Developer environment",
+      "linux-desktop": "Linux desktop",
       web: "Web",
     },
   },
@@ -451,7 +453,7 @@ const es: Copy = {
       eyebrow: "01 — Proyectos",
       title: "Proyectos destacados",
       description:
-        "Herramientas open source que uso a diario — desde grabaciones con contexto rastreable hasta cuotas de IA en la bandeja de Linux — y la infraestructura detrás de ellas.",
+        "Productos y herramientas que he construido — desde grabaciones con contexto rastreable y cuotas de IA hasta la batería de periféricos en Linux y una app para repartidores — y la infraestructura detrás de ellos.",
       viewAll: "Ver todos los proyectos",
     },
     about: {
@@ -498,7 +500,7 @@ const es: Copy = {
   projects: {
     title: "Proyectos",
     description:
-      "Lo que construyo y mantengo fuera del horario laboral: herramientas para quien trabaja con IA, automatización en la nube y mi entorno de trabajo.",
+      "Lo que construyo y mantengo fuera del horario laboral: herramientas para quien trabaja con IA, utilidades para el escritorio Linux, apps web, automatización en la nube y mi entorno de trabajo.",
     all: "Todos",
     filterLabel: "Filtrar por categoría",
     empty: "No hay proyectos en esta categoría.",
@@ -530,6 +532,7 @@ const es: Copy = {
       "ai-tooling": "Herramientas para IA",
       "cloud-automation": "Nube y automatización",
       "developer-environment": "Entorno de desarrollo",
+      "linux-desktop": "Escritorio Linux",
       web: "Web",
     },
   },

@@ -1,0 +1,57 @@
+{
+  "id": "perigauge",
+  "title_pt": "PeriGauge",
+  "title_en": "PeriGauge",
+  "tagline_pt": "A bateria do mouse, do teclado e dos fones, no seu painel.",
+  "tagline_en": "Your mouse, keyboard and headphone battery, right in your panel.",
+  "shortDescription_pt": "Monitor de bateria para mouses, teclados e fones Bluetooth no desktop Linux: um binário em Rust, local, sem rede e sem telemetria, com widget para o KDE Plasma 6 e avisos de bateria baixa.",
+  "shortDescription_en": "Battery monitor for mice, keyboards and Bluetooth headphones on the Linux desktop: one Rust binary, fully local, with no network and no telemetry, a KDE Plasma 6 widget and low-battery notifications.",
+  "description_pt": "O PeriGauge mostra a bateria dos periféricos sem fio no painel e na área de trabalho do Linux, com um medidor por dispositivo — incluindo fone esquerdo, fone direito e estojo — em gauge circular ou em barras. Um serviço de usuário lê os dispositivos a cada 30 segundos e avisa em 20%, 10% e 5% e quando a carga completa. Cada limiar dispara uma vez por descarga, e leituras desatualizadas, ausentes ou estimadas pela tensão nunca geram notificação.\n\nO núcleo é um único binário em Rust, com backends para o HID++ 2.0 da Logitech (Bolt, Unifying e Bluetooth), o receptor Ultra-Link 8K da Keychron, o status SPP dos Galaxy Buds e tudo o que o UPower já conhece — sem depender do Solaar. Os widgets consomem um contrato JSON versionado. O instalador escreve só nos diretórios do usuário e nunca usa sudo; o acesso HID sem root é uma regra udev separada e explícita. O PeriGauge substituiu o antigo helper perif-battery, escrito em Python.",
+  "description_en": "PeriGauge shows the battery of wireless peripherals in the Linux panel and on the desktop, with one meter per device — including left earbud, right earbud and case — as circular gauges or bars. A user service reads the devices every 30 seconds and notifies at 20%, 10% and 5%, and when charging completes. Each threshold fires once per discharge, and stale, absent or voltage-estimated readings never notify.\n\nThe core is a single Rust binary with backends for Logitech HID++ 2.0 (Bolt, Unifying and Bluetooth), the Keychron Ultra-Link 8K receiver, Galaxy Buds SPP status and anything UPower already knows — with no Solaar dependency. The widgets read a versioned JSON contract. The installer writes only to the user's directories and never uses sudo; root-free HID access is a separate, explicit udev rule. PeriGauge replaced the old perif-battery helper, written in Python.",
+  "highlights_pt": [
+    "Verificado em hardware com o Keychron M6 (receptor Ultra-Link 8K) e os Galaxy Buds3 Pro no KDE Plasma 6.6; o HID++ da Logitech está implementado e testado com fixtures, com validação em hardware pendente.",
+    "Widget QML para o KDE Plasma 6 com gauges circulares ou barras e medidores separados para fone esquerdo, fone direito e estojo.",
+    "Avisos em 20%, 10%, 5% e 100%, com histerese: cada limiar dispara uma vez por descarga e rearma quando a carga se recupera.",
+    "Local por padrão: só conversa com os dispositivos e com o desktop, sem rede e sem telemetria.",
+    "Contrato JSON versionado (perigauge status --json) compartilhado pelos widgets e comando doctor para diagnóstico.",
+    "Release com checksums SHA-256, instalador com --dry-run e sem sudo, e regra udev opcional documentada no SECURITY.md."
+  ],
+  "highlights_en": [
+    "Verified on hardware with the Keychron M6 (Ultra-Link 8K receiver) and Galaxy Buds3 Pro on KDE Plasma 6.6; Logitech HID++ is implemented and fixture-tested, with hardware validation pending.",
+    "QML widget for KDE Plasma 6 with circular gauges or bars and separate meters for left earbud, right earbud and case.",
+    "Notifications at 20%, 10%, 5% and 100%, with hysteresis: each threshold fires once per discharge and re-arms as the charge recovers.",
+    "Local by default: it only talks to your devices and the desktop, with no network and no telemetry.",
+    "A versioned JSON contract (perigauge status --json) shared by the widgets, plus a doctor command for diagnostics.",
+    "Releases with SHA-256 checksums, an installer with --dry-run and no sudo, and an optional udev rule documented in SECURITY.md."
+  ],
+  "category": "linux-desktop",
+  "status": "alpha",
+  "year": 2026,
+  "license": "MIT",
+  "technologies": [
+    {
+      "tech": "Rust"
+    },
+    {
+      "tech": "Qt/QML"
+    },
+    {
+      "tech": "KDE Plasma"
+    },
+    {
+      "tech": "D-Bus"
+    },
+    {
+      "tech": "systemd"
+    },
+    {
+      "tech": "UPower"
+    }
+  ],
+  "githubUrl": "https://github.com/caiolombello/perigauge",
+  "liveUrl": "https://caiolombello.github.io/perigauge/",
+  "featured": true,
+  "order": 3,
+  "createdAt": "2026-10-08",
+  "updatedAt": "2026-10-08"
+}
