@@ -201,6 +201,8 @@ export function loadProjects() {
         technologies: data.technologies || [],
         githubUrl: data.githubUrl || data.github || null,
         liveUrl: data.liveUrl || data.url || null,
+        liveUrl_pt: data.liveUrl_pt,
+        liveUrl_en: data.liveUrl_en,
         featured: data.featured || false,
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,

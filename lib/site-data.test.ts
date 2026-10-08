@@ -5,6 +5,16 @@ vi.mock("server-only", () => ({}));
 import { getProjects } from "./site-data";
 
 describe("localized project navigation", () => {
+  it.each([
+    ["pt", "https://delexpress.lombello.com/sobre"],
+    ["en", "https://delexpress.lombello.com/about"],
+  ] as const)("opens the DelExpress landing page in %s", async (locale, url) => {
+    const projects = await getProjects(locale);
+    expect(
+      projects.find((project) => project.id === "delexpress")?.liveUrl,
+    ).toBe(url);
+  });
+
   it("keeps the English project journey in English without relying on cookies", async () => {
     const projects = await getProjects("en");
     expect(

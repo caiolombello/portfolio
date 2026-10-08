@@ -161,6 +161,7 @@ export function toProjectView(project: Project, locale: Locale): ProjectView {
   const copy = getCopy(locale).projects;
   const category = project.category ?? "";
   const description = localized(project, "description", locale);
+  const liveUrl = localized(project, "liveUrl", locale);
 
   return {
     id: project.id,
@@ -188,9 +189,9 @@ export function toProjectView(project: Project, locale: Locale): ProjectView {
       (technology) => technology.tech,
     ),
     githubUrl: project.githubUrl || undefined,
-    liveUrl: project.liveUrl?.startsWith("/")
-      ? getLocalizedInstitutionalPath(project.liveUrl, contentLocale(locale))
-      : project.liveUrl || undefined,
+    liveUrl: liveUrl.startsWith("/")
+      ? getLocalizedInstitutionalPath(liveUrl, contentLocale(locale))
+      : liveUrl || undefined,
     imageUrl: project.imageUrl || undefined,
     featured: Boolean(project.featured),
     isPrivate: project.status === "private" || !project.githubUrl,
