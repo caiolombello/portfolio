@@ -32,6 +32,20 @@ export default function MarkdownRenderer({
     <div className="prose max-w-none dark:prose-invert md:prose-lg prose-headings:scroll-mt-24 prose-headings:font-semibold prose-headings:tracking-tight prose-img:rounded-xl prose-img:border prose-a:text-brand prose-a:underline-offset-4 prose-li:marker:text-brand prose-pre:bg-transparent prose-pre:p-0">
       <ReactMarkdown
         components={{
+          table: ({ children }) => (
+            <div
+              className="my-6 max-w-full overflow-x-auto"
+              role="group"
+              aria-label={
+                language === "pt"
+                  ? "Tabela com rolagem horizontal"
+                  : "Scrollable table"
+              }
+              tabIndex={0}
+            >
+              <table className="my-0">{children}</table>
+            </div>
+          ),
           pre: ({ children }) => (
             <CodeBlock
               code={getTextContent(children).replace(/\n$/, "")}

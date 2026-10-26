@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1710" viewBox="0 0 1000 1710" role="img" aria-labelledby="title desc">
+<title id="title">Hub and spoke na AWS: ida, retorno e separação entre ambientes</title>
+<desc id="desc">Exemplo fictício IPv4 com produção e desenvolvimento na Transit Gateway. O tráfego público segue ao NAT zonal na VPC de saída e ao Internet Gateway. O retorno consulta rt-retorno. Blackholes bloqueiam os CIDRs dos ambientes entre si.</desc>
+<rect id="blog046_001_rectangle" x="0" y="0" width="1000" height="1710" rx="10" fill="#fffdf8" stroke="#fffdf8" stroke-width="0" />
+<rect id="blog046_010_rectangle" x="55" y="230" width="410" height="240" rx="10" fill="#f3f6f7" stroke="#52616b" stroke-width="2" />
+<rect id="blog046_013_rectangle" x="85" y="320" width="345" height="112" rx="10" fill="#ffffff" stroke="#9aa7ad" stroke-width="2" />
+<rect id="blog046_016_rectangle" x="535" y="230" width="410" height="240" rx="10" fill="#f3f6f7" stroke="#52616b" stroke-width="2" />
+<rect id="blog046_019_rectangle" x="565" y="320" width="345" height="112" rx="10" fill="#ffffff" stroke="#9aa7ad" stroke-width="2" />
+<rect id="blog046_023_rectangle" x="110" y="515" width="780" height="240" rx="10" fill="#fff5df" stroke="#bd7a20" stroke-width="3" />
+<rect id="blog046_025_rectangle" x="140" y="575" width="360" height="145" rx="10" fill="#fffdf8" stroke="#bd7a20" stroke-width="2" />
+<rect id="blog046_028_rectangle" x="520" y="575" width="340" height="145" rx="10" fill="#fffdf8" stroke="#bd7a20" stroke-width="2" />
+<rect id="blog046_032_rectangle" x="55" y="835" width="890" height="360" rx="10" fill="#f3f6f7" stroke="#52616b" stroke-width="2" />
+<rect id="blog046_034_rectangle" x="85" y="905" width="330" height="230" rx="10" fill="#ffffff" stroke="#9aa7ad" stroke-width="2" />
+<rect id="blog046_037_rectangle" x="465" y="890" width="405" height="255" rx="10" fill="#fff8eb" stroke="#bd7a20" stroke-width="2" />
+<rect id="blog046_040_rectangle" x="500" y="1000" width="260" height="105" rx="10" fill="#ffffff" stroke="#bd7a20" stroke-width="2" />
+<rect id="blog046_042_rectangle" x="855" y="960" width="115" height="135" rx="10" fill="#fff5df" stroke="#bd7a20" stroke-width="3" />
+<rect id="blog046_046_rectangle" x="740" y="1260" width="230" height="105" rx="10" fill="#ffffff" stroke="#52616b" stroke-width="2" />
+<rect id="blog046_049_rectangle" x="55" y="1420" width="890" height="275" rx="10" fill="#edf5ee" stroke="#4e7e59" stroke-width="2" />
+<rect id="blog046_add_055" x="80" y="1490" width="245" height="110" rx="10" fill="#ffffff" stroke="#4e7e59" stroke-width="2" />
+<rect id="blog046_add_058" x="375" y="1490" width="245" height="110" rx="10" fill="#ffffff" stroke="#4e7e59" stroke-width="2" />
+<rect id="blog046_add_061" x="670" y="1490" width="245" height="110" rx="10" fill="#ffffff" stroke="#4e7e59" stroke-width="2" />
+<path d="M 260 470 L 340 470 L 340 515 L 395 515" fill="none" stroke="#b66b13" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<polygon points="395,515 384.3560609266486,520.5413501064978 384.3560609266486,509.4586498935022" fill="#b66b13" />
+<path d="M 500 755 L 500 805 L 250 805 L 250 905" fill="none" stroke="#b66b13" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<polygon points="250,905 244.4586498935022,894.3560609266486 255.5413501064978,894.3560609266486" fill="#b66b13" />
+<path d="M 415 1040 L 500 1040" fill="none" stroke="#b66b13" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<polygon points="500,1040 489.3560609266486,1045.5413501064977 489.3560609266486,1034.4586498935023" fill="#b66b13" />
+<path d="M 760 1040 L 855 1040" fill="none" stroke="#b66b13" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<polygon points="855,1040 844.3560609266486,1045.5413501064977 844.3560609266486,1034.4586498935023" fill="#b66b13" />
+<path d="M 870 1095 L 870 1260" fill="none" stroke="#b66b13" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+<polygon points="870,1260 864.4586498935022,1249.3560609266485 875.5413501064978,1249.3560609266485" fill="#b66b13" />
+<path d="M 735 470 L 735 515" fill="none" stroke="#b66b13" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<polygon points="735,515 730.8439874201266,507.01704569498645 739.1560125798734,507.01704569498645" fill="#b66b13" />
+<path d="M 328 1545 L 373 1545" fill="none" stroke="#39764a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 7" />
+<polygon points="373,1545 365.01704569498645,1549.1560125798733 365.01704569498645,1540.8439874201267" fill="#39764a" />
+<path d="M 623 1545 L 668 1545" fill="none" stroke="#39764a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 7" />
+<polygon points="668,1545 660.0170456949865,1549.1560125798733 660.0170456949865,1540.8439874201267" fill="#39764a" />
+<path d="M 82 1620 L 172 1620" fill="none" stroke="#39764a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 7" />
+<polygon points="172,1620 164.01704569498645,1624.1560125798733 164.01704569498645,1615.8439874201267" fill="#39764a" />
+<path d="M 82 1660 L 172 1660" fill="none" stroke="#b66b13" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+<polygon points="172,1660 164.01704569498645,1664.1560125798733 164.01704569498645,1655.8439874201267" fill="#b66b13" />
+<text fill="#202a30" font-family="DejaVu Sans, Arial, sans-serif" font-size="36" text-anchor="start">
+<tspan x="55" y="68.0">Hub and spoke na AWS</tspan>
+</text>
+<text fill="#47545c" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" text-anchor="start">
+<tspan x="55" y="114.0">Caminho de ida, retorno e isolamento entre ambientes</tspan>
+</text>
+<text fill="#65727a" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="55" y="162.0">Modelo didático · IPv4 · uma região · uma AZ · 2026-10-26 · v1.0</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="75" y="266.0">VPC PRODUÇÃO</tspan>
+</text>
+<text fill="#52616b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="75" y="300.0">10.240.0.0/16</tspan>
+</text>
+<text fill="#52616b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="102" y="350.0">Sub-rede privada</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="102" y="384.0">Aplicação · 10.240.1.10</tspan>
+<tspan x="102" y="410.4">0.0.0.0/0 → TGW</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="555" y="266.0">VPC DESENVOLVIMENTO</tspan>
+</text>
+<text fill="#52616b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="555" y="300.0">10.241.0.0/16</tspan>
+</text>
+<text fill="#52616b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="582" y="350.0">Sub-rede privada</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="582" y="384.0">Aplicação · 10.241.1.10</tspan>
+<tspan x="582" y="410.4">0.0.0.0/0 → TGW</tspan>
+</text>
+<text fill="#71420b" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" text-anchor="start">
+<tspan x="135" y="549.0">AWS Transit Gateway · fora das VPCs</tspan>
+</text>
+<text fill="#71420b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="158" y="606.0">rt-producao</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="158" y="642.0">0.0.0.0/0 → attachment saída</tspan>
+<tspan x="158" y="668.4">10.241.0.0/16 → blackhole</tspan>
+</text>
+<text fill="#71420b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="538" y="606.0">rt-retorno</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="538" y="642.0">10.240.0.0/16 →</tspan>
+<tspan x="538" y="668.4">attachment produção</tspan>
+<tspan x="538" y="694.8">CIDR propagado do spoke</tspan>
+</text>
+<text fill="#52616b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="146" y="746.0">rt-desenvolvimento: 10.240.0.0/16 → blackhole</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="480" y="872.0">VPC de saída · 10.242.0.0/16</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="103" y="938.0">Sub-rede do attachment</tspan>
+</text>
+<text fill="#52616b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="103" y="982.0">attachment central</tspan>
+<tspan x="103" y="1008.4">0.0.0.0/0 → NAT</tspan>
+<tspan x="103" y="1034.8">mesma AZ</tspan>
+</text>
+<text fill="#71420b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="483" y="922.0">Sub-rede pública · mesma AZ</tspan>
+</text>
+<text fill="#52616b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="483" y="972.0">Retorno: spokes → TGW</tspan></text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="middle">
+<tspan x="630.5" y="1030.0">NAT Gateway</tspan>
+<tspan x="630.5" y="1056.4">público</tspan>
+<tspan x="630.5" y="1082.8">zonal</tspan>
+</text>
+<text fill="#71420b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="middle">
+<tspan x="912.0" y="1000.0">Internet</tspan>
+<tspan x="912.0" y="1026.4">Gateway</tspan>
+<tspan x="912.0" y="1052.8">(IGW)</tspan>
+</text>
+<text fill="#52616b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="495" y="1132.0">0.0.0.0/0 → IGW</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="middle">
+<tspan x="855.0" y="1297.0">Destino público</tspan>
+<tspan x="855.0" y="1323.4">externo</tspan>
+<tspan x="855.0" y="1349.8">API · HTTPS</tspan>
+</text>
+<text fill="#8a500d" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="middle">
+<tspan x="653.0" y="1170.0">EIP do NAT</tspan>
+</text>
+<text fill="#315b3b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="80" y="1454.0">Retorno · rota consultada de novo</tspan>
+</text>
+<text fill="#315b3b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="middle">
+<tspan x="202.5" y="1516.0">1 · IGW / NAT</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="middle">
+<tspan x="202.5" y="1546.0">NAT desfaz a</tspan>
+<tspan x="202.5" y="1572.4">tradução</tspan>
+</text>
+<text fill="#315b3b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="middle">
+<tspan x="497.5" y="1516.0">2 · TGW · rt-retorno</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="middle">
+<tspan x="497.5" y="1546.0">10.240.0.0/16 →</tspan><tspan x="497.5" y="1572.4">spoke produção</tspan></text>
+<text fill="#315b3b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="middle">
+<tspan x="792.5" y="1516.0">3 · Produção</tspan>
+</text>
+<text fill="#263238" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="middle">
+<tspan x="792.5" y="1546.0">Rota local →</tspan>
+<tspan x="792.5" y="1572.4">10.240.1.10</tspan>
+</text>
+<text fill="#315b3b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="200" y="1628.0">Resposta · linha tracejada + seta verde</tspan>
+</text>
+<text fill="#71420b" font-family="DejaVu Sans, Arial, sans-serif" font-size="22" text-anchor="start">
+<tspan x="200" y="1668.0">Requisição · linha contínua + seta âmbar</tspan>
+</text>
+</svg>
