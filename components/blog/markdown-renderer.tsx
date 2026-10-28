@@ -1,10 +1,27 @@
 import { isValidElement, type ReactNode } from "react";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { type ExtraProps } from "react-markdown";
 import rehypePrism from "rehype-prism-plus";
 import remarkGfm from "remark-gfm";
 
+import BlogFigure from "./blog-figure";
 import CodeBlock from "./code-block";
+import { getBlogFigure } from "@/lib/blog-figures";
 import type { SiteLocale } from "@/lib/request-locale";
+
+/** True when a Markdown link wraps only a registered figure image. */
+function wrapsFigure(node: ExtraProps["node"]): boolean {
+  const content =
+    node?.children.filter(
+      (child) => child.type !== "text" || child.value.trim() !== "",
+    ) ?? [];
+  const [only] = content;
+  return (
+    content.length === 1 &&
+    only.type === "element" &&
+    only.tagName === "img" &&
+    getBlogFigure(only.properties?.src) !== undefined
+  );
+}
 
 interface MarkdownRendererProps {
   content: string;
@@ -46,6 +63,31 @@ export default function MarkdownRenderer({
               <table className="my-0">{children}</table>
             </div>
           ),
+          // A registered figure renders its own link, so a Markdown link around
+          // it is dropped to avoid nested <a> elements.
+          a: ({ node, children, ...props }) =>
+            wrapsFigure(node) ? <>{children}</> : <a {...props}>{children}</a>,
+          img: ({ src, alt = "", title }) => {
+            const figure = getBlogFigure(src);
+            if (figure) {
+              return <BlogFigure figure={figure} alt={alt} language={language} />;
+            }
+            if (typeof src !== "string") {
+              return null;
+            }
+            // Lazy loading also stops React from preloading body images
+            // alongside the cover.
+            return (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={src}
+                alt={alt}
+                title={title}
+                loading="lazy"
+                decoding="async"
+              />
+            );
+          },
           pre: ({ children }) => (
             <CodeBlock
               code={getTextContent(children).replace(/\n$/, "")}

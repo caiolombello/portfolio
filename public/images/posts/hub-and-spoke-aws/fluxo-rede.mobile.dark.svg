@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="2017" viewBox="0 0 600 2017" role="img" aria-labelledby="title desc">
+<title id="title">Hub and spoke na AWS: ida e volta pelo Transit Gateway</title>
+<desc id="desc">VPCs de produção e de desenvolvimento ligadas ao Transit Gateway, com saída central por NAT Gateway e Internet Gateway na VPC de saída. A ida usa rt-producao; a volta, em quatro passos numerados, usa a rota mais específica da sub-rede pública e rt-retorno. Blackholes separam os ambientes.</desc>
+<style>.s{font-family:Geist, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif}.m{font-family:"Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace}.b{font-weight:600}</style>
+<rect width="600" height="2017" fill="#151719"/>
+<rect x="14" y="14" width="280" height="282" rx="12" fill="#1c2024" stroke="#8a969c" stroke-width="2"/>
+<text x="30" y="46" class="s b" font-size="20" fill="#e6e9eb">VPC de produção</text>
+<text x="30" y="72" class="m" font-size="19" fill="#a7b2b9">10.240.0.0/16</text>
+<rect x="30" y="116" width="248" height="166" rx="8" fill="#22272c" stroke="#75828a" stroke-width="2"/>
+<text x="44" y="146" class="s b" font-size="19" fill="#e6e9eb">Sub-rede privada</text>
+<text x="44" y="174" class="s" font-size="19" fill="#e6e9eb">aplicação</text>
+<text x="44" y="200" class="m" font-size="19" fill="#e6e9eb">10.240.1.10</text>
+<rect x="36" y="213" width="236" height="54" rx="6" fill="#3a2c17"/>
+<text x="44" y="234.8" class="m" font-size="19" fill="#e6e9eb">0.0.0.0/0</text>
+<path d="M52 252.8 L59.3 252.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="65.3,252.8 59.3,256.3 59.3,249.3" fill="#a7b2b9"/>
+<text x="70.3" y="258.8" class="s" font-size="19" fill="#e6e9eb">TGW</text>
+<rect x="306" y="14" width="280" height="282" rx="12" fill="#1c2024" stroke="#8a969c" stroke-width="2"/>
+<text x="322" y="46" class="s b" font-size="20" fill="#e6e9eb">VPC de</text>
+<text x="322" y="72" class="s b" font-size="20" fill="#e6e9eb">desenvolvimento</text>
+<text x="322" y="98" class="m" font-size="19" fill="#a7b2b9">10.241.0.0/16</text>
+<rect x="322" y="116" width="248" height="166" rx="8" fill="#22272c" stroke="#75828a" stroke-width="2"/>
+<text x="336" y="146" class="s b" font-size="19" fill="#e6e9eb">Sub-rede privada</text>
+<text x="336" y="174" class="s" font-size="19" fill="#a7b2b9">aplicação</text>
+<text x="336" y="200" class="m" font-size="19" fill="#e6e9eb">10.241.1.10</text>
+<text x="336" y="234.8" class="m" font-size="19" fill="#e6e9eb">0.0.0.0/0</text>
+<path d="M344 252.8 L351.3 252.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="357.3,252.8 351.3,256.3 351.3,249.3" fill="#a7b2b9"/>
+<text x="362.3" y="258.8" class="s" font-size="19" fill="#e6e9eb">TGW</text>
+<rect x="14" y="376" width="572" height="591" rx="12" fill="#2a2418" stroke="#c48a3a" stroke-width="3"/>
+<text x="30" y="432" class="s b" font-size="20" fill="#f0b46a">Transit Gateway</text>
+<rect x="26" y="450" width="258" height="239" rx="8" fill="#22272c" stroke="#c48a3a" stroke-width="2"/>
+<text x="36" y="480" class="m b" font-size="20" fill="#f0b46a">rt-producao</text>
+<text x="36" y="505" class="s" font-size="19" fill="#a7b2b9">associada ao</text>
+<text x="36" y="530" class="s" font-size="19" fill="#a7b2b9">attachment de</text>
+<text x="36" y="555" class="s" font-size="19" fill="#a7b2b9">produção</text>
+<rect x="28" y="566" width="254" height="54" rx="6" fill="#3a2c17"/>
+<text x="36" y="587.8" class="m" font-size="19" fill="#e6e9eb">0.0.0.0/0</text>
+<path d="M44 605.8 L51.3 605.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="57.3,605.8 51.3,609.3 51.3,602.3" fill="#a7b2b9"/>
+<text x="62.3" y="611.8" class="s" font-size="19" fill="#e6e9eb">attachment de saída</text>
+<text x="36" y="643.8" class="m" font-size="19" fill="#e6e9eb">10.241.0.0/16</text>
+<path d="M44 661.8 L51.3 661.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="57.3,661.8 51.3,665.3 51.3,658.3" fill="#a7b2b9"/>
+<text x="62.3" y="667.8" class="m" font-size="19" fill="#f28b82">blackhole</text>
+<rect x="316" y="450" width="258" height="239" rx="8" fill="#22272c" stroke="#75828a" stroke-width="2"/>
+<text x="326" y="480" class="m b" font-size="20" fill="#e6e9eb">rt-desenvolvimento</text>
+<text x="326" y="505" class="s" font-size="19" fill="#a7b2b9">associada ao</text>
+<text x="326" y="530" class="s" font-size="19" fill="#a7b2b9">attachment de</text>
+<text x="326" y="555" class="s" font-size="19" fill="#a7b2b9">desenvolvimento</text>
+<text x="326" y="587.8" class="m" font-size="19" fill="#e6e9eb">0.0.0.0/0</text>
+<path d="M334 605.8 L341.3 605.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="347.3,605.8 341.3,609.3 341.3,602.3" fill="#a7b2b9"/>
+<text x="352.3" y="611.8" class="s" font-size="19" fill="#e6e9eb">attachment de saída</text>
+<text x="326" y="643.8" class="m" font-size="19" fill="#e6e9eb">10.240.0.0/16</text>
+<path d="M334 661.8 L341.3 661.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="347.3,661.8 341.3,665.3 341.3,658.3" fill="#a7b2b9"/>
+<text x="352.3" y="667.8" class="m" font-size="19" fill="#f28b82">blackhole</text>
+<rect x="170" y="733" width="400" height="214" rx="8" fill="#22272c" stroke="#c48a3a" stroke-width="2"/>
+<text x="180" y="763" class="m b" font-size="20" fill="#f0b46a">rt-retorno</text>
+<text x="180" y="788" class="s" font-size="19" fill="#a7b2b9">associada ao attachment de saída</text>
+<text x="180" y="813" class="s" font-size="19" fill="#a7b2b9">rotas propagadas</text>
+<rect x="172" y="824" width="396" height="54" rx="6" fill="#1d3326"/>
+<text x="180" y="845.8" class="m" font-size="19" fill="#e6e9eb">10.240.0.0/16</text>
+<path d="M188 863.8 L195.3 863.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="201.3,863.8 195.3,867.3 195.3,860.3" fill="#a7b2b9"/>
+<text x="206.3" y="869.8" class="s" font-size="19" fill="#e6e9eb">attachment de produção</text>
+<text x="180" y="901.8" class="m" font-size="19" fill="#e6e9eb">10.241.0.0/16</text>
+<path d="M188 919.8 L195.3 919.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="201.3,919.8 195.3,923.3 195.3,916.3" fill="#a7b2b9"/>
+<text x="206.3" y="925.8" class="s" font-size="19" fill="#e6e9eb">attachment de desenvolvimento</text>
+<rect x="100" y="1059" width="486" height="502" rx="12" fill="#1c2024" stroke="#8a969c" stroke-width="2"/>
+<text x="116" y="1091" class="s b" font-size="20" fill="#e6e9eb">VPC de saída</text>
+<text x="116" y="1117" class="m" font-size="19" fill="#a7b2b9">10.242.0.0/16</text>
+<rect x="116" y="1147" width="310" height="110" rx="8" fill="#22272c" stroke="#75828a" stroke-width="2"/>
+<text x="130" y="1177" class="s b" font-size="19" fill="#e6e9eb">Sub-rede do attachment</text>
+<rect x="122" y="1190" width="298" height="54" rx="6" fill="#3a2c17"/>
+<text x="130" y="1211.8" class="m" font-size="19" fill="#e6e9eb">0.0.0.0/0</text>
+<path d="M138 1229.8 L145.3 1229.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="151.3,1229.8 145.3,1233.3 145.3,1226.3" fill="#a7b2b9"/>
+<text x="156.3" y="1235.8" class="s" font-size="19" fill="#e6e9eb">NAT (mesma AZ)</text>
+<rect x="116" y="1281" width="454" height="224" rx="8" fill="#22272c" stroke="#75828a" stroke-width="2"/>
+<text x="130" y="1311" class="s b" font-size="19" fill="#e6e9eb">Sub-rede pública</text>
+<rect x="122" y="1326" width="252" height="54" rx="6" fill="#1d3326"/>
+<text x="130" y="1347.8" class="m" font-size="19" fill="#e6e9eb">10.240.0.0/16</text>
+<path d="M138 1365.8 L145.3 1365.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="151.3,1365.8 145.3,1369.3 145.3,1362.3" fill="#a7b2b9"/>
+<text x="156.3" y="1371.8" class="s" font-size="19" fill="#e6e9eb">TGW</text>
+<text x="130" y="1403.8" class="m" font-size="19" fill="#e6e9eb">10.241.0.0/16</text>
+<path d="M138 1421.8 L145.3 1421.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="151.3,1421.8 145.3,1425.3 145.3,1418.3" fill="#a7b2b9"/>
+<text x="156.3" y="1427.8" class="s" font-size="19" fill="#e6e9eb">TGW</text>
+<rect x="122" y="1438" width="252" height="54" rx="6" fill="#3a2c17"/>
+<text x="130" y="1459.8" class="m" font-size="19" fill="#e6e9eb">0.0.0.0/0</text>
+<path d="M138 1477.8 L145.3 1477.8" fill="none" stroke="#a7b2b9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="151.3,1477.8 145.3,1481.3 145.3,1474.3" fill="#a7b2b9"/>
+<text x="156.3" y="1483.8" class="s" font-size="19" fill="#e6e9eb">IGW</text>
+<rect x="396" y="1325" width="160" height="80" rx="8" fill="#22272c" stroke="#c48a3a" stroke-width="2"/>
+<text x="476" y="1352.8" class="s b" font-size="19" fill="#e6e9eb" text-anchor="middle">NAT Gateway</text>
+<text x="476" y="1378.8" class="s" font-size="19" fill="#a7b2b9" text-anchor="middle">público, zonal</text>
+<rect x="510" y="1391" width="53.3" height="29" rx="6" fill="#3a2c17" stroke="#c48a3a" stroke-width="2"/>
+<text x="536.7" y="1412.3" class="s b" font-size="19" fill="#f0b46a" text-anchor="middle">EIP</text>
+<rect x="411" y="1525" width="130" height="72" rx="8" fill="#2a2418" stroke="#c48a3a" stroke-width="3"/>
+<text x="476" y="1555.8" class="s b" font-size="19" fill="#f0b46a" text-anchor="middle">Internet</text>
+<text x="476" y="1579.8" class="s b" font-size="19" fill="#f0b46a" text-anchor="middle">Gateway</text>
+<rect x="396" y="1653" width="160" height="76" rx="8" fill="#22272c" stroke="#8a969c" stroke-width="2"/>
+<text x="476" y="1684.8" class="s b" font-size="19" fill="#e6e9eb" text-anchor="middle">API pública</text>
+<text x="476" y="1710.8" class="s" font-size="19" fill="#a7b2b9" text-anchor="middle">HTTPS</text>
+<path d="M236 282 L236 437.8" fill="none" stroke="#e39b45" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="236,450 230,437.8 242,437.8" fill="#e39b45"/>
+<path d="M66 689 L66 1205 L103.8 1205" fill="none" stroke="#e39b45" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="116,1205 103.8,1211 103.8,1199" fill="#e39b45"/>
+<path d="M410 1257 L410 1312.8" fill="none" stroke="#e39b45" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="410,1325 404,1312.8 416,1312.8" fill="#e39b45"/>
+<path d="M460 1405 L460 1512.8" fill="none" stroke="#e39b45" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="460,1525 454,1512.8 466,1512.8" fill="#e39b45"/>
+<path d="M460 1597 L460 1640.8" fill="none" stroke="#e39b45" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="460,1653 454,1640.8 466,1640.8" fill="#e39b45"/>
+<path d="M461.3 282 L461.3 438.5" fill="none" stroke="#8a969c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="461.3,450 455.8,438.5 466.8,438.5" fill="#8a969c"/>
+<path d="M492 1653 L492 1609.2" fill="none" stroke="#6cc489" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<polygon points="492,1597 498,1609.2 486,1609.2" fill="#6cc489"/>
+<path d="M492 1525 L492 1417.2" fill="none" stroke="#6cc489" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<polygon points="492,1405 498,1417.2 486,1417.2" fill="#6cc489"/>
+<path d="M530 1325 L530 1011 L118 1011 L118 840 L157.8 840" fill="none" stroke="#6cc489" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<polygon points="170,840 157.8,846 157.8,834" fill="#6cc489"/>
+<path d="M300 733 L300 434 L264 434 L264 294.2" fill="none" stroke="#6cc489" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<polygon points="264,282 270,294.2 258,294.2" fill="#6cc489"/>
+<rect x="157.1" y="348.5" width="185.7" height="55" rx="16" fill="#22272c" stroke="#c48a3a" stroke-width="2"/>
+<text x="250" y="370.8" class="s b" font-size="19" fill="#f0b46a" text-anchor="middle">attachment de</text>
+<text x="250" y="394.8" class="s b" font-size="19" fill="#f0b46a" text-anchor="middle">produção</text>
+<rect x="354.9" y="348.5" width="212.9" height="55" rx="16" fill="#22272c" stroke="#8a969c" stroke-width="2"/>
+<text x="461.3" y="370.8" class="s b" font-size="19" fill="#a7b2b9" text-anchor="middle">attachment de</text>
+<text x="461.3" y="394.8" class="s b" font-size="19" fill="#a7b2b9" text-anchor="middle">desenvolvimento</text>
+<rect x="30" y="939.5" width="185.7" height="55" rx="16" fill="#22272c" stroke="#c48a3a" stroke-width="2"/>
+<text x="122.9" y="961.8" class="s b" font-size="19" fill="#f0b46a" text-anchor="middle">attachment de</text>
+<text x="122.9" y="985.8" class="s b" font-size="19" fill="#f0b46a" text-anchor="middle">saída</text>
+<circle cx="492" cy="1471" r="16" fill="#6cc489" stroke="#151719" stroke-width="3"/>
+<text x="492" y="1478.2" class="s b" font-size="20" fill="#10251a" text-anchor="middle">1</text>
+<circle cx="530" cy="1247" r="16" fill="#6cc489" stroke="#151719" stroke-width="3"/>
+<text x="530" y="1254.2" class="s b" font-size="20" fill="#10251a" text-anchor="middle">2</text>
+<circle cx="300" cy="711" r="16" fill="#6cc489" stroke="#151719" stroke-width="3"/>
+<text x="300" y="718.2" class="s b" font-size="20" fill="#10251a" text-anchor="middle">3</text>
+<circle cx="264" cy="316" r="16" fill="#6cc489" stroke="#151719" stroke-width="3"/>
+<text x="264" y="323.2" class="s b" font-size="20" fill="#10251a" text-anchor="middle">4</text>
+<path d="M20 1779 L61.8 1779" fill="none" stroke="#e39b45" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="74,1779 61.8,1785 61.8,1773" fill="#e39b45"/>
+<text x="88" y="1785.8" class="s" font-size="19" fill="#e6e9eb">Ida (requisição)</text>
+<path d="M20 1811 L61.8 1811" fill="none" stroke="#6cc489" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<polygon points="74,1811 61.8,1817 61.8,1805" fill="#6cc489"/>
+<text x="88" y="1817.8" class="s" font-size="19" fill="#e6e9eb">Volta (resposta)</text>
+<path d="M20 1843 L62.5 1843" fill="none" stroke="#8a969c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="74,1843 62.5,1848.5 62.5,1837.5" fill="#8a969c"/>
+<text x="88" y="1849.8" class="s" font-size="19" fill="#a7b2b9">Desenvolvimento (não acompanhado)</text>
+<circle cx="36" cy="1881" r="16" fill="#6cc489" stroke="#151719" stroke-width="3"/>
+<text x="36" y="1888.2" class="s b" font-size="20" fill="#10251a" text-anchor="middle">1</text>
+<text x="64" y="1887.8" class="s" font-size="19" fill="#e6e9eb">IGW e NAT desfazem as traduções</text>
+<circle cx="36" cy="1913" r="16" fill="#6cc489" stroke="#151719" stroke-width="3"/>
+<text x="36" y="1920.2" class="s b" font-size="20" fill="#10251a" text-anchor="middle">2</text>
+<text x="64" y="1919.8" class="s" font-size="19" fill="#e6e9eb">rota mais específica volta ao TGW</text>
+<circle cx="36" cy="1945" r="16" fill="#6cc489" stroke="#151719" stroke-width="3"/>
+<text x="36" y="1952.2" class="s b" font-size="20" fill="#10251a" text-anchor="middle">3</text>
+<text x="64" y="1951.8" class="s" font-size="19" fill="#e6e9eb">rt-retorno envia à produção</text>
+<circle cx="36" cy="1977" r="16" fill="#6cc489" stroke="#151719" stroke-width="3"/>
+<text x="36" y="1984.2" class="s b" font-size="20" fill="#10251a" text-anchor="middle">4</text>
+<text x="64" y="1983.8" class="s" font-size="19" fill="#e6e9eb">rota local entrega a 10.240.1.10</text>
+</svg>

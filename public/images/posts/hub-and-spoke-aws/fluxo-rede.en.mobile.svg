@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1991" viewBox="0 0 600 1991" role="img" aria-labelledby="title desc">
+<title id="title">Hub and spoke on AWS: the round trip through Transit Gateway</title>
+<desc id="desc">Production and development VPCs attached to Transit Gateway, with centralized egress through a NAT Gateway and an Internet Gateway in the egress VPC. The request uses rt-production; the response, in four numbered steps, uses the public subnet's more specific route and rt-return. Blackholes separate the environments.</desc>
+<style>.s{font-family:Geist, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif}.m{font-family:"Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace}.b{font-weight:600}</style>
+<rect width="600" height="1991" fill="#fffdf8"/>
+<rect x="14" y="14" width="280" height="256" rx="12" fill="#f3f6f7" stroke="#52616b" stroke-width="2"/>
+<text x="30" y="46" class="s b" font-size="20" fill="#202a30">Production VPC</text>
+<text x="30" y="72" class="m" font-size="19" fill="#52616b">10.240.0.0/16</text>
+<rect x="30" y="90" width="248" height="166" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="44" y="120" class="s b" font-size="19" fill="#202a30">Private subnet</text>
+<text x="44" y="148" class="s" font-size="19" fill="#202a30">app</text>
+<text x="44" y="174" class="m" font-size="19" fill="#202a30">10.240.1.10</text>
+<rect x="36" y="187" width="236" height="54" rx="6" fill="#fbe9c8"/>
+<text x="44" y="208.8" class="m" font-size="19" fill="#202a30">0.0.0.0/0</text>
+<path d="M52 226.8 L59.3 226.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="65.3,226.8 59.3,230.3 59.3,223.3" fill="#52616b"/>
+<text x="70.3" y="232.8" class="s" font-size="19" fill="#202a30">TGW</text>
+<rect x="306" y="14" width="280" height="256" rx="12" fill="#f3f6f7" stroke="#52616b" stroke-width="2"/>
+<text x="322" y="46" class="s b" font-size="20" fill="#202a30">Development VPC</text>
+<text x="322" y="72" class="m" font-size="19" fill="#52616b">10.241.0.0/16</text>
+<rect x="322" y="90" width="248" height="166" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="336" y="120" class="s b" font-size="19" fill="#202a30">Private subnet</text>
+<text x="336" y="148" class="s" font-size="19" fill="#52616b">app</text>
+<text x="336" y="174" class="m" font-size="19" fill="#202a30">10.241.1.10</text>
+<text x="336" y="208.8" class="m" font-size="19" fill="#202a30">0.0.0.0/0</text>
+<path d="M344 226.8 L351.3 226.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="357.3,226.8 351.3,230.3 351.3,223.3" fill="#52616b"/>
+<text x="362.3" y="232.8" class="s" font-size="19" fill="#202a30">TGW</text>
+<rect x="14" y="350" width="572" height="591" rx="12" fill="#fff5df" stroke="#bd7a20" stroke-width="3"/>
+<text x="30" y="406" class="s b" font-size="20" fill="#71420b">Transit Gateway</text>
+<rect x="26" y="424" width="258" height="239" rx="8" fill="#ffffff" stroke="#bd7a20" stroke-width="2"/>
+<text x="36" y="454" class="m b" font-size="20" fill="#71420b">rt-production</text>
+<text x="36" y="479" class="s" font-size="19" fill="#52616b">associated with the</text>
+<text x="36" y="504" class="s" font-size="19" fill="#52616b">production attachment</text>
+<text x="36" y="529" class="s" font-size="19" fill="#52616b"></text>
+<rect x="28" y="540" width="254" height="54" rx="6" fill="#fbe9c8"/>
+<text x="36" y="561.8" class="m" font-size="19" fill="#202a30">0.0.0.0/0</text>
+<path d="M44 579.8 L51.3 579.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="57.3,579.8 51.3,583.3 51.3,576.3" fill="#52616b"/>
+<text x="62.3" y="585.8" class="s" font-size="19" fill="#202a30">egress attachment</text>
+<text x="36" y="617.8" class="m" font-size="19" fill="#202a30">10.241.0.0/16</text>
+<path d="M44 635.8 L51.3 635.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="57.3,635.8 51.3,639.3 51.3,632.3" fill="#52616b"/>
+<text x="62.3" y="641.8" class="m" font-size="19" fill="#a8322a">blackhole</text>
+<rect x="316" y="424" width="258" height="239" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="326" y="454" class="m b" font-size="20" fill="#202a30">rt-development</text>
+<text x="326" y="479" class="s" font-size="19" fill="#52616b">associated with the</text>
+<text x="326" y="504" class="s" font-size="19" fill="#52616b">development</text>
+<text x="326" y="529" class="s" font-size="19" fill="#52616b">attachment</text>
+<text x="326" y="561.8" class="m" font-size="19" fill="#202a30">0.0.0.0/0</text>
+<path d="M334 579.8 L341.3 579.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="347.3,579.8 341.3,583.3 341.3,576.3" fill="#52616b"/>
+<text x="352.3" y="585.8" class="s" font-size="19" fill="#202a30">egress attachment</text>
+<text x="326" y="617.8" class="m" font-size="19" fill="#202a30">10.240.0.0/16</text>
+<path d="M334 635.8 L341.3 635.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="347.3,635.8 341.3,639.3 341.3,632.3" fill="#52616b"/>
+<text x="352.3" y="641.8" class="m" font-size="19" fill="#a8322a">blackhole</text>
+<rect x="170" y="707" width="400" height="214" rx="8" fill="#ffffff" stroke="#bd7a20" stroke-width="2"/>
+<text x="180" y="737" class="m b" font-size="20" fill="#71420b">rt-return</text>
+<text x="180" y="762" class="s" font-size="19" fill="#52616b">associated with the egress</text>
+<text x="180" y="787" class="s" font-size="19" fill="#52616b">attachment · propagated routes</text>
+<rect x="172" y="798" width="396" height="54" rx="6" fill="#e2efe4"/>
+<text x="180" y="819.8" class="m" font-size="19" fill="#202a30">10.240.0.0/16</text>
+<path d="M188 837.8 L195.3 837.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="201.3,837.8 195.3,841.3 195.3,834.3" fill="#52616b"/>
+<text x="206.3" y="843.8" class="s" font-size="19" fill="#202a30">production attachment</text>
+<text x="180" y="875.8" class="m" font-size="19" fill="#202a30">10.241.0.0/16</text>
+<path d="M188 893.8 L195.3 893.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="201.3,893.8 195.3,897.3 195.3,890.3" fill="#52616b"/>
+<text x="206.3" y="899.8" class="s" font-size="19" fill="#202a30">development attachment</text>
+<rect x="100" y="1033" width="486" height="502" rx="12" fill="#f3f6f7" stroke="#52616b" stroke-width="2"/>
+<text x="116" y="1065" class="s b" font-size="20" fill="#202a30">Egress VPC</text>
+<text x="116" y="1091" class="m" font-size="19" fill="#52616b">10.242.0.0/16</text>
+<rect x="116" y="1121" width="310" height="110" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="130" y="1151" class="s b" font-size="19" fill="#202a30">Attachment subnet</text>
+<rect x="122" y="1164" width="298" height="54" rx="6" fill="#fbe9c8"/>
+<text x="130" y="1185.8" class="m" font-size="19" fill="#202a30">0.0.0.0/0</text>
+<path d="M138 1203.8 L145.3 1203.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="151.3,1203.8 145.3,1207.3 145.3,1200.3" fill="#52616b"/>
+<text x="156.3" y="1209.8" class="s" font-size="19" fill="#202a30">NAT (same AZ)</text>
+<rect x="116" y="1255" width="454" height="224" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="130" y="1285" class="s b" font-size="19" fill="#202a30">Public subnet</text>
+<rect x="122" y="1300" width="252" height="54" rx="6" fill="#e2efe4"/>
+<text x="130" y="1321.8" class="m" font-size="19" fill="#202a30">10.240.0.0/16</text>
+<path d="M138 1339.8 L145.3 1339.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="151.3,1339.8 145.3,1343.3 145.3,1336.3" fill="#52616b"/>
+<text x="156.3" y="1345.8" class="s" font-size="19" fill="#202a30">TGW</text>
+<text x="130" y="1377.8" class="m" font-size="19" fill="#202a30">10.241.0.0/16</text>
+<path d="M138 1395.8 L145.3 1395.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="151.3,1395.8 145.3,1399.3 145.3,1392.3" fill="#52616b"/>
+<text x="156.3" y="1401.8" class="s" font-size="19" fill="#202a30">TGW</text>
+<rect x="122" y="1412" width="252" height="54" rx="6" fill="#fbe9c8"/>
+<text x="130" y="1433.8" class="m" font-size="19" fill="#202a30">0.0.0.0/0</text>
+<path d="M138 1451.8 L145.3 1451.8" fill="none" stroke="#52616b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="151.3,1451.8 145.3,1455.3 145.3,1448.3" fill="#52616b"/>
+<text x="156.3" y="1457.8" class="s" font-size="19" fill="#202a30">IGW</text>
+<rect x="396" y="1299" width="160" height="80" rx="8" fill="#ffffff" stroke="#bd7a20" stroke-width="2"/>
+<text x="476" y="1326.8" class="s b" font-size="19" fill="#202a30" text-anchor="middle">NAT Gateway</text>
+<text x="476" y="1352.8" class="s" font-size="19" fill="#52616b" text-anchor="middle">public, zonal</text>
+<rect x="510" y="1365" width="53.3" height="29" rx="6" fill="#fbe9c8" stroke="#bd7a20" stroke-width="2"/>
+<text x="536.7" y="1386.3" class="s b" font-size="19" fill="#71420b" text-anchor="middle">EIP</text>
+<rect x="411" y="1499" width="130" height="72" rx="8" fill="#fff5df" stroke="#bd7a20" stroke-width="3"/>
+<text x="476" y="1529.8" class="s b" font-size="19" fill="#71420b" text-anchor="middle">Internet</text>
+<text x="476" y="1553.8" class="s b" font-size="19" fill="#71420b" text-anchor="middle">Gateway</text>
+<rect x="396" y="1627" width="160" height="76" rx="8" fill="#ffffff" stroke="#52616b" stroke-width="2"/>
+<text x="476" y="1658.8" class="s b" font-size="19" fill="#202a30" text-anchor="middle">Public API</text>
+<text x="476" y="1684.8" class="s" font-size="19" fill="#52616b" text-anchor="middle">HTTPS</text>
+<path d="M236 256 L236 411.8" fill="none" stroke="#b66b13" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="236,424 230,411.8 242,411.8" fill="#b66b13"/>
+<path d="M66 663 L66 1179 L103.8 1179" fill="none" stroke="#b66b13" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="116,1179 103.8,1185 103.8,1173" fill="#b66b13"/>
+<path d="M410 1231 L410 1286.8" fill="none" stroke="#b66b13" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="410,1299 404,1286.8 416,1286.8" fill="#b66b13"/>
+<path d="M460 1379 L460 1486.8" fill="none" stroke="#b66b13" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="460,1499 454,1486.8 466,1486.8" fill="#b66b13"/>
+<path d="M460 1571 L460 1614.8" fill="none" stroke="#b66b13" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="460,1627 454,1614.8 466,1614.8" fill="#b66b13"/>
+<path d="M446 256 L446 412.5" fill="none" stroke="#7a878e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="446,424 440.5,412.5 451.5,412.5" fill="#7a878e"/>
+<path d="M492 1627 L492 1583.2" fill="none" stroke="#39764a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<polygon points="492,1571 498,1583.2 486,1583.2" fill="#39764a"/>
+<path d="M492 1499 L492 1391.2" fill="none" stroke="#39764a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<polygon points="492,1379 498,1391.2 486,1391.2" fill="#39764a"/>
+<path d="M530 1299 L530 985 L118 985 L118 814 L157.8 814" fill="none" stroke="#39764a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<polygon points="170,814 157.8,820 157.8,808" fill="#39764a"/>
+<path d="M300 707 L300 408 L264 408 L264 268.2" fill="none" stroke="#39764a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<polygon points="264,256 270,268.2 258,268.2" fill="#39764a"/>
+<rect x="174.2" y="322.5" width="151.6" height="55" rx="16" fill="#ffffff" stroke="#bd7a20" stroke-width="2"/>
+<text x="250" y="344.8" class="s b" font-size="19" fill="#71420b" text-anchor="middle">production</text>
+<text x="250" y="368.8" class="s b" font-size="19" fill="#71420b" text-anchor="middle">attachment</text>
+<rect x="361.8" y="322.5" width="168.4" height="55" rx="16" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="446" y="344.8" class="s b" font-size="19" fill="#52616b" text-anchor="middle">development</text>
+<text x="446" y="368.8" class="s b" font-size="19" fill="#52616b" text-anchor="middle">attachment</text>
+<rect x="30" y="913.5" width="151.6" height="55" rx="16" fill="#ffffff" stroke="#bd7a20" stroke-width="2"/>
+<text x="105.8" y="935.8" class="s b" font-size="19" fill="#71420b" text-anchor="middle">egress</text>
+<text x="105.8" y="959.8" class="s b" font-size="19" fill="#71420b" text-anchor="middle">attachment</text>
+<circle cx="492" cy="1445" r="16" fill="#39764a" stroke="#fffdf8" stroke-width="3"/>
+<text x="492" y="1452.2" class="s b" font-size="20" fill="#ffffff" text-anchor="middle">1</text>
+<circle cx="530" cy="1221" r="16" fill="#39764a" stroke="#fffdf8" stroke-width="3"/>
+<text x="530" y="1228.2" class="s b" font-size="20" fill="#ffffff" text-anchor="middle">2</text>
+<circle cx="300" cy="685" r="16" fill="#39764a" stroke="#fffdf8" stroke-width="3"/>
+<text x="300" y="692.2" class="s b" font-size="20" fill="#ffffff" text-anchor="middle">3</text>
+<circle cx="264" cy="290" r="16" fill="#39764a" stroke="#fffdf8" stroke-width="3"/>
+<text x="264" y="297.2" class="s b" font-size="20" fill="#ffffff" text-anchor="middle">4</text>
+<path d="M20 1753 L61.8 1753" fill="none" stroke="#b66b13" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="74,1753 61.8,1759 61.8,1747" fill="#b66b13"/>
+<text x="88" y="1759.8" class="s" font-size="19" fill="#202a30">Outbound (request)</text>
+<path d="M20 1785 L61.8 1785" fill="none" stroke="#39764a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="9 6"/>
+<polygon points="74,1785 61.8,1791 61.8,1779" fill="#39764a"/>
+<text x="88" y="1791.8" class="s" font-size="19" fill="#202a30">Return (response)</text>
+<path d="M20 1817 L62.5 1817" fill="none" stroke="#7a878e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="74,1817 62.5,1822.5 62.5,1811.5" fill="#7a878e"/>
+<text x="88" y="1823.8" class="s" font-size="19" fill="#52616b">Development (not traced)</text>
+<circle cx="36" cy="1855" r="16" fill="#39764a" stroke="#fffdf8" stroke-width="3"/>
+<text x="36" y="1862.2" class="s b" font-size="20" fill="#ffffff" text-anchor="middle">1</text>
+<text x="64" y="1861.8" class="s" font-size="19" fill="#202a30">IGW and NAT reverse the translations</text>
+<circle cx="36" cy="1887" r="16" fill="#39764a" stroke="#fffdf8" stroke-width="3"/>
+<text x="36" y="1894.2" class="s b" font-size="20" fill="#ffffff" text-anchor="middle">2</text>
+<text x="64" y="1893.8" class="s" font-size="19" fill="#202a30">the more specific route goes to the TGW</text>
+<circle cx="36" cy="1919" r="16" fill="#39764a" stroke="#fffdf8" stroke-width="3"/>
+<text x="36" y="1926.2" class="s b" font-size="20" fill="#ffffff" text-anchor="middle">3</text>
+<text x="64" y="1925.8" class="s" font-size="19" fill="#202a30">rt-return sends it to production</text>
+<circle cx="36" cy="1951" r="16" fill="#39764a" stroke="#fffdf8" stroke-width="3"/>
+<text x="36" y="1958.2" class="s b" font-size="20" fill="#ffffff" text-anchor="middle">4</text>
+<text x="64" y="1957.8" class="s" font-size="19" fill="#202a30">the local route delivers to 10.240.1.10</text>
+</svg>
