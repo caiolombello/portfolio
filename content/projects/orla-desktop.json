@@ -1,0 +1,48 @@
+{
+  "id": "orla-desktop",
+  "title_pt": "Orla Desktop",
+  "title_en": "Orla Desktop",
+  "tagline_pt": "Um dock nativo e personalizável para o KDE Plasma.",
+  "tagline_en": "A customizable native dock for KDE Plasma.",
+  "shortDescription_pt": "Dock open source para KDE Plasma com aplicativos fixados, alternância de janelas, perfis de aparência e widgets de relógio, Pomodoro e mídia. Projeto em alpha, com componentes opcionais ainda experimentais.",
+  "shortDescription_en": "An open-source KDE Plasma dock with pinned apps, window switching, appearance profiles and clock, Pomodoro and media widgets. An alpha project with optional components still experimental.",
+  "description_pt": "O Orla Desktop oferece um dock nativo para fixar, reordenar e abrir aplicativos, alternar entre janelas e organizar widgets. A aparência pode ser pré-visualizada antes de aplicar, com presets, cores, opacidade, espaçamento e movimento reduzido. Perfis manuais guardam aplicativos, aparência e organização dos widgets.\n\nIntegrações opcionais leem arquivos de estado locais do QuotaLantern, PeriGauge e FalaTrace, sem iniciar esses aplicativos nem chamar suas APIs online. O projeto está em alpha; a barra opcional, o launcher e partes do Control Center são experimentais, com integração e qualificação nativa ainda incompletas.",
+  "description_en": "Orla Desktop provides a native dock for pinning, reordering and launching apps, switching between windows and arranging widgets. Appearance can be previewed before applying, with presets, colors, opacity, spacing and reduced motion. Manual profiles store apps, appearance and widget organization.\n\nOptional integrations read local state files from QuotaLantern, PeriGauge and FalaTrace without starting those apps or calling their online APIs. The project is in alpha; the optional bar, launcher and parts of the Control Center are experimental, with integration and native qualification still incomplete.",
+  "highlights_pt": [
+    "Aplicativos fixados, alternância de janelas e visibilidade configurada pelo painel do Plasma.",
+    "Presets de aparência com pré-visualização, aplicação explícita e perfis manuais.",
+    "Relógio, Pomodoro, calendário KDE e controles de mídia MPRIS; integrações locais opcionais desativadas por padrão."
+  ],
+  "highlights_en": [
+    "Pinned apps, window switching and visibility configured through the Plasma panel.",
+    "Appearance presets with preview, explicit application and manual profiles.",
+    "Clock, Pomodoro, KDE calendar and MPRIS media controls; optional local integrations disabled by default."
+  ],
+  "category": "linux-desktop",
+  "status": "alpha",
+  "year": 2026,
+  "license": "MIT",
+  "technologies": [
+    {
+      "tech": "Qt/QML"
+    },
+    {
+      "tech": "Python"
+    },
+    {
+      "tech": "C++"
+    },
+    {
+      "tech": "KDE Plasma"
+    },
+    {
+      "tech": "MPRIS"
+    }
+  ],
+  "githubUrl": "https://github.com/caiolombello/orla-desktop",
+  "liveUrl": "https://caiolombello.github.io/orla-desktop/",
+  "featured": true,
+  "order": 11,
+  "createdAt": "2026-10-11",
+  "updatedAt": "2026-11-01"
+}

@@ -1,0 +1,51 @@
+{
+  "id": "enquadra",
+  "title_pt": "Enquadra",
+  "title_en": "Enquadra",
+  "tagline_pt": "Sua câmera, seu enquadramento. Tudo no Linux.",
+  "tagline_en": "Your camera, your framing. All on Linux.",
+  "shortDescription_pt": "Controles de câmera, enquadramento automático por rosto e efeitos de fundo processados localmente no Linux, com interface GTK 4 e saída para câmera virtual. Alpha com foco na Logitech Brio 500.",
+  "shortDescription_en": "Camera controls, automatic face framing and background effects processed locally on Linux, with a GTK 4 interface and virtual camera output. An alpha focused on the Logitech Brio 500.",
+  "description_pt": "O Enquadra reúne controles V4L2/UVC, seleção de campo de visão na Brio 500, zoom digital, espelhamento e perfis locais. O enquadramento automático usa YuNet; o desfoque e a substituição de fundo usam segmentação PP-HumanSeg.\n\nO preview funciona sem câmera virtual; a saída para aplicativos de reunião usa v4l2loopback e exige preparação explícita. Captura, detecção e segmentação são locais, enquanto o aplicativo de reunião controla o envio do vídeo. É uma versão alpha, com hardware validado no Ubuntu com a Brio 500 e sem garantia de suporte a outras câmeras.",
+  "description_en": "Enquadra brings together V4L2/UVC controls, field-of-view selection on the Brio 500, digital zoom, mirroring and local profiles. Automatic framing uses YuNet; background blur and replacement use PP-HumanSeg segmentation.\n\nThe preview works without a virtual camera; output to meeting apps uses v4l2loopback and requires explicit setup. Capture, detection and segmentation run locally, while the meeting app controls video transmission. This is an alpha, with hardware validated on Ubuntu with the Brio 500 and no guaranteed support for other cameras.",
+  "highlights_pt": [
+    "Enquadramento automático local com YuNet e efeitos de fundo com PP-HumanSeg.",
+    "Controles V4L2/UVC, zoom digital, espelhamento e perfis salvos localmente.",
+    "Preview independente da câmera virtual, serviço separado da janela e CLI com diagnóstico sem captura."
+  ],
+  "highlights_en": [
+    "Local automatic framing with YuNet and background effects with PP-HumanSeg.",
+    "V4L2/UVC controls, digital zoom, mirroring and locally saved profiles.",
+    "Preview independent of the virtual camera, a service separate from the window and CLI diagnostics without capture."
+  ],
+  "category": "linux-desktop",
+  "status": "alpha",
+  "year": 2026,
+  "license": "LGPL-3.0-or-later",
+  "technologies": [
+    {
+      "tech": "Python"
+    },
+    {
+      "tech": "GTK 4"
+    },
+    {
+      "tech": "GStreamer"
+    },
+    {
+      "tech": "OpenCV"
+    },
+    {
+      "tech": "NumPy"
+    },
+    {
+      "tech": "v4l2loopback"
+    }
+  ],
+  "githubUrl": "https://github.com/caiolombello/enquadra",
+  "liveUrl": "https://caiolombello.github.io/enquadra/",
+  "featured": true,
+  "order": 10,
+  "createdAt": "2026-10-10",
+  "updatedAt": "2026-11-01"
+}
