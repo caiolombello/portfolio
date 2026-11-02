@@ -1,0 +1,47 @@
+{
+  "id": "vozena",
+  "title_pt": "Vozena",
+  "title_en": "Vozena",
+  "tagline_pt": "Sua voz nas chamadas, com processamento local no Linux.",
+  "tagline_en": "Your voice on calls, processed locally on Linux.",
+  "shortDescription_pt": "Processamento de voz em tempo real para o Blue Yeti no Linux, com redução de ruído RNNoise, microfone virtual e controles em uma interface Qt nativa. Disponível como preview público.",
+  "shortDescription_en": "Real-time voice processing for the Blue Yeti on Linux, with RNNoise noise reduction, a virtual microphone and controls in a native Qt interface. Available as a public preview.",
+  "description_pt": "O Vozena cria uma cadeia de filtros no PipeWire entre o Blue Yeti e o microfone virtual Yeti Processado. Redução de ruído, equalização, compressor, ganho por software e limitador são executados localmente, sem enviar áudio pela rede.\n\nA interface permite salvar perfis, ouvir a voz processada e comparar uma amostra original com a tratada. A calibração sugere ajustes que só são aplicados após confirmação. O projeto está em preview público, com validação no Fedora com Blue Yeti e verificações automatizadas no Ubuntu e Kubuntu com microfone virtual. Não oferece cancelamento de eco nem garante compatibilidade com qualquer aplicativo de reunião.",
+  "description_en": "Vozena creates a PipeWire filter chain between the Blue Yeti and the Yeti Processado virtual microphone. Noise reduction, EQ, compression, software gain and limiting run locally without sending audio over the network.\n\nThe interface lets you save profiles, listen to processed speech and compare an original sample with the processed version. Calibration suggests settings that are applied only after confirmation. The project is a public preview, validated on Fedora with a Blue Yeti and checked automatically on Ubuntu and Kubuntu with a virtual microphone. It does not provide echo cancellation or guarantee compatibility with every meeting app.",
+  "highlights_pt": [
+    "Microfone virtual com processamento local em PipeWire e supressão de ruído RNNoise.",
+    "Perfis salvos, escuta ao vivo e comparação entre áudio original e processado.",
+    "Calibração com aplicação explícita dos ajustes; interface em português brasileiro."
+  ],
+  "highlights_en": [
+    "Virtual microphone with local PipeWire processing and RNNoise noise suppression.",
+    "Saved profiles, live monitoring and comparison of original and processed audio.",
+    "Calibration with explicit application of settings; interface in Brazilian Portuguese."
+  ],
+  "category": "linux-desktop",
+  "year": 2026,
+  "license": "GPL-3.0-or-later",
+  "technologies": [
+    {
+      "tech": "Python"
+    },
+    {
+      "tech": "Qt"
+    },
+    {
+      "tech": "PySide6"
+    },
+    {
+      "tech": "PipeWire"
+    },
+    {
+      "tech": "RNNoise"
+    }
+  ],
+  "githubUrl": "https://github.com/caiolombello/vozena",
+  "liveUrl": "https://caiolombello.github.io/vozena/",
+  "featured": true,
+  "order": 9,
+  "createdAt": "2026-10-11",
+  "updatedAt": "2026-11-01"
+}
