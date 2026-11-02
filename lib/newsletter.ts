@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { parseCveSection } from "./newsletter-cve";
+
 const DEFAULT_NEWSLETTER_API_URL =
   "https://ryvtguwxbf.execute-api.us-east-1.amazonaws.com";
 const ISSUE_ID_PATTERN = /^\d{4}-W\d{2}$/;
@@ -50,6 +52,9 @@ const newsletterIssueSchema = z.object({
   quick_summary: z.array(z.string().min(1).max(1_000)).length(3),
   action_of_the_week: z.string().min(1).max(4_000),
   items: z.array(issueItemSchema).min(1).max(8),
+  // Optional and never fatal: issues published before the section have no
+  // field, and a malformed section must not take the whole issue down.
+  cve_section: z.unknown().transform(parseCveSection),
 });
 
 const archiveSchema = z.object({
