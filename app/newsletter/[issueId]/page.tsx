@@ -9,6 +9,7 @@ import {
   Radar,
 } from "lucide-react";
 
+import CveSection from "@/components/newsletter/cve-section";
 import { getSiteConfig } from "@/lib/config-server";
 import { loadNewsletterIssue, type NewsletterIssue } from "@/lib/newsletter";
 
@@ -95,6 +96,8 @@ export default async function NewsletterIssuePage({ params }: IssuePageProps) {
       </header>
 
       <div className="container max-w-4xl py-12 sm:py-16">
+        {issue.cve_section ? <CveSection section={issue.cve_section} /> : null}
+
         <section
           aria-labelledby="quick-summary-title"
           className="rounded-2xl border border-gold/20 bg-gold/[0.04] p-6 sm:p-8"
