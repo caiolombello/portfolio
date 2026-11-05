@@ -90,7 +90,7 @@ Three rules from the documentation explain this shape:
 | Maximum netmask | `/24` | Smallest block a VPC can receive |
 | Default netmask | `/20` | Size used when the allocation doesn't specify one |
 
-The names are confusing: the *minimum* netmask defines the *largest* block, because fewer bits mean more addresses. A VPC that requests a `/14` from this pool violates the rule, and the documentation states that creation fails. Existing resources outside the rule are flagged as noncompliant.
+The names are confusing: the *minimum* netmask defines the *largest* block, because fewer bits mean more addresses. A VPC that requests a `/25` from this pool violates the maximum netmask, and the documentation states that creation fails. Since an IPv4 VPC [only accepts blocks from `/16` to `/28`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html), the `/16` minimum netmask matches the VPC's own limit; in this example, the rule that actually restricts is the maximum. Existing resources outside the rule are flagged as noncompliant.
 
 Two details prevent surprises:
 
@@ -334,7 +334,7 @@ aws ec2 get-ipam-resource-cidrs --profile network-readonly --region sa-east-1 \
 
 Comparing the provisioned CIDRs with the allocations shows the remaining space, but only at the moment of the query. To track it over time, IPAM publishes [metrics in the `AWS/IPAM` namespace](https://docs.aws.amazon.com/vpc/latest/ipam/cloudwatch-ipam-ip-address-usage.html), in the home Region: `PercentAvailable` and `PercentAssigned` per pool, and `OverlappingResourceCidrs` and `UnmanagedResourceCidrs` per scope. An alarm on `PercentAvailable` for the environment pools warns you before the next VPC fails. The threshold depends on how often the team creates VPCs.
 
-After the first real `apply`, a negative test is worth it, in the same spirit as the previous post. In a non-production account, try to create a `/14` VPC from the `nonprod` pool. Creation should fail because of the minimum netmask rule. If it succeeds, the rule isn't where you think it is: delete the VPC and review the pool. This is the only step in this section that tries to create a resource.
+After the first real `apply`, a negative test is worth it, in the same spirit as the previous post. In a non-production account, try to create a `/25` VPC from the `nonprod` pool. Creation should fail because of the maximum netmask rule. Don't test with a block larger than `/16`: the VPC would reject the request even without a rule on the pool, and the test wouldn't prove anything. If it succeeds, the rule isn't where you think it is: delete the VPC and review the pool. This is the only step in this section that tries to create a resource.
 
 ## What I'd take to the next project
 

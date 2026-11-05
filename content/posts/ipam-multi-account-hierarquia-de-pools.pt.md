@@ -90,7 +90,7 @@ As [regras de alocação](https://docs.aws.amazon.com/vpc/latest/ipam/create-top
 | Máscara máxima | `/24` | Menor bloco que uma VPC pode receber |
 | Máscara padrão | `/20` | Tamanho usado quando a alocação não informa outro |
 
-Os nomes confundem: a máscara *mínima* define o *maior* bloco, porque um número menor de bits significa mais endereços. Uma VPC que peça um `/14` nesse pool viola a regra, e a documentação afirma que a criação falha. Recursos já existentes fora da regra são marcados como não conformes.
+Os nomes confundem: a máscara *mínima* define o *maior* bloco, porque um número menor de bits significa mais endereços. Uma VPC que peça um `/25` nesse pool viola a máscara máxima, e a documentação afirma que a criação falha. Como uma VPC IPv4 [só aceita blocos de `/16` a `/28`](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html), a máscara mínima `/16` coincide com o limite da própria VPC; a regra que restringe de fato, neste exemplo, é a máxima. Recursos já existentes fora da regra são marcados como não conformes.
 
 Dois detalhes evitam surpresas:
 
@@ -334,7 +334,7 @@ O [`get-ipam-pool-allocations`](https://docs.aws.amazon.com/cli/latest/reference
 
 Comparar os CIDRs provisionados com as alocações mostra o espaço restante, mas só no momento da consulta. Para acompanhar ao longo do tempo, o IPAM publica [métricas no namespace `AWS/IPAM`](https://docs.aws.amazon.com/vpc/latest/ipam/cloudwatch-ipam-ip-address-usage.html), na região home: `PercentAvailable` e `PercentAssigned` por pool, e `OverlappingResourceCidrs` e `UnmanagedResourceCidrs` por escopo. Um alarme em `PercentAvailable` nos pools de ambiente avisa antes que a próxima VPC falhe. O limiar depende da frequência com que o time cria VPCs.
 
-Depois do primeiro `apply` real, vale um teste negativo, com o mesmo espírito do post anterior. Em uma conta de não produção, tente criar uma VPC `/14` a partir do pool `nonprod`. A criação deve falhar pela regra de máscara mínima. Se ela passar, a regra não está onde você imagina: apague a VPC e revise o pool. Esse é o único passo desta seção que tenta criar um recurso.
+Depois do primeiro `apply` real, vale um teste negativo, com o mesmo espírito do post anterior. Em uma conta de não produção, tente criar uma VPC `/25` a partir do pool `nonprod`. A criação deve falhar pela regra de máscara máxima. Não teste com um bloco maior que `/16`: a VPC recusaria o pedido mesmo sem regra no pool, e o teste não provaria nada. Se ela passar, a regra não está onde você imagina: apague a VPC e revise o pool. Esse é o único passo desta seção que tenta criar um recurso.
 
 ## O que eu levaria para o próximo projeto
 
