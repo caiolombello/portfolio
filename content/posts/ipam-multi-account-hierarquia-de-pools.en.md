@@ -12,7 +12,7 @@ tags:
   - VPC
   - Networking
   - Terraform
-date: '2026-11-09'
+date: '2026-11-05'
 published: true
 coverImage: /images/posts/ipam-multi-account/capa.webp
 ---
