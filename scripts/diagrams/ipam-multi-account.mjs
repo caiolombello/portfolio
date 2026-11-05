@@ -224,8 +224,13 @@ function build(lang, mode, themeName) {
   y += 20;
   rect(inner, y, innerW, mode === "wide" ? 48 : 72, { fill: t.card });
   if (mode === "wide") {
-    text(inner + 14, y + 30, `${c.rulesTitle}:`, { size: 16, bold: true, max: 360 });
-    text(inner + 14 + measure(`${c.rulesTitle}:`, 16) * 0.88, y + 30, c.rules, { size: 15, mono: true, max: innerW - 390 });
+    // One <text> with two runs, so the browser places the rules right after
+    // the bold heading whatever font it picks.
+    const rulesLine = `${c.rulesTitle}: ${c.rules}`;
+    if (measure(rulesLine, 16, { bold: true }) > innerW - 28) {
+      throw new Error(`${lang}/${mode}: rules line may overflow`);
+    }
+    out.push(`<text x="${inner + 14}" y="${y + 30}" font-size="16" fill="${t.text}"><tspan class="s b">${esc(c.rulesTitle)}:</tspan><tspan class="m" font-size="15" dx="8">${esc(c.rules)}</tspan></text>`);
     y += 48;
   } else {
     text(inner + 14, y + 28, c.rulesTitle, { size: 16, bold: true, max: innerW - 28 });

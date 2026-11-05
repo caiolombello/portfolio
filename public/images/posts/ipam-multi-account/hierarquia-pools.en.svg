@@ -47,8 +47,7 @@
 <path d="M500 164 V182 H264 V200" fill="none" stroke="#7a878e" stroke-width="2.5"/>
 <path d="M500 164 V182 H736 V200" fill="none" stroke="#7a878e" stroke-width="2.5"/>
 <rect x="44" y="480" width="912" height="48" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
-<text x="58" y="510" class="s b" font-size="16" fill="#202a30">Environment pool rules:</text>
-<text x="258.7808" y="510" class="m" font-size="15" fill="#202a30">min /16 · max /24 · default /20</text>
+<text x="58" y="510" font-size="16" fill="#202a30"><tspan class="s b">Environment pool rules:</tspan><tspan class="m" font-size="15" dx="8">min /16 · max /24 · default /20</tspan></text>
 <path d="M264 528 V550 H350 V568" fill="none" stroke="#b66b13" stroke-width="2.5" marker-end="url(#a-amber)"/>
 <path d="M736 528 V550 H650 V568" fill="none" stroke="#b66b13" stroke-width="2.5" marker-end="url(#a-amber)"/>
 <text x="500" y="542" class="s" font-size="15" fill="#71420b" text-anchor="middle">environment pools</text>

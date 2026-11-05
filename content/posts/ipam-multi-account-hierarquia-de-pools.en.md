@@ -225,7 +225,7 @@ The `depends_on` on each `aws_vpc_ipam_pool_cidr` isn't decorative. The child po
 
 ### Sharing with the workload accounts
 
-The VPCs live in other accounts, so the environment pools need to be [shared through AWS RAM](https://docs.aws.amazon.com/vpc/latest/ipam/share-pool-ipam.html). Sharing is only possible with IPAM integrated with AWS Organizations, and it must be created in the IPAM home Region. The minimum, still in the network account:
+The VPCs live in other accounts, so the environment pools need to be [shared through AWS RAM](https://docs.aws.amazon.com/vpc/latest/ipam/share-pool-ipam.html). Sharing is only possible with IPAM integrated with AWS Organizations, and it must be created in the IPAM home Region. The IPAM integration doesn't replace another prerequisite: [RAM sharing with AWS Organizations](https://docs.aws.amazon.com/ram/latest/userguide/getting-started-sharing.html) must be enabled first, and that's done from the organization's management account. The code below doesn't cover that step. The minimum, still in the network account:
 
 ```hcl
 variable "workloads_ou_arn" {

@@ -225,7 +225,7 @@ O `tier = "advanced"` está explícito, embora seja o [padrão do provider](http
 
 ### Compartilhar com as contas de workload
 
-As VPCs ficam em outras contas, então os pools de ambiente precisam ser [compartilhados pelo AWS RAM](https://docs.aws.amazon.com/vpc/latest/ipam/share-pool-ipam.html). O compartilhamento só é possível com o IPAM integrado ao AWS Organizations e deve ser criado na região home do IPAM. O mínimo, ainda na conta de rede:
+As VPCs ficam em outras contas, então os pools de ambiente precisam ser [compartilhados pelo AWS RAM](https://docs.aws.amazon.com/vpc/latest/ipam/share-pool-ipam.html). O compartilhamento só é possível com o IPAM integrado ao AWS Organizations e deve ser criado na região home do IPAM. A integração do IPAM não substitui outro pré-requisito: o [compartilhamento do RAM com o AWS Organizations](https://docs.aws.amazon.com/ram/latest/userguide/getting-started-sharing.html) precisa estar habilitado antes, e isso é feito pela conta de gerenciamento da organização. O código abaixo não cobre essa etapa. O mínimo, ainda na conta de rede:
 
 ```hcl
 variable "ou_workloads_arn" {
