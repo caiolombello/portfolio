@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="936" viewBox="0 0 1000 936" role="img" aria-labelledby="title desc">
+<title id="title">Multi-account IPAM: the example's pool hierarchy</title>
+<desc id="desc">In the network account, the default private scope holds the 10.0.0.0/8 root with no locale. It splits into two Regional pools, sa-east-1 10.0.0.0/12 and us-east-1 10.16.0.0/12, and each Region into /14 environment pools for prod, nonprod and shared, with a fourth /14 reserved and not provisioned. The environment pools have a /16 minimum, /24 maximum and /20 default netmask and are shared through AWS RAM with the workloads OU. In the production account, the payments-prod VPC requests a /20 from the sa-east-1/prod pool.</desc>
+<style>.s{font-family:Geist, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif}.m{font-family:"Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace}.b{font-weight:600}</style>
+<defs><marker id="a-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b66b13"/></marker><marker id="a-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#39764a"/></marker></defs>
+<rect width="1000" height="936" fill="#fffdf8"/>
+<rect x="24" y="24" width="952" height="632" rx="12" fill="#f3f6f7" stroke="#52616b" stroke-width="2"/>
+<text x="44" y="56" class="s b" font-size="20" fill="#202a30">Network account · IPAM home Region</text>
+<text x="44" y="82" class="s" font-size="16" fill="#52616b">Default private scope</text>
+<rect x="330" y="100" width="340" height="64" rx="8" fill="#fbe9c8" stroke="#b66b13" stroke-width="2"/>
+<text x="344" y="126" class="s b" font-size="17" fill="#202a30">Root</text>
+<text x="344" y="150" class="m" font-size="15" fill="#202a30">10.0.0.0/8 · no locale</text>
+<rect x="44" y="200" width="440" height="64" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="58" y="226" class="s b" font-size="17" fill="#202a30">sa-east-1</text>
+<text x="58" y="250" class="m" font-size="15" fill="#52616b">10.0.0.0/12 · locale sa-east-1</text>
+<rect x="44" y="280" width="214" height="84" rx="8" fill="#e2efe4" stroke="#39764a" stroke-width="2"/>
+<text x="58" y="306" class="s b" font-size="17" fill="#202a30">prod</text>
+<text x="58" y="330" class="m" font-size="15" fill="#202a30">10.0.0.0/14</text>
+<rect x="270" y="280" width="214" height="84" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="284" y="306" class="s b" font-size="17" fill="#202a30">nonprod</text>
+<text x="284" y="330" class="m" font-size="15" fill="#52616b">10.4.0.0/14</text>
+<rect x="44" y="376" width="214" height="84" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="58" y="402" class="s b" font-size="17" fill="#202a30">shared</text>
+<text x="58" y="426" class="m" font-size="15" fill="#52616b">10.8.0.0/14</text>
+<rect x="270" y="376" width="214" height="84" rx="8" fill="#f3f6f7" stroke="#7a878e" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="284" y="402" class="s b" font-size="17" fill="#202a30">reserve</text>
+<text x="284" y="426" class="m" font-size="15" fill="#52616b">10.12.0.0/14</text>
+<text x="284" y="448" class="s" font-size="14" fill="#52616b">not provisioned</text>
+<line x1="264" y1="264" x2="264" y2="280" stroke="#7a878e" stroke-width="2.5"/>
+<rect x="516" y="200" width="440" height="64" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="530" y="226" class="s b" font-size="17" fill="#202a30">us-east-1</text>
+<text x="530" y="250" class="m" font-size="15" fill="#52616b">10.16.0.0/12 · locale us-east-1</text>
+<rect x="516" y="280" width="214" height="84" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="530" y="306" class="s b" font-size="17" fill="#202a30">prod</text>
+<text x="530" y="330" class="m" font-size="15" fill="#52616b">10.16.0.0/14</text>
+<rect x="742" y="280" width="214" height="84" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="756" y="306" class="s b" font-size="17" fill="#202a30">nonprod</text>
+<text x="756" y="330" class="m" font-size="15" fill="#52616b">10.20.0.0/14</text>
+<rect x="516" y="376" width="214" height="84" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="530" y="402" class="s b" font-size="17" fill="#202a30">shared</text>
+<text x="530" y="426" class="m" font-size="15" fill="#52616b">10.24.0.0/14</text>
+<rect x="742" y="376" width="214" height="84" rx="8" fill="#f3f6f7" stroke="#7a878e" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="756" y="402" class="s b" font-size="17" fill="#202a30">reserve</text>
+<text x="756" y="426" class="m" font-size="15" fill="#52616b">10.28.0.0/14</text>
+<text x="756" y="448" class="s" font-size="14" fill="#52616b">not provisioned</text>
+<line x1="736" y1="264" x2="736" y2="280" stroke="#7a878e" stroke-width="2.5"/>
+<path d="M500 164 V182 H264 V200" fill="none" stroke="#7a878e" stroke-width="2.5"/>
+<path d="M500 164 V182 H736 V200" fill="none" stroke="#7a878e" stroke-width="2.5"/>
+<rect x="44" y="480" width="912" height="48" rx="8" fill="#ffffff" stroke="#7a878e" stroke-width="2"/>
+<text x="58" y="510" font-size="16" fill="#202a30"><tspan class="s b">Environment pool rules:</tspan><tspan class="m" font-size="15" dx="8">min /16 · max /24 · default /20</tspan></text>
+<path d="M264 528 V550 H350 V568" fill="none" stroke="#b66b13" stroke-width="2.5" marker-end="url(#a-amber)"/>
+<path d="M736 528 V550 H650 V568" fill="none" stroke="#b66b13" stroke-width="2.5" marker-end="url(#a-amber)"/>
+<text x="500" y="542" class="s" font-size="15" fill="#71420b" text-anchor="middle">environment pools</text>
+<rect x="290" y="572" width="420" height="64" rx="8" fill="#fbe9c8" stroke="#b66b13" stroke-width="2"/>
+<text x="304" y="598" class="s b" font-size="17" fill="#202a30">AWS RAM · ipam-environment-pools</text>
+<text x="304" y="622" class="m" font-size="15" fill="#202a30">principal: workloads OU</text>
+<rect x="24" y="712" width="952" height="200" rx="12" fill="#f3f6f7" stroke="#52616b" stroke-width="2"/>
+<text x="44" y="744" class="s b" font-size="20" fill="#202a30">Production account · sa-east-1</text>
+<rect x="44" y="764" width="912" height="128" rx="8" fill="#e2efe4" stroke="#39764a" stroke-width="2"/>
+<text x="58" y="792" class="s b" font-size="17" fill="#202a30">VPC payments-prod</text>
+<text x="58" y="818" class="m" font-size="15" fill="#202a30">ipv4_ipam_pool_id = sa-east-1/prod pool</text>
+<text x="58" y="842" class="m" font-size="15" fill="#202a30">ipv4_netmask_length = 20</text>
+<text x="58" y="870" class="s" font-size="15" fill="#315b3b">IPAM picks the next free /20 in 10.0.0.0/14</text>
+<path d="M500 636 V760" fill="none" stroke="#39764a" stroke-width="2.5" marker-end="url(#a-green)"/>
+<text x="512" y="690" class="s" font-size="15" fill="#315b3b">allocates a /20</text>
+</svg>
